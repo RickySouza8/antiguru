@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AntiGuru — Clareza antes da decisão</title>
+<meta name="description" content="Antes de pagar por um curso ou mentoria, leia os sinais de risco. Você recebe uma nota de credibilidade, os sinais de atenção e uma orientação clara em até 24h. A decisão é sempre sua.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#080A13; --surface:#0F1530; --surface2:#161D3C; --line:rgba(232,226,255,.12);
+    --text:#ECEAF6; --muted:#9498BC; --soft:#B9BCDB;
+    --gold:#E3B341; --gold2:#F4DFA0; --teal:#57D0C0; --tealdim:#3a8f86;
+    --red:#E5654B; --amber:#E3B341; --green:#57D0C0;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--void);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:
+    radial-gradient(900px 600px at 50% -10%, rgba(227,179,65,.10), transparent 60%),
+    radial-gradient(700px 500px at 85% 20%, rgba(87,208,192,.08), transparent 60%),
+    radial-gradient(800px 700px at 10% 90%, rgba(87,208,192,.06), transparent 60%),
+    var(--void);}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em;line-height:1.05;font-weight:700;}
+  .serif{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);}
+
+  /* ---------- NAV ---------- */
+  .nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    background:rgba(8,10,19,.55);border-bottom:1px solid transparent;transition:background .3s,border-color .3s,padding .3s;}
+  .nav.scrolled{background:rgba(8,10,19,.82);border-bottom:1px solid var(--line);}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 22px;max-width:var(--maxw);margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:11px;}
+  .logo .mk{width:34px;height:34px;flex:none;}
+  .logo .wm{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:.02em;line-height:1;}
+  .logo .wm b{color:var(--gold);font-weight:700;}
+  .logo .tl{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+  .navlinks{display:flex;align-items:center;gap:26px;}
+  .navlinks a{font-size:14px;color:var(--soft);position:relative;transition:color .2s;}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--gold);transition:width .25s;}
+  .navlinks a:hover{color:var(--text);} .navlinks a:hover::after{width:100%;}
+  .nav-wa{display:inline-flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;
+    background:rgba(87,208,192,.12);border:1px solid rgba(87,208,192,.4);color:var(--teal);padding:9px 15px;border-radius:40px;transition:.25s;}
+  .nav-wa:hover{background:rgba(87,208,192,.2);box-shadow:0 0 22px rgba(87,208,192,.25);}
+  .nav-wa svg{width:16px;height:16px;}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px;}
+  .burger span{width:22px;height:2px;background:var(--text);transition:.3s;}
+
+  /* ---------- BUTTONS ---------- */
+  .btn{display:inline-flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;
+    padding:15px 26px;border-radius:46px;cursor:pointer;border:1px solid transparent;transition:transform .2s,box-shadow .3s,background .3s;}
+  .btn.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1405;box-shadow:0 8px 30px rgba(227,179,65,.28);}
+  .btn.gold:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(227,179,65,.45);}
+  .btn.ghost{background:transparent;border-color:rgba(87,208,192,.5);color:var(--teal);}
+  .btn.ghost:hover{background:rgba(87,208,192,.1);transform:translateY(-2px);box-shadow:0 0 26px rgba(87,208,192,.22);}
+  .btn svg{width:18px;height:18px;}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;padding:96px 0 86px;text-align:center;overflow:hidden;}
+  .mandala{position:absolute;top:48%;left:50%;width:min(118vw,860px);aspect-ratio:1;transform:translate(-50%,-50%);
+    z-index:-1;opacity:.5;animation:spin 80s linear infinite;}
+  .mandala .breathe{transform-origin:center;animation:breathe 9s ease-in-out infinite;}
+  @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg);}}
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:.9;}50%{transform:scale(1.04);opacity:1;}}
+  .hero .eyebrow{margin-bottom:22px;}
+  .hero h1{font-size:clamp(34px,6.4vw,62px);max-width:16ch;margin:0 auto 8px;}
+  .hero h1 .hl{display:block;color:transparent;background:linear-gradient(120deg,var(--gold2),var(--gold) 60%,var(--teal));-webkit-background-clip:text;background-clip:text;font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.08em;line-height:1.1;margin-top:6px;}
+  .hero .sub{font-size:18px;color:var(--soft);max-width:50ch;margin:24px auto 32px;}
+  .hero .sub b{color:var(--text);font-weight:600;}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .micro{font-family:'Space Mono',monospace;font-size:12px;color:var(--teal);letter-spacing:.05em;margin-top:18px;}
+  .impulse{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--text);margin-top:26px;opacity:.92;}
+
+  /* ---------- SECTIONS ---------- */
+  .sec{padding:80px 0;border-top:1px solid var(--line);}
+  .sec h2{font-size:clamp(26px,4vw,40px);margin:10px 0 8px;}
+  .sec .lead{color:var(--muted);max-width:54ch;font-size:16px;}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1;transform:none;}
+
+  /* ---------- PROTEÇÃO (camada simbólica) ---------- */
+  .protect{position:relative;text-align:center;overflow:hidden;}
+  .protect .geo{width:min(82vw,420px);margin:8px auto 26px;display:block;}
+  .protect .geo path,.protect .geo circle{stroke-dasharray:1400;stroke-dashoffset:1400;transition:stroke-dashoffset 2.6s ease;}
+  .protect.in .geo path,.protect.in .geo circle{stroke-dashoffset:0;}
+  .protect h2{margin-bottom:18px;}
+  .protect .verse{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(20px,3.2vw,30px);color:var(--gold2);line-height:1.5;max-width:22ch;margin:0 auto 18px;}
+  .protect p{color:var(--soft);max-width:52ch;margin:0 auto 14px;font-size:16px;}
+  .shield{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px;}
+  .shield span{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);
+    border:1px solid rgba(87,208,192,.35);border-radius:40px;padding:8px 16px;}
+
+  /* ---------- STEPS ---------- */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px;}
+  .card{background:linear-gradient(180deg,var(--surface),rgba(15,21,48,.6));border:1px solid var(--line);border-radius:18px;padding:26px;transition:transform .3s,border-color .3s,box-shadow .3s;}
+  .card:hover{transform:translateY(-4px);border-color:rgba(227,179,65,.4);box-shadow:0 20px 50px rgba(0,0,0,.35);}
+  .card .ic{width:46px;height:46px;margin-bottom:16px;}
+  .card h3{font-size:18px;margin-bottom:8px;}
+  .card p{color:var(--muted);font-size:14.5px;}
+  .step-n{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:.14em;}
+
+  /* ---------- CASES ---------- */
+  .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px;}
+  .case{background:linear-gradient(180deg,var(--surface),rgba(15,21,48,.55));border:1px solid var(--line);border-radius:18px;padding:24px;transition:transform .3s,box-shadow .3s;}
+  .case:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.4);}
+  .case .ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px;}
+  .case .cname{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;}
+  .case .ccat{font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:3px;}
+  .stamp{font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:30px;white-space:nowrap;}
+  .meter{height:5px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin:6px 0 8px;}
+  .meter span{display:block;height:100%;border-radius:6px;}
+  .score{font-family:'Space Mono',monospace;font-weight:700;font-size:13px;margin-bottom:12px;}
+  .case .lbl{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 5px;}
+  .case ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+  .case li{font-size:13px;color:var(--soft);padding-left:16px;position:relative;}
+  .case li::before{content:"◇";position:absolute;left:0;color:var(--gold);font-size:10px;top:2px;}
+  .case .ctx,.case .out{font-size:13px;color:var(--muted);line-height:1.55;margin:10px 0;}
+  .case .ctx b,.case .out b{color:var(--soft);font-weight:600;}
+  .case .rec{font-family:'Space Mono',monospace;font-size:12px;color:var(--soft);border-top:1px solid var(--line);padding-top:12px;margin-top:12px;line-height:1.55;}
+  .disc{color:var(--muted);font-size:13px;text-align:center;margin-top:22px;}
+
+  /* ---------- OFERTA ---------- */
+  .offer{background:linear-gradient(160deg,rgba(227,179,65,.10),rgba(87,208,192,.06));border:1px solid rgba(227,179,65,.3);border-radius:24px;padding:42px;text-align:center;max-width:620px;margin:34px auto 0;}
+  .offer .price{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:64px;letter-spacing:-.03em;background:linear-gradient(120deg,var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
+  .offer .anchor{font-family:'Space Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:10px 0;}
+  .offer .line{color:var(--soft);font-size:15.5px;max-width:34ch;margin:6px auto;}
+  .offer .terms{font-family:'Space Mono',monospace;font-size:12px;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin:18px 0 22px;}
+  .offer .guarantee{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:16px;margin-top:20px;}
+
+  /* ---------- CONTATO ---------- */
+  .contact{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;}
+  .ccard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;align-items:center;gap:16px;transition:.3s;}
+  .ccard:hover{border-color:rgba(87,208,192,.4);transform:translateY(-3px);}
+  .ccard .ci{width:42px;height:42px;flex:none;}
+  .ccard .k{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+  .ccard .v{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:var(--text);}
+
+  /* ---------- LEGAL / FOOTER ---------- */
+  .legal{font-size:13px;color:var(--muted);line-height:1.7;max-width:74ch;margin:0 auto;text-align:center;}
+  footer{border-top:1px solid var(--line);padding:40px 0 60px;text-align:center;}
+  footer .fmark{width:30px;height:30px;margin:0 auto 16px;opacity:.7;}
+  footer .fbrand{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:var(--gold2);margin-bottom:8px;}
+  footer .fid{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em;}
+
+  /* ---------- FLOATING WHATSAPP ---------- */
+  .fab{position:fixed;right:20px;bottom:20px;z-index:50;width:60px;height:60px;border-radius:50%;
+    background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(37,211,102,.45);transition:transform .25s;}
+  .fab:hover{transform:scale(1.08);}
+  .fab svg{width:32px;height:32px;}
+  .fab::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(37,211,102,.6);animation:pulse 2.4s ease-out infinite;}
+  @keyframes pulse{0%{transform:scale(1);opacity:.7;}100%{transform:scale(1.8);opacity:0;}}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:860px){
+    .navlinks{position:fixed;inset:0 0 auto 0;top:64px;flex-direction:column;gap:0;background:rgba(8,10,19,.97);
+      border-bottom:1px solid var(--line);padding:10px 22px 22px;transform:translateY(-130%);transition:transform .35s;align-items:stretch;}
+    .navlinks.open{transform:translateY(0);}
+    .navlinks a{padding:14px 0;border-bottom:1px solid var(--line);}
+    .navlinks .nav-wa{margin-top:14px;justify-content:center;}
+    .burger{display:flex;}
+    .grid3,.cases,.contact{grid-template-columns:1fr;}
+    .offer{padding:30px 22px;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;}
+    .reveal{opacity:1;transform:none;}
+    .mandala{opacity:.4;}
+    .protect .geo path,.protect .geo circle{stroke-dashoffset:0;}
+  }
+
+  /* ===== ANALISADOR ===== */
+  .ag-form{background:linear-gradient(180deg,var(--surface),rgba(15,21,48,.5));border:1px solid var(--line);border-radius:20px;padding:28px;margin-top:22px;max-width:700px;}
+  .ag-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:560px){.ag-grid{grid-template-columns:1fr;}}
+  .ag-field{display:block;margin-bottom:14px;}
+  .ag-label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
+  .ag-input,.ag-textarea{width:100%;padding:13px 14px;border:1px solid var(--line);background:#0b1124;color:var(--text);border-radius:10px;font-family:'Inter',sans-serif;font-size:15px;transition:border-color .2s,box-shadow .2s;}
+  .ag-textarea{min-height:120px;resize:vertical;}
+  .ag-input::placeholder,.ag-textarea::placeholder{color:#5b6088;}
+  .ag-input:focus,.ag-textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(227,179,65,.15);}
+  .ag-err{color:var(--red);font-size:13px;min-height:1px;margin-bottom:8px;}
+  .ag-disc{font-size:12.5px;color:var(--muted);margin-top:12px;text-align:center;}
+  .ag-disc a{color:var(--teal);text-decoration:underline;}
+  .ag-rcard{background:linear-gradient(180deg,var(--surface),rgba(15,21,48,.55));border:1px solid var(--line);border-radius:20px;margin-top:22px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35);max-width:700px;}
+  .ag-rhead{padding:24px;border-bottom:1px solid var(--line);}
+  .ag-rt{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .ag-rn{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;margin:4px 0;}
+  .ag-meter{height:8px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden;margin:12px 0 8px;}
+  .ag-meter span{display:block;height:100%;border-radius:6px;}
+  .ag-score{font-family:'Space Mono',monospace;font-weight:700;font-size:14px;}
+  /* ── camadas grátis / paga ── */
+  .ag-tier{display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border-radius:30px;margin-bottom:14px;}
+  .ag-tier.free{color:var(--teal);background:rgba(87,208,192,.1);border:1px solid rgba(87,208,192,.32);}
+  .ag-tier.paid{color:var(--gold);background:rgba(227,179,65,.1);border:1px solid rgba(227,179,65,.34);}
+  .ag-locked{position:relative;border-radius:16px;overflow:hidden;margin-top:8px;border:1px solid var(--line);}
+  .ag-locked .ag-blur{filter:blur(7px);opacity:.5;pointer-events:none;user-select:none;padding:22px;}
+  .ag-locked .ag-veil{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:28px 24px;background:linear-gradient(180deg,rgba(8,10,19,.55),rgba(8,10,19,.86));}
+  .ag-veil .lk{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;}
+  .ag-veil .lk svg{width:24px;height:24px;}
+  .ag-veil .vt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:23px;color:var(--text);line-height:1.25;max-width:30ch;}
+  .ag-veil .vd{font-size:13.5px;color:var(--soft);max-width:42ch;line-height:1.55;}
+  .ag-veil .vlist{display:flex;flex-wrap:wrap;gap:8px 10px;justify-content:center;margin:2px 0 4px;}
+  .ag-veil .vchip{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold2);background:rgba(227,179,65,.09);border:1px solid rgba(227,179,65,.22);border-radius:30px;padding:5px 11px;}
+  .ag-veil .vprice{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px;}
+  .ag-veil .vprice b{color:var(--gold2);font-size:15px;}
+  .ag-stamp{display:inline-block;font-family:'Space Mono',monospace;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;border:1.5px solid currentColor;border-radius:30px;padding:6px 12px;margin-top:10px;}
+  .ag-sec{padding:22px 24px;border-bottom:1px solid var(--line);}
+  .ag-sec h4{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+  .ag-sign{padding:11px 0;border-top:1px solid var(--line);}
+  .ag-sign:first-of-type{border-top:none;}
+  .ag-st{display:flex;gap:9px;align-items:center;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;}
+  .ag-sm{font-family:'Space Mono',monospace;font-weight:700;}
+  .ag-se{font-size:13.5px;color:var(--muted);margin-top:3px;padding-left:22px;line-height:1.5;}
+  .ag-rec{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;line-height:1.4;}
+  .ag-next{background:var(--surface2);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:16px 18px;margin-top:10px;}
+  .ag-next b{color:var(--gold);font-family:'Space Grotesk',sans-serif;}
+  .ag-next ol{padding-left:18px;margin:6px 0;font-size:14.5px;}
+  .ag-next li{margin:5px 0;}
+  .ag-next .pp{font-size:14px;margin-top:8px;color:var(--soft);}
+  .ag-legal{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);line-height:1.65;}
+  .vz-lb{display:block;font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .vz-inp{width:100%;background:var(--void,#080A13);border:1px solid var(--line,rgba(232,226,255,.12));border-radius:9px;color:var(--text,#ECEAF6);font-family:'Inter',sans-serif;font-size:14px;padding:11px 13px;}
+  .vz-inp:focus{outline:none;border-color:var(--teal,#57D0C0);}
+  .vz-rate-block{border-top:1px solid var(--line,rgba(232,226,255,.12));border-bottom:1px solid var(--line,rgba(232,226,255,.12));padding:6px 0;}
+  .vz-rate-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(232,226,255,.05);}
+  .vz-rate-row:last-child{border-bottom:none;}
+  .vz-dim{font-size:14px;color:var(--soft,#B9BCDB);}
+  .vz-stars{display:inline-flex;gap:4px;}
+  .vz-star{width:22px;height:22px;cursor:pointer;color:rgba(232,226,255,.2);transition:color .15s,transform .12s;}
+  .vz-star:hover{transform:scale(1.15);}
+  .vz-star.on{color:var(--gold,#E3B341);}
+  @media (max-width:560px){#vz-grid{grid-template-columns:1fr;}.vz-dim{font-size:13px;}}
+  .vz-card{background:linear-gradient(160deg,rgba(22,29,60,.5),rgba(15,21,48,.3));border:1px solid var(--line,rgba(232,226,255,.1));border-radius:14px;padding:18px 20px;margin-bottom:12px;}
+  .vz-card .vc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+  .vz-card .vc-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;}
+  .vz-card .vc-tag{font-family:'Space Mono',monospace;font-size:10px;color:var(--teal,#57D0C0);background:rgba(87,208,192,.1);padding:3px 9px;border-radius:20px;}
+  .vz-card .vc-stars{color:var(--gold,#E3B341);font-size:13px;letter-spacing:2px;margin-bottom:7px;}
+  .vz-card .vc-com{font-size:14px;color:var(--soft,#B9BCDB);line-height:1.6;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;}
+  .vz-empty{text-align:center;padding:30px 20px;color:var(--muted,#9498BC);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;line-height:1.5;border:1px dashed var(--line2,rgba(232,226,255,.2));border-radius:14px;}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <a class="logo" href="#topo" aria-label="AntiGuru — início">
+      <svg class="mk" viewBox="0 0 60 60" fill="none" stroke="#E3B341" stroke-width="1.4" aria-hidden="true">
+        <g transform="translate(30,30)">
+          <circle r="27" stroke="#57D0C0" stroke-width="1"/>
+          <circle r="13"/><circle r="13" transform="translate(13,0)"/><circle r="13" transform="translate(6.5,11.26)"/>
+          <circle r="13" transform="translate(-6.5,11.26)"/><circle r="13" transform="translate(-13,0)"/>
+          <circle r="13" transform="translate(-6.5,-11.26)"/><circle r="13" transform="translate(6.5,-11.26)"/>
+          <line x1="0" y1="-27" x2="0" y2="27" stroke="#57D0C0" stroke-width="1"/>
+          <circle r="2.4" fill="#57D0C0" stroke="none"/>
+        </g>
+      </svg>
+      <span><span class="wm">ANTI<b>GURU</b></span><br><span class="tl">Clareza antes da decisão</span></span>
+    </a>
+    <div class="navlinks" id="navlinks">
+      <a href="#analisar">Analisar</a>
+      <a href="#protecao">Proteção</a>
+      <a href="#como">Como funciona</a>
+      <a href="#exemplos">Exemplos</a>
+      <a href="#oferta">Oferta</a>      <a class="nav-wa" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+    <button class="burger" id="burger" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="topo">
+  <svg class="mandala" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <g class="breathe" stroke="#E3B341" stroke-width="0.5" opacity="0.9">
+      <g transform="translate(100,100)">
+        <circle r="60" stroke="#57D0C0" stroke-width="0.6"/>
+        <circle r="90" stroke="#57D0C0" stroke-width="0.3" opacity="0.5"/>
+        <circle r="30"/><circle r="30" transform="translate(30,0)"/><circle r="30" transform="translate(15,25.98)"/>
+        <circle r="30" transform="translate(-15,25.98)"/><circle r="30" transform="translate(-30,0)"/>
+        <circle r="30" transform="translate(-15,-25.98)"/><circle r="30" transform="translate(15,-25.98)"/>
+        <circle r="30" transform="translate(30,0) translate(30,0)" opacity="0.4"/>
+        <circle r="30" transform="translate(-30,0) translate(-30,0)" opacity="0.4"/>
+      </g>
+    </g>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow reveal">Pré-decisão de compra educacional</div>
+    <h1 class="reveal">Antes de pagar por um curso, pare 5 minutos.
+      <span class="hl">Isso pode te poupar dinheiro.</span></h1>
+    <p class="sub reveal">Veja sinais que podem indicar baixa confiabilidade antes de decidir. <b>Você recebe um diagnóstico claro</b> — nota de credibilidade, sinais de atenção e orientação — em até 24h. A decisão é sempre sua.</p>
+    <div class="cta-row reveal">
+      <a class="btn gold" href="#analisar">Quero analisar agora</a>
+      <a class="btn ghost" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+        Enviar pelo WhatsApp</a>
+    </div>
+    <div class="micro reveal">&rarr; resposta em até 24h</div>
+    <div class="impulse reveal">A maioria das pessoas decide no impulso. Você está fazendo diferente.</div>
+  </div>
+</header>
+
+<!-- ===== ANALISAR (ferramenta) ===== -->
+<section class="sec" id="analisar">
+  <div class="wrap">
+    <div class="eyebrow reveal">Análise gratuita</div>
+    <h2 class="reveal">Cole a oferta e veja os sinais</h2>
+    <p class="lead reveal" style="color:var(--muted);max-width:54ch;">Cole o texto da promessa do curso ou mentoria. Você recebe uma prévia com nota de credibilidade, sinais de risco e o próximo passo. A decisão é sempre sua.</p>
+    <div class="ag-form reveal">
+      <div class="ag-grid">
+        <label class="ag-field"><span class="ag-label">Nome da oferta</span><input class="ag-input" id="agNome" placeholder="Ex.: Mentoria Construir do Zero"></label>
+        <label class="ag-field"><span class="ag-label">Valor (opcional)</span><input class="ag-input" id="agValor" placeholder="Ex.: R$ 997"></label>
+      </div>
+      <label class="ag-field"><span class="ag-label">Texto da oferta *</span><textarea class="ag-textarea" id="agTexto" placeholder="Cole aqui o texto da promessa, da pagina ou do anuncio."></textarea></label>
+      <div class="ag-grid">
+        <label class="ag-field"><span class="ag-label">CNPJ (se houver)</span><input class="ag-input" id="agCnpj" placeholder="00.000.000/0001-00"></label>
+        <label class="ag-field"><span class="ag-label">Seu contexto (opcional)</span><input class="ag-input" id="agContexto" placeholder="Ex.: preciso decidir hoje"></label>
+      </div>
+      <div class="ag-err" id="agErr"></div>
+      <button class="btn gold" id="agBtn" style="width:100%;justify-content:center;">Analisar agora</button>
+      <p class="ag-disc">Prévia automática e gratuita. A análise completa, feita manualmente, sai por R$29 &mdash; veja em <a href="#oferta">a oferta</a>.</p>
+    </div>
+    <div id="agResult"></div>
+  </div>
+</section>
+
+
+<!-- ===== PROTEÇÃO (camada simbólica) ===== -->
+<section class="sec protect" id="protecao">
+  <div class="wrap">
+    <svg class="geo reveal" viewBox="0 0 200 200" fill="none" stroke="#E3B341" stroke-width="0.7" aria-hidden="true">
+      <g transform="translate(100,100)">
+        <circle r="78" stroke="#57D0C0" stroke-width="0.6"/>
+        <circle r="30"/><circle r="30" transform="translate(30,0)"/><circle r="30" transform="translate(15,25.98)"/>
+        <circle r="30" transform="translate(-15,25.98)"/><circle r="30" transform="translate(-30,0)"/>
+        <circle r="30" transform="translate(-15,-25.98)"/><circle r="30" transform="translate(15,-25.98)"/>
+        <path d="M0,-60 L52,-30 L52,30 L0,60 L-52,30 L-52,-30 Z" stroke="#57D0C0" stroke-width="0.5"/>
+      </g>
+    </svg>
+    <div class="eyebrow">A camada que nos guia</div>
+    <h2>A geometria que protege a sua clareza</h2>
+    <p class="verse">Toda decisão consciente é, em si, um ato de proteção.</p>
+    <p>O AntiGuru nasce de um princípio simples: <b style="color:var(--text)">clareza protege</b>. A geometria que nos acompanha — círculos que se entrelaçam, se sustentam e se expandem — é o nosso símbolo de discernimento: ver o todo antes de escolher a parte.</p>
+    <p class="verse" style="margin-top:24px;">Que ela te proteja do impulso.<br>Que te afaste da ilusão.<br>Que te expanda. Que te desperte.</p>
+    <div class="shield">
+      <span>Contra o ruído</span><span>Contra a pressa</span><span>Contra a má intenção</span><span>Por mais consciência</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMO FUNCIONA ===== -->
+<section class="sec" id="como">
+  <div class="wrap">
+    <div class="eyebrow reveal">Como funciona</div>
+    <h2 class="reveal">Três passos. Nenhuma enrolação.</h2>
+    <div class="grid3">
+      <div class="card reveal">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.5"><rect x="9" y="7" width="30" height="34" rx="3"/><path d="M15 16h18M15 23h18M15 30h11"/></svg>
+        <div class="step-n">PASSO 01</div><h3>Você envia a oferta</h3>
+        <p>Cole o link e o texto do curso, mentoria ou promessa que está considerando.</p>
+      </div>
+      <div class="card reveal" style="transition-delay:.1s">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#57D0C0" stroke-width="1.5"><circle cx="21" cy="21" r="13"/><path d="M31 31l8 8"/><path d="M21 15v6l4 3"/></svg>
+        <div class="step-n">PASSO 02</div><h3>Leio os sinais</h3>
+        <p>Analiso padrões objetivos de risco e organizo o que está nas entrelinhas da oferta.</p>
+      </div>
+      <div class="card reveal" style="transition-delay:.2s">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.5"><path d="M24 6l4 12h12l-10 8 4 12-10-8-10 8 4-12-10-8h12z"/></svg>
+        <div class="step-n">PASSO 03</div><h3>Você recebe clareza</h3>
+        <p>Nota de credibilidade, sinais de atenção e uma orientação — por WhatsApp ou e-mail, em até 24h. A decisão final é sua.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXEMPLOS ===== -->
+<section class="sec" id="exemplos">
+  <div class="wrap">
+    <div class="eyebrow reveal">Exemplos</div>
+    <h2 class="reveal">Um diagnóstico, não um palpite.</h2>
+    <p class="lead reveal">Casos ilustrativos, gerados pelos mesmos critérios objetivos do sistema. Servem para mostrar o formato da entrega.</p>
+    <div class="cases">
+
+      <div class="case reveal">
+        <div class="ctop">
+          <div><div class="cname">Método Liberdade Express</div><div class="ccat">Renda extra</div></div>
+          <div class="stamp" style="background:rgba(229,101,75,.15);color:var(--red)">Risco elevado</div>
+        </div>
+        <p class="ctx"><b>Contexto.</b> Considerava comprar pela urgência de ganhar dinheiro rápido.</p>
+        <div class="meter"><span style="width:29%;background:var(--red)"></span></div>
+        <div class="score" style="color:var(--red)">29 / 100 de credibilidade</div>
+        <div class="lbl">Sinais identificados</div>
+        <ul><li>Promessa de ganho garantido</li><li>Escassez ou urgência artificial</li><li>Ausência de prova verificável</li><li>Ausência de dados empresariais (CNPJ)</li></ul>
+        <div class="rec"><b style="color:var(--text)">Orientação:</b> múltiplos sinais indicam nível elevado de risco. Recomenda-se cautela e validação adicional antes de qualquer decisão.</div>
+        <p class="out"><b>Desfecho.</b> Após a análise, optou por não comprar e buscar mais informações.</p>
+      </div>
+
+      <div class="case reveal" style="transition-delay:.1s">
+        <div class="ctop">
+          <div><div class="cname">Mentoria Construir do Zero</div><div class="ccat">Negócios</div></div>
+          <div class="stamp" style="background:rgba(227,179,65,.15);color:var(--amber)">Atenção</div>
+        </div>
+        <p class="ctx"><b>Contexto.</b> Considerava comprar por vontade de começar um negócio logo.</p>
+        <div class="meter"><span style="width:42%;background:var(--amber)"></span></div>
+        <div class="score" style="color:var(--amber)">42 / 100 de credibilidade</div>
+        <div class="lbl">Sinais identificados</div>
+        <ul><li>Promessa de ganho garantido</li><li>Ausência de prova verificável</li><li>Ausência de dados empresariais (CNPJ)</li></ul>
+        <div class="rec"><b style="color:var(--text)">Orientação:</b> o cenário indica necessidade de verificação adicional antes de prosseguir.</div>
+        <p class="out"><b>Desfecho.</b> Após a análise, optou por pedir mais detalhes ao vendedor.</p>
+      </div>
+
+      <div class="case reveal" style="transition-delay:.2s">
+        <div class="ctop">
+          <div><div class="cname">Curso Base Sólida</div><div class="ccat">Carreira</div></div>
+          <div class="stamp" style="background:rgba(87,208,192,.15);color:var(--teal)">Risco reduzido</div>
+        </div>
+        <p class="ctx"><b>Contexto.</b> Considerava comprar para se qualificar na carreira.</p>
+        <div class="meter"><span style="width:95%;background:var(--teal)"></span></div>
+        <div class="score" style="color:var(--teal)">95 / 100 de credibilidade</div>
+        <div class="lbl">Sinais identificados</div>
+        <ul><li>Ausência de CNPJ no material</li><li>Transparência média: ementa, certificado e reembolso descritos</li></ul>
+        <div class="rec"><b style="color:var(--text)">Orientação:</b> baixo nível de risco nos critérios analisados. Ainda assim, atenção aos detalhes da oferta.</div>
+        <p class="out"><b>Desfecho.</b> Após a análise, seguiu com a compra, ciente dos pontos a confirmar.</p>
+      </div>
+
+    </div>
+    <p class="disc">Casos ilustrativos e fictícios. O AntiGuru lê os sinais e entrega clareza — a decisão de comprar ou não é sempre sua.</p>
+  </div>
+</section>
+
+<!-- ===== OFERTA ===== -->
+<section class="sec" id="oferta">
+  <div class="wrap" style="text-align:center;">
+    <div class="eyebrow reveal">A oferta</div>
+    <h2 class="reveal">Clareza antes da decisão.</h2>
+    <div class="offer reveal">
+      <div class="price">R$29</div>
+      <div class="anchor">Antes de arriscar R$997 no escuro</div>
+      <p class="line">Você não está comprando uma resposta. Está comprando clareza antes da decisão.</p>
+      <div class="terms">Você recebe por WhatsApp ou e-mail em até 24h</div>
+      <a class="btn gold" href="https://mpago.la/1LBepmR" target="_blank" rel="noopener" style="justify-content:center;width:100%;">Pagar com cartão — R$29</a>
+      <a class="btn" href="https://wa.me/5511997603559?text=Quero%20a%20an%C3%A1lise%20do%20AntiGuru%20e%20prefiro%20pagar%20por%20Pix%20(R%2429)" target="_blank" rel="noopener" style="justify-content:center;width:100%;margin-top:10px;background:rgba(87,208,192,.12);border:1px solid var(--teal,#57D0C0);color:var(--teal,#57D0C0);">Pagar com Pix — R$29 (sem taxa)</a>
+      <div class="guarantee">Se considerar que a análise não foi útil para sua decisão, você pode solicitar reembolso em até 7 dias.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MANIFESTO / TRANSPARÊNCIA ===== -->
+<section class="sec" id="manifesto">
+  <div class="wrap" style="max-width:680px;">
+    <div class="eyebrow reveal">Por que eu cobro</div>
+    <h2 class="reveal">E por que cobro pouco.</h2>
+    <div class="reveal" style="background:linear-gradient(160deg,rgba(227,179,65,.06),rgba(15,21,48,.6));border:1px solid rgba(227,179,65,.22);border-radius:18px;padding:30px 28px;margin-top:8px;">
+      <p style="font-size:16.5px;line-height:1.75;color:var(--soft,#B9BCDB);">
+        Eu poderia te prometer riqueza e cobrar caro. É o que os gurus fazem.<br><br>
+        Eu prefiro o contrário: cobro <b style="color:var(--gold2,#F4DFA0);">R$29</b> porque quero que isso caiba no seu bolso, não que pese nele. Esse valor me ajuda a melhorar a ferramenta, manter o serviço de pé e, sim, a viver disso — com honestidade.<br><br>
+        <span style="font-family:var(--ffs,'Cormorant Garamond',serif);font-style:italic;font-size:20px;color:var(--text,#ECEAF6);">Não vendo sonho. Vendo clareza.</span><br>
+        <span style="color:var(--muted,#9498BC);font-size:15px;">E clareza não pode custar uma fortuna — senão vira a mesma armadilha que a gente quer evitar.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTATO ===== -->
+<section class="sec" id="contato">
+  <div class="wrap">
+    <div class="eyebrow reveal">Contato</div>
+    <h2 class="reveal">Fale comigo agora.</h2>
+    <div class="contact">
+      <a class="ccard reveal" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
+        <svg class="ci" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+        <div><div class="k">WhatsApp</div><div class="v">(11) 99760-3559</div></div>
+      </a>
+      <a class="ccard reveal" href="mailto:damaceno_05@yahoo.com.br" style="transition-delay:.1s">
+        <svg class="ci" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.6"><rect x="7" y="11" width="34" height="26" rx="3"/><path d="M8 13l16 12L40 13"/></svg>
+        <div><div class="k">E-mail</div><div class="v">damaceno_05@yahoo.com.br</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VOZ DE QUEM USA (feedback aberto) ===== -->
+<section class="sec" id="vozes">
+  <div class="wrap" style="max-width:760px;">
+    <div class="eyebrow reveal">Voz de quem usa</div>
+    <h2 class="reveal">Você faz parte disso.</h2>
+    <p class="reveal" style="color:var(--soft,#B9BCDB);font-size:15.5px;max-width:54ch;margin-bottom:8px;">Pago ou não, sua opinião constrói o AntiGuru. Conta o que achou da navegação, da comunicação, da clareza — e do resultado, se você fez uma análise. Isso ajuda a melhorar de verdade.</p>
+
+    <!-- depoimentos: nasce honesto, enche com verdade -->
+    <div id="vozes-lista" class="reveal" style="margin:22px 0 28px;"></div>
+
+    <!-- formulário aberto -->
+    <div class="reveal" style="background:linear-gradient(160deg,rgba(22,29,60,.7),rgba(15,21,48,.5));border:1px solid rgba(232,226,255,.12);border-radius:18px;padding:26px 24px;">
+      <div style="font-family:var(--ffd,'Space Grotesk',sans-serif);font-weight:600;font-size:18px;margin-bottom:18px;">Deixe sua opinião</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;" id="vz-grid">
+        <div><label class="vz-lb">Nome (ou como quer aparecer)</label><input class="vz-inp" id="vz-nome" placeholder="Ex: Ana · ou anônimo"></div>
+        <div><label class="vz-lb">Você já fez uma análise paga?</label>
+          <select class="vz-inp" id="vz-pagou"><option value="">Selecione</option><option value="Só naveguei">Só naveguei pelo site</option><option value="Usei a prévia grátis">Usei a prévia grátis</option><option value="Fiz a análise paga">Fiz a análise paga</option></select>
+        </div>
+      </div>
+
+      <div class="vz-rate-block">
+        <div class="vz-rate-row" data-dim="nav"><span class="vz-dim">Navegação do site</span><span class="vz-stars" data-for="nav"></span></div>
+        <div class="vz-rate-row" data-dim="com"><span class="vz-dim">Comunicação / clareza dos textos</span><span class="vz-stars" data-for="com"></span></div>
+        <div class="vz-rate-row" data-dim="cla"><span class="vz-dim">Clareza que te trouxe</span><span class="vz-stars" data-for="cla"></span></div>
+        <div class="vz-rate-row" data-dim="res"><span class="vz-dim">Resultado (se fez análise)</span><span class="vz-stars" data-for="res"></span></div>
+      </div>
+
+      <div style="margin:16px 0;"><label class="vz-lb">Seu comentário</label><textarea class="vz-inp" id="vz-com" placeholder="O que funcionou? O que dava pra melhorar? Pode ser sincero — é assim que evolui." style="min-height:80px;resize:vertical;"></textarea></div>
+
+      <label style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted,#9498BC);margin-bottom:16px;cursor:pointer;"><input type="checkbox" id="vz-pub" checked style="width:16px;height:16px;accent-color:var(--gold,#E3B341);"> Autorizo exibir meu comentário no site (sem isso, ele fica só para uso interno)</label>
+
+      <button class="btn gold" id="vz-send" style="width:100%;justify-content:center;">Enviar minha opinião</button>
+      <p style="font-size:12px;color:var(--muted,#9498BC);margin-top:12px;text-align:center;">Sem cadastro, sem dados sensíveis. Serve para melhorar o serviço.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AVISO LEGAL ===== -->
+<section class="sec" id="aviso">
+  <div class="wrap">
+    <p class="legal">O AntiGuru entrega o que promete: clareza. Cada análise é feita com critérios objetivos e informações públicas, identificando sinais que ajudam você a enxergar a oferta com mais consciência antes de decidir. Não dizemos "compre" ou "não compre" — a decisão é, e sempre será, sua. O que garantimos é a análise honesta e a clareza para que essa decisão seja mais lúcida.</p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <svg class="fmark" viewBox="0 0 60 60" fill="none" stroke="#E3B341" stroke-width="1.4" aria-hidden="true">
+    <g transform="translate(30,30)"><circle r="27" stroke="#57D0C0" stroke-width="1"/><circle r="13"/><circle r="13" transform="translate(13,0)"/><circle r="13" transform="translate(6.5,11.26)"/><circle r="13" transform="translate(-6.5,11.26)"/><circle r="13" transform="translate(-13,0)"/><circle r="13" transform="translate(-6.5,-11.26)"/><circle r="13" transform="translate(6.5,-11.26)"/></g>
+  </svg>
+  <div class="fbrand">Antes de pagar, você merece clareza.</div>
+  <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
+</footer>
+
+<!-- ===== FLOATING WHATSAPP ===== -->
+<a class="fab" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+</a>
+
+<script>
+  // nav scroll state
+  var nav=document.getElementById('nav');
+  window.addEventListener('scroll',function(){ nav.classList.toggle('scrolled', window.scrollY>20); },{passive:true});
+  // mobile menu
+  var burger=document.getElementById('burger'), links=document.getElementById('navlinks');
+  burger.addEventListener('click',function(){ links.classList.toggle('open'); });
+  links.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ links.classList.remove('open'); }); });
+  // scroll reveal
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.14});
+  document.querySelectorAll('.reveal, .protect').forEach(function(el){ io.observe(el); });
+</script>
+
+<script>
+const FLAGS = [
+  { id:'ganho_garantido', label:'Promessa de ganho garantido', weight:25,
+    rx:/(ganho|lucro|retorno|renda|resultado)\s*(garantid|cert)|garantia de (lucro|ganho|retorno|resultado)|dinheiro garantid|100%|fique rico|ficar rico|enriquec|multiplicar (seu )?(dinheiro|capital)|dobrar (seu )?(dinheiro|capital)|r\$\s?\d.*(por dia|por semana|por mês|garantid)|\d\s*d[íi]gitos|seis d[íi]gitos|sete d[íi]gitos|(do zero ao|ao primeiro) (milh[ãa]o|milhar)|\d+\s*mil (por|\/)\s*(dia|semana|m[êe]s)|primeiros? \d+\s*mil/i,
+    exp:'A oferta promete resultado financeiro garantido ou cifras específicas. Retorno sério não vem com garantia de valor e prazo — esse é o sinal de atenção mais relevante.' },
+  { id:'metodo_secreto', label:'"Método secreto / exclusivo / que ninguém conta"', weight:16,
+    rx:/m[ée]todo secreto|f[óo]rmula secreta|f[óo]rmula (m[áa]gica|exclusiva|infal[íi]vel)|segredo (dos|que)|t[ée]cnica secreta|ningu[ée]m (te )?(conta|ensina|fala)|o que (os )?gurus? escondem|atalho secreto|truque (secreto|que)|hack (secreto|infal)/i,
+    exp:'A oferta apela a um "segredo" ou "fórmula exclusiva". Conhecimento sério não depende de segredo — esse enquadramento costuma servir para justificar o preço e criar exclusividade artificial.' },
+  { id:'escassez', label:'Escassez ou urgência artificial', weight:13,
+    rx:/(últimas|ultimas)\s*vagas|vagas limitad|só hoje|so hoje|última chance|ultima chance|por tempo limitado|encerra (hoje|amanhã|em breve)|acaba (hoje|à meia|a meia)|restam? \d|expira|últimas horas|ultimas horas|agora ou nunca|lote (esgotad|encerr)|preço sobe|últimas unidades/i,
+    exp:'Há gatilhos de urgência ou escassez. Quando a pressão de tempo é repetida ou se renova, ela costuma servir para reduzir o tempo de análise da decisão.' },
+  { id:'curso_do_curso', label:'Modelo "curso que ensina a vender curso"', weight:20,
+    rx:/(ensino|aprenda|aprender|te ensino) a vender|revend|seja (um )?afiliad|ganhe (vendendo|revendendo)|torne-se (um )?mentor|vire mentor|comiss(ão|ões)|indique e ganhe|marketing multinível|mmn/i,
+    exp:'A oferta sugere que o ganho vem de revender o próprio método a outras pessoas. Modelos assim concentram o retorno em recrutar novos compradores.' },
+  { id:'urgencia_emocional', label:'Linguagem de pressão emocional', weight:12,
+    rx:/transforme sua vida|mude de vida|liberdade financeira|saia do zero|chega de (ser|estar)|pare de (ser|trabalhar)|você merece|vire a chave|mindset (milionário|de rico)|deixe de ser pobre|prosperidade/i,
+    exp:'O texto apela a emoções e identidade ("liberdade", "transformação") em vez de descrever o que é entregue. Apelo emocional forte com pouca substância é um sinal de atenção.' },
+  { id:'depoimento_generico', label:'Depoimentos genéricos ou não rastreáveis', weight:10,
+    rx:/mudou minha vida|melhor (investimento|decisão) que (fiz|já fiz)|recomendo (demais|muito)|prints? de (resultado|ganho|pix)|alunos? (faturando|ganhando|lucrando)|veja os (resultados|depoimentos)/i,
+    exp:'Há referência a depoimentos ou resultados de alunos que normalmente não podem ser verificados de forma independente. Prova não rastreável tem baixo valor de evidência.' },
+];
+
+const TRANSP = [
+  { id:'cnpj', label:'CNPJ informado', rx:/\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}|cnpj/i },
+  { id:'reembolso', label:'Política de reembolso / garantia de 7 dias', rx:/reembolso|garantia de (7|sete) dias|devolução|estorno|direito de arrependimento/i },
+  { id:'conteudo', label:'Conteúdo descrito (módulos, carga horária, ementa)', rx:/m(ó|o)dulo|carga horária|ementa|aulas?|certificad|conteúdo program|grade do curso/i },
+  { id:'contato', label:'Canal de contato ou suporte claro', rx:/suporte|atendimento|fale conosco|contato@|@.*\.com|whatsapp.*\d|telefone/i },
+];
+
+const Engine = {
+  clamp(n,a,b){ return Math.max(a,Math.min(b,n)); },
+  analyze(input){
+    const rawText = ((input.texto||'')+' '+(input.nome||'')+' '+(input.valor||'')).toLowerCase();
+    // CORREÇÃO DE NEGAÇÃO: "sem reembolso", "não tem cnpj", "nenhuma garantia" não podem
+    // contar como transparência positiva. Removemos os trechos negados antes de procurar positivos.
+    const text = rawText.replace(/\b(sem|não tem|nao tem|não possui|nao possui|nenhum[ao]?|sem nenhum[ao]?|não há|nao ha|inexistente|não oferece|nao oferece|zero)\s+(reembolso|garantia|cnpj|nota fiscal|contrato|suporte|ementa|módulos?|modulos?|certificad[oa]|devolução|devolucao|estorno|política de \w+)/gi, ' [negado] ');
+    const cnpjField = (input.cnpj||'').replace(/\D/g,'');
+    const contexto = (input.contexto||'').toLowerCase();
+    const ctx = {
+      urgencia: /desemprego|d[ií]vida|preciso de dinheiro|renda urgente|sem (dinheiro|grana|renda)|apertad|endividad|contas? atrasad|desempregad/.test(contexto),
+      medo: /[uú]ltima chance|n[aã]o quero perder|oportunidade [uú]nica|medo de perder|vai acabar|perder a chance|fomo/.test(contexto),
+      impulso: /quero come[çc]ar logo|j[aá] decidi|vou comprar|comprar agora|sem pensar|de qualquer jeito|custe o que custar|t[oô] decidid/.test(contexto)
+    };
+    const negatives=[]; const positives=[];
+
+    FLAGS.forEach(f=>{ if(f.rx.test(text)) negatives.push({id:f.id,label:f.label,exp:f.exp,weight:f.weight}); });
+
+    // sinal de ausência: sem prova verificável quando há promessa forte sem conteúdo descrito
+    const hasPromise = negatives.some(n=>n.id==='ganho_garantido'||n.id==='urgencia_emocional');
+    const describesContent = TRANSP[2].rx.test(text);
+    if(hasPromise && !describesContent){
+      negatives.push({id:'sem_prova',label:'Ausência de prova verificável',weight:18,
+        exp:'A oferta faz promessas fortes mas não descreve o que é entregue (conteúdo, método, credenciais). Promessa sem lastro verificável é um sinal de baixo nível de evidência.'});
+    }
+    // ausência de dados empresariais
+    const cnpjValid = cnpjField.length===14;
+    if(!cnpjValid && !TRANSP[0].rx.test(text)){
+      negatives.push({id:'sem_cnpj',label:'Ausência de dados empresariais (CNPJ)',weight:15,
+        exp:'Não há CNPJ identificável na oferta. A falta de dados empresariais públicos dificulta verificar quem é o responsável legal.'});
+    }
+
+    TRANSP.forEach(t=>{ if((t.id==='cnpj'&&cnpjValid) || t.rx.test(text)) positives.push({id:t.id,label:t.label}); });
+
+    const penalty = negatives.reduce((s,n)=>s+n.weight,0);
+    const bonus = Math.min(positives.length*5, 18);
+    const score = this.clamp(100 - penalty + bonus, 0, 100);
+
+    let risk, riskLabel, color, rec;
+    if(score>=70){ risk='reduzido'; riskLabel='Risco reduzido'; color='var(--green)';
+      rec='As informações disponíveis indicam baixo nível de risco, considerando os critérios analisados. Ainda assim, recomenda-se atenção aos detalhes da oferta.';
+    } else if(score>=40){ risk='atencao'; riskLabel='Atenção'; color='var(--amber)';
+      rec='O cenário indica necessidade de verificação adicional antes de prosseguir.';
+    } else { risk='elevado'; riskLabel='Risco elevado'; color='var(--red)';
+      rec='Foram identificados múltiplos sinais de atenção que indicam um nível elevado de risco. Recomenda-se cautela e validação adicional das informações antes de considerar qualquer decisão.';
+    }
+    // Camada de contexto da decisão: leitura simples e ajuste leve (máx. -10)
+    let ctxPenalty = 0;
+    if(risk==='elevado' && ctx.urgencia) ctxPenalty += 5;
+    if(risk==='atencao' && ctx.impulso) ctxPenalty += 5;
+    ctxPenalty = Math.min(ctxPenalty, 10);
+    const finalScore = this.clamp(score - ctxPenalty, 0, 100);
+
+    const conds = [];
+    if(ctx.urgencia) conds.push('necessidade financeira');
+    if(ctx.medo) conds.push('medo de perder a oportunidade');
+    if(ctx.impulso) conds.push('vontade de decidir rapidamente');
+    let contextTrend = '';
+    if(conds.length){
+      const ctext = conds.length===1 ? conds[0] : conds.slice(0,-1).join(', ')+' e '+conds.slice(-1);
+      contextTrend = 'A análise identificou sinais de decisão sob '+ctext+'. Esse padrão pode aumentar o risco de decisões impulsivas.';
+    }
+    if(ctx.urgencia) rec += ' Como há indicação de necessidade financeira, recomenda-se evitar decisões sob pressão e priorizar validação adicional.';
+    if(ctx.impulso) rec += ' O padrão indica tendência a decisão rápida. Pausar antes de prosseguir pode reduzir riscos.';
+    if(ctx.medo) rec += ' A sensação de urgência pode influenciar a decisão. Ofertas legítimas permitem tempo para análise.';
+
+    // Próximos passos: orientação genérica, sem impor decisão
+    const steps = [
+      'Verificar o CNPJ no site da Receita Federal' + (cnpjField.length===14 ? ' ('+input.cnpj+')' : ', se houver') + '.',
+      'Solicitar evidências reais e verificáveis (conteúdo, método, credenciais).',
+      'Revisar os termos e a política de reembolso.',
+      'Considerar começar por opções gratuitas ou de menor risco.'
+    ];
+    // PRÓXIMO PASSO: ações concretas personalizadas pelos sinais
+    const hasPos = id => positives.some(p=>p.id===id);
+    const hasNeg = id => negatives.some(n=>n.id===id);
+    const acoes = [];
+    if(hasNeg('sem_cnpj') || !hasPos('cnpj')) acoes.push('Peça o CNPJ de quem vende e confira grátis na Receita Federal (consulta CNPJ).');
+    if(hasNeg('sem_prova') || hasNeg('depoimento_generico')) acoes.push('Peça prova verificável: o contato de 2 alunos que concluíram, não só depoimentos postados.');
+    if(!hasPos('conteudo') || hasNeg('curso_do_curso')) acoes.push('Peça a ementa por escrito: módulos, carga horária e o que exatamente você recebe.');
+    if(hasNeg('ganho_garantido') || hasNeg('urgencia_emocional')) acoes.push('Peça por escrito o que acontece se não funcionar (garantia e reembolso).');
+    if(hasNeg('escassez')) acoes.push('Espere 48h e veja se a "vaga limitada" ou o preço realmente mudam.');
+    if(!hasPos('reembolso')) acoes.push('Peça a política de reembolso por escrito (prazo e condições).');
+    const fallback = [
+      'Guarde a página da oferta (print) e o nome de quem vende.',
+      'Salve a política de reembolso e o prazo de acesso ao conteúdo.',
+      'Ao pagar, use meio rastreável (Pix ou cartão) e guarde o comprovante.'
+    ];
+    for(let k=0; acoes.length<3 && k<fallback.length; k++){ if(acoes.indexOf(fallback[k])<0) acoes.push(fallback[k]); }
+    let ppContinuar, ppMaxseg;
+    if(risk==='elevado'){
+      ppContinuar='pague só por meio rastreável (Pix ou cartão), guarde todos os prints e a garantia de reembolso por escrito — ciente de que os sinais apontam risco alto.';
+      ppMaxseg='não compre esta oferta agora e procure uma alternativa que mostre conteúdo, CNPJ e reembolso sem você precisar insistir.';
+    } else if(risk==='atencao'){
+      ppContinuar='pode seguir desde que tenha em mãos conteúdo, política de reembolso e o contato de quem vende.';
+      ppMaxseg='só pague depois de receber ementa, política de reembolso e CNPJ confirmados.';
+    } else {
+      ppContinuar='pode seguir com tranquilidade, mantendo comprovante e política de reembolso salvos.';
+      ppMaxseg='confirme o ponto pendente antes de pagar e mantenha tudo registrado.';
+    }
+    const proximo = { acoes: acoes.slice(0,3), continuar: ppContinuar, maxseg: ppMaxseg };
+
+    const tpc = positives.length;
+    const transpLevel = tpc>=3?'Alta':(tpc>=1?'Média':'Baixa');
+
+    return { score: finalScore, risk, riskLabel, color, negatives, positives, rec, steps, proximo, transpLevel, contextTrend, ctx, contexto:(input.contexto||''), cnpj:input.cnpj||'', when:Date.now(), name:(input.nome||'Oferta sem nome') };
+  }
+};
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function agRender(r){
+  var neg = r.negatives.length ? r.negatives.map(function(n){return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--red)">&#10007;</span>'+n.label+'</div><div class="ag-se">'+n.exp+'</div></div>';}).join('') : '<p style="color:var(--muted);font-size:14px;">Nenhum sinal de atencao relevante foi identificado no texto enviado.</p>';
+  var pos = r.positives.length ? r.positives.map(function(p){return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--teal)">&#9711;</span>'+p.label+'</div></div>';}).join('') : '<p style="color:var(--muted);font-size:14px;">Nenhum elemento de transparência identificado.</p>';
+  return ''
+   + '<div class="ag-rcard">'
+   +   '<div class="ag-tier free"><span>&#9673;</span> Prévia gratuita</div>'
+   +   '<div class="ag-rhead">'
+   +     '<div class="ag-rt">Diagnostico de risco da oferta</div>'
+   +     '<div class="ag-rn">'+escapeHtml(r.name)+'</div>'
+   +     '<div class="ag-meter"><span style="width:'+r.score+'%;background:'+r.color+'"></span></div>'
+   +     '<div class="ag-score" style="color:'+r.color+'">'+r.score+' / 100 de credibilidade</div><br>'
+   +     '<div class="ag-stamp" style="color:'+r.color+'">'+r.riskLabel+'</div>'
+   +   '</div>'
+   +   '<div class="ag-sec"><h4>Sinais identificados</h4>'+neg+'</div>'
+   +   '<div class="ag-sec"><h4>Nível de transparência &mdash; '+r.transpLevel+'</h4>'+pos+'</div>'
+   +   '<div class="ag-sec" style="border-bottom:none;">'
+   +     '<h4>Análise completa</h4>'
+   +     '<div class="ag-locked">'
+   +       '<div class="ag-blur">'
+   +         '<p class="ag-rec" style="color:'+r.color+'">'+escapeHtml(r.rec)+'</p>'
+   +         '<div class="ag-next"><b>Próximo passo</b><p style="font-size:14px;margin:6px 0;color:var(--soft)">Se você estivesse decidindo agora, faça isso:</p><ol><li>'+r.proximo.acoes.map(escapeHtml).join('</li><li>')+'</li></ol></div>'
+   +       '</div>'
+   +       '<div class="ag-veil">'
+   +         '<div class="lk"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#1a1405" stroke-width="1.7"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="#1a1405" stroke-width="1.7"/></svg></div>'
+   +         '<div class="vt">Esta é só a prévia. A leitura completa fica na análise paga.</div>'
+   +         '<div class="vd">Um analista humano examina a oferta a fundo, nos 7 eixos, e te entrega um laudo claro com orientação e próximo passo.</div>'
+   +         '<div class="vlist"><span class="vchip">7 eixos detalhados</span><span class="vchip">Sinais + contexto</span><span class="vchip">Pontos a favor</span><span class="vchip">Roteiro do que fazer</span><span class="vchip">Alternativas</span></div>'
+   +         '<a class="btn gold" href="https://mpago.la/1LBepmR" target="_blank" rel="noopener" style="justify-content:center;">Pagar com cartão — R$29</a>'
+   +         '<a class="btn" href="https://wa.me/5511997603559?text=Quero%20a%20an%C3%A1lise%20completa%20do%20AntiGuru%20e%20prefiro%20pagar%20por%20Pix%20(R%2429)" target="_blank" rel="noopener" style="justify-content:center;margin-top:9px;background:rgba(87,208,192,.12);border:1px solid var(--teal,#57D0C0);color:var(--teal,#57D0C0);">Pagar com Pix — R$29 (sem taxa)</a>'
+   +         '<div class="vprice">por <b>R$29</b> · entrega em até 24h · reembolso em 7 dias</div>'
+   +       '</div>'
+   +     '</div>'
+   +     '<p class="ag-legal" style="margin-top:18px;">Esta é uma prévia automática dos sinais do texto. A análise completa, feita à mão, entrega a leitura honesta e o próximo passo. Não dizemos "compre" ou "não compre" — a decisão é sempre sua.</p>'
+   +   '</div>'
+   + '</div>';
+}
+(function(){
+  var btn=document.getElementById('agBtn');
+  if(!btn) return;
+  btn.addEventListener('click',function(){
+    var texto=(document.getElementById('agTexto').value||'').trim();
+    if(texto.length<15){ document.getElementById('agErr').textContent='Cole o texto da oferta (ao menos uma frase) para a análise.'; return; }
+    document.getElementById('agErr').textContent='';
+    var input={ nome:(document.getElementById('agNome').value||'').trim(), texto:texto, valor:(document.getElementById('agValor').value||'').trim(), cnpj:(document.getElementById('agCnpj').value||'').trim(), contexto:(document.getElementById('agContexto').value||'').trim() };
+    var r=Engine.analyze(input);
+    var box=document.getElementById('agResult');
+    box.innerHTML=agRender(r);
+    box.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+})();
+</script>
+<script>
+/* ===== VOZ DE QUEM USA — feedback aberto ===== */
+(function(){
+  var ratings={nav:0,com:0,cla:0,res:0};
+  // monta as estrelas
+  document.querySelectorAll('.vz-stars').forEach(function(box){
+    var dim=box.getAttribute('data-for');
+    for(var i=1;i<=5;i++){
+      var s=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      s.setAttribute('viewBox','0 0 24 24');s.setAttribute('class','vz-star');s.setAttribute('data-v',i);
+      s.innerHTML='<path fill="currentColor" d="M12 2l2.9 6.3 6.8.7-5 4.6 1.4 6.7L12 17.8 5.9 20.3l1.4-6.7-5-4.6 6.8-.7z"/>';
+      s.addEventListener('click',function(){
+        var v=parseInt(this.getAttribute('data-v')); ratings[dim]=v;
+        var stars=box.querySelectorAll('.vz-star');
+        stars.forEach(function(st,idx){ st.classList.toggle('on',idx<v); });
+      });
+      box.appendChild(s);
+    }
+  });
+
+  function estrelasTxt(n){ return '★★★★★☆☆☆☆☆'.slice(5-n,10-n); }
+
+  async function carregarVozes(){
+    var lista=document.getElementById('vozes-lista'); if(!lista) return;
+    var pub=[];
+    try{
+      if(window.storage){
+        var r=await window.storage.list('voz:',false);
+        if(r&&r.keys){ for(var i=0;i<r.keys.length;i++){ var g=await window.storage.get(r.keys[i],false); if(g){ var e=JSON.parse(g.value); if(e.publico) pub.push(e); } } }
+      }
+    }catch(e){}
+    if(!pub.length){
+      lista.innerHTML='<div class="vz-empty">Ainda não há depoimentos por aqui — este espaço nasce vazio, de propósito.<br>Os primeiros virão de pessoas reais, como você. Sem invenção.</div>';
+      return;
+    }
+    pub.sort(function(a,b){return (b.quando||'').localeCompare(a.quando||'');});
+    lista.innerHTML=pub.slice(0,6).map(function(e){
+      var media=Math.round(((e.nav+e.com+e.cla+(e.res||e.cla))/ (e.res?4:3))||0);
+      return '<div class="vz-card"><div class="vc-top"><span class="vc-name">'+esc(e.nome||'Anônimo')+'</span><span class="vc-tag">'+esc(e.pagou||'usou')+'</span></div>'
+        +'<div class="vc-stars">'+estrelasTxt(media)+'</div>'
+        +(e.com?'<div class="vc-com">"'+esc(e.com)+'"</div>':'')+'</div>';
+    }).join('');
+  }
+  function esc(s){return (s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+  var btn=document.getElementById('vz-send');
+  if(btn) btn.addEventListener('click',async function(){
+    var nome=(document.getElementById('vz-nome').value||'').trim()||'Anônimo';
+    var pagou=document.getElementById('vz-pagou').value||'Só naveguei';
+    var coment=(document.getElementById('vz-com').value||'').trim();
+    function star(n){ n=n||0; return '★★★★★☆☆☆☆☆'.slice(5-n,10-n); }
+    // monta a mensagem que cai no WhatsApp do dono — central de feedback real é o WhatsApp
+    var msg='✦ FEEDBACK ANTIGURU\n\n'
+      +'Nome: '+nome+'\n'
+      +'Perfil: '+pagou+'\n\n'
+      +'Navegação: '+star(ratings.nav)+' ('+(ratings.nav||0)+'/5)\n'
+      +'Comunicação: '+star(ratings.com)+' ('+(ratings.com||0)+'/5)\n'
+      +'Clareza: '+star(ratings.cla)+' ('+(ratings.cla||0)+'/5)\n'
+      +'Resultado: '+star(ratings.res)+' ('+(ratings.res||0)+'/5)\n\n'
+      +'Comentário: '+(coment||'(sem comentário)');
+    var url='https://wa.me/5511997603559?text='+encodeURIComponent(msg);
+    btn.parentElement.innerHTML='<div style="text-align:center;padding:14px 10px;">'
+      +'<div style="font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:20px;color:var(--gold2,#F4DFA0);margin-bottom:10px;">Quase lá — só falta enviar.</div>'
+      +'<div style="color:var(--soft,#B9BCDB);font-size:14px;line-height:1.6;margin-bottom:18px;">Sua opinião abre no WhatsApp, prontinha. É só apertar enviar — e ela chega direto pra quem cuida do AntiGuru. Você faz parte disso.</div>'
+      +'<a href="'+url+'" target="_blank" rel="noopener" class="btn gold" style="display:inline-flex;justify-content:center;text-decoration:none;">Enviar minha opinião no WhatsApp</a></div>';
+  });
+})();
+</script>
+</body>
+</html>
