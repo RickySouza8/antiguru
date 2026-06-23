@@ -80,6 +80,12 @@ textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--
 .thanks .wa{display:inline-flex;align-items:center;gap:9px;margin-top:20px;background:transparent;border:1px solid var(--line3);color:var(--teal2);font-size:14px;padding:11px 20px;border-radius:30px;text-decoration:none;transition:border-color .2s;}
 .thanks .wa:hover{border-color:var(--teal);}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  window.AG_SUPABASE_URL = "https://wthhnpgfqfqidbciyumc.supabase.co";
+  window.AG_SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0aGhucGdmcWZxaWRiY2l5dW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjY1NTAsImV4cCI6MjA5Nzc0MjU1MH0.UcQI-G3Jb7KDE1x_iUbrgsegpOS6ZLJ1pBM90ijpci0";
+  window.agSupa = window.supabase.createClient(window.AG_SUPABASE_URL, window.AG_SUPABASE_ANON);
+</script>
 </head>
 <body>
 <div class="card">
@@ -163,14 +169,24 @@ document.querySelectorAll('.react').forEach(function(r){
 });
 document.getElementById('send').addEventListener('click',async function(){
   if(!sel) return;
-  var entry={ reacao:sel.l, valor:sel.v, comentario:(document.getElementById('comment').value||'').trim(), quando:new Date().toISOString() };
-  // salva localmente (você lê depois). Tolerante a falha: nunca trava.
+  var btn=this; btn.disabled=true; btn.textContent='Enviando...';
+  // grava no Supabase (tabela feedbacks). O voto de clareza vai pra coluna cla.
+  var registro={
+    nome:null,
+    perfil:'prévia',
+    cla:parseInt(sel.v,10),
+    comentario:(document.getElementById('comment').value||'').trim()||null,
+    publico:true,
+    lido:false,
+    criado_em:new Date().toISOString()
+  };
   try{
-    if(window.storage){
-      var key='feedback:'+Date.now();
-      await window.storage.set(key, JSON.stringify(entry), false);
-    }
-  }catch(e){ /* segue mesmo se falhar */ }
+    var r=await window.agSupa.from('feedbacks').insert(registro);
+    if(r.error){ console.error('AntiGuru · erro ao salvar feedback:', r.error.message, r.error); }
+    else { console.log('AntiGuru · feedback salvo no Supabase ✓'); }
+  }catch(e){ console.error('AntiGuru · falha de conexão ao salvar:', e); }
+  // tolerante: mostra o agradecimento mesmo se o save falhar — não pune o usuário.
+  btn.disabled=false; btn.textContent='Enviar minha resposta';
   document.getElementById('form').style.display='none';
   document.getElementById('thanks').style.display='block';
   // monta a mensagem de "passe a clareza adiante" — voz da pessoa, não propaganda
