@@ -243,6 +243,12 @@
   .vz-card .vc-com{font-size:14px;color:var(--soft,#B9BCDB);line-height:1.6;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;}
   .vz-empty{text-align:center;padding:30px 20px;color:var(--muted,#9498BC);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;line-height:1.5;border:1px dashed var(--line2,rgba(232,226,255,.2));border-radius:14px;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  window.AG_SUPABASE_URL = "https://wthhnpgfqfqidbciyumc.supabase.co";
+  window.AG_SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0aGhucGdmcWZxaWRiY2l5dW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjY1NTAsImV4cCI6MjA5Nzc0MjU1MH0.UcQI-G3Jb7KDE1x_iUbrgsegpOS6ZLJ1pBM90ijpci0";
+  try { window.agSupa = window.supabase.createClient(window.AG_SUPABASE_URL, window.AG_SUPABASE_ANON); } catch(e){ window.agSupa = null; }
+</script>
 </head>
 <body>
 
@@ -799,8 +805,24 @@ function agRender(r){
     var nome=(document.getElementById('vz-nome').value||'').trim()||'Anônimo';
     var pagou=document.getElementById('vz-pagou').value||'Só naveguei';
     var coment=(document.getElementById('vz-com').value||'').trim();
+    var publico=document.getElementById('vz-pub')?document.getElementById('vz-pub').checked:false;
     function star(n){ n=n||0; return '★★★★★☆☆☆☆☆'.slice(5-n,10-n); }
-    // monta a mensagem que cai no WhatsApp do dono — central de feedback real é o WhatsApp
+    // 1) grava no Supabase (central admin real)
+    if(window.agSupa){
+      try{
+        var resInsert=await window.agSupa.from('feedbacks').insert({
+          nome:nome, perfil:pagou,
+          nav:ratings.nav||null, com:ratings.com||null, cla:ratings.cla||null, res:ratings.res||null,
+          comentario:coment||null, publico:publico, lido:false,
+          criado_em:new Date().toISOString()
+        });
+        if(resInsert.error){ console.error('AntiGuru · Supabase REJEITOU o feedback:', resInsert.error.message, resInsert.error); }
+        else { console.log('AntiGuru · feedback gravado no Supabase ✓'); }
+      }catch(e){ console.error('AntiGuru · falha de conexão ao gravar:', e); }
+    } else {
+      console.error('AntiGuru · window.agSupa é null — a conexão com o Supabase não carregou.');
+    }
+    // 2) WhatsApp como confirmação/fallback (a pessoa também avisa o dono)
     var msg='✦ FEEDBACK ANTIGURU\n\n'
       +'Nome: '+nome+'\n'
       +'Perfil: '+pagou+'\n\n'
@@ -811,9 +833,9 @@ function agRender(r){
       +'Comentário: '+(coment||'(sem comentário)');
     var url='https://wa.me/5511997603559?text='+encodeURIComponent(msg);
     btn.parentElement.innerHTML='<div style="text-align:center;padding:14px 10px;">'
-      +'<div style="font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:20px;color:var(--gold2,#F4DFA0);margin-bottom:10px;">Quase lá — só falta enviar.</div>'
-      +'<div style="color:var(--soft,#B9BCDB);font-size:14px;line-height:1.6;margin-bottom:18px;">Sua opinião abre no WhatsApp, prontinha. É só apertar enviar — e ela chega direto pra quem cuida do AntiGuru. Você faz parte disso.</div>'
-      +'<a href="'+url+'" target="_blank" rel="noopener" class="btn gold" style="display:inline-flex;justify-content:center;text-decoration:none;">Enviar minha opinião no WhatsApp</a></div>';
+      +'<div style="font-family:\'Space Grotesk\',sans-serif;font-weight:600;font-size:20px;color:var(--gold2,#F4DFA0);margin-bottom:10px;">Recebido! Obrigado pela sua voz. ✦</div>'
+      +'<div style="color:var(--soft,#B9BCDB);font-size:14px;line-height:1.6;margin-bottom:18px;">Sua opinião foi registrada e ajuda o AntiGuru a melhorar de verdade. Se quiser, pode também mandar um oi por WhatsApp.</div>'
+      +'<a href="'+url+'" target="_blank" rel="noopener" class="btn gold" style="display:inline-flex;justify-content:center;text-decoration:none;">Falar no WhatsApp (opcional)</a></div>';
   });
 })();
 </script>
