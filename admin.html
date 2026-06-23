@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AntiGuru · Central</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;450;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#080A13; --surface:#0F1530; --surface2:#161D3C; --raise:#1B2347;
+  --line:rgba(232,226,255,.1); --line2:rgba(232,226,255,.16);
+  --text:#ECEAF6; --soft:#B9BCDB; --muted:#9498BC; --faint:#62678C;
+  --gold:#E3B341; --gold2:#F4DFA0; --goldsoft:rgba(227,179,65,.12);
+  --teal:#57D0C0; --teal2:#8FE6DD; --tealsoft:rgba(87,208,192,.12);
+  --red:#E5654B; --redsoft:rgba(229,101,75,.12);
+  --ffd:'Fraunces',serif; --ffb:'Inter',sans-serif; --ffm:'Space Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;max-width:100%;}
+html,body{max-width:100%;overflow-x:hidden;}
+body{background:
+  radial-gradient(ellipse 70% 50% at 15% 0%,rgba(87,208,192,.05),transparent 55%),
+  radial-gradient(ellipse 60% 50% at 90% 100%,rgba(227,179,65,.05),transparent 55%),
+  var(--void);color:var(--text);font-family:var(--ffb);line-height:1.6;min-height:100dvh;-webkit-font-smoothing:antialiased;}
+::selection{background:var(--goldsoft);}
+
+.wrap{max-width:1080px;margin:0 auto;padding:28px 22px 70px;}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;flex-wrap:wrap;gap:14px;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand .seal{width:40px;height:40px;border-radius:11px;background:radial-gradient(circle at 30% 30%,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(227,179,65,.22);}
+.brand .seal svg{width:23px;height:23px;}
+.brand .nm{font-family:var(--ffd);font-weight:600;font-size:20px;}
+.brand .nm b{color:var(--gold2);}
+.brand .sub{font-family:var(--ffm);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);}
+.who{font-family:var(--ffm);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:10px;}
+.who .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);}
+.who a{color:var(--faint);text-decoration:none;border-bottom:1px solid var(--line2);}
+
+/* metrics */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+@media (max-width:760px){.metrics{grid-template-columns:repeat(2,1fr);}}
+.metric{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:18px;}
+.metric .ml{font-family:var(--ffm);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.metric .mv{font-family:var(--ffd);font-weight:600;font-size:30px;line-height:1;}
+.metric .mv small{font-size:15px;color:var(--soft);font-weight:400;}
+.metric .mb{margin-top:10px;height:4px;border-radius:4px;background:rgba(232,226,255,.07);overflow:hidden;}
+.metric .mb i{display:block;height:100%;border-radius:4px;}
+
+/* eixos médios */
+.eixos-avg{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px 22px;margin-bottom:28px;}
+.eixos-avg h3{font-family:var(--ffm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.ea-row{display:flex;align-items:center;gap:14px;margin-bottom:11px;}
+.ea-row:last-child{margin-bottom:0;}
+.ea-name{font-size:13.5px;color:var(--soft);width:190px;flex-shrink:0;}
+@media (max-width:560px){.ea-name{width:120px;font-size:12px;}}
+.ea-bar{flex:1;height:7px;border-radius:7px;background:rgba(232,226,255,.06);overflow:hidden;}
+.ea-bar i{display:block;height:100%;border-radius:7px;}
+.ea-val{font-family:var(--ffm);font-size:12px;font-weight:700;width:42px;text-align:right;}
+
+/* toolbar */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.toolbar .ttl{font-family:var(--ffd);font-weight:600;font-size:18px;flex:1;}
+.chip{font-family:var(--ffm);font-size:11px;padding:7px 13px;border-radius:30px;border:1px solid var(--line2);color:var(--muted);background:transparent;cursor:pointer;transition:all .18s;}
+.chip:hover{border-color:var(--line2);color:var(--soft);}
+.chip.on{border-color:var(--gold);color:var(--gold2);background:var(--goldsoft);}
+
+/* feedback cards */
+.fb{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px 22px;margin-bottom:14px;transition:border-color .2s;}
+.fb.unread{border-left:3px solid var(--gold);}
+.fb-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px;}
+.fb-who{display:flex;align-items:center;gap:11px;}
+.fb-av{width:38px;height:38px;border-radius:11px;background:var(--raise);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-family:var(--ffd);font-weight:600;font-size:16px;color:var(--gold2);}
+.fb-name{font-family:var(--ffd);font-weight:600;font-size:15.5px;}
+.fb-meta{font-family:var(--ffm);font-size:10.5px;color:var(--faint);margin-top:1px;}
+.fb-tag{font-family:var(--ffm);font-size:10px;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.fb-tag.paid{color:var(--gold);background:var(--goldsoft);border:1px solid rgba(227,179,65,.3);}
+.fb-tag.free{color:var(--teal);background:var(--tealsoft);border:1px solid rgba(87,208,192,.3);}
+.fb-tag.nav{color:var(--muted);background:rgba(148,152,188,.1);border:1px solid var(--line2);}
+.fb-stars{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 20px;margin:12px 0;}
+@media (max-width:560px){.fb-stars{grid-template-columns:1fr;}}
+.fb-star-row{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--soft);}
+.fb-star-row .s{color:var(--gold);letter-spacing:1px;font-size:12px;}
+.fb-comment{font-family:var(--ffd);font-style:italic;font-size:15px;color:var(--soft);line-height:1.6;padding:12px 16px;background:var(--void);border-radius:11px;border-left:2px solid var(--line2);margin:12px 0;}
+.fb-actions{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.fb-btn{font-family:var(--ffb);font-size:13px;font-weight:500;padding:9px 16px;border-radius:9px;border:1px solid var(--line2);background:transparent;color:var(--soft);cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:7px;text-decoration:none;}
+.fb-btn:hover{border-color:var(--teal);color:var(--teal2);}
+.fb-btn.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1405;border:none;font-weight:600;}
+.fb-btn.gold:hover{color:#1a1405;opacity:.92;}
+.fb-done{font-family:var(--ffm);font-size:10.5px;color:var(--teal);display:inline-flex;align-items:center;gap:6px;}
+
+.preview-note{background:var(--goldsoft);border:1px solid rgba(227,179,65,.3);border-radius:12px;padding:14px 18px;margin-bottom:24px;font-size:13px;color:var(--gold2);line-height:1.6;}
+.preview-note b{font-family:var(--ffd);}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  window.AG_SUPABASE_URL = "https://wthhnpgfqfqidbciyumc.supabase.co";
+  window.AG_SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0aGhucGdmcWZxaWRiY2l5dW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjY1NTAsImV4cCI6MjA5Nzc0MjU1MH0.UcQI-G3Jb7KDE1x_iUbrgsegpOS6ZLJ1pBM90ijpci0";
+  window.agSupa = window.supabase.createClient(window.AG_SUPABASE_URL, window.AG_SUPABASE_ANON);
+</script>
+</head>
+<body>
+<div id="login-screen" style="min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:22px;">
+  <div style="width:100%;max-width:380px;background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:18px;padding:36px 30px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+      <div class="seal" style="width:40px;height:40px;border-radius:11px;background:radial-gradient(circle at 30% 30%,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" style="width:23px;height:23px;"><circle cx="12" cy="12" r="2.6" stroke="#1a1405" stroke-width="1.4"/><circle cx="12" cy="6.2" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="12" cy="17.8" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="7" cy="9.1" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="17" cy="9.1" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="7" cy="14.9" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="17" cy="14.9" r="2.2" stroke="#1a1405" stroke-width="1.2"/></svg></div>
+      <div><div class="nm" style="font-family:var(--ffd);font-weight:600;font-size:20px;">Anti<b style="color:var(--gold2)">Guru</b> · Central</div></div>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:24px;font-family:var(--ffm);">Painel de quem cuida. Acesso restrito.</p>
+    <input id="login-email" type="email" placeholder="seu e-mail" autocomplete="username" style="width:100%;padding:13px 15px;margin-bottom:11px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-size:15px;font-family:var(--ffb);">
+    <input id="login-pass" type="password" placeholder="sua senha" autocomplete="current-password" style="width:100%;padding:13px 15px;margin-bottom:18px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-size:15px;font-family:var(--ffb);">
+    <button id="login-btn" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1405;border:none;border-radius:10px;font-weight:600;font-size:15px;font-family:var(--ffb);cursor:pointer;">Entrar</button>
+    <p id="login-err" style="color:var(--red);font-size:13px;margin-top:14px;text-align:center;min-height:18px;"></p>
+  </div>
+</div>
+
+<div class="wrap" id="painel" style="display:none;">
+
+  <div class="top">
+    <div class="brand">
+      <div class="seal"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.6" stroke="#1a1405" stroke-width="1.4"/><circle cx="12" cy="6.2" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="12" cy="17.8" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="7" cy="9.1" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="17" cy="9.1" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="7" cy="14.9" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="17" cy="14.9" r="2.2" stroke="#1a1405" stroke-width="1.2"/></svg></div>
+      <div>
+        <div class="nm">Anti<b>Guru</b> · Central</div>
+        <div class="sub">Painel de quem cuida</div>
+      </div>
+    </div>
+    <div class="who"><span class="dot"></span> Henrique · <a href="#" id="logout">sair</a></div>
+  </div>
+
+  <div class="preview-note" id="liveNote" style="display:none;">
+    <b>Conectado.</b> Os feedbacks reais das pessoas que usaram o AntiGuru aparecem aqui em tempo real.
+  </div>
+
+  <!-- MÉTRICAS -->
+  <div class="metrics">
+    <div class="metric"><div class="ml">Total de vozes</div><div class="mv">3</div><div class="mb"><i style="width:100%;background:var(--teal)"></i></div></div>
+    <div class="metric"><div class="ml">Não lidos</div><div class="mv" style="color:var(--gold2)">2</div><div class="mb"><i style="width:66%;background:var(--gold)"></i></div></div>
+    <div class="metric"><div class="ml">Média geral</div><div class="mv">4.2<small>/5</small></div><div class="mb"><i style="width:84%;background:var(--gold)"></i></div></div>
+    <div class="metric"><div class="ml">Recomendariam</div><div class="mv">100<small>%</small></div><div class="mb"><i style="width:100%;background:var(--teal)"></i></div></div>
+  </div>
+
+  <!-- MÉDIA POR EIXO -->
+  <div class="eixos-avg">
+    <h3>Média por dimensão</h3>
+    <div class="ea-row"><span class="ea-name">Navegação do site</span><span class="ea-bar"><i style="width:93%;background:var(--teal)"></i></span><span class="ea-val" style="color:var(--teal)">4.7</span></div>
+    <div class="ea-row"><span class="ea-name">Comunicação / textos</span><span class="ea-bar"><i style="width:86%;background:var(--teal)"></i></span><span class="ea-val" style="color:var(--teal)">4.3</span></div>
+    <div class="ea-row"><span class="ea-name">Clareza que trouxe</span><span class="ea-bar"><i style="width:80%;background:var(--gold)"></i></span><span class="ea-val" style="color:var(--gold)">4.0</span></div>
+    <div class="ea-row"><span class="ea-name">Resultado (quem pagou)</span><span class="ea-bar"><i style="width:75%;background:var(--gold)"></i></span><span class="ea-val" style="color:var(--gold)">3.7</span></div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <span class="ttl">Vozes recebidas</span>
+    <button class="chip on">Todos</button>
+    <button class="chip">Não lidos</button>
+    <button class="chip">Pagantes</button>
+  </div>
+
+  <!-- LISTA -->
+  <div id="lista"></div>
+
+</div>
+
+<script>
+var supa = window.agSupa;
+var FB = [];        // feedbacks reais
+var filtro = 'todos';
+
+function esc(s){return (s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function stars(n){ if(!n) return '<span style="color:var(--faint)">—</span>'; return '<span class="s">'+'★★★★★☆☆☆☆☆'.slice(5-n,10-n)+'</span>'; }
+function tagClass(perfil){ if(/pag/i.test(perfil))return 'paid'; if(/prév|prev/i.test(perfil))return 'free'; return 'nav'; }
+function quando(iso){ try{var d=new Date(iso);var diff=(Date.now()-d)/1000;
+  if(diff<3600)return 'há '+Math.max(1,Math.floor(diff/60))+' min';
+  if(diff<86400)return 'há '+Math.floor(diff/3600)+'h';
+  return 'há '+Math.floor(diff/86400)+'d'; }catch(e){return '';} }
+
+// ---- LOGIN ----
+async function tentarLogin(){
+  var email=document.getElementById('login-email').value.trim();
+  var pass=document.getElementById('login-pass').value;
+  var err=document.getElementById('login-err');
+  err.textContent='';
+  if(!email||!pass){ err.textContent='Preencha e-mail e senha.'; return; }
+  document.getElementById('login-btn').textContent='Entrando...';
+  try{
+    var r=await supa.auth.signInWithPassword({email:email,password:pass});
+    if(r.error){ err.textContent='E-mail ou senha incorretos.'; document.getElementById('login-btn').textContent='Entrar'; return; }
+    mostrarPainel();
+  }catch(e){ err.textContent='Erro ao conectar. Tente de novo.'; document.getElementById('login-btn').textContent='Entrar'; }
+}
+async function sair(){ await supa.auth.signOut(); location.reload(); }
+
+function mostrarPainel(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('painel').style.display='block';
+  document.getElementById('liveNote').style.display='block';
+  carregar();
+}
+
+// ---- CARREGAR FEEDBACKS REAIS ----
+async function carregar(){
+  try{
+    var r=await supa.from('feedbacks').select('*').order('criado_em',{ascending:false});
+    if(r.error){ console.error(r.error); return; }
+    FB=r.data||[];
+    metricas(); renderLista();
+  }catch(e){ console.error(e); }
+}
+
+function media(campo){ var v=FB.filter(f=>f[campo]); if(!v.length)return 0; return (v.reduce((a,f)=>a+f[campo],0)/v.length); }
+
+function metricas(){
+  var total=FB.length;
+  var naoLidos=FB.filter(f=>!f.lido).length;
+  var nav=media('nav'),com=media('com'),cla=media('cla'),res=media('res');
+  var todas=[nav,com,cla,res].filter(x=>x>0);
+  var geral=todas.length?(todas.reduce((a,b)=>a+b,0)/todas.length):0;
+  // % recomendariam = média geral >= 3.5 entre quem comentou? usamos nota geral alta como proxy: quem deu >=4 em clareza
+  var comCla=FB.filter(f=>f.cla);
+  var recomenda=comCla.length?Math.round(comCla.filter(f=>f.cla>=4).length/comCla.length*100):0;
+
+  var m=document.querySelectorAll('.metrics .metric .mv');
+  if(m[0]) m[0].textContent=total;
+  if(m[1]) m[1].textContent=naoLidos;
+  if(m[2]) m[2].innerHTML=geral.toFixed(1)+'<small>/5</small>';
+  if(m[3]) m[3].innerHTML=recomenda+'<small>%</small>';
+  var mb=document.querySelectorAll('.metrics .metric .mb i');
+  if(mb[1]) mb[1].style.width=(total?naoLidos/total*100:0)+'%';
+  if(mb[2]) mb[2].style.width=(geral/5*100)+'%';
+  if(mb[3]) mb[3].style.width=recomenda+'%';
+
+  var rows=document.querySelectorAll('.eixos-avg .ea-row');
+  var vals=[nav,com,cla,res];
+  rows.forEach(function(row,i){
+    var bar=row.querySelector('.ea-bar i'); var val=row.querySelector('.ea-val');
+    if(bar) bar.style.width=(vals[i]/5*100)+'%';
+    if(val) val.textContent=vals[i]?vals[i].toFixed(1):'—';
+  });
+}
+
+function listaFiltrada(){
+  if(filtro==='naolidos') return FB.filter(f=>!f.lido);
+  if(filtro==='pagantes') return FB.filter(f=>/pag/i.test(f.perfil||''));
+  return FB;
+}
+
+function renderLista(){
+  var list=listaFiltrada();
+  var html=list.length?list.map(function(f){
+    return '<div class="fb '+(f.lido?'':'unread')+'">'
+      +'<div class="fb-top"><div class="fb-who"><div class="fb-av">'+esc((f.nome||'A').charAt(0).toUpperCase())+'</div>'
+      +'<div><div class="fb-name">'+esc(f.nome||'Anônimo')+'</div><div class="fb-meta">'+quando(f.criado_em)+'</div></div></div>'
+      +'<span class="fb-tag '+tagClass(f.perfil)+'">'+esc(f.perfil||'')+'</span></div>'
+      +'<div class="fb-stars">'
+      +'<div class="fb-star-row"><span>Navegação</span>'+stars(f.nav)+'</div>'
+      +'<div class="fb-star-row"><span>Comunicação</span>'+stars(f.com)+'</div>'
+      +'<div class="fb-star-row"><span>Clareza</span>'+stars(f.cla)+'</div>'
+      +'<div class="fb-star-row"><span>Resultado</span>'+stars(f.res)+'</div></div>'
+      +(f.comentario?'<div class="fb-comment">"'+esc(f.comentario)+'"</div>':'')
+      +'<div class="fb-actions">'
+      +(f.lido?'<span class="fb-done">✓ lido</span>':'<button class="fb-btn" data-lido="'+f.id+'">Marcar como lido</button>')
+      +'</div></div>';
+  }).join(''):'<p style="color:var(--muted);text-align:center;padding:40px;">Nenhum feedback ainda. Quando alguém avaliar no site, aparece aqui.</p>';
+  document.getElementById('lista').innerHTML=html;
+  document.querySelectorAll('[data-lido]').forEach(function(b){
+    b.addEventListener('click',function(){ marcarLido(b.getAttribute('data-lido')); });
+  });
+}
+
+async function marcarLido(id){
+  try{ await supa.from('feedbacks').update({lido:true}).eq('id',id);
+    var f=FB.find(x=>x.id===id); if(f)f.lido=true; metricas(); renderLista();
+  }catch(e){ console.error(e); }
+}
+
+// ---- EVENTOS ----
+document.getElementById('login-btn').addEventListener('click',tentarLogin);
+document.getElementById('login-pass').addEventListener('keydown',function(e){ if(e.key==='Enter')tentarLogin(); });
+document.getElementById('logout').addEventListener('click',function(e){ e.preventDefault(); sair(); });
+document.querySelectorAll('.toolbar .chip').forEach(function(c){
+  c.addEventListener('click',function(){
+    document.querySelectorAll('.toolbar .chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');
+    var t=c.textContent.toLowerCase();
+    filtro=t.includes('não')?'naolidos':(t.includes('pag')?'pagantes':'todos');
+    renderLista();
+  });
+});
+
+// ---- sessão persistente: se já logado, mostra painel ----
+(async function(){
+  try{ var s=await supa.auth.getSession(); if(s.data && s.data.session){ mostrarPainel(); } }catch(e){}
+})();
+</script>
+</body>
+</html>
