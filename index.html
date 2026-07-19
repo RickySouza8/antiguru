@@ -419,6 +419,16 @@
   .ck-privlink{background:none;border:0;padding:0;color:var(--teal);text-decoration:underline;cursor:pointer;font-size:12.5px;font-family:inherit;}
   .ck-privlink:hover{color:var(--gold2);}
 
+  /* checkout: passos objetivos (substitui a justificativa) */
+  .ck-comofunciona{background:rgba(87,208,192,.05);border:1px solid rgba(87,208,192,.2);border-radius:12px;padding:15px 16px;margin-bottom:16px;}
+  .ck-cf-t{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+  .ck-cf-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--soft);line-height:1.5;margin-bottom:8px;}
+  .ck-cf-item span{flex:none;width:20px;height:20px;border-radius:50%;background:var(--tealsoft);border:1px solid rgba(87,208,192,.35);color:var(--teal);font-family:'Space Mono',monospace;font-weight:700;font-size:10px;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .ck-cf-nota{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted);line-height:1.5;}
+  /* checkout: garantia curta (2 linhas, sem parágrafo) */
+  .ck-garantia{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+  .ck-garantia span{font-size:13px;color:var(--soft);line-height:1.4;}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -1129,6 +1139,12 @@ window.AG_LIDO = null;   // o que a function trouxe
       document.getElementById('agModoLink').style.display  = m==='link' ?'block':'none';
       document.getElementById('agModoTexto').style.display = m==='texto'?'block':'none';
       document.getElementById('agErr').textContent='';
+      // Ao alternar, limpa o resultado de leitura do link e o próprio link,
+      // pra não deixar o link antigo pendurado (feedback de teste).
+      var lido = document.getElementById('agLido');
+      if(lido){ lido.className='ag-lido'; lido.innerHTML=''; }
+      window.AG_LIDO = null;
+      if(m==='texto'){ var lk=document.getElementById('agLink'); if(lk) lk.value=''; }
     });
   });
 })();
@@ -1549,8 +1565,12 @@ const AGCheckout = (function(){
           <a class="btn ck-pix" id="ckPix" href="#" target="_blank" rel="noopener">Pagar com Pix — R$29 (sem taxa)</a>
         </div>
 
-        <div class="ck-honest">
-          <b>O que acontece depois.</b> O Pix e o cartão são processados fora do site — eu não recebo aviso automático de quem pagou. Por isso confiro manualmente, todo dia. Quando eu identificar o seu pagamento, começo a análise e te entrego em até 24h. Se algo não bater, eu te procuro no seu canal — não sumo.
+        <div class="ck-comofunciona">
+          <div class="ck-cf-t">Como funciona</div>
+          <div class="ck-cf-item"><span>1</span> Você paga por um dos botões acima.</div>
+          <div class="ck-cf-item"><span>2</span> Confirmo seu pagamento (confiro na mão, algumas vezes por dia).</div>
+          <div class="ck-cf-item"><span>3</span> Faço a análise e te entrego em até 24h, no seu canal.</div>
+          <div class="ck-cf-nota">Pagou? Toque em "Já paguei" abaixo — assim eu já fico sabendo.</div>
         </div>
 
         <button class="ck-ghost" id="ckJaPaguei">Já paguei &rarr;</button>
@@ -1560,22 +1580,23 @@ const AGCheckout = (function(){
       <!-- PASSO 3 — CONFIRMAÇÃO -->
       <div id="ckP3" style="display:none;">
         <div class="ck-ok"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#F4DFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="ck-t" style="text-align:center;">Está no meu radar.</div>
-        <p class="ck-d" style="text-align:center;">Seu pedido está registrado e eu vou conferir o pagamento.</p>
+        <div class="ck-t" style="text-align:center;">Pedido registrado. ✓</div>
+        <p class="ck-d" style="text-align:center;">Assim que eu confirmar seu pagamento, faço a análise e te entrego em até 24h.</p>
 
-        <div style="background:#0b1124;border:1px solid var(--line);border-radius:12px;padding:6px 16px;margin-bottom:18px;">
+        <div style="background:#0b1124;border:1px solid var(--line);border-radius:12px;padding:6px 16px;margin-bottom:16px;">
           <div class="ck-line"><span>Código</span><span id="ckCod3">—</span></div>
           <div class="ck-line"><span>Você recebe por</span><span id="ckCanal3">—</span></div>
           <div class="ck-line"><span>No contato</span><span id="ckCont3">—</span></div>
-          <div class="ck-line"><span>Prazo</span><span>até 24h após eu confirmar o pagamento</span></div>
+          <div class="ck-line"><span>Prazo</span><span>até 24h após a confirmação</span></div>
         </div>
 
-        <div class="ck-honest">
-          <b>Sendo direto com você.</b> Eu não tenho confirmação automática de pagamento — confiro na mão. Isso quer dizer que pode levar algumas horas até eu ver o seu Pix ou cartão cair. Se depois de <b style="display:inline">24h</b> nada chegou, me cobre: o código acima resolve em um minuto. E se a análise não te servir, o reembolso vale por 7 dias, sem discussão.
+        <div class="ck-garantia">
+          <span>✓ Reembolso em 7 dias se não te servir</span>
+          <span>✓ Não chegou em 24h? Me cobre com o código</span>
         </div>
 
-        <a class="btn ck-pix" id="ckAvisar" href="#" target="_blank" rel="noopener" style="width:100%;justify-content:center;">Me avisar no WhatsApp que paguei (acelera)</a>
-        <p style="font-size:12px;color:var(--muted);margin-top:14px;text-align:center;line-height:1.6;">Você pode fechar esta janela. O pedido já está guardado.</p>
+        <a class="btn ck-pix" id="ckAvisar" href="#" target="_blank" rel="noopener" style="width:100%;justify-content:center;">Avisar que paguei (acelera a entrega)</a>
+        <p style="font-size:12px;color:var(--muted);margin-top:14px;text-align:center;line-height:1.6;">Pode fechar esta janela — seu pedido está guardado.</p>
       </div>
 
     </div>
