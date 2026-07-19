@@ -343,6 +343,68 @@
   .ag-ctx-in{padding:0 15px 15px;}
   .ag-ctx-in p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:10px;}
   .ag-ctx-in p b{color:var(--soft);}
+
+  /* ===== CAMADA 1: link contextual do guia ===== */
+  .ag-guia-link{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:12.5px;color:var(--teal);cursor:pointer;background:none;border:none;padding:0;text-align:left;}
+  .ag-guia-link:hover{text-decoration:underline;}
+  .ag-guia-link svg{width:13px;height:13px;flex:none;}
+
+  /* ===== CAMADA 4: termo do glossário ===== */
+  .ag-termo{border-bottom:1px dotted var(--gold);cursor:help;color:var(--gold2);font-weight:500;}
+
+  /* modal genérico do conhecimento (guia + glossário + padrões) */
+  .ag-kmodal{position:fixed;inset:0;z-index:110;display:none;align-items:center;justify-content:center;padding:20px;}
+  .ag-kmodal.open{display:flex;}
+  .ag-kmodal-bg{position:absolute;inset:0;background:rgba(4,6,12,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+  .ag-kmodal-box{position:relative;width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;
+    background:linear-gradient(165deg,var(--surface2),var(--surface));border:1px solid rgba(87,208,192,.3);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.6);overflow:hidden;}
+  .ag-kmodal-head{flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:22px 24px 16px;border-bottom:1px solid var(--line);}
+  .ag-kmodal-head h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;line-height:1.3;}
+  .ag-kmodal-head .why{font-size:13px;color:var(--soft);margin-top:5px;line-height:1.5;}
+  .ag-kmodal-x{background:none;border:0;color:var(--muted);font-size:26px;line-height:1;cursor:pointer;padding:0 2px;flex:none;}
+  .ag-kmodal-x:hover{color:var(--text);}
+  .ag-kmodal-body{padding:20px 24px 26px;overflow-y:auto;}
+  /* passos numerados do guia */
+  .ag-step{display:flex;gap:13px;padding:11px 0;border-bottom:1px solid rgba(232,226,255,.05);}
+  .ag-step:last-child{border-bottom:none;}
+  .ag-step-n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--tealsoft);border:1px solid rgba(87,208,192,.35);color:var(--teal);font-family:'Space Mono',monospace;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .ag-step-t{font-size:14px;color:var(--soft);line-height:1.6;}
+  .ag-kmodal-foot{flex:none;padding:14px 24px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.55;background:rgba(0,0,0,.15);}
+
+  /* glossário: item */
+  .ag-gloss-item{padding:14px 0;border-bottom:1px solid var(--line);}
+  .ag-gloss-item:last-child{border-bottom:none;}
+  .ag-gloss-t{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--gold2);margin-bottom:4px;}
+  .ag-gloss-d{font-size:13.5px;color:var(--soft);line-height:1.6;}
+
+  /* ===== CAMADA 2: checklist ===== */
+  .ag-check{margin-top:18px;background:rgba(87,208,192,.05);border:1px solid rgba(87,208,192,.25);border-radius:14px;padding:18px 20px;}
+  .ag-check-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;}
+  .ag-check-h b{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;color:var(--teal);}
+  .ag-check-prog{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);}
+  .ag-check-sub{font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:14px;}
+  .ag-check-item{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-top:1px solid rgba(232,226,255,.06);cursor:pointer;}
+  .ag-check-box{flex:none;width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line2);margin-top:1px;display:flex;align-items:center;justify-content:center;transition:.15s;}
+  .ag-check-box svg{width:13px;height:13px;opacity:0;transition:.15s;}
+  .ag-check-item.done .ag-check-box{background:var(--teal);border-color:var(--teal);}
+  .ag-check-item.done .ag-check-box svg{opacity:1;}
+  .ag-check-txt{font-size:13.5px;color:var(--soft);line-height:1.55;}
+  .ag-check-item.done .ag-check-txt{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(148,152,188,.4);}
+  .ag-check-txt .lk{color:var(--teal);cursor:pointer;text-decoration:underline;font-weight:600;}
+  .ag-check-done-msg{margin-top:14px;padding:13px 15px;background:rgba(87,208,192,.1);border-radius:10px;font-size:13.5px;color:var(--soft);line-height:1.6;display:none;}
+  .ag-check-done-msg.show{display:block;}
+  .ag-check-done-msg b{color:var(--teal);}
+
+  /* ===== CAMADA 3: seção padrões na home ===== */
+  .ag-pad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:28px;}
+  .ag-pad{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:14px;padding:20px;}
+  .ag-pad-n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;margin-bottom:10px;color:var(--text);}
+  .ag-pad-lb{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;margin-top:12px;}
+  .ag-pad-tx{font-size:13px;color:var(--soft);line-height:1.6;}
+  .ag-pad-tx.gat{color:var(--muted);font-style:italic;}
+  .ag-pad-resist{border-left:2px solid var(--teal);padding-left:11px;margin-top:12px;}
+  .ag-pad-resist .ag-pad-lb{color:var(--teal);margin-top:0;}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -373,6 +435,7 @@
       <a href="#analisar">Analisar</a>
       <a href="#protecao">Proteção</a>
       <a href="#como">Como funciona</a>
+      <a href="#padroes">Técnicas do guru</a>
       <a href="#exemplos">Exemplos</a>
       <a href="#oferta">Oferta</a>      <a class="nav-wa" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
@@ -576,6 +639,17 @@
       </div>
 
     <p class="disc">Casos ilustrativos e fictícios. O AntiGuru lê o texto da oferta e entrega clareza — a decisão de comprar ou não é sempre sua.</p>
+  </div>
+</section>
+
+<!-- ===== PADRÕES DO GURU (Camada 3) ===== -->
+<section class="sec" id="padroes">
+  <div class="wrap">
+    <div class="eyebrow reveal">Aprenda a ver sozinho</div>
+    <h2 class="reveal">As técnicas que todo guru usa.</h2>
+    <p class="lead reveal" style="color:var(--muted);max-width:60ch;">O AntiGuru não quer te deixar dependente dele. Estas são as manobras que aparecem em toda oferta manipuladora — de curso de inglês a mentoria de milhão. Aprenda a reconhecê-las, e você não vai mais precisar de ninguém para não cair.</p>
+    <div class="ag-pad-grid" id="agPadroes"></div>
+    <p class="disc" style="margin-top:24px;">O mesmo conjunto de técnicas que o motor lê no seu texto. Aqui, explicadas para você usar em qualquer oferta, com ou sem o AntiGuru.</p>
   </div>
 </section>
 
@@ -794,6 +868,16 @@ const Engine = {
     const cnpjMalf  = cnpjRaw.length>0 && !cnpjOk;
     const contexto  = (input.contexto||'').toLowerCase();
 
+    /* Leitura pode ter sido PARCIAL: veio por link (rodapé costuma escapar),
+       ou o texto é curto demais para conter rodapé/quem-somos.
+       input.parcial pode ser marcado pela leitura por link. */
+    const textoLen = (input.texto||'').length;
+    const leituraParcial = input.parcial === true || (input.origem && textoLen < 3000) || textoLen < 400;
+
+    /* Sinais de INFORMALIDADE: quando a ausência de CNPJ não é incerteza de
+       leitura, mas padrão de quem não quer ser rastreado. */
+    const informalidade = /(link na bio|link da bio|linktr|beacons\.|wa\.me|whatsapp.*\d{4}|chame no (whats|direct|dm)|manda um dm|chama no direct|via pix para (a )?chave|pix para o cpf|dep[óo]sito na conta|transfer[êe]ncia para|minha conta|sou (eu|o|a) \w+ e vou te ensinar|meu m[ée]todo pessoal)/i.test(rawText);
+
     const ctx = {
       urgencia: /desemprego|d[ií]vida|preciso de dinheiro|renda urgente|sem (dinheiro|grana|renda)|apertad|endividad|contas? atrasad|desempregad|último dinheiro|ultimo dinheiro/.test(contexto),
       medo:     /[uú]ltima chance|n[aã]o quero perder|oportunidade [uú]nica|medo de perder|vai acabar|perder a chance|fomo/.test(contexto),
@@ -807,17 +891,23 @@ const Engine = {
     const temPromessa = sinais.some(s=>s.id==='ganho_garantido'||s.id==='resultado_com_prazo'||s.id==='pressao_emocional');
     const descreveConteudo = RX_CONTEUDO.test(text);
 
-    if(temPromessa && !descreveConteudo){
+    if(temPromessa && !descreveConteudo && !leituraParcial){
       sinais.push({id:'opacidade', label:'Promete muito e não diz o que entrega', weight:16,
-        exp:'A oferta faz promessa forte mas não descreve conteúdo, método ou credenciais. Promessa sem lastro é a assinatura mais comum da oferta vazia.'});
+        exp:'A oferta faz promessa forte mas não descreve conteúdo, método ou credenciais no texto. Promessa sem lastro é a assinatura mais comum da oferta vazia. Confirme: peça a ementa por escrito — módulos, carga horária, o que exatamente você recebe.'});
     }
-    if(!cnpjOk && !cnpjMalf && !RX_CNPJ_TXT.test(text)){
-      sinais.push({id:'sem_responsavel', label:'Nenhum responsável legal identificável', weight:14,
-        exp:'Não há CNPJ na oferta. Sem isso, se der errado você não tem a quem reclamar, nem onde processar, nem como saber se a empresa já quebrou antes com outro nome.'});
+
+    /* CNPJ — TRÊS ESTADOS, nunca afirma o que não viu.
+       1) encontrado → rastreabilidade (zero ponto)
+       2) não encontrado + leitura pode ter sido parcial → NÃO pontua, vira verificação
+       3) não encontrado + sinais de informalidade → pontua (ausência intencional) */
+    const cnpjAusente = !cnpjOk && !cnpjMalf && !RX_CNPJ_TXT.test(text);
+    if(cnpjAusente && informalidade){
+      sinais.push({id:'sem_rastro_informal', label:'Sem responsável legal e com sinais de informalidade', weight:16,
+        exp:'Não encontrei CNPJ e a oferta tem marcas de venda informal (pagamento em conta pessoal, contato só por DM, "meu método pessoal"). Juntas, essas coisas indicam que talvez não haja empresa a quem responsabilizar. Antes de pagar, exija o CNPJ. Se não houver, você não tem a quem reclamar, onde processar, nem como saber se já quebraram antes com outro nome.'});
     }
     if(cnpjMalf){
       sinais.push({id:'cnpj_invalido', label:'CNPJ informado não é válido', weight:14,
-        exp:'O CNPJ que você digitou não passa na verificação de dígito. Pode ser erro de digitação — ou pode ser um número inventado para parecer legítimo.'});
+        exp:'O CNPJ que você digitou não passa na verificação de dígito. Pode ser erro de digitação — ou pode ser um número inventado para parecer legítimo. Confira o número e consulte grátis na Receita Federal.'});
     }
 
     /* ---------- 2. ÍNDICE DE RISCO (só sinais pontuam) ---------- */
@@ -855,9 +945,16 @@ const Engine = {
     } else if(cnpjMalf){
       rastro = { status:'ruim', label:'CNPJ informado é inválido',
         nota:'O número não passa na verificação. Confira a digitação. Se o vendedor te passou esse número, isso por si só já é um dado.' };
+    } else if(RX_CNPJ_TXT.test(text)){
+      rastro = { status:'ok', label:'Há menção de CNPJ no texto',
+        nota:'O texto menciona um CNPJ. Copie o número e confirme grátis na Receita Federal (situação cadastral) — ver o número não é o mesmo que ele estar ativo e corresponder a quem vende.' };
+    } else if(informalidade){
+      rastro = { status:'ausente', label:'Não encontrei CNPJ, e há sinais de informalidade',
+        nota:'Não achei CNPJ no texto, e a oferta tem marcas de venda informal (conta pessoal, contato só por DM). Peça o CNPJ direto ao vendedor antes de pagar. Se não houver empresa por trás, você não tem a quem reclamar — e isso, aqui, é um risco de verdade.' };
     } else {
-      rastro = { status:'ausente', label:'Sem CNPJ identificável',
-        nota:'Sem responsável legal, não há a quem reclamar. Peça o CNPJ antes de pagar — se recusarem, isso responde muita coisa.' };
+      rastro = { status:'incerto', label:'Não encontrei CNPJ no texto que li',
+        nota:'Atenção: isto NÃO quer dizer que a empresa não tenha CNPJ. Quer dizer que não apareceu no texto que analisei — e o CNPJ costuma ficar no rodapé ou na página "quem somos", que nem sempre entram na leitura. Como verificar: (1) role a página de vendas até o rodapé; (2) procure uma página "quem somos", "termos" ou "política de privacidade"; (3) se achar o número, consulte grátis na Receita Federal. Só trate a ausência como problema depois de procurar nesses lugares e não achar.',
+        comoVerificar:true };
     }
 
     /* ---------- 4. DECLARADO NA OFERTA (a confirmar, NÃO é ponto) ---------- */
@@ -872,7 +969,7 @@ const Engine = {
       { t:'Reclamações públicas', d:'Busque o nome do produto e o nome de quem vende no Reclame Aqui, no Google e no Procon. É aqui que a verdade aparece — não na página de vendas.' },
       { t:'Idade e situação da empresa', d:'Consulte o CNPJ na Receita Federal (grátis). Empresa aberta há poucos meses vendendo promessa grande é padrão de quem arrecada e some.' },
       { t:'O rastro da pessoa', d:'Procure o nome do vendedor fora do funil dele. Já teve outro produto? Ele sumiu? Trocou de nome? O histórico conta o que o texto esconde.' },
-      { t:'Alguém que terminou', d:'Peça o contato de duas pessoas que concluíram — não depoimentos postados. A recusa é resposta.' },
+      { t:'Alguém que terminou', d:'Peça ao vendedor o contato de duas pessoas que concluíram — não depoimentos postados, que são fáceis de fabricar. Se der, procure ex-alunos por conta própria: busque o nome do curso em grupos de Facebook, no Reddit, no Twitter/X. Pergunte a elas: "terminou? valeu o preço? o que não te contaram antes?" A recusa do vendedor em dar contatos já é uma resposta.' },
     ];
 
     /* ---------- 6. LEITURA DO SEU CONTEXTO ---------- */
@@ -916,21 +1013,28 @@ window.AG_ULTIMA = null;
 
 function agRender(r){
   var sinais = r.sinais.length
-    ? r.sinais.map(function(n){ return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--red)">&#10007;</span>'+n.label+'</div><div class="ag-se">'+n.exp+'</div></div>'; }).join('')
+    ? r.sinais.map(function(n){
+        var guia = window.AG_SINAL_GUIA[n.id];
+        var link = guia ? '<button class="ag-guia-link" data-guia="'+guia+'"><svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>como verificar isto</button>' : '';
+        return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--red)">&#10007;</span>'+n.label+'</div><div class="ag-se">'+agGlossar(n.exp)+'</div>'+link+'</div>'; }).join('')
     : '<p style="color:var(--muted);font-size:14px;">Nenhum gatilho de manipulação foi identificado no texto enviado. Isso é bom — e é só o texto.</p>';
 
-  var rastroCor = r.rastro.status==='ok' ? 'var(--teal)' : (r.rastro.status==='ruim' ? 'var(--red)' : 'var(--amber)');
+  var rastroCor = r.rastro.status==='ok' ? 'var(--teal)' : (r.rastro.status==='ruim'||r.rastro.status==='ausente' ? 'var(--red)' : (r.rastro.status==='incerto' ? 'var(--soft)' : 'var(--amber)'));
   var rastro = '<div class="ag-rastro">'
     + '<div class="ag-st" style="margin-bottom:6px;"><span class="ag-sm" style="color:'+rastroCor+'">&#9673;</span>'+r.rastro.label+'</div>'
-    + '<div class="ag-se" style="padding-left:22px;">'+r.rastro.nota+'</div>'
+    + '<div class="ag-se" style="padding-left:22px;">'+agGlossar(r.rastro.nota)+'</div>'
+    + '<button class="ag-guia-link" data-guia="cnpj" style="margin-left:22px;"><svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>como achar e verificar um CNPJ</button>'
     + '<div class="ag-warn">CNPJ não é nota de confiança. É filtro de rastreabilidade — e vale zero ponto neste índice, de propósito.</div>'
     + '</div>';
 
   var decl = r.declarados.length
-    ? r.declarados.map(function(d){ return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--muted)">&#9633;</span>'+d.label+'</div><div class="ag-se">'+d.check+'</div></div>'; }).join('')
+    ? r.declarados.map(function(d){ return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--muted)">&#9633;</span>'+d.label+'</div><div class="ag-se">'+agGlossar(d.check)+'</div></div>'; }).join('')
     : '<p style="color:var(--muted);font-size:14px;">A oferta não declara conteúdo, reembolso, suporte nem quem ensina.</p>';
 
-  var ext = r.externos.map(function(e){ return '<div class="ag-ext"><div class="ag-ext-t">'+e.t+'</div><div class="ag-ext-d">'+e.d+'</div></div>'; }).join('');
+  var ext = r.externos.map(function(e){
+    var guia = window.AG_EXTERNO_GUIA[e.t];
+    var link = guia ? '<button class="ag-guia-link" data-guia="'+guia+'"><svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>passo a passo</button>' : '';
+    return '<div class="ag-ext"><div class="ag-ext-t">'+e.t+'</div><div class="ag-ext-d">'+agGlossar(e.d)+'</div>'+link+'</div>'; }).join('');
 
   var ctxBlock = r.contextTrend
     ? '<div class="ag-ctx"><b>Sobre o seu momento</b><p>'+escapeHtml(r.contextTrend)+'</p></div>' : '';
@@ -965,6 +1069,7 @@ function agRender(r){
    +   '<div class="ag-sec"><h4>O que só você pode verificar</h4>'
    +     '<p class="ag-hint">O AntiGuru lê o texto. A confiança mora aqui fora — e este é o trabalho que ninguém faz antes de pagar.</p>'
    +     ext
+   +     agBuildChecklist(r)
    +   '</div>'
 
    +   ctxBlock
@@ -1436,6 +1541,286 @@ const AGCheckout = (function(){
     </div>
   </div>
 </div>
+
+<script>
+/* ============================================================
+   ANTIGURU · BASE DE CONHECIMENTO
+   Uma fonte de verdade que alimenta:
+   - Camada 1: guia contextual (links do laudo → passo a passo)
+   - Camada 3: biblioteca de padrões de guru
+   - Camada 4: glossário honesto
+   O checklist (Camada 2) consome a lista de verificações daqui.
+   ============================================================ */
+
+/* ---------- GLOSSÁRIO (Camada 4) ----------
+   Termos que aparecem no laudo, em uma frase, sem jargão.
+   Chave em minúsculo; o render acha e faz virar link pontilhado. */
+window.AG_GLOSSARIO = {
+  'situação cadastral': 'O estado da empresa na Receita Federal. "Ativa" = funcionando; "Baixada" = fechada; "Inapta/Suspensa" = com pendências. Uma empresa baixada não pode te vender nada legalmente.',
+  'cnpj': 'O registro de uma empresa na Receita Federal — como um CPF, mas de empresa. Serve para você saber a quem reclamar e processar. Ter CNPJ não prova honestidade; a falta dele tira de você o direito de reclamar.',
+  'cdc': 'Código de Defesa do Consumidor — a lei brasileira que protege quem compra. O mais útil aqui é o artigo 49.',
+  'cdc art. 49': 'Direito de arrependimento: em compra feita fora de loja física (internet, WhatsApp), você pode desistir em até 7 dias e receber tudo de volta, sem precisar justificar. Vale para curso online.',
+  'chargeback': 'Pedido de estorno feito direto ao banco ou à operadora do cartão, quando o vendedor não resolve. É uma carta na manga se você pagou com cartão e foi lesado.',
+  'reclame aqui': 'Site onde consumidores registram queixas sobre empresas. Útil para ver o padrão das reclamações e se a empresa responde — mas cuidado: algumas empresas maquiam a página, então leia as queixas, não só a nota.',
+  'procon': 'Órgão público de defesa do consumidor. Registra queixas oficialmente e pode mediar conflitos. Reclamação no Procon tem peso legal, diferente de um comentário em rede social.',
+  'letras miúdas': 'As condições em texto pequeno de um contrato ou "garantia". É onde costuma estar o que esvazia a promessa grande — presença obrigatória, notas mínimas, prazos que ninguém cumpre.',
+  'funil': 'A sequência de páginas e mensagens desenhada para te levar do anúncio até o pagamento, cada passo removendo uma dúvida sua. Não é ilegal — mas saber que você está num funil já te tira do automático.',
+  'ementa': 'A lista do que o curso ensina, aula por aula, com carga horária. Curso sério tem ementa clara; oferta vazia fala de "transformação" e não diz o conteúdo.'
+};
+
+/* ---------- GUIA DE VERIFICAÇÃO (Camada 1) ----------
+   Cada verão é um passo a passo real, para quem nunca fez.
+   id casa com os links do laudo. */
+window.AG_GUIA = {
+  cnpj: {
+    titulo: 'Como achar e verificar um CNPJ',
+    porque: 'O CNPJ te diz a quem reclamar se der errado. Sem ele, você não tem para onde ir.',
+    passos: [
+      'Na página de vendas, role até o rodapé (o finalzinho). O CNPJ quase sempre está lá, em letras pequenas, perto do "©" ou de "todos os direitos reservados".',
+      'Não achou? Procure links chamados "Quem somos", "Sobre", "Termos de uso" ou "Política de privacidade" — o CNPJ costuma estar numa dessas.',
+      'Achou o número? Acesse o site da Receita Federal (busque no Google por "consulta CNPJ receita federal" — é gratuito e oficial).',
+      'Digite o CNPJ e veja a "situação cadastral". Você quer ver ATIVA. Se aparecer BAIXADA, a empresa está fechada. SUSPENSA ou INAPTA, há pendências sérias.',
+      'Repare também na data de abertura. Empresa aberta há poucos meses vendendo promessa enorme é um padrão de quem arrecada e some.',
+      'Ainda não achou CNPJ em lugar nenhum? Mande uma mensagem ao vendedor pedindo. A recusa ou enrolação já é a sua resposta.'
+    ]
+  },
+  reclamacoes: {
+    titulo: 'Como pesquisar reclamações sem cair em armadilha',
+    porque: 'É aqui que a verdade aparece — mas o vendedor sabe disso e tenta esconder.',
+    passos: [
+      'No Google, busque: o nome do curso + a palavra "reclame aqui". Depois busque de novo com "reclamação", "não recebi" e "golpe".',
+      'Cuidado com a primeira página do Google: os primeiros resultados podem ser anúncios pagos pelo próprio vendedor, ou páginas que ele criou para empurrar as reclamações para baixo.',
+      'No Reclame Aqui, não olhe só a nota. Leia as reclamações uma a uma. O que importa é o PADRÃO: todo mundo reclama da mesma coisa? A empresa responde ou ignora?',
+      'Busque o nome da PESSOA que vende, não só o do curso. Muitos gurus trocam o nome do produto mas continuam sendo a mesma pessoa com o mesmo histórico.',
+      'Procure em grupos de Facebook e no Reddit pelo nome do curso. Ali as pessoas falam mais livremente do que num site que a empresa monitora.',
+      'Some tudo: uma reclamação isolada pode ser exceção. Um padrão de reclamações iguais é o retrato real da empresa.'
+    ]
+  },
+  vendedor: {
+    titulo: 'Como rastrear quem está vendendo',
+    porque: 'O texto da oferta é o que ele quer te mostrar. O histórico é o que ele quer que você não veja.',
+    passos: [
+      'Pegue o nome da pessoa (não do curso) e busque no Google entre aspas: "Nome Sobrenome".',
+      'Busque também: o nome + "antes", o nome + "outro curso", o nome + "processo". Guru costuma ter uma trilha de produtos anteriores.',
+      'Veja há quanto tempo as redes sociais dele existem. Perfil criado há poucos meses com promessa gigante é sinal de alerta.',
+      'Procure se ele já teve outro produto que sumiu. Trocar de nome de curso é comum quando o anterior queimou.',
+      'Desconfie de quem só aparece dentro do próprio funil de vendas — sem entrevistas, sem trabalho verificável fora da venda do curso.'
+    ]
+  },
+  exalunos: {
+    titulo: 'Como falar com quem já fez',
+    porque: 'Depoimento postado é escolhido a dedo. Ex-aluno real conta o que não está no vídeo.',
+    passos: [
+      'Peça ao vendedor o contato direto de duas pessoas que concluíram. Vendedor confiante dá; vendedor com medo enrola.',
+      'Não confie só nos depoimentos da página — eles foram selecionados justamente por serem bons. Alguns são pagos.',
+      'Procure ex-alunos por conta própria: busque o nome do curso em grupos de Facebook, no Reddit, no Twitter/X.',
+      'Pergunte a eles três coisas: "você terminou?", "valeu o preço que pagou?", "o que não te contaram antes de comprar?".',
+      'Se ninguém que terminou aparece, e o vendedor não conecta você com ninguém, isso já é uma resposta.'
+    ]
+  },
+  reembolso: {
+    titulo: 'Como checar a garantia de reembolso de verdade',
+    porque: '"Garantia de 7 dias" na propaganda não vale nada se não estiver por escrito, com as condições.',
+    passos: [
+      'Peça a política de reembolso POR ESCRITO antes de pagar — no WhatsApp, no e-mail, onde fique registrado.',
+      'Leia as letras miúdas: muitas "garantias" exigem que você prove que "aplicou o método", ou que assistiu tudo. Isso é feito para nunca precisar pagar.',
+      'Lembre do seu direito legal: em compra pela internet, o Código de Defesa do Consumidor te dá 7 dias para desistir sem justificar (art. 49). Isso vale mesmo que o vendedor não ofereça.',
+      'Pague por meios rastreáveis (cartão, Pix com nota). Se for lesado e pagou com cartão, você pode pedir chargeback ao banco.',
+      'Guarde print de tudo: a promessa, o preço, a política, as conversas. É a sua prova se precisar reclamar.'
+    ]
+  }
+};
+
+/* ---------- BIBLIOTECA DE PADRÕES (Camada 3) ----------
+   Ensina a reconhecer cada técnica sozinho. Casa com os id dos FLAGS. */
+window.AG_PADROES = [
+  { id:'escassez', nome:'Escassez e urgência fabricada', gatilho:'"Últimas vagas", "só hoje", "restam 3", contador regressivo.',
+    comoFunciona:'O cérebro sob pressão de tempo decide pior — pula a análise e age pelo medo de perder. Por isso o prazo é curto e sempre acabando.',
+    comoResistir:'Espere 48 horas. Oferta honesta sobrevive a você dormir sobre ela. Se a "última vaga" continuar lá depois, você descobriu que o prazo era teatro.' },
+  { id:'ganho_garantido', nome:'Promessa de ganho garantido', gatilho:'"Ganhe R$X por dia", "renda garantida", "do zero ao primeiro milhão".',
+    comoFunciona:'Vende certeza sobre algo que ninguém controla — mercado, esforço, sorte. A cifra específica cria imagem concreta na sua cabeça e faz a promessa parecer plano.',
+    comoResistir:'Pergunte: garantido como? Peça por escrito. Ninguém sério garante resultado financeiro, porque ele não depende só de quem ensina.' },
+  { id:'resultado_com_prazo', nome:'Resultado específico num prazo', gatilho:'"Fluência em 14 meses", "aprovado em 6 meses", "-10kg em 30 dias".',
+    comoFunciona:'Aprendizado e transformação dependem do seu ritmo. Cravar um prazo transforma um processo incerto numa promessa fechada — que vende melhor, mas raramente se cumpre para todos.',
+    comoResistir:'Desconfie de qualquer "X em N tempo". Pergunte de quantos alunos esse prazo foi real, e em que condições — quase sempre era o melhor caso, não o comum.' },
+  { id:'garantia_de_resultado', nome:'Garantia-isca', gatilho:'"Fluência garantida em contrato", "aprovação garantida ou dinheiro de volta".',
+    comoFunciona:'A "garantia" tranquiliza — mas as letras miúdas costumam exigir presença perfeita, notas mínimas, provas de que você "aplicou tudo". É desenhada para nunca ser acionada.',
+    comoResistir:'Leia as condições da garantia ANTES de pagar. Se forem difíceis de cumprir de propósito, a garantia é enfeite, não proteção.' },
+  { id:'metodo_secreto', nome:'Método secreto', gatilho:'"Fórmula que ninguém conta", "o segredo dos que enriqueceram".',
+    comoFunciona:'O "segredo" cria valor artificial e justifica o preço. Também blinda contra a checagem: como você duvida de algo que "ninguém mais sabe"?',
+    comoResistir:'Conhecimento que funciona não precisa ser secreto — precisa ser demonstrável. Procure a mesma informação de graça; quase sempre ela existe.' },
+  { id:'estatistica_medo', nome:'Estatística-medo', gatilho:'"Apenas 1% consegue", "99% fracassam sozinhos".',
+    comoFunciona:'Um número assustador te coloca no lado perdedor da conta, e o alívio (comprar) vem logo depois. O dado pode ser real, mas ali ele não informa — pressiona.',
+    comoResistir:'Repare quando um número aparece pouco antes do botão de compra. Ele está lá para assustar, não para ensinar. Estatística verdadeira não precisa de urgência ao lado.' },
+  { id:'prova_nao_rastreavel', nome:'Prova social não-rastreável', gatilho:'Prints de ganhos, "milhares de alunos", depoimentos sem sobrenome.',
+    comoFunciona:'Print e número são fáceis de fabricar e impossíveis de conferir de fora. A quantidade ("+5000 alunos") impressiona sem provar nada.',
+    comoResistir:'Prova só vale se você puder verificar. Peça contato de quem terminou. Procure ex-alunos fora do funil. Depoimento que você não pode checar é decoração.' },
+  { id:'ataque_ao_ceticismo', nome:'Ataque ao ceticismo', gatilho:'"Só não funciona pra quem tem mentalidade de pobre", "desculpinha".',
+    comoFunciona:'Transforma sua dúvida legítima em defeito de caráter. Assim, se não der certo, a culpa é sua — e o vendedor sai ileso.',
+    comoResistir:'Duvidar é saudável, não é fraqueza. Quem precisa te desqualificar por perguntar está fugindo da pergunta.' },
+  { id:'pressao_emocional', nome:'Pressão sobre identidade', gatilho:'"Transforme sua vida", "chega de ser quem você é", "você merece".',
+    comoFunciona:'Fala com a sua dor e a sua identidade em vez de descrever o produto. Quanto mais mexe em quem você é, menos precisa provar o que entrega.',
+    comoResistir:'Separe a emoção do conteúdo. Pergunte, friamente: tirando a inspiração, o que exatamente eu recebo? Se a resposta for vaga, a oferta é vazia.' }
+];
+</script>
+
+
+<!-- MODAL DO CONHECIMENTO (guia / glossário / padrões) -->
+<div class="ag-kmodal" id="agKModal" role="dialog" aria-modal="true">
+  <div class="ag-kmodal-bg" onclick="agKModalClose()"></div>
+  <div class="ag-kmodal-box" id="agKModalContent"></div>
+</div>
+
+<script>
+/* ============================================================
+   CAMADAS PREMIUM — lógica
+   ============================================================ */
+
+/* mapeia sinais do laudo → guia relevante (Camada 1) */
+window.AG_SINAL_GUIA = {
+  sem_rastro_informal: 'cnpj',
+  cnpj_invalido: 'cnpj',
+  opacidade: 'reembolso',
+  prova_nao_rastreavel: 'exalunos',
+  ganho_garantido: 'vendedor',
+  garantia_de_resultado: 'reembolso'
+};
+/* mapeia externos → guia */
+window.AG_EXTERNO_GUIA = {
+  'Reclamações públicas': 'reclamacoes',
+  'Idade e situação da empresa': 'cnpj',
+  'O rastro da pessoa': 'vendedor',
+  'Alguém que terminou': 'exalunos'
+};
+
+function agKModal(html){
+  var m = document.getElementById('agKModal');
+  document.getElementById('agKModalContent').innerHTML = html;
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('agKModalBody').scrollTop = 0;
+}
+function agKModalClose(){
+  document.getElementById('agKModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ---------- Camada 1: abrir um guia ---------- */
+function agAbrirGuia(id){
+  var g = window.AG_GUIA[id];
+  if(!g) return;
+  var passos = g.passos.map(function(p,i){
+    return '<div class="ag-step"><div class="ag-step-n">'+(i+1)+'</div><div class="ag-step-t">'+agGlossar(p)+'</div></div>';
+  }).join('');
+  agKModal(
+    '<div class="ag-kmodal-head"><div><h3>'+g.titulo+'</h3><div class="why">'+g.porque+'</div></div>'
+    + '<button class="ag-kmodal-x" onclick="agKModalClose()">&times;</button></div>'
+    + '<div class="ag-kmodal-body" id="agKModalBody">'+passos+'</div>'
+    + '<div class="ag-kmodal-foot">Este é o trabalho que a análise paga faz por você — mas nada aqui é segredo. Preferimos te ensinar a fazer sozinho a te deixar dependente.</div>'
+  );
+}
+
+/* ---------- Camada 4: glossário ---------- */
+/* envolve termos conhecidos em <span> com clique */
+function agGlossar(texto){
+  var termos = Object.keys(window.AG_GLOSSARIO).sort(function(a,b){ return b.length - a.length; });
+  var usados = {};
+  termos.forEach(function(t){
+    if(usados[t]) return;
+    var rx = new RegExp('\\b(' + t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')\\b', 'i');
+    if(rx.test(texto) && !new RegExp('data-termo').test(texto.slice(0, texto.search(rx)))){
+      texto = texto.replace(rx, function(m){ usados[t]=1; return '<span class="ag-termo" data-termo="'+t+'">'+m+'</span>'; });
+    }
+  });
+  return texto;
+}
+function agAbrirTermo(t){
+  var d = window.AG_GLOSSARIO[t];
+  if(!d) return;
+  agKModal(
+    '<div class="ag-kmodal-head"><div><h3 style="text-transform:capitalize">'+t+'</h3></div>'
+    + '<button class="ag-kmodal-x" onclick="agKModalClose()">&times;</button></div>'
+    + '<div class="ag-kmodal-body" id="agKModalBody"><p style="font-size:15px;color:var(--soft);line-height:1.7;">'+d+'</p></div>'
+    + '<div class="ag-kmodal-foot">Sem jargão. Se algum termo do laudo não estiver claro, ele deveria estar aqui — avise pelo formulário no rodapé.</div>'
+  );
+}
+
+/* glossário completo (link no rodapé/menu) */
+function agGlossarioCompleto(){
+  var itens = Object.keys(window.AG_GLOSSARIO).map(function(t){
+    return '<div class="ag-gloss-item"><div class="ag-gloss-t">'+t+'</div><div class="ag-gloss-d">'+window.AG_GLOSSARIO[t]+'</div></div>';
+  }).join('');
+  agKModal(
+    '<div class="ag-kmodal-head"><div><h3>Glossário honesto</h3><div class="why">Os termos do laudo, em uma frase, sem enrolação.</div></div>'
+    + '<button class="ag-kmodal-x" onclick="agKModalClose()">&times;</button></div>'
+    + '<div class="ag-kmodal-body" id="agKModalBody">'+itens+'</div>'
+  );
+}
+
+/* ---------- Camada 2: checklist ---------- */
+function agBuildChecklist(r){
+  /* monta itens a partir do que ESTE laudo pede verificar */
+  var itens = [];
+  itens.push({ txt:'Procurei o CNPJ (rodapé, "quem somos") e verifiquei na Receita Federal', guia:'cnpj' });
+  itens.push({ txt:'Pesquisei reclamações no Reclame Aqui, Google e Procon', guia:'reclamacoes' });
+  itens.push({ txt:'Rastreei quem vende — histórico, ofertas anteriores', guia:'vendedor' });
+  if(r.sinais.some(function(s){return s.id==='prova_nao_rastreavel';}) || r.sinais.some(function(s){return /garantia|resultado|ganho/.test(s.id);}))
+    itens.push({ txt:'Falei (ou tentei) com alguém que terminou o curso', guia:'exalunos' });
+  itens.push({ txt:'Pedi a política de reembolso por escrito e li as condições', guia:'reembolso' });
+
+  var lis = itens.map(function(it,i){
+    return '<div class="ag-check-item" data-ci="'+i+'">'
+      + '<div class="ag-check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#04121a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+      + '<div class="ag-check-txt">'+it.txt+' <span class="lk" data-guia="'+it.guia+'">como fazer</span></div></div>';
+  }).join('');
+
+  return '<div class="ag-check">'
+    + '<div class="ag-check-h"><b>Seu checklist de verificação</b><span class="ag-check-prog" id="agCheckProg">0 de '+itens.length+'</span></div>'
+    + '<div class="ag-check-sub">O índice acima leu o texto. Isto é o que só você pode confirmar. Marque conforme for fazendo — o AntiGuru não guarda nada disso, é só para te organizar.</div>'
+    + lis
+    + '<div class="ag-check-done-msg" id="agCheckDone"><b>Você fez o trabalho que quase ninguém faz.</b> Agora sua decisão — seja qual for — é uma decisão informada, não um impulso. É exatamente isso que o AntiGuru existe para proteger.</div>'
+    + '</div>';
+}
+
+/* ---------- Camada 3: render dos padrões ---------- */
+function agRenderPadroes(){
+  var alvo = document.getElementById('agPadroes');
+  if(!alvo || !window.AG_PADROES) return;
+  alvo.innerHTML = window.AG_PADROES.map(function(p){
+    return '<div class="ag-pad">'
+      + '<div class="ag-pad-n">'+p.nome+'</div>'
+      + '<div class="ag-pad-lb">Como aparece</div><div class="ag-pad-tx gat">'+p.gatilho+'</div>'
+      + '<div class="ag-pad-lb">Por que funciona</div><div class="ag-pad-tx">'+p.comoFunciona+'</div>'
+      + '<div class="ag-pad-resist"><div class="ag-pad-lb">Como resistir</div><div class="ag-pad-tx">'+p.comoResistir+'</div></div>'
+      + '</div>';
+  }).join('');
+}
+
+/* ---------- delegação de cliques (tudo num lugar) ---------- */
+document.addEventListener('click', function(e){
+  var t = e.target.closest('[data-termo]');
+  if(t){ agAbrirTermo(t.getAttribute('data-termo')); return; }
+  var g = e.target.closest('[data-guia]');
+  if(g){ agAbrirGuia(g.getAttribute('data-guia')); return; }
+  var ci = e.target.closest('[data-ci]');
+  if(ci && !e.target.closest('[data-guia]')){
+    ci.classList.toggle('done');
+    var box = document.querySelector('.ag-check');
+    if(box){
+      var total = box.querySelectorAll('[data-ci]').length;
+      var feitos = box.querySelectorAll('[data-ci].done').length;
+      var prog = document.getElementById('agCheckProg');
+      if(prog) prog.textContent = feitos+' de '+total;
+      var done = document.getElementById('agCheckDone');
+      if(done) done.classList.toggle('show', feitos===total);
+    }
+    return;
+  }
+});
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') agKModalClose(); });
+document.addEventListener('DOMContentLoaded', agRenderPadroes);
+if(document.readyState!=='loading') agRenderPadroes();
+</script>
 
 </body>
 </html>
