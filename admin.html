@@ -623,7 +623,7 @@ function renderFontes(){
       + '<div class="fn-d">'+esc(f.descricao)+'</div>'
       + (f.link ? '<a class="fn-l" href="'+esc(f.link)+'" target="_blank" rel="noopener">'+esc(f.link)+'</a>' : '')
       + '<div class="fn-v'+(velho?' velho':'')+'">'+vtxt+'</div>'
-      + '<button class="fn-ins" data-ins="'+f.id+'">inserir na secção 2</button>'
+      + '<button class="fn-ins" data-ins="'+f.id+'">inserir na seção 2</button>'
       + '</div>';
   }).join('');
 
@@ -719,7 +719,7 @@ function abrirPreview(){
   document.getElementById('pvTxt').textContent = montarTexto();
 
   var w = [];
-  if(fal.secs.length) w.push('<div class="w"><b>Secções em branco:</b> '+fal.secs.join(', ')+'. A estrutura fixa é o que torna os cem laudos um corpus. Buraco aqui é buraco no treino do agente depois.</div>');
+  if(fal.secs.length) w.push('<div class="w"><b>Seções em branco:</b> '+fal.secs.join(', ')+'. A estrutura fixa é o que torna os cem laudos um corpus. Buraco aqui é buraco no treino do agente depois.</div>');
   if(fal.semNV) w.push('<div class="w"><b>"O que não consegui verificar" está vazio.</b> Se você verificou tudo, escreva isso. Campo em branco vira promessa de certeza — que é o que o guru vende.</div>');
   if(fal.semCat) w.push('<div class="w"><b>Sem categoria.</b> Sem ela, este laudo não entra na taxonomia e o próximo da mesma categoria não fica mais rápido.</div>');
   document.getElementById('pvWarn').innerHTML = w.join('');
@@ -762,7 +762,7 @@ async function registrarEntrega(){
   if(!edPed) return;
   var texto = document.getElementById('pvTxt').textContent;
   var fal = faltantes();
-  var aviso = fal.secs.length ? '\n\nATENÇÃO: '+fal.secs.length+' secção(ões) em branco.' : '';
+  var aviso = fal.secs.length ? '\n\nATENÇÃO: '+fal.secs.length+' seção(ões) em branco.' : '';
   if(!confirm('Já enviou este laudo para '+(edPed.nome||'')+' pelo '+(edPed.canal==='email'?'e-mail':'WhatsApp')+'?\n\nIsto grava o texto como prova de entrega e marca o pedido como entregue.'+aviso)) return;
 
   var b = document.getElementById('pvEntregar');
@@ -883,8 +883,8 @@ document.querySelectorAll('.toolbar .chip').forEach(function(c){
 
       <div class="ed-sec" data-k="s6_outros_caminhos">
         <div class="ed-n">6</div>
-        <h3>Os outros caminhos <span class="ed-core">a secção mais generosa</span></h3>
-        <p class="ed-tip">Nunca deixe a pessoa só com um "não compre" — isso é destruir sem construir. <b>O caminho autónomo:</b> roteiro real com as fontes da secção 2, ordenadas, com tempo estimado. <b>A alternativa paga melhor:</b> se existir preço justo e reputação verificável, diga. <b>O caminho de não fazer isto:</b> às vezes aquilo não serve àquela pessoa agora.</p>
+        <h3>Os outros caminhos <span class="ed-core">a seção mais generosa</span></h3>
+        <p class="ed-tip">Nunca deixe a pessoa só com um "não compre" — isso é destruir sem construir. <b>O caminho autônomo:</b> roteiro real com as fontes da seção 2, ordenadas, com tempo estimado. <b>A alternativa paga melhor:</b> se existir preço justo e reputação verificável, diga. <b>O caminho de não fazer isto:</b> às vezes aquilo não serve àquela pessoa agora.</p>
         <textarea class="ed-ta"></textarea>
       </div>
 

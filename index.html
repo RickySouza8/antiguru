@@ -719,6 +719,10 @@ const FLAGS = [
     rx:/(ganho|lucro|retorno|renda|resultado)\s*(garantid|cert)|garantia de (lucro|ganho|retorno|resultado)|dinheiro garantid|100%|fique rico|ficar rico|enriquec|multiplicar (seu )?(dinheiro|capital)|dobrar (seu )?(dinheiro|capital)|r\$\s?\d.*(por dia|por semana|por mês|garantid)|\d\s*d[íi]gitos|seis d[íi]gitos|sete d[íi]gitos|(do zero ao|ao primeiro) (milh[ãa]o|milhar)|\d+\s*mil (por|\/)\s*(dia|semana|m[êe]s)|primeiros? \d+\s*mil/i,
     exp:'A oferta promete resultado financeiro garantido ou cifras específicas. Ninguém pode garantir o seu resultado — ele depende de mercado, tempo, contexto e sorte. Prometer isso é vender certeza que não existe.' },
 
+  { id:'resultado_com_prazo', label:'Promete um resultado específico num prazo', weight:22,
+    rx:/(fluência|fluencia|fluente)[\s\S]{0,30}?\d+\s*(dias?|semanas?|meses|m[êe]s|anos?)|(fal[ae]r?|dominar?|aprender?)\s+\w+\s+em\s+\d+\s*(dias?|semanas?|meses|m[êe]s|anos?)|aprova(d[oa]|ção|r)\s*(garantid|em|no|de)[\s\S]{0,25}?(concurso|vestibular|enem|oab|\d+\s*(dias?|meses|m[êe]s|semanas?))|(concurso|vestibular|enem|oab)[\s\S]{0,25}?(garantid|em \d+)|(perca|perc|emagre[çc]a?|elimine|seque)[\s\S]{0,15}?\d+\s*(kg|quilos?|cm)|[-−]\s?\d+\s?kg|(resultado|transformaç\w*|mudança)\s*(garantid|em\s*\d+)|\d+\s*(dias?|semanas?|meses|m[êe]s|anos?)\s*(para|pra|at[ée])\s*(a\s*)?(fluência|fluencia|domin\w*|aprend\w*|falar|conquist\w*|resultado|mudar|transform\w*|aprova\w*)|do\s+(zero|b[áa]sico)\s+(ao|à|a)\s+(avançad\w*|fluência|fluencia|expert|profissional|gabarito)/i,
+    exp:'A oferta promete um resultado concreto (fluência, aprovação, perda de peso, domínio) dentro de um prazo. Aprendizado e transformação dependem de você, do seu ritmo e do seu contexto — ninguém honesto crava "X em N meses". O prazo existe para vender, não porque a promessa se cumpra.' },
+
   { id:'curso_do_curso', label:'O ganho vem de revender o próprio método', weight:20,
     rx:/(ensino|aprenda|aprender|te ensino) a vender|revend|seja (um )?afiliad|ganhe (vendendo|revendendo)|torne-se (um )?mentor|vire mentor|comiss(ão|ões)|indique e ganhe|marketing multinível|mmn|ganhe (indicando|divulgando)/i,
     exp:'A promessa de retorno depende de você recrutar ou revender para outras pessoas. Nesses modelos, quem entra depois financia quem entrou antes — e a maioria entra depois.' },
@@ -787,7 +791,7 @@ const Engine = {
     const sinais = [];
     FLAGS.forEach(f=>{ if(f.rx.test(text)) sinais.push({id:f.id,label:f.label,exp:f.exp,weight:f.weight}); });
 
-    const temPromessa = sinais.some(s=>s.id==='ganho_garantido'||s.id==='pressao_emocional');
+    const temPromessa = sinais.some(s=>s.id==='ganho_garantido'||s.id==='resultado_com_prazo'||s.id==='pressao_emocional');
     const descreveConteudo = RX_CONTEUDO.test(text);
 
     if(temPromessa && !descreveConteudo){
