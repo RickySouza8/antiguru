@@ -439,6 +439,7 @@ function renderPedidos(){
       +   '<div class="pd-row"><b>Link</b><span>'+(p.link_oferta?'<a href="'+esc(p.link_oferta)+'" target="_blank" rel="noopener" style="color:var(--teal);">abrir página &#8599;</a>':'—')+'</span></div>'
       +   '<div class="pd-row"><b>CNPJ</b><span>'+esc(p.cnpj||'—')+'</span></div>'
       +   '<div class="pd-row"><b>Risco da prévia</b><span class="pd-risk" style="color:'+riskCor(p.risco)+'">'+(p.risco!=null?p.risco+'/100':'—')+'</span></div>'
+      +   '<div class="pd-row"><b>Marketing</b><span>'+(p.consente_marketing?'<span style="color:var(--teal)">✓ aceitou receber</span>':'<span style="color:var(--faint)">não aceitou</span>')+'</span></div>'
       + '</div>'
       + (p.texto_oferta?'<div class="pd-oferta"><div class="ol">Texto enviado</div><div class="ot">'+esc(p.texto_oferta)+'</div></div>':'')
       + (p.contexto?'<div class="pd-oferta"><div class="ol">Contexto da pessoa</div><div class="ot">'+esc(p.contexto)+'</div></div>':'')

@@ -92,8 +92,9 @@
   .protect .verse{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(20px,3.2vw,30px);color:var(--gold2);line-height:1.5;max-width:22ch;margin:0 auto 18px;}
   .protect p{color:var(--soft);max-width:52ch;margin:0 auto 14px;font-size:16px;}
   .shield{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px;}
-  .shield span{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);
-    border:1px solid rgba(87,208,192,.35);border-radius:40px;padding:8px 16px;}
+  .shield button{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);
+    border:1px solid rgba(87,208,192,.35);border-radius:40px;padding:8px 16px;background:none;cursor:pointer;transition:.2s;}
+  .shield button:hover{background:rgba(87,208,192,.1);border-color:var(--teal);transform:translateY(-1px);}
 
   /* ---------- STEPS ---------- */
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px;}
@@ -405,6 +406,18 @@
   .ag-pad-resist{border-left:2px solid var(--teal);padding-left:11px;margin-top:12px;}
   .ag-pad-resist .ag-pad-lb{color:var(--teal);margin-top:0;}
 
+  /* ===== LGPD: consentimentos no checkout ===== */
+  .ck-lgpd{margin:16px 0 6px;display:flex;flex-direction:column;gap:11px;}
+  .ck-consent{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:#0b1124;transition:border-color .2s;}
+  .ck-consent:hover{border-color:var(--line2);}
+  .ck-consent.obrigatorio{border-color:rgba(227,179,65,.25);background:rgba(227,179,65,.05);}
+  .ck-consent input{flex:none;width:18px;height:18px;margin-top:1px;accent-color:var(--gold);cursor:pointer;}
+  .ck-consent span{font-size:12.5px;color:var(--soft);line-height:1.55;}
+  .ck-consent b{color:var(--text);}
+  .ck-consent i{color:var(--muted);font-style:normal;font-size:11.5px;}
+  .ck-privlink{background:none;border:0;padding:0;color:var(--teal);text-decoration:underline;cursor:pointer;font-size:12.5px;font-family:inherit;}
+  .ck-privlink:hover{color:var(--gold2);}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -558,8 +571,9 @@
     <p>O AntiGuru nasce de um princípio simples: <b style="color:var(--text)">clareza protege</b>. A geometria que nos acompanha — círculos que se entrelaçam, se sustentam e se expandem — é o nosso símbolo de discernimento: ver o todo antes de escolher a parte.</p>
     <p class="verse" style="margin-top:24px;">Que ela te proteja do impulso.<br>Que te afaste da ilusão.<br>Que te expanda. Que te desperte.</p>
     <div class="shield">
-      <span>Contra o ruído</span><span>Contra a pressa</span><span>Contra a má intenção</span><span>Por mais consciência</span>
+      <button data-escudo="ruido">Contra o ruído</button><button data-escudo="pressa">Contra a pressa</button><button data-escudo="intencao">Contra a má intenção</button><button data-escudo="consciencia">Por mais consciência</button>
     </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px;">Clique em cada um — é o que a gente defende, e por quê.</p>
   </div>
 </section>
 
@@ -756,6 +770,11 @@
   </svg>
   <div class="fbrand">Antes de pagar, você merece clareza.</div>
   <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
+  <div style="margin-top:16px;font-size:12px;">
+    <button onclick="agAbrirPrivacidade()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Política de Privacidade</button>
+    <span style="color:var(--line2);margin:0 8px;">·</span>
+    <button onclick="agGlossarioCompleto()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Glossário</button>
+  </div>
 </footer>
 
 <!-- ===== FLOATING WHATSAPP ===== -->
@@ -1265,6 +1284,8 @@ const AGCheckout = (function(){
     var nome    = (el('ckNome').value||'').trim();
     var canal   = document.querySelector('input[name=ckCanal]:checked');
     var contato = (el('ckContato').value||'').trim();
+    var aceite  = el('ckAceiteLgpd').checked;
+    var mkt     = el('ckMarketing').checked;
     var err     = el('ckErr');
 
     if(!nome){ err.textContent='Preciso de um nome para te chamar.'; return; }
@@ -1274,8 +1295,10 @@ const AGCheckout = (function(){
       err.textContent = canal==='email' ? 'Esse e-mail não parece válido. Confira.' : 'Esse telefone não parece válido. Use DDD + número.';
       return;
     }
+    if(!aceite){ err.textContent='Para eu te entregar a análise, preciso do seu ok no primeiro item (uso do contato para a entrega).'; return; }
     err.textContent='';
 
+    var agora = new Date().toISOString();
     var a = window.AG_ULTIMA || {};
     pedido = {
       codigo: codigo(),
@@ -1292,7 +1315,11 @@ const AGCheckout = (function(){
       faixa: a.faixa || null,
       status: 'aguardando_pagamento',
       pago: false,
-      entregue: false
+      entregue: false,
+      aceite_lgpd: true,
+      aceite_lgpd_em: agora,
+      consente_marketing: mkt,
+      consente_marketing_em: mkt ? agora : null
     };
 
     var btn = el('ckRegistrar');
@@ -1350,6 +1377,7 @@ const AGCheckout = (function(){
     el('agModalClose').addEventListener('click', fechar);
     el('agModalBg').addEventListener('click', fechar);
     el('ckRegistrar').addEventListener('click', registrar);
+    var bp=el('ckAbrirPriv'); if(bp) bp.addEventListener('click', function(){ if(window.agAbrirPrivacidade) agAbrirPrivacidade(); });
     el('ckJaPaguei').addEventListener('click', pagou);
     el('ckVoltar').addEventListener('click', function(){ passo(1); });
     document.querySelectorAll('input[name=ckCanal]').forEach(function(rd){
@@ -1486,9 +1514,20 @@ const AGCheckout = (function(){
         <label class="ck-lb" for="ckOferta">Qual oferta eu analiso?</label>
         <input class="ck-inp" id="ckOferta" placeholder="Ex.: Mentoria Construir do Zero">
 
+        <div class="ck-lgpd">
+          <label class="ck-consent obrigatorio">
+            <input type="checkbox" id="ckAceiteLgpd">
+            <span>Concordo que meu nome e contato sejam usados <b>para entregar esta análise</b>, conforme a <button type="button" class="ck-privlink" id="ckAbrirPriv">Política de Privacidade</button>. <i>(obrigatório)</i></span>
+          </label>
+          <label class="ck-consent">
+            <input type="checkbox" id="ckMarketing">
+            <span>Quero receber, por este contato, novidades e dicas do AntiGuru. <i>(opcional — pode sair quando quiser)</i></span>
+          </label>
+        </div>
+
         <div class="ck-err" id="ckErr"></div>
         <button class="btn gold" id="ckRegistrar" style="width:100%;justify-content:center;">Registrar meu pedido</button>
-        <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center;line-height:1.6;">Uso o seu contato só para entregar a análise. Não mando promoção, não repasso, não vendo lista.</p>
+        <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center;line-height:1.6;">Uso o seu contato para entregar a análise. Só mando novidades se você marcar acima — e nunca repasso nem vendo sua informação.</p>
       </div>
 
       <!-- PASSO 2 — PAGAMENTO -->
@@ -1665,6 +1704,41 @@ window.AG_PADROES = [
 </script>
 
 
+<script>
+/* ============================================================
+   POLÍTICA DE PRIVACIDADE (LGPD) — honesta, sem juridiquês
+   Abre no mesmo modal do conhecimento.
+   ============================================================ */
+window.AG_PRIVACIDADE = {
+  atualizado: 'julho de 2026',
+  blocos: [
+    { t:'Quem somos', c:'O AntiGuru é operado por Henrique S. Damaceno. Contato: damaceno_05@yahoo.com.br · WhatsApp (11) 99760-3559. Quando você fala em "nós" aqui, é essa pessoa — não uma empresa grande com um departamento. Isso importa: quem cuida dos seus dados é a mesma pessoa que faz a sua análise.' },
+    { t:'O que coletamos, e só isso', c:'Na análise gratuita: nada. O texto que você cola fica no seu navegador e não é enviado nem guardado por nós. Quando você pede a análise paga: seu nome, o canal escolhido (WhatsApp ou e-mail) e o contato correspondente, mais os dados da oferta que você quer analisar. Só o necessário para entregar o que você comprou.' },
+    { t:'Por que coletamos', c:'Seu nome e contato existem por um motivo único: te entregar a análise no canal que você escolheu. Sem eles, o seu dinheiro entraria e você ficaria sem receber. É a base legal de "execução de um serviço que você contratou" — não pedimos nada além do que a entrega exige.' },
+    { t:'Marketing é separado, e é opcional', c:'No checkout há uma caixa desmarcada: "quero receber novidades". Ela é independente do pedido. Se você não marcar, recebe só a sua análise e mais nada — nunca vamos te mandar promoção sem você ter pedido. Se marcar, entra numa lista da qual pode sair a qualquer momento, e a gente guarda a data em que você consentiu, para provar que foi você quem escolheu.' },
+    { t:'Onde seus dados ficam', c:'Num banco de dados da Supabase, com servidores em São Paulo, protegido por senha e por regras de acesso — só o operador consegue ler. Não usamos cookies de rastreamento, não temos pixel de anúncio, não compartilhamos sua informação com plataformas de publicidade.' },
+    { t:'Com quem compartilhamos', c:'Com ninguém, para fins de marketing ou venda de lista — nunca. Os únicos terceiros que tocam no processo são o meio de pagamento (Mercado Pago, que processa o pagamento sob a política própria deles) e a Supabase (que hospeda o banco). Eles são ferramentas do serviço, não parceiros para quem repassamos você.' },
+    { t:'Quanto tempo guardamos', c:'Os dados do pedido e o laudo entregue ficam guardados enquanto forem necessários como registro do serviço prestado. Você pode pedir a exclusão dos seus dados pessoais a qualquer momento — mantemos só o registro mínimo que a lei fiscal exige, sem o que te identifica.' },
+    { t:'Seus direitos (LGPD)', c:'A Lei Geral de Proteção de Dados te dá o direito de: saber o que temos sobre você; corrigir; pedir para apagar; retirar o consentimento de marketing; e saber com quem compartilhamos (resposta: ninguém, para marketing). Para exercer qualquer um, é só mandar mensagem no contato acima. Respondemos — não sumimos, que seria uma ironia cruel para um produto sobre honestidade.' },
+    { t:'Como pedir para apagar', c:'Mande uma mensagem no WhatsApp ou e-mail acima dizendo "quero apagar meus dados" e o código do seu pedido (AG-XXXXX). Removemos seu nome e contato do sistema. Simples, sem formulário de dez páginas, sem tentar te convencer a ficar.' },
+    { t:'Mudanças nesta política', c:'Se algo aqui mudar, a data de atualização no topo muda junto. Não vamos alterar o que fazemos com seus dados sem avisar — e nunca para tornar menos transparente. A direção é sempre mais clareza, nunca menos.' }
+  ]
+};
+
+window.agAbrirPrivacidade = function(){
+  var P = window.AG_PRIVACIDADE;
+  var blocos = P.blocos.map(function(b){
+    return '<div class="ag-gloss-item"><div class="ag-gloss-t">'+b.t+'</div><div class="ag-gloss-d">'+b.c+'</div></div>';
+  }).join('');
+  agKModal(
+    '<div class="ag-kmodal-head"><div><h3>Política de Privacidade</h3><div class="why">Como cuidamos dos seus dados — em português, sem juridiquês. Atualizado em '+P.atualizado+'.</div></div>'
+    + '<button class="ag-kmodal-x" onclick="agKModalClose()">&times;</button></div>'
+    + '<div class="ag-kmodal-body" id="agKModalBody">'+blocos+'</div>'
+    + '<div class="ag-kmodal-foot">Um produto que analisa a honestidade dos outros tem que ser transparente com os próprios dados. Se algo aqui não estiver claro, pergunte pelo contato — a dúvida vira melhoria nesta página.</div>'
+  );
+};
+</script>
+
 <!-- MODAL DO CONHECIMENTO (guia / glossário / padrões) -->
 <div class="ag-kmodal" id="agKModal" role="dialog" aria-modal="true">
   <div class="ag-kmodal-bg" onclick="agKModalClose()"></div>
@@ -1802,6 +1876,8 @@ document.addEventListener('click', function(e){
   if(t){ agAbrirTermo(t.getAttribute('data-termo')); return; }
   var g = e.target.closest('[data-guia]');
   if(g){ agAbrirGuia(g.getAttribute('data-guia')); return; }
+  var esc = e.target.closest('[data-escudo]');
+  if(esc){ agAbrirEscudo(esc.getAttribute('data-escudo')); return; }
   var ci = e.target.closest('[data-ci]');
   if(ci && !e.target.closest('[data-guia]')){
     ci.classList.toggle('done');
@@ -1820,6 +1896,36 @@ document.addEventListener('click', function(e){
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') agKModalClose(); });
 document.addEventListener('DOMContentLoaded', agRenderPadroes);
 if(document.readyState!=='loading') agRenderPadroes();
+
+/* ---------- Princípios do escudo (seção Proteção) ---------- */
+window.AG_ESCUDO = {
+  ruido: {
+    t:'Contra o ruído',
+    c:'Toda oferta vem embrulhada em barulho: superlativos, promessas, urgência, prova social, design que empurra. O ruído existe para você não conseguir ouvir a única pergunta que importa — "o que eu recebo, exatamente?". O AntiGuru tira o embrulho e mostra o objeto. Quando o índice diz "promete muito e não descreve", é o ruído sendo nomeado. Silenciar o barulho é o primeiro ato de clareza.'
+  },
+  pressa: {
+    t:'Contra a pressa',
+    c:'A pressa é a arma preferida de quem vende mal. "Últimas vagas", "só hoje", contador correndo — tudo desenhado para encurtar sua análise, porque quanto menos tempo você pensa, mais o impulso decide por você. O nosso lema é o oposto: pare 5 minutos. Espere 48 horas. Oferta honesta sobrevive a você dormir sobre ela. Por isso o AntiGuru nunca cria urgência — seria usar a arma que a gente combate.'
+  },
+  intencao: {
+    t:'Contra a má intenção',
+    c:'Nem toda oferta ruim é golpe, mas toda manipulação tem intenção: te fazer decidir por um caminho que serve a quem vende, não a você. Desqualificar sua dúvida, plantar medo, garantir o que não se controla — são escolhas, não acidentes. O AntiGuru lê essas intenções no texto e as devolve para você ver. Não acusamos ninguém de crime: mostramos a técnica, e deixamos você julgar a intenção por trás dela.'
+  },
+  consciencia: {
+    t:'Por mais consciência',
+    c:'Este é o único dos quatro que não é "contra" — é "por". Porque no fim, o AntiGuru não quer que você desconfie de tudo nem compre nada. Quer que você decida acordado. Comprar pode ser a escolha certa; não comprar também. O que muda é você saber o que está fazendo, ter visto o todo antes de escolher a parte. Consciência não é dizer não — é dizer sim ou não sabendo por quê. É isso que a gente protege.'
+  }
+};
+window.agAbrirEscudo = function(id){
+  var e = window.AG_ESCUDO[id];
+  if(!e) return;
+  agKModal(
+    '<div class="ag-kmodal-head"><div><h3>'+e.t+'</h3></div>'
+    + '<button class="ag-kmodal-x" onclick="agKModalClose()">&times;</button></div>'
+    + '<div class="ag-kmodal-body" id="agKModalBody"><p style="font-size:15px;color:var(--soft);line-height:1.75;">'+e.c+'</p></div>'
+    + '<div class="ag-kmodal-foot">Quatro princípios, uma direção: clareza protege.</div>'
+  );
+};
 </script>
 
 </body>
