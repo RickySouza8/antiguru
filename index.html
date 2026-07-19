@@ -175,7 +175,8 @@
   }
 
   /* ===== ANALISADOR ===== */
-  .ag-form{background:linear-gradient(180deg,var(--surface),rgba(15,21,48,.5));border:1px solid var(--line);border-radius:20px;padding:28px;margin-top:22px;max-width:700px;}
+  .ag-form{background:linear-gradient(180deg,var(--surface),rgba(15,21,48,.5));border:1px solid var(--line);border-radius:20px;padding:28px;margin:22px auto 0;max-width:700px;text-align:left;}
+  #agResult{max-width:700px;margin:0 auto;text-align:left;}
   .ag-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   @media(max-width:560px){.ag-grid{grid-template-columns:1fr;}}
   .ag-field{display:block;margin-bottom:14px;}
@@ -492,10 +493,10 @@
 
 <!-- ===== ANALISAR (ferramenta) ===== -->
 <section class="sec" id="analisar">
-  <div class="wrap">
+  <div class="wrap" style="text-align:center;">
     <div class="eyebrow reveal">Análise gratuita</div>
     <h2 class="reveal">Cole o link, ou o texto. Os dois funcionam.</h2>
-    <p class="lead reveal" style="color:var(--muted);max-width:56ch;">Leio o texto da oferta e mostro os gatilhos usados para te fazer decidir rápido. Não é um veredito — é o que está escrito, dito em voz alta. A decisão continua sua.</p>
+    <p class="lead reveal" style="color:var(--muted);max-width:56ch;margin-left:auto;margin-right:auto;">Leio o texto da oferta e mostro os gatilhos usados para te fazer decidir rápido. Não é um veredito — é o que está escrito, dito em voz alta. A decisão continua sua.</p>
 
     <div class="ag-form reveal">
       <!-- MODO -->
@@ -510,7 +511,7 @@
           <span class="ag-label">Endereço da página de vendas</span>
           <input class="ag-input" id="agLink" type="url" placeholder="cole aqui o link, ex.: exemplo.com/mentoria" autocomplete="off">
         </label>
-        <button class="btn" id="agLerBtn" style="width:100%;justify-content:center;margin-top:4px;background:rgba(87,208,192,.12);border:1px solid var(--teal);color:var(--teal);">Ler a página</button>
+        <button class="btn" id="agLerBtn" style="display:block;width:100%;text-align:center;margin-top:4px;background:rgba(87,208,192,.12);border:1px solid var(--teal);color:var(--teal);">Ler a página</button>
         <div class="ag-lido" id="agLido"></div>
         <p class="ag-nota">Eu vou lá buscar o texto. Se a página bloquear robôs ou for montada por JavaScript — o que acontece bastante —, eu <b>digo isso</b> e te peço para colar. Não analiso meia página fingindo que li a página inteira.</p>
       </div>
