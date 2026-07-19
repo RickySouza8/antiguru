@@ -746,6 +746,19 @@ const FLAGS = [
   { id:'ataque_ao_ceticismo', label:'Desqualifica quem duvida', weight:11,
     rx:/só não (funciona|dá certo) (pra|para) quem|se você não (acreditar|aplicar)|mentalidade de pobre|(mente|cabeça) de (pobre|fracassad)|desculpinha|para de reclamar|quem quer, faz|não é (pra|para) todo mundo|só (pra|para) quem tem coragem/i,
     exp:'A oferta antecipa a sua dúvida e transforma dúvida em defeito seu. Isso desarma o pensamento crítico antes que ele funcione — e blinda o vendedor de qualquer culpa se não der certo.' },
+
+  { id:'garantia_de_resultado', label:'"Garante" um resultado que depende de você', weight:20,
+    rx:/garantia de (fluência|fluencia|aprovaç|resultado|domínio|domin\w+|emagre\w+|conversão|conversao|sucesso)|(fluência|fluencia|aprovaç\w+|resultado|domínio|sucesso|conversão)\s*(garantid|assegurad|em contrato)|garantid[oa]\s*(em|por)\s*contrato|contrato de (resultado|garantia)|(?:100%|cem por cento)\s*(garantid|de sucesso|de resultado)|ou (o )?seu dinheiro de volta|garantimos (o|sua|seu|que)/i,
+    exp:'A oferta "garante" um resultado que, na verdade, depende de você — do seu estudo, da sua prática, do seu tempo. Ninguém honesto garante o que não controla. E a "garantia em contrato" quase sempre tem letras miúdas (presença perfeita, notas mínimas) desenhadas para nunca ser acionada. Peça as condições exatas por escrito antes de acreditar nela.' },
+
+  { id:'estatistica_medo', label:'Usa estatística assustadora como gatilho', weight:12,
+    rx:/apenas \d+\s*%\s*(da|das|dos|de)|só \d+\s*%\s*(da|das|dos|de)|somente \d+\s*%|\d+\s*%\s*(da população|dos brasileiros|das pessoas|nunca|jamais|fracassam|desistem|não conseguem)|(a maioria|\d+\s*%) (fracassa|desiste|não consegue|nunca chega)|você (está|vai ficar) (para trás|de fora)|não fique (para trás|de fora|entre os)/i,
+    exp:'A oferta usa um número assustador para criar medo pouco antes de pedir a sua decisão. A estatística pode até ser real, mas ali ela não informa — ela pressiona, te colocando no lado "fracassado" da conta para o alívio vir junto com a compra. Dado que serve para assustar não é dado, é alavanca.' },
+
+  { id:'comparacao_sem_base', label:'Promete velocidade/vantagem sem base', weight:11,
+    rx:/\d+\s*x\s*mais\s*(rápido|rapido|veloz|eficiente|barato|resultado)|(\d+|duas|três|tres|dez)\s*vezes\s*mais\s*(rápido|rapido|eficiente|veloz)|(muito|bem)\s*mais\s*rápido que|aprenda\s*(em metade|na metade)|no menor tempo|(mais|super)\s*(rápido|acelerad)\s*do (mercado|mundo)|método mais (rápido|eficiente)/i,
+    exp:'A oferta promete ser "X vezes mais rápido" ou "o mais eficiente" sem dizer mais rápido que quê, medido como, comparado a quem. Número de velocidade sem base de comparação é impressão de eficiência, não prova dela. Pergunte: 3x mais rápido em relação a qual método, medido em qual estudo?' },
+
 ];
 
 /* --- AUSÊNCIAS QUE PESAM (opacidade sobe o risco) --- */
