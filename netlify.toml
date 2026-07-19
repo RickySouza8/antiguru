@@ -1,0 +1,9 @@
+# AntiGuru — configuração do Netlify
+# A pasta é a raiz (site estático). As funções vivem em netlify/functions.
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"

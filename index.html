@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AntiGuru — Clareza antes da decisão</title>
-<meta name="description" content="Antes de pagar por um curso ou mentoria, leia os sinais de risco. Você recebe uma nota de credibilidade, os sinais de atenção e uma orientação clara em até 24h. A decisão é sempre sua.">
+<meta name="description" content="Antes de pagar por um curso ou mentoria, leia os sinais. O AntiGuru mostra os gatilhos de manipulação usados no texto da oferta e o que você precisa verificar por conta própria clara em até 24h. A decisão é sempre sua.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -242,6 +242,107 @@
   .vz-card .vc-stars{color:var(--gold,#E3B341);font-size:13px;letter-spacing:2px;margin-bottom:7px;}
   .vz-card .vc-com{font-size:14px;color:var(--soft,#B9BCDB);line-height:1.6;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;}
   .vz-empty{text-align:center;padding:30px 20px;color:var(--muted,#9498BC);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;line-height:1.5;border:1px dashed var(--line2,rgba(232,226,255,.2));border-radius:14px;}
+
+  /* ===== LAUDO v2 ===== */
+  .ag-nots{background:rgba(87,208,192,.06);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 24px;font-size:14px;line-height:1.65;color:var(--soft);}
+  .ag-nots b{color:var(--teal);font-family:'Space Grotesk',sans-serif;}
+  .ag-nots i{color:var(--text);font-style:italic;}
+  .ag-hint{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;border-left:2px solid var(--line);padding-left:12px;}
+  .ag-hint i{color:var(--soft);}
+  .ag-rastro{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+  .ag-warn{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);font-family:'Space Mono',monospace;font-size:11.5px;line-height:1.6;color:var(--amber);}
+  .ag-ext{border-top:1px solid var(--line);padding:12px 0;}
+  .ag-ext:first-of-type{border-top:none;padding-top:0;}
+  .ag-ext-t{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--text);margin-bottom:3px;}
+  .ag-ext-d{font-size:13.5px;color:var(--muted);line-height:1.55;}
+  .ag-ctx{margin:0 24px 22px;background:rgba(229,101,75,.07);border:1px solid rgba(229,101,75,.3);border-radius:12px;padding:16px 18px;}
+  .ag-ctx b{display:block;font-family:'Space Grotesk',sans-serif;color:var(--red);font-size:14px;margin-bottom:6px;}
+  .ag-ctx p{font-size:14px;color:var(--soft);line-height:1.65;}
+
+  /* ===== MODAL CHECKOUT ===== */
+  .ag-modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;}
+  .ag-modal.open{display:flex;}
+  .ag-modal-bg{position:absolute;inset:0;background:rgba(4,6,12,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+  .ag-modal-box{position:relative;width:100%;max-width:500px;max-height:88vh;display:flex;flex-direction:column;
+    background:linear-gradient(165deg,var(--surface2),var(--surface));border:1px solid rgba(227,179,65,.3);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.6);overflow:hidden;}
+  .ag-modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 0;flex:none;}
+  .ag-dots{display:flex;gap:6px;}
+  .ag-dots i{width:26px;height:3px;border-radius:3px;background:rgba(232,226,255,.15);transition:background .3s;}
+  .ag-dots i.on{background:var(--gold);}
+  .ag-x{background:none;border:0;color:var(--muted);font-size:26px;line-height:1;cursor:pointer;padding:0 4px;}
+  .ag-x:hover{color:var(--text);}
+  .ag-modal-body{padding:18px 24px 26px;overflow-y:auto;}
+  .ck-t{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;line-height:1.25;margin-bottom:8px;}
+  .ck-d{font-size:14.5px;color:var(--soft);line-height:1.65;margin-bottom:18px;}
+  .ck-why{background:rgba(87,208,192,.07);border-left:2px solid var(--teal);border-radius:0 10px 10px 0;padding:12px 14px;font-size:13.5px;color:var(--soft);line-height:1.6;margin-bottom:20px;}
+  .ck-why b{color:var(--teal);}
+  .ck-lb{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+  .ck-inp{width:100%;background:#0b1124;border:1px solid var(--line);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:15px;padding:13px 14px;margin-bottom:16px;transition:border-color .2s;}
+  .ck-inp:focus{outline:none;border-color:var(--gold);}
+  .ck-inp::placeholder{color:#5b6088;}
+  .ck-canal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  .ck-canal label{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 10px;border:1px solid var(--line);border-radius:12px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;color:var(--soft);transition:.2s;background:#0b1124;}
+  .ck-canal input{display:none;}
+  .ck-canal label:hover{border-color:var(--line);color:var(--text);}
+  .ck-canal input:checked + span{color:var(--gold2);}
+  .ck-canal label:has(input:checked){border-color:var(--gold);background:rgba(227,179,65,.1);color:var(--gold2);}
+  .ck-err{color:var(--red);font-size:13.5px;min-height:18px;margin-bottom:8px;}
+  .ck-code{font-family:'Space Mono',monospace;font-weight:700;font-size:26px;color:var(--gold2);letter-spacing:.08em;text-align:center;background:#0b1124;border:1px dashed rgba(227,179,65,.4);border-radius:12px;padding:16px;margin-bottom:18px;}
+  .ck-code small{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:400;margin-bottom:5px;}
+  .ck-pay{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+  .ck-pay .btn{width:100%;justify-content:center;}
+  .ck-pix{background:rgba(87,208,192,.12);border:1px solid var(--teal);color:var(--teal);}
+  .ck-sep{text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--faint,#5b6088);margin:4px 0;}
+  .ck-ghost{width:100%;background:transparent;border:1px solid var(--line);color:var(--soft);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;padding:14px;border-radius:46px;cursor:pointer;transition:.2s;}
+  .ck-ghost:hover{border-color:var(--teal);color:var(--teal);}
+  .ck-back{background:none;border:0;color:var(--muted);font-size:13px;cursor:pointer;margin-top:14px;text-decoration:underline;}
+  .ck-honest{background:rgba(227,179,65,.07);border:1px solid rgba(227,179,65,.25);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--soft);line-height:1.6;margin-bottom:16px;}
+  .ck-honest b{color:var(--gold2);display:block;margin-bottom:5px;font-family:'Space Grotesk',sans-serif;}
+  .ck-ok{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.35);display:flex;align-items:center;justify-content:center;}
+  .ck-ok svg{width:32px;height:32px;}
+  .ck-line{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .ck-line:last-child{border-bottom:none;}
+  .ck-line span:first-child{color:var(--muted);}
+  .ck-line span:last-child{color:var(--text);font-weight:600;text-align:right;word-break:break-word;}
+  .ck-fb{display:none;background:rgba(229,101,75,.09);border:1px solid rgba(229,101,75,.3);border-radius:12px;padding:13px 15px;font-size:13px;color:var(--soft);line-height:1.6;margin-bottom:14px;}
+  .ck-fb a{color:var(--red);text-decoration:underline;font-weight:600;}
+  @media(max-width:560px){.ag-modal{padding:0;align-items:flex-end;}.ag-modal-box{max-width:100%;max-height:94vh;border-radius:22px 22px 0 0;}}
+
+  .ag-scope{display:flex;gap:11px;align-items:flex-start;margin-top:16px;padding:13px 15px;border-radius:12px;
+    background:rgba(229,101,75,.09);border:1px solid rgba(229,101,75,.32);text-align:left;}
+  .ag-scope .sc-i{flex:none;width:19px;height:19px;border-radius:50%;background:var(--red);color:#fff;
+    font-family:'Space Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .ag-scope div{font-size:13px;line-height:1.6;color:var(--soft);}
+  .ag-scope b{display:block;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13.5px;margin-bottom:3px;}
+  .ag-meter.vazio{background:repeating-linear-gradient(-45deg,rgba(232,226,255,.05) 0 6px,transparent 6px 12px);}
+
+  /* modo link/texto */
+  .ag-modo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+  .ag-mb{background:#0b1124;border:1px solid var(--line);border-radius:11px;color:var(--muted);
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;padding:12px 8px;cursor:pointer;transition:.2s;}
+  .ag-mb:hover{color:var(--soft);}
+  .ag-mb.on{border-color:var(--gold);background:rgba(227,179,65,.1);color:var(--gold2);}
+  .ag-label i{font-style:normal;text-transform:none;letter-spacing:0;color:var(--faint,#5b6088);font-size:11px;margin-left:5px;}
+  .ag-nota{font-size:12.5px;color:var(--muted);line-height:1.6;margin-top:10px;border-left:2px solid var(--line);padding-left:11px;}
+  .ag-nota b{color:var(--soft);}
+  .ag-lido{display:none;margin-top:12px;border-radius:11px;padding:13px 15px;font-size:13.5px;line-height:1.6;}
+  .ag-lido.ok{display:block;background:rgba(87,208,192,.08);border:1px solid rgba(87,208,192,.3);color:var(--soft);}
+  .ag-lido.mau{display:block;background:rgba(229,101,75,.09);border:1px solid rgba(229,101,75,.32);color:var(--soft);}
+  .ag-lido b{display:block;margin-bottom:4px;font-family:'Space Grotesk',sans-serif;}
+  .ag-lido.ok b{color:var(--teal);} .ag-lido.mau b{color:var(--red);}
+  .ag-lido .mini{display:block;margin-top:7px;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);word-break:break-all;}
+  /* contexto */
+  .ag-ctxbox{margin-top:16px;border:1px dashed var(--line);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.015);}
+  .ag-ctxbox summary{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 15px;cursor:pointer;list-style:none;}
+  .ag-ctxbox summary::-webkit-details-marker{display:none;}
+  .ag-ctx-t{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;color:var(--soft);}
+  .ag-ctx-t i{font-style:normal;color:var(--faint,#5b6088);font-size:11.5px;font-weight:400;margin-left:5px;}
+  .ag-ctx-x{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);}
+  .ag-ctxbox[open] .ag-ctx-x::after{content:'';}
+  .ag-ctxbox[open] .ag-ctx-x{color:var(--muted);}
+  .ag-ctx-in{padding:0 15px 15px;}
+  .ag-ctx-in p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:10px;}
+  .ag-ctx-in p b{color:var(--soft);}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -301,7 +402,7 @@
     <div class="eyebrow reveal">Pré-decisão de compra educacional</div>
     <h1 class="reveal">Antes de pagar por um curso, pare 5 minutos.
       <span class="hl">Isso pode te poupar dinheiro.</span></h1>
-    <p class="sub reveal">Veja sinais que podem indicar baixa confiabilidade antes de decidir. <b>Você recebe um diagnóstico claro</b> — nota de credibilidade, sinais de atenção e orientação — em até 24h. A decisão é sempre sua.</p>
+    <p class="sub reveal">Veja os gatilhos usados para te fazer decidir rápido. <b>Você recebe uma leitura clara</b> — índice de risco, sinais de atenção e orientação — em até 24h. A decisão é sempre sua.</p>
     <div class="cta-row reveal">
       <a class="btn gold" href="#analisar">Quero analisar agora</a>
       <a class="btn ghost" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
@@ -317,21 +418,59 @@
 <section class="sec" id="analisar">
   <div class="wrap">
     <div class="eyebrow reveal">Análise gratuita</div>
-    <h2 class="reveal">Cole a oferta e veja os sinais</h2>
-    <p class="lead reveal" style="color:var(--muted);max-width:54ch;">Cole o texto da promessa do curso ou mentoria. Você recebe uma prévia com nota de credibilidade, sinais de risco e o próximo passo. A decisão é sempre sua.</p>
+    <h2 class="reveal">Cole o link, ou o texto. Os dois funcionam.</h2>
+    <p class="lead reveal" style="color:var(--muted);max-width:56ch;">Leio o texto da oferta e mostro os gatilhos usados para te fazer decidir rápido. Não é um veredito — é o que está escrito, dito em voz alta. A decisão continua sua.</p>
+
     <div class="ag-form reveal">
-      <div class="ag-grid">
-        <label class="ag-field"><span class="ag-label">Nome da oferta</span><input class="ag-input" id="agNome" placeholder="Ex.: Mentoria Construir do Zero"></label>
-        <label class="ag-field"><span class="ag-label">Valor (opcional)</span><input class="ag-input" id="agValor" placeholder="Ex.: R$ 997"></label>
+      <!-- MODO -->
+      <div class="ag-modo">
+        <button class="ag-mb on" data-modo="link">Tenho o link</button>
+        <button class="ag-mb" data-modo="texto">Vou colar o texto</button>
       </div>
-      <label class="ag-field"><span class="ag-label">Texto da oferta *</span><textarea class="ag-textarea" id="agTexto" placeholder="Cole aqui o texto da promessa, da pagina ou do anuncio."></textarea></label>
-      <div class="ag-grid">
-        <label class="ag-field"><span class="ag-label">CNPJ (se houver)</span><input class="ag-input" id="agCnpj" placeholder="00.000.000/0001-00"></label>
-        <label class="ag-field"><span class="ag-label">Seu contexto (opcional)</span><input class="ag-input" id="agContexto" placeholder="Ex.: preciso decidir hoje"></label>
+
+      <!-- LINK -->
+      <div id="agModoLink">
+        <label class="ag-field">
+          <span class="ag-label">Endereço da página de vendas</span>
+          <input class="ag-input" id="agLink" type="url" placeholder="cole aqui o link, ex.: exemplo.com/mentoria" autocomplete="off">
+        </label>
+        <button class="btn" id="agLerBtn" style="width:100%;justify-content:center;margin-top:4px;background:rgba(87,208,192,.12);border:1px solid var(--teal);color:var(--teal);">Ler a página</button>
+        <div class="ag-lido" id="agLido"></div>
+        <p class="ag-nota">Eu vou lá buscar o texto. Se a página bloquear robôs ou for montada por JavaScript — o que acontece bastante —, eu <b>digo isso</b> e te peço para colar. Não analiso meia página fingindo que li a página inteira.</p>
       </div>
+
+      <!-- TEXTO -->
+      <div id="agModoTexto" style="display:none;">
+        <label class="ag-field">
+          <span class="ag-label">Texto da oferta</span>
+          <textarea class="ag-textarea" id="agTexto" placeholder="Abra a página da oferta, selecione tudo (Ctrl+A), copie (Ctrl+C) e cole aqui.&#10;&#10;Pode ser um print transcrito, o texto de um anúncio, uma mensagem de WhatsApp do vendedor. Quanto mais completo, melhor eu leio."></textarea>
+        </label>
+        <p class="ag-nota">Cole tudo — inclusive o que parece enfeite. Os gatilhos costumam estar justamente nas partes que a gente pula.</p>
+      </div>
+
+      <!-- COMPLEMENTOS -->
+      <div class="ag-grid" style="margin-top:16px;">
+        <label class="ag-field"><span class="ag-label">Nome da oferta <i>opcional</i></span><input class="ag-input" id="agNome" placeholder="Ex.: Mentoria Construir do Zero"></label>
+        <label class="ag-field"><span class="ag-label">Valor <i>opcional</i></span><input class="ag-input" id="agValor" placeholder="Ex.: R$ 997"></label>
+      </div>
+      <label class="ag-field"><span class="ag-label">CNPJ <i>opcional — se você encontrar</i></span><input class="ag-input" id="agCnpj" placeholder="00.000.000/0001-00"></label>
+
+      <!-- CONTEXTO -->
+      <details class="ag-ctxbox">
+        <summary>
+          <span class="ag-ctx-t">Quer me contar o seu momento? <i>opcional</i></span>
+          <span class="ag-ctx-x">abrir</span>
+        </summary>
+        <div class="ag-ctx-in">
+          <p><b>Por que isto ajuda, e por que não é obrigatório.</b> As ofertas são escritas para funcionar melhor em quem está com pressa, com medo ou com pouco dinheiro. Se você me disser que está nesse lugar, eu consigo te mostrar exatamente onde o texto foi feito para te pegar. É a parte mais útil da análise.</p>
+          <p>Mas isto <b>não é um teste</b>, e não existe forma errada de escrever. Escreva como falaria: "tô sem grana", "quero muito isso", "tenho medo de perder". <b>Não escreva nada</b> e a análise sai igual — só sem essa camada.</p>
+          <input class="ag-input" id="agContexto" placeholder="ex.: tô desempregado e queria muito que desse certo">
+        </div>
+      </details>
+
       <div class="ag-err" id="agErr"></div>
-      <button class="btn gold" id="agBtn" style="width:100%;justify-content:center;">Analisar agora</button>
-      <p class="ag-disc">Prévia automática e gratuita. A análise completa, feita manualmente, sai por R$29 &mdash; veja em <a href="#oferta">a oferta</a>.</p>
+      <button class="btn gold" id="agBtn" style="width:100%;justify-content:center;">Analisar</button>
+      <p class="ag-disc">Prévia automática e gratuita, feita no seu navegador. Não guardo o que você cola aqui. A análise completa, feita por uma pessoa, sai por R$29 &mdash; veja em <a href="#oferta">a oferta</a>.</p>
     </div>
     <div id="agResult"></div>
   </div>
@@ -380,7 +519,7 @@
       <div class="card reveal" style="transition-delay:.2s">
         <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.5"><path d="M24 6l4 12h12l-10 8 4 12-10-8-10 8 4-12-10-8h12z"/></svg>
         <div class="step-n">PASSO 03</div><h3>Você recebe clareza</h3>
-        <p>Nota de credibilidade, sinais de atenção e uma orientação — por WhatsApp ou e-mail, em até 24h. A decisão final é sua.</p>
+        <p>O que está realmente à venda, onde aquilo existe de graça, o custo real em tempo e dinheiro, e os outros caminhos — por WhatsApp ou e-mail, em até 24h. A decisão final é sua.</p>
       </div>
     </div>
   </div>
@@ -397,47 +536,46 @@
       <div class="case reveal">
         <div class="ctop">
           <div><div class="cname">Método Liberdade Express</div><div class="ccat">Renda extra</div></div>
-          <div class="stamp" style="background:rgba(229,101,75,.15);color:var(--red)">Risco elevado</div>
+          <div class="stamp" style="background:rgba(229,101,75,.15);color:var(--red)">Muitos sinais</div>
         </div>
         <p class="ctx"><b>Contexto.</b> Considerava comprar pela urgência de ganhar dinheiro rápido.</p>
-        <div class="meter"><span style="width:29%;background:var(--red)"></span></div>
-        <div class="score" style="color:var(--red)">29 / 100 de credibilidade</div>
-        <div class="lbl">Sinais identificados</div>
-        <ul><li>Promessa de ganho garantido</li><li>Escassez ou urgência artificial</li><li>Ausência de prova verificável</li><li>Ausência de dados empresariais (CNPJ)</li></ul>
-        <div class="rec"><b style="color:var(--text)">Orientação:</b> múltiplos sinais indicam nível elevado de risco. Recomenda-se cautela e validação adicional antes de qualquer decisão.</div>
+        <div class="meter"><span style="width:100%;background:var(--red)"></span></div>
+        <div class="score" style="color:var(--red)">100 / 100 de risco <span style="color:var(--muted);font-weight:400;font-size:12px;">(quanto maior, mais sinais)</span></div>
+        <div class="lbl">Sinais de manipulação no texto</div>
+        <ul><li>Promessa de ganho garantido</li><li>Escassez ou urgência fabricada</li><li>Método "secreto" que "ninguém conta"</li><li>Pressão sobre identidade e dor</li><li>Prova social que não pode ser conferida</li><li>Promete muito e não diz o que entrega</li></ul>
+        <div class="rec"><b style="color:var(--text)">Leitura:</b> o texto concentra vários padrões usados para vender no impulso. Isso não prova fraude — prova que foi escrito para reduzir a análise de quem lê.</div>
         <p class="out"><b>Desfecho.</b> Após a análise, optou por não comprar e buscar mais informações.</p>
       </div>
 
       <div class="case reveal" style="transition-delay:.1s">
         <div class="ctop">
           <div><div class="cname">Mentoria Construir do Zero</div><div class="ccat">Negócios</div></div>
-          <div class="stamp" style="background:rgba(227,179,65,.15);color:var(--amber)">Atenção</div>
+          <div class="stamp" style="background:rgba(229,101,75,.15);color:var(--red)">Muitos sinais</div>
         </div>
         <p class="ctx"><b>Contexto.</b> Considerava comprar por vontade de começar um negócio logo.</p>
-        <div class="meter"><span style="width:42%;background:var(--amber)"></span></div>
-        <div class="score" style="color:var(--amber)">42 / 100 de credibilidade</div>
-        <div class="lbl">Sinais identificados</div>
-        <ul><li>Promessa de ganho garantido</li><li>Ausência de prova verificável</li><li>Ausência de dados empresariais (CNPJ)</li></ul>
-        <div class="rec"><b style="color:var(--text)">Orientação:</b> o cenário indica necessidade de verificação adicional antes de prosseguir.</div>
+        <div class="meter"><span style="width:76%;background:var(--red)"></span></div>
+        <div class="score" style="color:var(--red)">76 / 100 de risco <span style="color:var(--muted);font-weight:400;font-size:12px;">(quanto maior, mais sinais)</span></div>
+        <div class="lbl">Sinais de manipulação no texto</div>
+        <ul><li>Escassez ou urgência fabricada</li><li>Pressão sobre identidade e dor</li><li>Prova social que não pode ser conferida</li><li>Promete muito e não diz o que entrega</li><li>Nenhum responsável legal identificável</li></ul>
+        <div class="rec"><b style="color:var(--text)">Leitura:</b> a oferta pode ser boa e ainda assim ser vendida com pressão. O que decide não é o texto — é o que se confirma fora dele.</div>
         <p class="out"><b>Desfecho.</b> Após a análise, optou por pedir mais detalhes ao vendedor.</p>
       </div>
 
       <div class="case reveal" style="transition-delay:.2s">
         <div class="ctop">
           <div><div class="cname">Curso Base Sólida</div><div class="ccat">Carreira</div></div>
-          <div class="stamp" style="background:rgba(87,208,192,.15);color:var(--teal)">Risco reduzido</div>
+          <div class="stamp" style="background:rgba(232,226,255,.08);color:var(--soft)">Nenhum sinal</div>
         </div>
         <p class="ctx"><b>Contexto.</b> Considerava comprar para se qualificar na carreira.</p>
-        <div class="meter"><span style="width:95%;background:var(--teal)"></span></div>
-        <div class="score" style="color:var(--teal)">95 / 100 de credibilidade</div>
-        <div class="lbl">Sinais identificados</div>
-        <ul><li>Ausência de CNPJ no material</li><li>Transparência média: ementa, certificado e reembolso descritos</li></ul>
-        <div class="rec"><b style="color:var(--text)">Orientação:</b> baixo nível de risco nos critérios analisados. Ainda assim, atenção aos detalhes da oferta.</div>
-        <p class="out"><b>Desfecho.</b> Após a análise, seguiu com a compra, ciente dos pontos a confirmar.</p>
+        <div class="meter" style="background:repeating-linear-gradient(-45deg,rgba(232,226,255,.05) 0 6px,transparent 6px 12px);"><span style="width:0%;"></span></div>
+        <div class="score" style="color:var(--soft)">0 / 100 de risco <span style="color:var(--muted);font-weight:400;font-size:12px;">(quanto maior, mais sinais)</span></div>
+        <div class="lbl">Sinais de manipulação no texto</div>
+        <ul><li style="color:var(--muted);">Nenhum encontrado. Descreve ementa, certificado e reembolso — <b style="color:var(--soft);font-weight:400;">o que a oferta <i>diz</i>, não o que está provado.</b></li></ul>
+        <div class="rec" style="border-color:rgba(229,101,75,.3);background:rgba(229,101,75,.07);"><b style="color:var(--red)">E aqui está o limite:</b> zero sinais não é zero risco, e não é aprovação. Nós lemos o <b style="color:var(--text)">texto</b> — não a empresa, nem as reclamações, nem se ela entrega. <b style="color:var(--text)">Um golpe bem escrito marca zero aqui.</b></div>
+        <p class="out"><b>Desfecho.</b> Foi verificar as reclamações e a idade do CNPJ antes de decidir. Comprou — sabendo o que ainda não sabia.</p>
       </div>
 
-    </div>
-    <p class="disc">Casos ilustrativos e fictícios. O AntiGuru lê os sinais e entrega clareza — a decisão de comprar ou não é sempre sua.</p>
+    <p class="disc">Casos ilustrativos e fictícios. O AntiGuru lê o texto da oferta e entrega clareza — a decisão de comprar ou não é sempre sua.</p>
   </div>
 </section>
 
@@ -450,9 +588,9 @@
       <div class="price">R$29</div>
       <div class="anchor">Antes de arriscar R$997 no escuro</div>
       <p class="line">Você não está comprando uma resposta. Está comprando clareza antes da decisão.</p>
-      <div class="terms">Você recebe por WhatsApp ou e-mail em até 24h</div>
-      <a class="btn gold" href="https://mpago.la/1LBepmR" target="_blank" rel="noopener" style="justify-content:center;width:100%;">Pagar com cartão — R$29</a>
-      <a class="btn" href="https://wa.me/5511997603559?text=Quero%20a%20an%C3%A1lise%20do%20AntiGuru%20e%20prefiro%20pagar%20por%20Pix%20(R%2429)" target="_blank" rel="noopener" style="justify-content:center;width:100%;margin-top:10px;background:rgba(87,208,192,.12);border:1px solid var(--teal,#57D0C0);color:var(--teal,#57D0C0);">Pagar com Pix — R$29 (sem taxa)</a>
+      <div class="terms">Você escolhe o canal · entrega em até 24h</div>
+      <button class="btn gold" data-abre-checkout style="justify-content:center;width:100%;">Quero a análise completa — R$29</button>
+      <div style="font-family:'Space Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.6;">Primeiro você me diz onde receber. Só depois vem o pagamento.<br>Cartão ou Pix — você escolhe.</div>
       <div class="guarantee">Se considerar que a análise não foi útil para sua decisão, você pode solicitar reembolso em até 7 dias.</div>
     </div>
   </div>
@@ -567,192 +705,549 @@
 </script>
 
 <script>
+/* ============================================================
+   ANTIGURU — MOTOR v2 (honesto)
+   Princípio: o índice mede SINAIS DE MANIPULAÇÃO NO TEXTO.
+   Não mede idoneidade, não mede entrega, não mede reputação.
+   Declaração na oferta NÃO vira ponto de confiança — vira
+   item "a confirmar". CNPJ é rastreabilidade, não confiança.
+   ============================================================ */
+
+/* --- SINAIS DE MANIPULAÇÃO (o que sobe o risco) --- */
 const FLAGS = [
-  { id:'ganho_garantido', label:'Promessa de ganho garantido', weight:25,
+  { id:'ganho_garantido', label:'Promessa de ganho garantido', weight:24,
     rx:/(ganho|lucro|retorno|renda|resultado)\s*(garantid|cert)|garantia de (lucro|ganho|retorno|resultado)|dinheiro garantid|100%|fique rico|ficar rico|enriquec|multiplicar (seu )?(dinheiro|capital)|dobrar (seu )?(dinheiro|capital)|r\$\s?\d.*(por dia|por semana|por mês|garantid)|\d\s*d[íi]gitos|seis d[íi]gitos|sete d[íi]gitos|(do zero ao|ao primeiro) (milh[ãa]o|milhar)|\d+\s*mil (por|\/)\s*(dia|semana|m[êe]s)|primeiros? \d+\s*mil/i,
-    exp:'A oferta promete resultado financeiro garantido ou cifras específicas. Retorno sério não vem com garantia de valor e prazo — esse é o sinal de atenção mais relevante.' },
-  { id:'metodo_secreto', label:'"Método secreto / exclusivo / que ninguém conta"', weight:16,
-    rx:/m[ée]todo secreto|f[óo]rmula secreta|f[óo]rmula (m[áa]gica|exclusiva|infal[íi]vel)|segredo (dos|que)|t[ée]cnica secreta|ningu[ée]m (te )?(conta|ensina|fala)|o que (os )?gurus? escondem|atalho secreto|truque (secreto|que)|hack (secreto|infal)/i,
-    exp:'A oferta apela a um "segredo" ou "fórmula exclusiva". Conhecimento sério não depende de segredo — esse enquadramento costuma servir para justificar o preço e criar exclusividade artificial.' },
-  { id:'escassez', label:'Escassez ou urgência artificial', weight:13,
-    rx:/(últimas|ultimas)\s*vagas|vagas limitad|só hoje|so hoje|última chance|ultima chance|por tempo limitado|encerra (hoje|amanhã|em breve)|acaba (hoje|à meia|a meia)|restam? \d|expira|últimas horas|ultimas horas|agora ou nunca|lote (esgotad|encerr)|preço sobe|últimas unidades/i,
-    exp:'Há gatilhos de urgência ou escassez. Quando a pressão de tempo é repetida ou se renova, ela costuma servir para reduzir o tempo de análise da decisão.' },
-  { id:'curso_do_curso', label:'Modelo "curso que ensina a vender curso"', weight:20,
-    rx:/(ensino|aprenda|aprender|te ensino) a vender|revend|seja (um )?afiliad|ganhe (vendendo|revendendo)|torne-se (um )?mentor|vire mentor|comiss(ão|ões)|indique e ganhe|marketing multinível|mmn/i,
-    exp:'A oferta sugere que o ganho vem de revender o próprio método a outras pessoas. Modelos assim concentram o retorno em recrutar novos compradores.' },
-  { id:'urgencia_emocional', label:'Linguagem de pressão emocional', weight:12,
-    rx:/transforme sua vida|mude de vida|liberdade financeira|saia do zero|chega de (ser|estar)|pare de (ser|trabalhar)|você merece|vire a chave|mindset (milionário|de rico)|deixe de ser pobre|prosperidade/i,
-    exp:'O texto apela a emoções e identidade ("liberdade", "transformação") em vez de descrever o que é entregue. Apelo emocional forte com pouca substância é um sinal de atenção.' },
-  { id:'depoimento_generico', label:'Depoimentos genéricos ou não rastreáveis', weight:10,
-    rx:/mudou minha vida|melhor (investimento|decisão) que (fiz|já fiz)|recomendo (demais|muito)|prints? de (resultado|ganho|pix)|alunos? (faturando|ganhando|lucrando)|veja os (resultados|depoimentos)/i,
-    exp:'Há referência a depoimentos ou resultados de alunos que normalmente não podem ser verificados de forma independente. Prova não rastreável tem baixo valor de evidência.' },
+    exp:'A oferta promete resultado financeiro garantido ou cifras específicas. Ninguém pode garantir o seu resultado — ele depende de mercado, tempo, contexto e sorte. Prometer isso é vender certeza que não existe.' },
+
+  { id:'curso_do_curso', label:'O ganho vem de revender o próprio método', weight:20,
+    rx:/(ensino|aprenda|aprender|te ensino) a vender|revend|seja (um )?afiliad|ganhe (vendendo|revendendo)|torne-se (um )?mentor|vire mentor|comiss(ão|ões)|indique e ganhe|marketing multinível|mmn|ganhe (indicando|divulgando)/i,
+    exp:'A promessa de retorno depende de você recrutar ou revender para outras pessoas. Nesses modelos, quem entra depois financia quem entrou antes — e a maioria entra depois.' },
+
+  { id:'escassez', label:'Escassez ou urgência fabricada', weight:16,
+    rx:/(últimas|ultimas)\s*vagas|vagas limitad|só hoje|so hoje|última chance|ultima chance|por tempo limitado|encerra (hoje|amanhã|em breve)|acaba (hoje|à meia|a meia)|restam? \d|expira|últimas horas|ultimas horas|agora ou nunca|lote (esgotad|encerr)|preço sobe|últimas unidades|inscrições encerram|fecha (hoje|amanhã)/i,
+    exp:'Há pressão de tempo. O objetivo de um prazo artificial é encurtar a sua análise — quanto menos tempo você pensa, mais o impulso decide. Oferta honesta sobrevive a você dormir sobre ela.' },
+
+  { id:'metodo_secreto', label:'Método "secreto", exclusivo ou que "ninguém conta"', weight:15,
+    rx:/m[ée]todo secreto|f[óo]rmula secreta|f[óo]rmula (m[áa]gica|exclusiva|infal[íi]vel)|segredo (dos|que)|t[ée]cnica secreta|ningu[ée]m (te )?(conta|ensina|fala)|o que (os )?gurus? escondem|atalho secreto|truque (secreto|que)|hack (secreto|infal)|informação privilegiada/i,
+    exp:'O apelo ao "segredo" cria valor artificial e justifica preço. Conhecimento que funciona não precisa ser secreto — precisa ser demonstrável.' },
+
+  { id:'pressao_emocional', label:'Pressão sobre identidade e dor', weight:13,
+    rx:/transforme sua vida|mude de vida|liberdade financeira|saia do zero|chega de (ser|estar)|pare de (ser|trabalhar)|você merece|vire a chave|mindset (milionário|de rico)|deixe de ser pobre|prosperidade|sair do CLT|demita seu chefe|nunca mais (dependa|trabalhe)/i,
+    exp:'O texto fala com a sua dor e a sua identidade em vez de descrever o que entrega. Quanto mais a oferta mexe em quem você é, menos ela precisa provar o que faz.' },
+
+  { id:'prova_nao_rastreavel', label:'Prova social que não pode ser conferida', weight:12,
+    rx:/mudou minha vida|melhor (investimento|decisão) que (fiz|já fiz)|recomendo (demais|muito)|prints? de (resultado|ganho|pix|faturamento)|alunos? (faturando|ganhando|lucrando)|veja os (resultados|depoimentos)|mais de \d+ (mil )?alunos|\+\d+ alunos/i,
+    exp:'Depoimentos, prints e números de alunos são fáceis de fabricar e impossíveis de auditar de fora. Prova só vale se você puder verificar por conta própria.' },
+
+  { id:'ataque_ao_ceticismo', label:'Desqualifica quem duvida', weight:11,
+    rx:/só não (funciona|dá certo) (pra|para) quem|se você não (acreditar|aplicar)|mentalidade de pobre|(mente|cabeça) de (pobre|fracassad)|desculpinha|para de reclamar|quem quer, faz|não é (pra|para) todo mundo|só (pra|para) quem tem coragem/i,
+    exp:'A oferta antecipa a sua dúvida e transforma dúvida em defeito seu. Isso desarma o pensamento crítico antes que ele funcione — e blinda o vendedor de qualquer culpa se não der certo.' },
 ];
 
-const TRANSP = [
-  { id:'cnpj', label:'CNPJ informado', rx:/\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}|cnpj/i },
-  { id:'reembolso', label:'Política de reembolso / garantia de 7 dias', rx:/reembolso|garantia de (7|sete) dias|devolução|estorno|direito de arrependimento/i },
-  { id:'conteudo', label:'Conteúdo descrito (módulos, carga horária, ementa)', rx:/m(ó|o)dulo|carga horária|ementa|aulas?|certificad|conteúdo program|grade do curso/i },
-  { id:'contato', label:'Canal de contato ou suporte claro', rx:/suporte|atendimento|fale conosco|contato@|@.*\.com|whatsapp.*\d|telefone/i },
-];
+/* --- AUSÊNCIAS QUE PESAM (opacidade sobe o risco) --- */
+const RX_CONTEUDO   = /m(ó|o)dulo|carga horária|ementa|aulas?|certificad|conteúdo program|grade do curso|cronograma|encontros?/i;
+const RX_REEMBOLSO  = /reembolso|garantia de (7|sete) dias|devolução|estorno|direito de arrependimento|não gostou.*devolv/i;
+const RX_SUPORTE    = /suporte|atendimento|fale conosco|contato@|whatsapp.*\d|telefone|e-?mail de contato/i;
+const RX_CNPJ_TXT   = /\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}|cnpj/i;
+const RX_QUEM_ENSINA= /minha (experiência|trajetória)|trabalho (há|a) \d+ ano|formaç(ão|ões)|atuo (há|a) \d+|currículo|portfólio|graduad|especialista em .* com \d+ ano/i;
+
+/* --- VALIDAÇÃO REAL DE CNPJ (dígito verificador) --- */
+function cnpjValido(v){
+  v = (v||'').replace(/\D/g,'');
+  if(v.length!==14 || /^(\d)\1{13}$/.test(v)) return false;
+  const calc = (base, pesos) => {
+    let s=0; for(let i=0;i<pesos.length;i++) s += parseInt(base[i],10)*pesos[i];
+    const r = s % 11; return r < 2 ? 0 : 11 - r;
+  };
+  const d1 = calc(v, [5,4,3,2,9,8,7,6,5,4,3,2]);
+  const d2 = calc(v, [6,5,4,3,2,9,8,7,6,5,4,3,2]);
+  return d1 === parseInt(v[12],10) && d2 === parseInt(v[13],10);
+}
 
 const Engine = {
   clamp(n,a,b){ return Math.max(a,Math.min(b,n)); },
+
   analyze(input){
     const rawText = ((input.texto||'')+' '+(input.nome||'')+' '+(input.valor||'')).toLowerCase();
-    // CORREÇÃO DE NEGAÇÃO: "sem reembolso", "não tem cnpj", "nenhuma garantia" não podem
-    // contar como transparência positiva. Removemos os trechos negados antes de procurar positivos.
-    const text = rawText.replace(/\b(sem|não tem|nao tem|não possui|nao possui|nenhum[ao]?|sem nenhum[ao]?|não há|nao ha|inexistente|não oferece|nao oferece|zero)\s+(reembolso|garantia|cnpj|nota fiscal|contrato|suporte|ementa|módulos?|modulos?|certificad[oa]|devolução|devolucao|estorno|política de \w+)/gi, ' [negado] ');
-    const cnpjField = (input.cnpj||'').replace(/\D/g,'');
-    const contexto = (input.contexto||'').toLowerCase();
+    // negação: "sem reembolso", "não tem cnpj" não podem contar como item declarado
+    const text = rawText.replace(/\b(sem|não tem|nao tem|não possui|nao possui|nenhum[ao]?|não há|nao ha|inexistente|não oferece|nao oferece|zero)\s+(reembolso|garantia|cnpj|nota fiscal|contrato|suporte|ementa|módulos?|modulos?|certificad[oa]|devolução|devolucao|estorno)/gi,' [negado] ');
+
+    const cnpjRaw   = (input.cnpj||'').replace(/\D/g,'');
+    const cnpjOk    = cnpjValido(cnpjRaw);
+    const cnpjMalf  = cnpjRaw.length>0 && !cnpjOk;
+    const contexto  = (input.contexto||'').toLowerCase();
+
     const ctx = {
-      urgencia: /desemprego|d[ií]vida|preciso de dinheiro|renda urgente|sem (dinheiro|grana|renda)|apertad|endividad|contas? atrasad|desempregad/.test(contexto),
-      medo: /[uú]ltima chance|n[aã]o quero perder|oportunidade [uú]nica|medo de perder|vai acabar|perder a chance|fomo/.test(contexto),
-      impulso: /quero come[çc]ar logo|j[aá] decidi|vou comprar|comprar agora|sem pensar|de qualquer jeito|custe o que custar|t[oô] decidid/.test(contexto)
+      urgencia: /desemprego|d[ií]vida|preciso de dinheiro|renda urgente|sem (dinheiro|grana|renda)|apertad|endividad|contas? atrasad|desempregad|último dinheiro|ultimo dinheiro/.test(contexto),
+      medo:     /[uú]ltima chance|n[aã]o quero perder|oportunidade [uú]nica|medo de perder|vai acabar|perder a chance|fomo/.test(contexto),
+      impulso:  /quero come[çc]ar logo|j[aá] decidi|vou comprar|comprar agora|preciso decidir hoje|sem pensar|de qualquer jeito|custe o que custar|t[oô] decidid/.test(contexto)
     };
-    const negatives=[]; const positives=[];
 
-    FLAGS.forEach(f=>{ if(f.rx.test(text)) negatives.push({id:f.id,label:f.label,exp:f.exp,weight:f.weight}); });
+    /* ---------- 1. SINAIS (o que sobe o risco) ---------- */
+    const sinais = [];
+    FLAGS.forEach(f=>{ if(f.rx.test(text)) sinais.push({id:f.id,label:f.label,exp:f.exp,weight:f.weight}); });
 
-    // sinal de ausência: sem prova verificável quando há promessa forte sem conteúdo descrito
-    const hasPromise = negatives.some(n=>n.id==='ganho_garantido'||n.id==='urgencia_emocional');
-    const describesContent = TRANSP[2].rx.test(text);
-    if(hasPromise && !describesContent){
-      negatives.push({id:'sem_prova',label:'Ausência de prova verificável',weight:18,
-        exp:'A oferta faz promessas fortes mas não descreve o que é entregue (conteúdo, método, credenciais). Promessa sem lastro verificável é um sinal de baixo nível de evidência.'});
+    const temPromessa = sinais.some(s=>s.id==='ganho_garantido'||s.id==='pressao_emocional');
+    const descreveConteudo = RX_CONTEUDO.test(text);
+
+    if(temPromessa && !descreveConteudo){
+      sinais.push({id:'opacidade', label:'Promete muito e não diz o que entrega', weight:16,
+        exp:'A oferta faz promessa forte mas não descreve conteúdo, método ou credenciais. Promessa sem lastro é a assinatura mais comum da oferta vazia.'});
     }
-    // ausência de dados empresariais
-    const cnpjValid = cnpjField.length===14;
-    if(!cnpjValid && !TRANSP[0].rx.test(text)){
-      negatives.push({id:'sem_cnpj',label:'Ausência de dados empresariais (CNPJ)',weight:15,
-        exp:'Não há CNPJ identificável na oferta. A falta de dados empresariais públicos dificulta verificar quem é o responsável legal.'});
+    if(!cnpjOk && !cnpjMalf && !RX_CNPJ_TXT.test(text)){
+      sinais.push({id:'sem_responsavel', label:'Nenhum responsável legal identificável', weight:14,
+        exp:'Não há CNPJ na oferta. Sem isso, se der errado você não tem a quem reclamar, nem onde processar, nem como saber se a empresa já quebrou antes com outro nome.'});
+    }
+    if(cnpjMalf){
+      sinais.push({id:'cnpj_invalido', label:'CNPJ informado não é válido', weight:14,
+        exp:'O CNPJ que você digitou não passa na verificação de dígito. Pode ser erro de digitação — ou pode ser um número inventado para parecer legítimo.'});
     }
 
-    TRANSP.forEach(t=>{ if((t.id==='cnpj'&&cnpjValid) || t.rx.test(text)) positives.push({id:t.id,label:t.label}); });
+    /* ---------- 2. ÍNDICE DE RISCO (só sinais pontuam) ---------- */
+    let risco = sinais.reduce((s,n)=>s+n.weight,0);
 
-    const penalty = negatives.reduce((s,n)=>s+n.weight,0);
-    const bonus = Math.min(positives.length*5, 18);
-    const score = this.clamp(100 - penalty + bonus, 0, 100);
-
-    let risk, riskLabel, color, rec;
-    if(score>=70){ risk='reduzido'; riskLabel='Risco reduzido'; color='var(--green)';
-      rec='As informações disponíveis indicam baixo nível de risco, considerando os critérios analisados. Ainda assim, recomenda-se atenção aos detalhes da oferta.';
-    } else if(score>=40){ risk='atencao'; riskLabel='Atenção'; color='var(--amber)';
-      rec='O cenário indica necessidade de verificação adicional antes de prosseguir.';
-    } else { risk='elevado'; riskLabel='Risco elevado'; color='var(--red)';
-      rec='Foram identificados múltiplos sinais de atenção que indicam um nível elevado de risco. Recomenda-se cautela e validação adicional das informações antes de considerar qualquer decisão.';
-    }
-    // Camada de contexto da decisão: leitura simples e ajuste leve (máx. -10)
     let ctxPenalty = 0;
-    if(risk==='elevado' && ctx.urgencia) ctxPenalty += 5;
-    if(risk==='atencao' && ctx.impulso) ctxPenalty += 5;
-    ctxPenalty = Math.min(ctxPenalty, 10);
-    const finalScore = this.clamp(score - ctxPenalty, 0, 100);
+    if(ctx.urgencia) ctxPenalty += 6;
+    if(ctx.impulso)  ctxPenalty += 5;
+    if(ctx.medo)     ctxPenalty += 4;
+    ctxPenalty = Math.min(ctxPenalty, 12);
+    risco = this.clamp(risco + ctxPenalty, 0, 100);
 
+    /* SEM VERDE. Verde é a cor de "aprovado" — e nós não aprovamos nada.
+       Baixo = neutro. Não é aval, é ausência de achado. */
+    let faixa, faixaLabel, color, rec;
+    if(risco >= 55){
+      faixa='alto'; faixaLabel='Muitos sinais de manipulação neste texto'; color='var(--red)';
+      rec='O texto concentra vários padrões usados para vender no impulso. Isso não prova que a oferta é fraude — prova que ela foi escrita para reduzir a sua análise. Antes de qualquer decisão, verifique o que está fora do texto.';
+    } else if(risco >= 25){
+      faixa='medio'; faixaLabel='Sinais de manipulação neste texto'; color='var(--amber)';
+      rec='Há padrões que merecem atenção. A oferta pode ser boa e ainda assim ser vendida com pressão. O que decide não é o texto — é o que você conseguir confirmar fora dele.';
+    } else if(risco > 0){
+      faixa='baixo'; faixaLabel='Poucos sinais de manipulação neste texto'; color='var(--soft)';
+      rec='O texto tem poucos gatilhos de manipulação. Isso é bom — e é pouco. Um texto sóbrio pode acompanhar uma oferta ruim. Só a verificação externa te diz o resto.';
+    } else {
+      faixa='zero'; faixaLabel='Nenhum sinal de manipulação neste texto'; color='var(--soft)';
+      rec='Não encontrei gatilhos de manipulação no texto que você colou. Registre o que isso é: nós lemos o texto e não achamos nada — não verificamos a empresa, o histórico, as reclamações nem a entrega. Golpe bem-feito escreve com sobriedade. Este resultado não é um aval, e não deve ser lido como um. O trabalho de verdade começa na seção abaixo.';
+    }
+
+    /* ---------- 3. RASTREABILIDADE (peso ZERO no índice) ---------- */
+    let rastro;
+    if(cnpjOk){
+      rastro = { status:'ok', label:'CNPJ válido informado',
+        nota:'Isso te diz a quem reclamar. Não diz que a empresa é confiável. Empresa se abre em um dia, arrecada, fecha e reabre com outro nome — o CNPJ não impede nada disso. Ele serve para você ir verificar, não para confiar.' };
+    } else if(cnpjMalf){
+      rastro = { status:'ruim', label:'CNPJ informado é inválido',
+        nota:'O número não passa na verificação. Confira a digitação. Se o vendedor te passou esse número, isso por si só já é um dado.' };
+    } else {
+      rastro = { status:'ausente', label:'Sem CNPJ identificável',
+        nota:'Sem responsável legal, não há a quem reclamar. Peça o CNPJ antes de pagar — se recusarem, isso responde muita coisa.' };
+    }
+
+    /* ---------- 4. DECLARADO NA OFERTA (a confirmar, NÃO é ponto) ---------- */
+    const declarados = [];
+    if(RX_CONTEUDO.test(text))    declarados.push({label:'Conteúdo descrito (módulos, aulas, carga horária)', check:'Peça a ementa por escrito e compare com o que está prometido.'});
+    if(RX_REEMBOLSO.test(text))   declarados.push({label:'Menciona reembolso ou garantia', check:'Peça o prazo e as condições por escrito, antes de pagar.'});
+    if(RX_SUPORTE.test(text))     declarados.push({label:'Menciona canal de suporte', check:'Mande uma mensagem ANTES de pagar e veja se respondem.'});
+    if(RX_QUEM_ENSINA.test(text)) declarados.push({label:'Menciona a experiência de quem ensina', check:'Procure o nome da pessoa fora da própria página de vendas.'});
+
+    /* ---------- 5. O QUE SÓ VOCÊ PODE VERIFICAR ---------- */
+    const externos = [
+      { t:'Reclamações públicas', d:'Busque o nome do produto e o nome de quem vende no Reclame Aqui, no Google e no Procon. É aqui que a verdade aparece — não na página de vendas.' },
+      { t:'Idade e situação da empresa', d:'Consulte o CNPJ na Receita Federal (grátis). Empresa aberta há poucos meses vendendo promessa grande é padrão de quem arrecada e some.' },
+      { t:'O rastro da pessoa', d:'Procure o nome do vendedor fora do funil dele. Já teve outro produto? Ele sumiu? Trocou de nome? O histórico conta o que o texto esconde.' },
+      { t:'Alguém que terminou', d:'Peça o contato de duas pessoas que concluíram — não depoimentos postados. A recusa é resposta.' },
+    ];
+
+    /* ---------- 6. LEITURA DO SEU CONTEXTO ---------- */
     const conds = [];
     if(ctx.urgencia) conds.push('necessidade financeira');
-    if(ctx.medo) conds.push('medo de perder a oportunidade');
-    if(ctx.impulso) conds.push('vontade de decidir rapidamente');
+    if(ctx.medo)     conds.push('medo de perder a oportunidade');
+    if(ctx.impulso)  conds.push('pressa para decidir');
     let contextTrend = '';
     if(conds.length){
       const ctext = conds.length===1 ? conds[0] : conds.slice(0,-1).join(', ')+' e '+conds.slice(-1);
-      contextTrend = 'A análise identificou sinais de decisão sob '+ctext+'. Esse padrão pode aumentar o risco de decisões impulsivas.';
+      contextTrend = 'Você descreveu um estado de '+ctext+'. Essa é exatamente a condição que a oferta acima foi escrita para explorar. Não é fraqueza sua — é engenharia deles. Mas é o pior momento possível para decidir.';
     }
-    if(ctx.urgencia) rec += ' Como há indicação de necessidade financeira, recomenda-se evitar decisões sob pressão e priorizar validação adicional.';
-    if(ctx.impulso) rec += ' O padrão indica tendência a decisão rápida. Pausar antes de prosseguir pode reduzir riscos.';
-    if(ctx.medo) rec += ' A sensação de urgência pode influenciar a decisão. Ofertas legítimas permitem tempo para análise.';
 
-    // Próximos passos: orientação genérica, sem impor decisão
-    const steps = [
-      'Verificar o CNPJ no site da Receita Federal' + (cnpjField.length===14 ? ' ('+input.cnpj+')' : ', se houver') + '.',
-      'Solicitar evidências reais e verificáveis (conteúdo, método, credenciais).',
-      'Revisar os termos e a política de reembolso.',
-      'Considerar começar por opções gratuitas ou de menor risco.'
-    ];
-    // PRÓXIMO PASSO: ações concretas personalizadas pelos sinais
-    const hasPos = id => positives.some(p=>p.id===id);
-    const hasNeg = id => negatives.some(n=>n.id===id);
+    /* ---------- 7. PRÓXIMAS AÇÕES ---------- */
+    const has = id => sinais.some(s=>s.id===id);
     const acoes = [];
-    if(hasNeg('sem_cnpj') || !hasPos('cnpj')) acoes.push('Peça o CNPJ de quem vende e confira grátis na Receita Federal (consulta CNPJ).');
-    if(hasNeg('sem_prova') || hasNeg('depoimento_generico')) acoes.push('Peça prova verificável: o contato de 2 alunos que concluíram, não só depoimentos postados.');
-    if(!hasPos('conteudo') || hasNeg('curso_do_curso')) acoes.push('Peça a ementa por escrito: módulos, carga horária e o que exatamente você recebe.');
-    if(hasNeg('ganho_garantido') || hasNeg('urgencia_emocional')) acoes.push('Peça por escrito o que acontece se não funcionar (garantia e reembolso).');
-    if(hasNeg('escassez')) acoes.push('Espere 48h e veja se a "vaga limitada" ou o preço realmente mudam.');
-    if(!hasPos('reembolso')) acoes.push('Peça a política de reembolso por escrito (prazo e condições).');
-    const fallback = [
-      'Guarde a página da oferta (print) e o nome de quem vende.',
-      'Salve a política de reembolso e o prazo de acesso ao conteúdo.',
-      'Ao pagar, use meio rastreável (Pix ou cartão) e guarde o comprovante.'
-    ];
-    for(let k=0; acoes.length<3 && k<fallback.length; k++){ if(acoes.indexOf(fallback[k])<0) acoes.push(fallback[k]); }
-    let ppContinuar, ppMaxseg;
-    if(risk==='elevado'){
-      ppContinuar='pague só por meio rastreável (Pix ou cartão), guarde todos os prints e a garantia de reembolso por escrito — ciente de que os sinais apontam risco alto.';
-      ppMaxseg='não compre esta oferta agora e procure uma alternativa que mostre conteúdo, CNPJ e reembolso sem você precisar insistir.';
-    } else if(risk==='atencao'){
-      ppContinuar='pode seguir desde que tenha em mãos conteúdo, política de reembolso e o contato de quem vende.';
-      ppMaxseg='só pague depois de receber ementa, política de reembolso e CNPJ confirmados.';
-    } else {
-      ppContinuar='pode seguir com tranquilidade, mantendo comprovante e política de reembolso salvos.';
-      ppMaxseg='confirme o ponto pendente antes de pagar e mantenha tudo registrado.';
-    }
-    const proximo = { acoes: acoes.slice(0,3), continuar: ppContinuar, maxseg: ppMaxseg };
+    if(has('sem_responsavel') || has('cnpj_invalido')) acoes.push('Peça o CNPJ de quem vende e consulte grátis na Receita Federal — veja a situação e a data de abertura.');
+    acoes.push('Busque o nome do produto + "reclame aqui" e o nome do vendedor + "golpe" ou "não recebi". Leia as reclamações, não os elogios.');
+    if(has('prova_nao_rastreavel') || has('ganho_garantido')) acoes.push('Peça o contato de 2 pessoas que concluíram e obtiveram o resultado prometido. Depoimento postado não conta.');
+    if(!descreveConteudo || has('curso_do_curso')) acoes.push('Peça a ementa por escrito: módulos, carga horária, o que exatamente você recebe e por quanto tempo.');
+    if(!RX_REEMBOLSO.test(text)) acoes.push('Peça a política de reembolso por escrito — prazo e condições. Sem isso no papel, ela não existe.');
+    if(has('escassez')) acoes.push('Espere 48h. Se a "última vaga" continuar lá, você acabou de descobrir o que ela vale.');
+    acoes.push('Salve print da página, do preço e de tudo que foi prometido. Pague só por meio rastreável.');
 
-    const tpc = positives.length;
-    const transpLevel = tpc>=3?'Alta':(tpc>=1?'Média':'Baixa');
-
-    return { score: finalScore, risk, riskLabel, color, negatives, positives, rec, steps, proximo, transpLevel, contextTrend, ctx, contexto:(input.contexto||''), cnpj:input.cnpj||'', when:Date.now(), name:(input.nome||'Oferta sem nome') };
+    return {
+      risco, faixa, faixaLabel, color, rec,
+      sinais, rastro, declarados, externos,
+      acoes: acoes.slice(0,4),
+      contextTrend, ctx,
+      contexto:(input.contexto||''), cnpj:(input.cnpj||''),
+      texto:(input.texto||''), valor:(input.valor||''),
+      when:Date.now(), name:(input.nome||'Oferta sem nome')
+    };
   }
 };
+
 function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* guarda a última análise para o checkout */
+window.AG_ULTIMA = null;
+
 function agRender(r){
-  var neg = r.negatives.length ? r.negatives.map(function(n){return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--red)">&#10007;</span>'+n.label+'</div><div class="ag-se">'+n.exp+'</div></div>';}).join('') : '<p style="color:var(--muted);font-size:14px;">Nenhum sinal de atencao relevante foi identificado no texto enviado.</p>';
-  var pos = r.positives.length ? r.positives.map(function(p){return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--teal)">&#9711;</span>'+p.label+'</div></div>';}).join('') : '<p style="color:var(--muted);font-size:14px;">Nenhum elemento de transparência identificado.</p>';
+  var sinais = r.sinais.length
+    ? r.sinais.map(function(n){ return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--red)">&#10007;</span>'+n.label+'</div><div class="ag-se">'+n.exp+'</div></div>'; }).join('')
+    : '<p style="color:var(--muted);font-size:14px;">Nenhum gatilho de manipulação foi identificado no texto enviado. Isso é bom — e é só o texto.</p>';
+
+  var rastroCor = r.rastro.status==='ok' ? 'var(--teal)' : (r.rastro.status==='ruim' ? 'var(--red)' : 'var(--amber)');
+  var rastro = '<div class="ag-rastro">'
+    + '<div class="ag-st" style="margin-bottom:6px;"><span class="ag-sm" style="color:'+rastroCor+'">&#9673;</span>'+r.rastro.label+'</div>'
+    + '<div class="ag-se" style="padding-left:22px;">'+r.rastro.nota+'</div>'
+    + '<div class="ag-warn">CNPJ não é nota de confiança. É filtro de rastreabilidade — e vale zero ponto neste índice, de propósito.</div>'
+    + '</div>';
+
+  var decl = r.declarados.length
+    ? r.declarados.map(function(d){ return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--muted)">&#9633;</span>'+d.label+'</div><div class="ag-se">'+d.check+'</div></div>'; }).join('')
+    : '<p style="color:var(--muted);font-size:14px;">A oferta não declara conteúdo, reembolso, suporte nem quem ensina.</p>';
+
+  var ext = r.externos.map(function(e){ return '<div class="ag-ext"><div class="ag-ext-t">'+e.t+'</div><div class="ag-ext-d">'+e.d+'</div></div>'; }).join('');
+
+  var ctxBlock = r.contextTrend
+    ? '<div class="ag-ctx"><b>Sobre o seu momento</b><p>'+escapeHtml(r.contextTrend)+'</p></div>' : '';
+
   return ''
    + '<div class="ag-rcard">'
-   +   '<div class="ag-tier free"><span>&#9673;</span> Prévia gratuita</div>'
+   +   '<div class="ag-tier free"><span>&#9673;</span> Prévia gratuita &middot; leitura do texto</div>'
    +   '<div class="ag-rhead">'
-   +     '<div class="ag-rt">Diagnostico de risco da oferta</div>'
+   +     '<div class="ag-rt">Índice de risco da oferta</div>'
    +     '<div class="ag-rn">'+escapeHtml(r.name)+'</div>'
-   +     '<div class="ag-meter"><span style="width:'+r.score+'%;background:'+r.color+'"></span></div>'
-   +     '<div class="ag-score" style="color:'+r.color+'">'+r.score+' / 100 de credibilidade</div><br>'
-   +     '<div class="ag-stamp" style="color:'+r.color+'">'+r.riskLabel+'</div>'
+   +     '<div class="ag-meter'+(r.risco===0?' vazio':'')+'"><span style="width:'+r.risco+'%;background:'+r.color+'"></span></div>'
+   +     '<div class="ag-score" style="color:'+r.color+'">'+r.risco+' / 100 de RISCO <span style="color:var(--muted);font-weight:400;">(quanto maior, mais sinais)</span></div><br>'
+   +     '<div class="ag-stamp" style="color:'+r.color+'">'+r.faixaLabel+'</div>'
+   +     '<div class="ag-scope"><span class="sc-i">!</span><div><b>Este número mede o TEXTO da oferta — não a oferta.</b>'
+   +       (r.risco===0
+          ? ' Zero sinais não é zero risco, e não é aprovação. Não olhamos a empresa, o histórico, as reclamações nem se você recebe o que pagou. Um golpe bem escrito marca zero aqui.'
+          : ' Ele não diz se a empresa é honesta, se o curso é bom ou se você vai receber. Isso mora fora do texto.')
+   +     '</div></div>'
    +   '</div>'
-   +   '<div class="ag-sec"><h4>Sinais identificados</h4>'+neg+'</div>'
-   +   '<div class="ag-sec"><h4>Nível de transparência &mdash; '+r.transpLevel+'</h4>'+pos+'</div>'
+
+   +   '<div class="ag-nots"><b>O que este índice NÃO diz.</b> Ele não diz se a empresa é honesta, se o curso é bom, se você vai receber ou se vão te devolver o dinheiro. Ele lê <i>o texto da oferta</i> e mostra os padrões usados para te fazer decidir rápido. Confiança de verdade vem de reclamações, histórico e prova — coisas que estão fora do texto. Por isso a próxima seção existe.</div>'
+
+   +   '<div class="ag-sec"><h4>Sinais de manipulação encontrados</h4>'+sinais+'</div>'
+
+   +   '<div class="ag-sec"><h4>Rastreabilidade &mdash; a quem reclamar</h4>'+rastro+'</div>'
+
+   +   '<div class="ag-sec"><h4>Declarado na oferta &mdash; a confirmar</h4>'
+   +     '<p class="ag-hint">Isto é o que a oferta <i>diz</i>. Dizer não é provar — nada aqui reduz o risco. São itens para você exigir por escrito.</p>'
+   +     decl
+   +   '</div>'
+
+   +   '<div class="ag-sec"><h4>O que só você pode verificar</h4>'
+   +     '<p class="ag-hint">O AntiGuru lê o texto. A confiança mora aqui fora — e este é o trabalho que ninguém faz antes de pagar.</p>'
+   +     ext
+   +   '</div>'
+
+   +   ctxBlock
+
    +   '<div class="ag-sec" style="border-bottom:none;">'
-   +     '<h4>Análise completa</h4>'
+   +     '<h4>Leitura completa</h4>'
    +     '<div class="ag-locked">'
    +       '<div class="ag-blur">'
    +         '<p class="ag-rec" style="color:'+r.color+'">'+escapeHtml(r.rec)+'</p>'
-   +         '<div class="ag-next"><b>Próximo passo</b><p style="font-size:14px;margin:6px 0;color:var(--soft)">Se você estivesse decidindo agora, faça isso:</p><ol><li>'+r.proximo.acoes.map(escapeHtml).join('</li><li>')+'</li></ol></div>'
+   +         '<div class="ag-next"><b>Próximo passo</b><ol><li>'+r.acoes.map(escapeHtml).join('</li><li>')+'</li></ol></div>'
    +       '</div>'
    +       '<div class="ag-veil">'
    +         '<div class="lk"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#1a1405" stroke-width="1.7"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="#1a1405" stroke-width="1.7"/></svg></div>'
-   +         '<div class="vt">Esta é só a prévia. A leitura completa fica na análise paga.</div>'
-   +         '<div class="vd">Um analista humano examina a oferta a fundo, nos 7 eixos, e te entrega um laudo claro com orientação e próximo passo.</div>'
-   +         '<div class="vlist"><span class="vchip">7 eixos detalhados</span><span class="vchip">Sinais + contexto</span><span class="vchip">Pontos a favor</span><span class="vchip">Roteiro do que fazer</span><span class="vchip">Alternativas</span></div>'
-   +         '<a class="btn gold" href="https://mpago.la/1LBepmR" target="_blank" rel="noopener" style="justify-content:center;">Pagar com cartão — R$29</a>'
-   +         '<a class="btn" href="https://wa.me/5511997603559?text=Quero%20a%20an%C3%A1lise%20completa%20do%20AntiGuru%20e%20prefiro%20pagar%20por%20Pix%20(R%2429)" target="_blank" rel="noopener" style="justify-content:center;margin-top:9px;background:rgba(87,208,192,.12);border:1px solid var(--teal,#57D0C0);color:var(--teal,#57D0C0);">Pagar com Pix — R$29 (sem taxa)</a>'
-   +         '<div class="vprice">por <b>R$29</b> · entrega em até 24h · reembolso em 7 dias</div>'
+   +         '<div class="vt">A prévia lê o texto. A análise paga faz o que o texto esconde.</div>'
+   +         '<div class="vd">Eu, uma pessoa, vou atrás: reclamações públicas, situação e idade do CNPJ, rastro de quem vende, ofertas anteriores. E te entrego a leitura honesta em até 24h — no canal que você escolher.</div>'
+   +         '<div class="vlist"><span class="vchip">Busca de reclamações</span><span class="vchip">CNPJ verificado</span><span class="vchip">Rastro do vendedor</span><span class="vchip">Leitura dos 7 eixos</span><span class="vchip">Roteiro do que fazer</span></div>'
+   +         '<button class="btn gold" id="agAbrirCheckout" style="justify-content:center;">Quero a análise completa — R$29</button>'
+   +         '<div class="vprice">R$29 &middot; entrega em até 24h &middot; reembolso em 7 dias</div>'
    +       '</div>'
    +     '</div>'
-   +     '<p class="ag-legal" style="margin-top:18px;">Esta é uma prévia automática dos sinais do texto. A análise completa, feita à mão, entrega a leitura honesta e o próximo passo. Não dizemos "compre" ou "não compre" — a decisão é sempre sua.</p>'
+   +     '<p class="ag-legal" style="margin-top:18px;">Esta prévia é automática e lê só o que você colou. Não dizemos "compre" ou "não compre" &mdash; a decisão é, e sempre será, sua.</p>'
    +   '</div>'
    + '</div>';
 }
+
+/* ---------- MODO LINK / TEXTO ---------- */
+window.AG_LIDO = null;   // o que a function trouxe
+
+(function(){
+  var bs = document.querySelectorAll('.ag-mb');
+  if(!bs.length) return;
+  bs.forEach(function(b){
+    b.addEventListener('click', function(){
+      bs.forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      var m = b.getAttribute('data-modo');
+      document.getElementById('agModoLink').style.display  = m==='link' ?'block':'none';
+      document.getElementById('agModoTexto').style.display = m==='texto'?'block':'none';
+      document.getElementById('agErr').textContent='';
+    });
+  });
+})();
+
+function agModoAtual(){
+  var on = document.querySelector('.ag-mb.on');
+  return on ? on.getAttribute('data-modo') : 'link';
+}
+function agParaTexto(msg){
+  document.querySelector('.ag-mb[data-modo="texto"]').click();
+  var t = document.getElementById('agTexto');
+  t.focus();
+  if(msg) document.getElementById('agErr').textContent = msg;
+}
+
+/* ---------- LER A PÁGINA (Netlify Function) ---------- */
+(function(){
+  var lb = document.getElementById('agLerBtn');
+  if(!lb) return;
+
+  lb.addEventListener('click', async function(){
+    var url = (document.getElementById('agLink').value||'').trim();
+    var caixa = document.getElementById('agLido');
+    var err = document.getElementById('agErr');
+    err.textContent='';
+    caixa.className='ag-lido'; caixa.innerHTML='';
+    window.AG_LIDO = null;
+
+    if(url.length < 4){ err.textContent='Cole o endereço da página de vendas.'; return; }
+
+    lb.disabled = true; lb.textContent = 'lendo a página...';
+    try{
+      var res = await fetch('/.netlify/functions/ler-oferta', {
+        method:'POST',
+        headers:{'content-type':'application/json'},
+        body: JSON.stringify({ url: url })
+      });
+      var d = await res.json();
+
+      if(d.ok){
+        window.AG_LIDO = d;
+        if(d.titulo && !document.getElementById('agNome').value) document.getElementById('agNome').value = d.titulo.slice(0,90);
+        if(d.valor  && !document.getElementById('agValor').value) document.getElementById('agValor').value = d.valor;
+        if(d.cnpj   && !document.getElementById('agCnpj').value)  document.getElementById('agCnpj').value  = d.cnpj;
+        caixa.className='ag-lido ok';
+        caixa.innerHTML = '<b>&#10003; Página lida</b>'
+          + 'Peguei ' + d.texto.length.toLocaleString('pt-BR') + ' caracteres de texto'
+          + (d.truncado ? ' (cortei o excedente — analiso o que veio)' : '')
+          + (d.cnpj ? ' e encontrei um CNPJ na página.' : '.')
+          + ' Agora clique em <b style="display:inline">Analisar</b>.'
+          + '<span class="mini">' + d.url + '</span>';
+      } else {
+        caixa.className='ag-lido mau';
+        caixa.innerHTML = '<b>Não consegui ler a página</b>' + (d.erro||'Erro desconhecido.')
+          + (d.colar ? '<br><br>Isto <b style="display:inline">não</b> é culpa sua e não impede nada: cole o texto e a análise sai igual.' : '');
+        if(d.colar){
+          var b = document.createElement('button');
+          b.className='btn'; b.textContent='Colar o texto à mão';
+          b.style.cssText='margin-top:12px;width:100%;justify-content:center;background:rgba(229,101,75,.12);border:1px solid var(--red);color:var(--red);';
+          b.addEventListener('click', function(){ agParaTexto(''); });
+          caixa.appendChild(b);
+        }
+      }
+    }catch(e){
+      console.error('[AG] ler-oferta:', e);
+      caixa.className='ag-lido mau';
+      caixa.innerHTML = '<b>A leitura falhou</b>Pode ser a sua conexão, ou a função pode não estar publicada ainda. Cole o texto da oferta e a análise sai igual.';
+    }
+    lb.disabled = false; lb.textContent = 'Ler a página';
+  });
+})();
+
+/* ---------- ANALISAR ---------- */
 (function(){
   var btn=document.getElementById('agBtn');
   if(!btn) return;
   btn.addEventListener('click',function(){
-    var texto=(document.getElementById('agTexto').value||'').trim();
-    if(texto.length<15){ document.getElementById('agErr').textContent='Cole o texto da oferta (ao menos uma frase) para a análise.'; return; }
-    document.getElementById('agErr').textContent='';
-    var input={ nome:(document.getElementById('agNome').value||'').trim(), texto:texto, valor:(document.getElementById('agValor').value||'').trim(), cnpj:(document.getElementById('agCnpj').value||'').trim(), contexto:(document.getElementById('agContexto').value||'').trim() };
+    var err = document.getElementById('agErr');
+    var modo = agModoAtual();
+    var texto = '';
+
+    if(modo==='link'){
+      if(!window.AG_LIDO){
+        err.textContent = 'Clique em "Ler a página" primeiro — ou passe para "Vou colar o texto".';
+        return;
+      }
+      texto = window.AG_LIDO.texto || '';
+    } else {
+      texto = (document.getElementById('agTexto').value||'').trim();
+    }
+
+    if(texto.length<15){
+      if(modo==='texto') err.textContent='Cole o texto da oferta (ao menos uma frase) para a análise.';
+      else agParaTexto('Veio texto de menos da página. Cole o texto à mão.');
+      return;
+    }
+    err.textContent='';
+    var input={
+      nome:(document.getElementById('agNome').value||'').trim(),
+      texto:texto,
+      valor:(document.getElementById('agValor').value||'').trim(),
+      cnpj:(document.getElementById('agCnpj').value||'').trim(),
+      contexto:(document.getElementById('agContexto').value||'').trim()
+    };
     var r=Engine.analyze(input);
+    r.origem = (modo==='link' && window.AG_LIDO) ? window.AG_LIDO.url : null;
+    window.AG_ULTIMA = r;
     var box=document.getElementById('agResult');
     box.innerHTML=agRender(r);
-    box.scrollIntoView({behavior:'smooth',block:'start'});
+    var ab=document.getElementById('agAbrirCheckout');
+    if(ab) ab.addEventListener('click',function(){ AGCheckout.abrir(r); });
+    try{ box.scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){}
   });
+})();
+
+/* ============================================================
+   CHECKOUT — 3 passos. Contato ANTES do pagamento.
+   Motivo (dito à pessoa): o pagamento não me diz quem você é.
+   ============================================================ */
+const AGCheckout = (function(){
+  var WA = '5511997603559';
+  var MP = 'https://mpago.la/1LBepmR';
+  var pedido = null;
+
+  function el(id){ return document.getElementById(id); }
+  function codigo(){
+    return 'AG-' + Date.now().toString(36).slice(-4).toUpperCase() + Math.floor(Math.random()*36).toString(36).toUpperCase();
+  }
+  function validaContato(canal, v){
+    v = (v||'').trim();
+    if(canal==='email') return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+    return v.replace(/\D/g,'').length >= 10;
+  }
+
+  function abrir(analise){
+    el('agModal').classList.add('open');
+    document.body.style.overflow='hidden';
+    passo(1);
+    var ofr = el('ckOferta');
+    if(analise && analise.name && analise.name!=='Oferta sem nome'){ ofr.value = analise.name; }
+    el('ckErr').textContent='';
+  }
+  function fechar(){
+    el('agModal').classList.remove('open');
+    document.body.style.overflow='';
+  }
+  function passo(n){
+    ['ckP1','ckP2','ckP3'].forEach(function(id,i){ el(id).style.display = (i+1===n)?'block':'none'; });
+    el('ckDots').querySelectorAll('i').forEach(function(d,i){ d.classList.toggle('on', i < n); });
+    el('agModalBody').scrollTop = 0;
+  }
+
+  async function registrar(){
+    var nome    = (el('ckNome').value||'').trim();
+    var canal   = document.querySelector('input[name=ckCanal]:checked');
+    var contato = (el('ckContato').value||'').trim();
+    var err     = el('ckErr');
+
+    if(!nome){ err.textContent='Preciso de um nome para te chamar.'; return; }
+    if(!canal){ err.textContent='Escolha onde quer receber a análise.'; return; }
+    canal = canal.value;
+    if(!validaContato(canal, contato)){
+      err.textContent = canal==='email' ? 'Esse e-mail não parece válido. Confira.' : 'Esse telefone não parece válido. Use DDD + número.';
+      return;
+    }
+    err.textContent='';
+
+    var a = window.AG_ULTIMA || {};
+    pedido = {
+      codigo: codigo(),
+      nome: nome,
+      canal: canal,
+      contato: contato,
+      oferta: (el('ckOferta').value||'').trim() || (a.name||''),
+      valor: a.valor || '',
+      texto_oferta: (a.texto||'').slice(0,3000),
+      link_oferta: a.origem || null,
+      cnpj: a.cnpj || '',
+      contexto: a.contexto || '',
+      risco: (typeof a.risco==='number') ? a.risco : null,
+      faixa: a.faixa || null,
+      status: 'aguardando_pagamento',
+      pago: false,
+      entregue: false
+    };
+
+    var btn = el('ckRegistrar');
+    btn.disabled = true; btn.textContent = 'Registrando...';
+
+    var salvou = false;
+    if(window.agSupa){
+      try{
+        var r = await window.agSupa.from('pedidos').insert(pedido);
+        if(r.error){ console.error('[AG] pedido:', r.error); } else { salvou = true; }
+      }catch(e){ console.error('[AG] pedido:', e); }
+    }
+    pedido.salvouOnline = salvou;
+
+    btn.disabled = false; btn.textContent = 'Registrar meu pedido';
+
+    el('ckCod').textContent   = pedido.codigo;
+    el('ckCod3').textContent  = pedido.codigo;
+    el('ckCanal3').textContent = pedido.canal==='email' ? 'e-mail' : 'WhatsApp';
+    el('ckCont3').textContent = pedido.contato;
+
+    // links de pagamento carregam o código
+    el('ckPix').href = 'https://wa.me/'+WA+'?text='+encodeURIComponent(
+      'Olá! Quero a análise completa do AntiGuru e prefiro pagar por Pix (R$29).\n\n'
+      + 'Código do pedido: '+pedido.codigo+'\n'
+      + 'Nome: '+pedido.nome+'\n'
+      + 'Receber por: '+(pedido.canal==='email'?'E-mail — '+pedido.contato:'WhatsApp — '+pedido.contato)+'\n'
+      + 'Oferta a analisar: '+(pedido.oferta||'(vou enviar)')
+    );
+    el('ckCartao').href = MP;
+
+    el('ckAvisar').href = 'https://wa.me/'+WA+'?text='+encodeURIComponent(
+      'Paguei a análise do AntiGuru pelo cartão.\n\nCódigo do pedido: '+pedido.codigo+'\nNome: '+pedido.nome
+    );
+
+    if(!salvou){
+      el('ckFallback').style.display='block';
+      el('ckFallbackWa').href = 'https://wa.me/'+WA+'?text='+encodeURIComponent(
+        '✦ PEDIDO ANTIGURU (registro manual)\n\n'
+        + 'Código: '+pedido.codigo+'\nNome: '+pedido.nome+'\n'
+        + 'Receber por: '+(pedido.canal==='email'?'E-mail':'WhatsApp')+' — '+pedido.contato+'\n'
+        + 'Oferta: '+(pedido.oferta||'-')
+      );
+    } else {
+      el('ckFallback').style.display='none';
+    }
+
+    passo(2);
+  }
+
+  function pagou(){ passo(3); }
+
+  function init(){
+    if(!el('agModal')) return;
+    el('agModalClose').addEventListener('click', fechar);
+    el('agModalBg').addEventListener('click', fechar);
+    el('ckRegistrar').addEventListener('click', registrar);
+    el('ckJaPaguei').addEventListener('click', pagou);
+    el('ckVoltar').addEventListener('click', function(){ passo(1); });
+    document.querySelectorAll('input[name=ckCanal]').forEach(function(rd){
+      rd.addEventListener('change', function(){
+        var eml = rd.value==='email';
+        el('ckContato').type = eml ? 'email' : 'tel';
+        el('ckContato').placeholder = eml ? 'voce@email.com' : '(11) 90000-0000';
+        el('ckContatoLb').textContent = eml ? 'Seu e-mail' : 'Seu WhatsApp (com DDD)';
+        el('ckContato').value='';
+      });
+    });
+    document.querySelectorAll('[data-abre-checkout]').forEach(function(b){
+      b.addEventListener('click', function(e){ e.preventDefault(); abrir(window.AG_ULTIMA); });
+    });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') fechar(); });
+  }
+  document.addEventListener('DOMContentLoaded', init);
+  if(document.readyState!=='loading') init();
+
+  return { abrir: abrir, fechar: fechar };
 })();
 </script>
 <script>
@@ -810,17 +1305,12 @@ function agRender(r){
     // 1) grava no Supabase (central admin real)
     if(window.agSupa){
       try{
-        var resInsert=await window.agSupa.from('feedbacks').insert({
+        await window.agSupa.from('feedbacks').insert({
           nome:nome, perfil:pagou,
           nav:ratings.nav||null, com:ratings.com||null, cla:ratings.cla||null, res:ratings.res||null,
-          comentario:coment||null, publico:publico, lido:false,
-          criado_em:new Date().toISOString()
+          comentario:coment||null, publico:publico, lido:false
         });
-        if(resInsert.error){ console.error('AntiGuru · Supabase REJEITOU o feedback:', resInsert.error.message, resInsert.error); }
-        else { console.log('AntiGuru · feedback gravado no Supabase ✓'); }
-      }catch(e){ console.error('AntiGuru · falha de conexão ao gravar:', e); }
-    } else {
-      console.error('AntiGuru · window.agSupa é null — a conexão com o Supabase não carregou.');
+      }catch(e){ /* se falhar, segue pro WhatsApp abaixo */ }
     }
     // 2) WhatsApp como confirmação/fallback (a pessoa também avisa o dono)
     var msg='✦ FEEDBACK ANTIGURU\n\n'
@@ -839,5 +1329,96 @@ function agRender(r){
   });
 })();
 </script>
+
+<!-- ===== MODAL CHECKOUT ===== -->
+<div class="ag-modal" id="agModal" role="dialog" aria-modal="true" aria-label="Pedir análise completa">
+  <div class="ag-modal-bg" id="agModalBg"></div>
+  <div class="ag-modal-box">
+    <div class="ag-modal-head">
+      <div class="ag-dots" id="ckDots"><i class="on"></i><i></i><i></i></div>
+      <button class="ag-x" id="agModalClose" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="ag-modal-body" id="agModalBody">
+
+      <!-- PASSO 1 — CONTATO -->
+      <div id="ckP1">
+        <div class="ck-t">Onde eu te entrego?</div>
+        <p class="ck-d">Antes do pagamento, preciso saber para onde vai a análise. São 30 segundos.</p>
+
+        <div class="ck-why">
+          <b>Por que peço isto antes.</b> O pagamento me diz que alguém pagou — não me diz <i>quem</i> nem <i>onde</i> entregar. Sem estes dados, o seu dinheiro entra e você fica esperando no escuro. Não trabalho assim.
+        </div>
+
+        <label class="ck-lb" for="ckNome">Seu nome</label>
+        <input class="ck-inp" id="ckNome" placeholder="Como quer que eu te chame">
+
+        <label class="ck-lb">Onde quer receber a análise?</label>
+        <div class="ck-canal">
+          <label><input type="radio" name="ckCanal" value="whatsapp"><span>WhatsApp</span></label>
+          <label><input type="radio" name="ckCanal" value="email"><span>E-mail</span></label>
+        </div>
+
+        <label class="ck-lb" id="ckContatoLb" for="ckContato">Seu contato</label>
+        <input class="ck-inp" id="ckContato" placeholder="escolha o canal acima primeiro">
+
+        <label class="ck-lb" for="ckOferta">Qual oferta eu analiso?</label>
+        <input class="ck-inp" id="ckOferta" placeholder="Ex.: Mentoria Construir do Zero">
+
+        <div class="ck-err" id="ckErr"></div>
+        <button class="btn gold" id="ckRegistrar" style="width:100%;justify-content:center;">Registrar meu pedido</button>
+        <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center;line-height:1.6;">Uso o seu contato só para entregar a análise. Não mando promoção, não repasso, não vendo lista.</p>
+      </div>
+
+      <!-- PASSO 2 — PAGAMENTO -->
+      <div id="ckP2" style="display:none;">
+        <div class="ck-t">Pedido registrado.</div>
+        <p class="ck-d">Guarde este código. Ele liga o seu pagamento à sua entrega.</p>
+
+        <div class="ck-code"><small>Código do pedido</small><span id="ckCod">—</span></div>
+
+        <div class="ck-fb" id="ckFallback">
+          Não consegui salvar o pedido no sistema agora (conexão). Para não te deixar no escuro:
+          <a href="#" id="ckFallbackWa" target="_blank" rel="noopener">me mande o pedido pelo WhatsApp</a> antes de pagar.
+        </div>
+
+        <div class="ck-pay">
+          <a class="btn gold" id="ckCartao" href="#" target="_blank" rel="noopener">Pagar com cartão — R$29</a>
+          <div class="ck-sep">ou</div>
+          <a class="btn ck-pix" id="ckPix" href="#" target="_blank" rel="noopener">Pagar com Pix — R$29 (sem taxa)</a>
+        </div>
+
+        <div class="ck-honest">
+          <b>O que acontece depois.</b> O Pix e o cartão são processados fora do site — eu não recebo aviso automático de quem pagou. Por isso confiro manualmente, todo dia. Quando eu identificar o seu pagamento, começo a análise e te entrego em até 24h. Se algo não bater, eu te procuro no seu canal — não sumo.
+        </div>
+
+        <button class="ck-ghost" id="ckJaPaguei">Já paguei &rarr;</button>
+        <button class="ck-back" id="ckVoltar">corrigir meus dados</button>
+      </div>
+
+      <!-- PASSO 3 — CONFIRMAÇÃO -->
+      <div id="ckP3" style="display:none;">
+        <div class="ck-ok"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#F4DFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="ck-t" style="text-align:center;">Está no meu radar.</div>
+        <p class="ck-d" style="text-align:center;">Seu pedido está registrado e eu vou conferir o pagamento.</p>
+
+        <div style="background:#0b1124;border:1px solid var(--line);border-radius:12px;padding:6px 16px;margin-bottom:18px;">
+          <div class="ck-line"><span>Código</span><span id="ckCod3">—</span></div>
+          <div class="ck-line"><span>Você recebe por</span><span id="ckCanal3">—</span></div>
+          <div class="ck-line"><span>No contato</span><span id="ckCont3">—</span></div>
+          <div class="ck-line"><span>Prazo</span><span>até 24h após eu confirmar o pagamento</span></div>
+        </div>
+
+        <div class="ck-honest">
+          <b>Sendo direto com você.</b> Eu não tenho confirmação automática de pagamento — confiro na mão. Isso quer dizer que pode levar algumas horas até eu ver o seu Pix ou cartão cair. Se depois de <b style="display:inline">24h</b> nada chegou, me cobre: o código acima resolve em um minuto. E se a análise não te servir, o reembolso vale por 7 dias, sem discussão.
+        </div>
+
+        <a class="btn ck-pix" id="ckAvisar" href="#" target="_blank" rel="noopener" style="width:100%;justify-content:center;">Me avisar no WhatsApp que paguei (acelera)</a>
+        <p style="font-size:12px;color:var(--muted);margin-top:14px;text-align:center;line-height:1.6;">Você pode fechar esta janela. O pedido já está guardado.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

@@ -91,6 +91,109 @@ body{background:
 
 .preview-note{background:var(--goldsoft);border:1px solid rgba(227,179,65,.3);border-radius:12px;padding:14px 18px;margin-bottom:24px;font-size:13px;color:var(--gold2);line-height:1.6;}
 .preview-note b{font-family:var(--ffd);}
+
+/* abas */
+.tabs{display:flex;gap:8px;margin-bottom:22px;border-bottom:1px solid var(--line);}
+.tab{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--ffb);font-weight:600;font-size:14.5px;padding:11px 4px;margin-right:16px;cursor:pointer;transition:.2s;}
+.tab:hover{color:var(--soft);}
+.tab.on{color:var(--gold2);border-bottom-color:var(--gold);}
+.tab .badge{display:inline-block;min-width:19px;padding:1px 6px;margin-left:7px;border-radius:20px;background:var(--gold);color:#1a1405;font-family:var(--ffm);font-size:10px;font-weight:700;}
+/* pedidos */
+.pd{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px 22px;margin-bottom:14px;}
+.pd.aberto{border-left:3px solid var(--gold);}
+.pd.pago{border-left:3px solid var(--teal);}
+.pd.entregue{opacity:.62;border-left:3px solid var(--faint);}
+.pd-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+.pd-cod{font-family:var(--ffm);font-weight:700;font-size:16px;color:var(--gold2);letter-spacing:.06em;}
+.pd-when{font-family:var(--ffm);font-size:10.5px;color:var(--faint);}
+.pd-status{font-family:var(--ffm);font-size:10px;padding:4px 11px;border-radius:20px;text-transform:uppercase;letter-spacing:.08em;}
+.pd-status.s-aberto{color:var(--gold);background:var(--goldsoft);border:1px solid rgba(227,179,65,.3);}
+.pd-status.s-pago{color:var(--teal);background:var(--tealsoft);border:1px solid rgba(87,208,192,.3);}
+.pd-status.s-entregue{color:var(--faint);background:rgba(148,152,188,.1);border:1px solid var(--line2);}
+.pd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px;margin-bottom:12px;}
+@media(max-width:640px){.pd-grid{grid-template-columns:1fr;}}
+.pd-row{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:5px 0;border-bottom:1px solid rgba(232,226,255,.05);}
+.pd-row b{color:var(--muted);font-weight:400;}
+.pd-row span{color:var(--text);text-align:right;word-break:break-word;}
+.pd-risk{font-family:var(--ffm);font-weight:700;}
+.pd-oferta{background:var(--void);border-radius:11px;border-left:2px solid var(--line2);padding:12px 15px;margin-bottom:12px;}
+.pd-oferta .ol{font-family:var(--ffm);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.pd-oferta .ot{font-size:13.5px;color:var(--soft);line-height:1.6;max-height:88px;overflow:auto;white-space:pre-wrap;}
+
+/* ===== EDITOR DE LAUDO ===== */
+.ed{position:fixed;inset:0;z-index:80;background:var(--void);display:none;flex-direction:column;}
+.ed.on{display:flex;}
+.ed-bar{flex:none;display:flex;align-items:center;gap:16px;padding:14px 22px;border-bottom:1px solid var(--line);background:var(--surface);flex-wrap:wrap;}
+.ed-id b{font-family:var(--ffm);font-size:16px;color:var(--gold2);letter-spacing:.05em;}
+.ed-id span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;}
+.ed-save{flex:1;font-family:var(--ffm);font-size:11px;color:var(--faint);opacity:0;transition:opacity .3s;}
+.ed-save.on{opacity:1;color:var(--teal);}
+.ed-acts{display:flex;gap:8px;flex-wrap:wrap;}
+.ed-wrap{flex:1;display:flex;overflow:hidden;}
+.ed-main{flex:1;overflow-y:auto;padding:26px 28px 90px;max-width:860px;margin:0 auto;width:100%;}
+@media(max-width:900px){.ed-main{padding:20px 16px 80px;}}
+
+.ed-meta{margin-bottom:26px;}
+.ed-lb{display:block;font-family:var(--ffm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+.ed-lb i{text-transform:none;letter-spacing:0;font-style:normal;color:var(--faint);}
+.ed-lb.sm{margin-top:8px;}
+.ed-inp{width:100%;background:var(--void);border:1px solid var(--line);border-radius:10px;color:var(--text);font-family:var(--ffb);font-size:15px;padding:12px 14px;}
+.ed-inp:focus{outline:none;border-color:var(--gold);}
+.ed-inp::placeholder{color:var(--faint);}
+.ed-inp.sm{font-size:13.5px;padding:9px 11px;margin-bottom:7px;}
+.ed-alvo{margin-top:14px;background:var(--surface);border-left:2px solid var(--line2);border-radius:0 10px 10px 0;padding:12px 15px;font-size:13.5px;color:var(--soft);line-height:1.6;white-space:pre-wrap;max-height:150px;overflow:auto;}
+.ed-alvo b{color:var(--muted);font-weight:400;font-family:var(--ffm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:5px;}
+
+.ed-sec{position:relative;background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px 22px 20px 60px;margin-bottom:16px;}
+.ed-n{position:absolute;left:20px;top:20px;width:26px;height:26px;border-radius:50%;background:var(--goldsoft);border:1px solid rgba(227,179,65,.35);color:var(--gold2);font-family:var(--ffm);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;}
+.ed-sec h3{font-family:var(--ffd);font-weight:600;font-size:17px;margin-bottom:8px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.ed-core{font-family:var(--ffm);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:var(--goldsoft);border:1px solid rgba(227,179,65,.3);padding:3px 8px;border-radius:20px;}
+.ed-core.int{color:var(--red);background:rgba(229,101,75,.1);border-color:rgba(229,101,75,.3);}
+.ed-tip{font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:12px;}
+.ed-tip b{color:var(--soft);}
+.ed-ta{width:100%;min-height:120px;background:var(--void);border:1px solid var(--line);border-radius:11px;color:var(--text);font-family:var(--ffb);font-size:14.5px;line-height:1.7;padding:13px 15px;resize:vertical;}
+.ed-ta:focus{outline:none;border-color:var(--gold);}
+.ed-nv .ed-n{background:rgba(229,101,75,.12);border-color:rgba(229,101,75,.35);color:var(--red);}
+.ed-nv{border-color:rgba(229,101,75,.28);}
+.ed-int{border-style:dashed;}
+.ed-int .ed-n{background:rgba(148,152,188,.1);border-color:var(--line2);color:var(--faint);}
+.ed-fbtn{margin-top:10px;background:var(--tealsoft);border:1px solid rgba(87,208,192,.35);color:var(--teal);font-family:var(--ffd);font-weight:600;font-size:13px;padding:9px 15px;border-radius:30px;cursor:pointer;}
+.ed-fbtn:hover{background:rgba(87,208,192,.2);}
+
+/* painel de fontes */
+.ed-side{flex:none;width:0;overflow:hidden;border-left:1px solid var(--line);background:var(--surface);transition:width .25s;}
+.ed-side.on{width:330px;overflow-y:auto;padding:18px 18px 40px;}
+@media(max-width:900px){.ed-side.on{position:fixed;right:0;top:0;bottom:0;width:min(330px,88vw);z-index:5;box-shadow:-20px 0 60px rgba(0,0,0,.5);}}
+.ed-side-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.ed-side-h b{font-family:var(--ffd);font-size:16px;}
+.ed-x{background:none;border:0;color:var(--muted);font-size:24px;cursor:pointer;line-height:1;}
+.ed-x:hover{color:var(--text);}
+.ed-fontes{margin:14px 0 20px;}
+.fn{background:var(--void);border:1px solid var(--line);border-radius:11px;padding:12px 13px;margin-bottom:9px;}
+.fn-t{font-family:var(--ffm);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.fn-d{font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:7px;}
+.fn-l{font-size:11.5px;color:var(--teal);word-break:break-all;display:block;margin-bottom:6px;}
+.fn-v{font-family:var(--ffm);font-size:10px;color:var(--faint);}
+.fn-v.velho{color:var(--red);}
+.fn-ins{background:none;border:1px solid var(--line2);color:var(--soft);font-size:11.5px;padding:4px 10px;border-radius:20px;cursor:pointer;margin-top:6px;}
+.fn-ins:hover{border-color:var(--gold);color:var(--gold2);}
+.ed-nova{border-top:1px solid var(--line);padding-top:16px;}
+.ed-nova b{display:block;font-family:var(--ffd);font-size:14px;margin-bottom:10px;}
+.ed-err{color:var(--red);font-size:12.5px;min-height:16px;margin-bottom:6px;}
+
+/* preview */
+.ed-prev{position:fixed;inset:0;z-index:90;background:rgba(4,6,12,.85);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;}
+.ed-prev.on{display:flex;}
+.ed-prev-box{width:100%;max-width:720px;max-height:90vh;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line2);border-radius:18px;overflow:hidden;}
+.ed-prev-h{flex:none;display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line);}
+.ed-prev-h b{font-family:var(--ffd);font-size:16px;}
+.ed-prev-warn{flex:none;}
+.ed-prev-warn .w{background:rgba(229,101,75,.1);border-bottom:1px solid rgba(229,101,75,.28);padding:11px 22px;font-size:13px;color:var(--soft);line-height:1.55;}
+.ed-prev-warn .w b{color:var(--red);}
+.ed-prev-txt{flex:1;overflow:auto;margin:0;padding:20px 22px;background:var(--void);font-family:var(--ffb);font-size:14px;line-height:1.75;color:var(--soft);white-space:pre-wrap;word-break:break-word;}
+.ed-prev-acts{flex:none;display:flex;gap:8px;padding:16px 22px 8px;flex-wrap:wrap;}
+.ed-prev-nota{flex:none;padding:4px 22px 18px;font-size:11.5px;color:var(--muted);line-height:1.6;}
+.ed-prev-nota code{font-family:var(--ffm);color:var(--gold2);font-size:11px;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -148,7 +251,26 @@ body{background:
     <div class="ea-row"><span class="ea-name">Resultado (quem pagou)</span><span class="ea-bar"><i style="width:75%;background:var(--gold)"></i></span><span class="ea-val" style="color:var(--gold)">3.7</span></div>
   </div>
 
-  <!-- TOOLBAR -->
+  <!-- ABAS -->
+  <div class="tabs">
+    <button class="tab on" data-tab="pedidos">Pedidos <span class="badge" id="tbPed">0</span></button>
+    <button class="tab" data-tab="vozes">Vozes</button>
+  </div>
+
+  <!-- ===== PEDIDOS ===== -->
+  <div id="tab-pedidos">
+    <div class="toolbar">
+      <span class="ttl">Pedidos de análise</span>
+      <button class="chip on" data-fp="aberto">A pagar</button>
+      <button class="chip" data-fp="pago">Pagos · entregar</button>
+      <button class="chip" data-fp="entregue">Entregues</button>
+      <button class="chip" data-fp="todos">Todos</button>
+    </div>
+    <div id="pedidos"></div>
+  </div>
+
+  <!-- ===== VOZES ===== -->
+  <div id="tab-vozes" style="display:none;">
   <div class="toolbar">
     <span class="ttl">Vozes recebidas</span>
     <button class="chip on">Todos</button>
@@ -158,6 +280,7 @@ body{background:
 
   <!-- LISTA -->
   <div id="lista"></div>
+  </div>
 
 </div>
 
@@ -195,6 +318,7 @@ function mostrarPainel(){
   document.getElementById('painel').style.display='block';
   document.getElementById('liveNote').style.display='block';
   carregar();
+  carregarPedidos();
 }
 
 // ---- CARREGAR FEEDBACKS REAIS ----
@@ -273,6 +397,410 @@ async function marcarLido(id){
   }catch(e){ console.error(e); }
 }
 
+
+/* ================= PEDIDOS ================= */
+var PED=[]; var fped='aberto';
+
+function estado(p){ if(p.entregue) return 'entregue'; if(p.pago) return 'pago'; return 'aberto'; }
+function stLabel(s){ return s==='entregue'?'Entregue':(s==='pago'?'Pago · a entregar':'Aguardando pagamento'); }
+function riskCor(r){ if(r===null||r===undefined) return 'var(--faint)'; if(r>=55) return 'var(--red)'; if(r>=25) return 'var(--gold)'; return 'var(--teal)'; }
+
+async function carregarPedidos(){
+  try{
+    var r = await supa.from('pedidos').select('*').order('criado_em',{ascending:false});
+    if(r.error){ console.error('[pedidos]', r.error); document.getElementById('pedidos').innerHTML='<p style="color:var(--red);text-align:center;padding:36px;">Erro ao ler pedidos: '+esc(r.error.message)+'</p>'; return; }
+    PED = r.data||[];
+    var abertos = PED.filter(p=>estado(p)!=='entregue').length;
+    document.getElementById('tbPed').textContent = abertos;
+    renderPedidos();
+  }catch(e){ console.error(e); }
+}
+
+function renderPedidos(){
+  var list = fped==='todos' ? PED : PED.filter(p=>estado(p)===fped);
+  var box = document.getElementById('pedidos');
+  if(!list.length){ box.innerHTML='<p style="color:var(--muted);text-align:center;padding:44px;">Nenhum pedido nesta aba.</p>'; return; }
+  box.innerHTML = list.map(function(p){
+    var st = estado(p);
+    var canal = p.canal==='email' ? 'E-mail' : 'WhatsApp';
+    var linkContato = p.canal==='email'
+      ? '<a class="fb-btn" href="mailto:'+esc(p.contato)+'?subject='+encodeURIComponent('Sua análise AntiGuru — '+(p.codigo||''))+'">Abrir e-mail</a>'
+      : '<a class="fb-btn" href="https://wa.me/55'+(p.contato||'').replace(/\D/g,'').replace(/^55/,'')+'?text='+encodeURIComponent('Olá '+(p.nome||'')+'! Aqui é do AntiGuru. Sobre o seu pedido '+(p.codigo||'')+':')+'" target="_blank" rel="noopener">Abrir WhatsApp</a>';
+    return '<div class="pd '+st+'">'
+      + '<div class="pd-top">'
+      +   '<div><div class="pd-cod">'+esc(p.codigo||'—')+'</div><div class="pd-when">'+quando(p.criado_em)+'</div></div>'
+      +   '<span class="pd-status s-'+st+'">'+stLabel(st)+'</span>'
+      + '</div>'
+      + '<div class="pd-grid">'
+      +   '<div class="pd-row"><b>Nome</b><span>'+esc(p.nome||'—')+'</span></div>'
+      +   '<div class="pd-row"><b>Canal</b><span>'+canal+'</span></div>'
+      +   '<div class="pd-row"><b>Contato</b><span>'+esc(p.contato||'—')+'</span></div>'
+      +   '<div class="pd-row"><b>Oferta</b><span>'+esc(p.oferta||'—')+'</span></div>'
+      +   '<div class="pd-row"><b>Link</b><span>'+(p.link_oferta?'<a href="'+esc(p.link_oferta)+'" target="_blank" rel="noopener" style="color:var(--teal);">abrir página &#8599;</a>':'—')+'</span></div>'
+      +   '<div class="pd-row"><b>CNPJ</b><span>'+esc(p.cnpj||'—')+'</span></div>'
+      +   '<div class="pd-row"><b>Risco da prévia</b><span class="pd-risk" style="color:'+riskCor(p.risco)+'">'+(p.risco!=null?p.risco+'/100':'—')+'</span></div>'
+      + '</div>'
+      + (p.texto_oferta?'<div class="pd-oferta"><div class="ol">Texto enviado</div><div class="ot">'+esc(p.texto_oferta)+'</div></div>':'')
+      + (p.contexto?'<div class="pd-oferta"><div class="ol">Contexto da pessoa</div><div class="ot">'+esc(p.contexto)+'</div></div>':'')
+      + '<div class="fb-actions">'
+      +   linkContato
+      +   (!p.pago ? '<button class="fb-btn gold" data-pago="'+p.id+'">Confirmar pagamento</button>' : '')
+      +   (p.pago ? '<button class="fb-btn gold" data-laudo="'+p.id+'">'+(p.entregue?'Ver laudo':'Escrever laudo')+'</button>' : '')
+      +   (p.entregue ? '<span class="fb-done">✓ entregue</span>' : '')
+      + '</div></div>';
+  }).join('');
+
+  document.querySelectorAll('[data-pago]').forEach(function(b){
+    b.addEventListener('click',function(){ marcarPedido(b.getAttribute('data-pago'), {pago:true, status:'pago'}); });
+  });
+  document.querySelectorAll('[data-laudo]').forEach(function(b){
+    b.addEventListener('click',function(){ abrirEditor(b.getAttribute('data-laudo')); });
+  });
+}
+
+async function marcarPedido(id, patch){
+  try{
+    var r = await supa.from('pedidos').update(patch).eq('id', id);
+    if(r.error){ console.error('[pedidos]', r.error); alert('Erro: '+r.error.message); return; }
+    var p = PED.find(x=>x.id===id); if(p) Object.assign(p, patch);
+    var abertos = PED.filter(x=>estado(x)!=='entregue').length;
+    document.getElementById('tbPed').textContent = abertos;
+    renderPedidos();
+  }catch(e){ console.error(e); }
+}
+
+/* abas + filtros */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    var k=t.getAttribute('data-tab');
+    document.getElementById('tab-pedidos').style.display = k==='pedidos'?'block':'none';
+    document.getElementById('tab-vozes').style.display   = k==='vozes'?'block':'none';
+  });
+});
+document.querySelectorAll('[data-fp]').forEach(function(c){
+  c.addEventListener('click',function(){
+    document.querySelectorAll('[data-fp]').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');
+    fped = c.getAttribute('data-fp');
+    renderPedidos();
+  });
+});
+
+
+/* ================= EDITOR DE LAUDO ================= */
+var SECS = ['s1_o_que_vendem','s2_onde_existe_gratis','s3_o_que_o_preco_cobra','s4_custo_real','s5_intencao','s6_outros_caminhos','s7_se_avancar'];
+var TITULOS = {
+  s1_o_que_vendem:'1. O QUE ESTÃO REALMENTE A VENDER',
+  s2_onde_existe_gratis:'2. ONDE ISSO EXISTE DE GRAÇA',
+  s3_o_que_o_preco_cobra:'3. O QUE O PREÇO ESTÁ REALMENTE A COBRAR',
+  s4_custo_real:'4. O CUSTO REAL QUE NINGUÉM CONTA',
+  s5_intencao:'5. A INTENÇÃO POR TRÁS',
+  s6_outros_caminhos:'6. OS OUTROS CAMINHOS',
+  s7_se_avancar:'7. SE AINDA QUISERES AVANÇAR'
+};
+var CAMPOS = SECS.concat(['nao_verificado','notas_internas']);
+var edPed = null, edLaudo = null, edTimer = null, FONTES = [];
+
+function ta(k){ var s=document.querySelector('.ed-sec[data-k="'+k+'"]'); return s?s.querySelector('.ed-ta'):null; }
+
+async function abrirEditor(pedidoId){
+  edPed = PED.find(function(p){ return p.id===pedidoId; });
+  if(!edPed) return;
+
+  document.getElementById('edCod').textContent  = edPed.codigo||'—';
+  document.getElementById('edQuem').textContent = (edPed.nome||'—')+' · '+(edPed.canal==='email'?'e-mail':'WhatsApp')+' · '+(edPed.contato||'');
+  document.getElementById('edAlvo').innerHTML   = '<b>Oferta a analisar</b>'+esc(edPed.oferta||'—')
+    + (edPed.link_oferta ? '\n<a href="'+esc(edPed.link_oferta)+'" target="_blank" rel="noopener" style="color:var(--teal);font-size:12.5px;">'+esc(edPed.link_oferta)+' &#8599;</a>' : '')
+    + (edPed.texto_oferta ? '\n\n'+esc(edPed.texto_oferta) : '')
+    + (edPed.contexto ? '\n\n— contexto da pessoa: '+esc(edPed.contexto) : '');
+
+  CAMPOS.forEach(function(k){ var t=ta(k); if(t) t.value=''; });
+  document.getElementById('edCat').value='';
+  edLaudo = null;
+
+  try{
+    var r = await supa.from('laudos').select('*').eq('codigo', edPed.codigo).maybeSingle();
+    if(r.error) console.error('[laudo]', r.error);
+    if(r.data){
+      edLaudo = r.data;
+      document.getElementById('edCat').value = r.data.categoria_oferta||'';
+      CAMPOS.forEach(function(k){ var t=ta(k); if(t) t.value = r.data[k]||''; });
+      flash(r.data.entregue_em ? 'já entregue em '+quando(r.data.entregue_em) : 'rascunho recuperado');
+    }
+  }catch(e){ console.error(e); }
+
+  document.getElementById('ed').classList.add('on');
+  document.body.style.overflow='hidden';
+  document.getElementById('edMain').scrollTop=0;
+  carregarFontes();
+}
+
+function fecharEditor(){
+  document.getElementById('ed').classList.remove('on');
+  document.getElementById('edSide').classList.remove('on');
+  document.body.style.overflow='';
+}
+
+function flash(msg){
+  var s=document.getElementById('edSave');
+  s.textContent=msg||'rascunho salvo'; s.classList.add('on');
+  clearTimeout(s._t); s._t=setTimeout(function(){ s.classList.remove('on'); }, 2600);
+}
+
+function coletar(){
+  var o = { codigo: edPed.codigo, pedido_id: edPed.id, categoria_oferta: (document.getElementById('edCat').value||'').trim() };
+  CAMPOS.forEach(function(k){ var t=ta(k); o[k] = t ? t.value.trim() : ''; });
+  return o;
+}
+
+async function salvarRascunho(silencioso){
+  if(!edPed) return;
+  var o = coletar();
+  try{
+    var r;
+    if(edLaudo && edLaudo.id){
+      r = await supa.from('laudos').update(o).eq('id', edLaudo.id).select().maybeSingle();
+    } else {
+      r = await supa.from('laudos').insert(o).select().maybeSingle();
+    }
+    if(r.error){ console.error('[laudo]', r.error); flash('ERRO: '+r.error.message); return; }
+    if(r.data) edLaudo = r.data;
+    if(!silencioso) flash('rascunho salvo');
+  }catch(e){ console.error(e); flash('ERRO ao salvar'); }
+}
+
+/* autosave 2s após parar de escrever */
+function armarAutosave(){
+  CAMPOS.forEach(function(k){
+    var t=ta(k); if(!t) return;
+    t.addEventListener('input', function(){
+      clearTimeout(edTimer);
+      edTimer = setTimeout(function(){ salvarRascunho(true); flash('rascunho salvo'); }, 2000);
+    });
+  });
+  document.getElementById('edCat').addEventListener('input', function(){
+    clearTimeout(edTimer);
+    edTimer = setTimeout(function(){ salvarRascunho(true); flash('rascunho salvo'); }, 2000);
+  });
+}
+
+/* ---------- BANCO DE FONTES ---------- */
+async function carregarFontes(){
+  try{
+    var r = await supa.from('fontes').select('*').order('criado_em',{ascending:false});
+    if(r.error){ console.error('[fontes]', r.error); return; }
+    FONTES = r.data||[];
+    renderFontes();
+  }catch(e){ console.error(e); }
+}
+
+function diasDe(d){ if(!d) return null; return Math.floor((Date.now()-new Date(d).getTime())/86400000); }
+
+function renderFontes(){
+  var q = (document.getElementById('edBusca').value||'').toLowerCase().trim();
+  var cat = (document.getElementById('edCat').value||'').toLowerCase().trim();
+  var list = FONTES.slice();
+  if(q) list = list.filter(function(f){
+    return ((f.categoria||'')+' '+(f.tipo_de_fonte||'')+' '+(f.descricao||'')).toLowerCase().indexOf(q)>=0;
+  });
+  else if(cat) list.sort(function(a,b){
+    var A=(a.categoria||'').toLowerCase()===cat?0:1, B=(b.categoria||'').toLowerCase()===cat?0:1; return A-B;
+  });
+
+  var box = document.getElementById('edFontes');
+  if(!list.length){ box.innerHTML='<p style="color:var(--faint);font-size:13px;padding:14px 0;">Nada aqui ainda. Adicione abaixo — o banco cresce laudo a laudo.</p>'; return; }
+
+  box.innerHTML = list.map(function(f){
+    var d = diasDe(f.verificado_em);
+    var velho = d!==null && d>90;
+    var vtxt = f.link
+      ? (velho ? '⚠ verificado há '+d+' dias — reconfira antes de usar' : 'verificado em '+f.verificado_em)
+      : 'tipo de fonte — sem link (busque na hora)';
+    return '<div class="fn">'
+      + '<div class="fn-t">'+esc(f.categoria)+' · '+esc(f.tipo_de_fonte)+'</div>'
+      + '<div class="fn-d">'+esc(f.descricao)+'</div>'
+      + (f.link ? '<a class="fn-l" href="'+esc(f.link)+'" target="_blank" rel="noopener">'+esc(f.link)+'</a>' : '')
+      + '<div class="fn-v'+(velho?' velho':'')+'">'+vtxt+'</div>'
+      + '<button class="fn-ins" data-ins="'+f.id+'">inserir na secção 2</button>'
+      + '</div>';
+  }).join('');
+
+  box.querySelectorAll('[data-ins]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var f = FONTES.find(function(x){ return x.id===b.getAttribute('data-ins'); });
+      if(!f) return;
+      var t = ta('s2_onde_existe_gratis');
+      var linha = '• '+f.tipo_de_fonte+' — '+f.descricao + (f.link ? '\n  '+f.link+'  (verificado em '+f.verificado_em+')' : '');
+      t.value = (t.value ? t.value.replace(/\s*$/,'')+'\n' : '') + linha + '\n';
+      t.focus(); t.scrollIntoView({behavior:'smooth',block:'center'});
+      salvarRascunho(true); flash('fonte inserida');
+    });
+  });
+}
+
+async function salvarFonte(){
+  var cat  = (document.getElementById('fnCat').value||'').trim();
+  var tipo = (document.getElementById('fnTipo').value||'').trim();
+  var desc = (document.getElementById('fnDesc').value||'').trim();
+  var link = (document.getElementById('fnLink').value||'').trim();
+  var data = (document.getElementById('fnData').value||'').trim();
+  var err  = document.getElementById('fnErr');
+
+  if(!cat || !tipo || !desc){ err.textContent='Categoria, tipo e descrição são obrigatórios.'; return; }
+  if(link && !data){ err.textContent='Link sem data de verificação não entra. Verifique o link agora e ponha a data.'; return; }
+  if(link && !/^https?:\/\//i.test(link)){ err.textContent='O link precisa começar com https://'; return; }
+  err.textContent='';
+
+  try{
+    var r = await supa.from('fontes').insert({
+      categoria: cat, tipo_de_fonte: tipo, descricao: desc,
+      link: link||null, verificado_em: data||null
+    });
+    if(r.error){ err.textContent='Erro: '+r.error.message; return; }
+    ['fnCat','fnTipo','fnDesc','fnLink','fnData'].forEach(function(id){ document.getElementById(id).value=''; });
+    await carregarFontes();
+    flash('fonte adicionada ao banco');
+  }catch(e){ console.error(e); err.textContent='Erro ao salvar.'; }
+}
+
+/* ---------- MONTAR O LAUDO ---------- */
+function montarTexto(){
+  var o = coletar();
+  var L = [];
+  L.push('ANTIGURU · ANÁLISE COMPLETA');
+  L.push('Protocolo: '+o.codigo);
+  L.push('Para: '+(edPed.nome||''));
+  L.push('Oferta analisada: '+(edPed.oferta||'—'));
+  if(o.categoria_oferta) L.push('Categoria: '+o.categoria_oferta);
+  L.push('Data: '+new Date().toLocaleDateString('pt-BR'));
+  L.push('');
+  L.push('Isto não é um veredito. É o mapa do que está a ser vendido,');
+  L.push('do que aquilo custa de verdade, e dos caminhos que existem.');
+  L.push('A decisão é sua — e sempre foi.');
+  L.push('');
+  L.push('────────────────────────────');
+  SECS.forEach(function(k){
+    if(!o[k]) return;
+    L.push('');
+    L.push(TITULOS[k]);
+    L.push('');
+    L.push(o[k]);
+    L.push('');
+    L.push('────────────────────────────');
+  });
+  if(o.nao_verificado){
+    L.push('');
+    L.push('O QUE NÃO CONSEGUI VERIFICAR');
+    L.push('');
+    L.push(o.nao_verificado);
+    L.push('');
+    L.push('────────────────────────────');
+  }
+  L.push('');
+  L.push('Se algo aqui não te serviu, o reembolso vale 7 dias — sem discussão.');
+  L.push('Se ficou dúvida, responde nesta mesma conversa. Eu leio.');
+  L.push('');
+  L.push('AntiGuru · antiguru.netlify.app');
+  return L.join('\n');
+}
+
+function faltantes(){
+  var o = coletar();
+  var f = SECS.filter(function(k){ return !o[k]; }).map(function(k){ return TITULOS[k].split('.')[0]; });
+  return { secs:f, semNV: !o.nao_verificado, semCat: !o.categoria_oferta };
+}
+
+function abrirPreview(){
+  var o = coletar();
+  var fal = faltantes();
+  document.getElementById('pvCod').textContent = o.codigo;
+  document.getElementById('pvTxt').textContent = montarTexto();
+
+  var w = [];
+  if(fal.secs.length) w.push('<div class="w"><b>Secções em branco:</b> '+fal.secs.join(', ')+'. A estrutura fixa é o que torna os cem laudos um corpus. Buraco aqui é buraco no treino do agente depois.</div>');
+  if(fal.semNV) w.push('<div class="w"><b>"O que não consegui verificar" está vazio.</b> Se você verificou tudo, escreva isso. Campo em branco vira promessa de certeza — que é o que o guru vende.</div>');
+  if(fal.semCat) w.push('<div class="w"><b>Sem categoria.</b> Sem ela, este laudo não entra na taxonomia e o próximo da mesma categoria não fica mais rápido.</div>');
+  document.getElementById('pvWarn').innerHTML = w.join('');
+
+  document.getElementById('edPrev').classList.add('on');
+}
+
+function copiarTxt(){
+  var t = document.getElementById('pvTxt').textContent;
+  navigator.clipboard.writeText(t).then(function(){
+    var b=document.getElementById('pvCopiar'); var o=b.textContent;
+    b.textContent='✓ copiado'; setTimeout(function(){ b.textContent=o; }, 1800);
+  }).catch(function(){ alert('Não consegui copiar. Selecione o texto à mão.'); });
+}
+
+function baixarPdf(){
+  var txt = document.getElementById('pvTxt').textContent;
+  var w = window.open('', '_blank');
+  if(!w){ alert('O navegador bloqueou a janela. Libere pop-ups para gerar o PDF.'); return; }
+  w.document.write(
+    '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>AntiGuru '+esc(edPed.codigo)+'</title>'
+    + '<style>'
+    + '@page{size:A4;margin:22mm 18mm;}'
+    + 'body{font-family:Georgia,"Times New Roman",serif;font-size:11.5pt;line-height:1.7;color:#15161c;white-space:pre-wrap;}'
+    + '.hd{border-bottom:2px solid #b8901f;padding-bottom:9px;margin-bottom:22px;font-family:Helvetica,Arial,sans-serif;}'
+    + '.hd b{font-size:15pt;letter-spacing:.06em;color:#8a6a12;}'
+    + '.hd span{display:block;font-size:9pt;color:#666;margin-top:3px;letter-spacing:.04em;}'
+    + '.ft{margin-top:26px;border-top:1px solid #ddd;padding-top:9px;font-family:Helvetica,Arial,sans-serif;font-size:8.5pt;color:#777;white-space:normal;}'
+    + '</style></head><body>'
+    + '<div class="hd"><b>ANTIGURU</b><span>Análise completa · protocolo '+esc(edPed.codigo)+'</span></div>'
+    + esc(txt)
+    + '<div class="ft">Este documento informa; não emite veredito nem imputa crime. Descreve o que foi encontrado, indica a fonte e declara o que não foi possível verificar. A decisão é de quem compra.</div>'
+    + '</body></html>'
+  );
+  w.document.close();
+  setTimeout(function(){ w.focus(); w.print(); }, 350);
+}
+
+async function registrarEntrega(){
+  if(!edPed) return;
+  var texto = document.getElementById('pvTxt').textContent;
+  var fal = faltantes();
+  var aviso = fal.secs.length ? '\n\nATENÇÃO: '+fal.secs.length+' secção(ões) em branco.' : '';
+  if(!confirm('Já enviou este laudo para '+(edPed.nome||'')+' pelo '+(edPed.canal==='email'?'e-mail':'WhatsApp')+'?\n\nIsto grava o texto como prova de entrega e marca o pedido como entregue.'+aviso)) return;
+
+  var b = document.getElementById('pvEntregar');
+  b.disabled = true; b.textContent = 'gravando...';
+  try{
+    await salvarRascunho(true);
+    var r = await supa.from('laudos')
+      .update({ texto_entregue: texto, entregue_em: new Date().toISOString() })
+      .eq('id', edLaudo.id);
+    if(r.error){ alert('Erro ao gravar o laudo: '+r.error.message); b.disabled=false; b.textContent='Registrar entrega & marcar entregue'; return; }
+
+    await marcarPedido(edPed.id, { entregue:true, status:'entregue' });
+
+    b.disabled = false; b.textContent = '✓ entregue e gravado';
+    setTimeout(function(){
+      document.getElementById('edPrev').classList.remove('on');
+      fecharEditor();
+      b.textContent='Registrar entrega & marcar entregue';
+    }, 1100);
+  }catch(e){ console.error(e); alert('Erro: '+e.message); b.disabled=false; b.textContent='Registrar entrega & marcar entregue'; }
+}
+
+/* eventos do editor */
+document.getElementById('edFechar').addEventListener('click', function(){
+  salvarRascunho(true); fecharEditor();
+});
+document.getElementById('edRascunho').addEventListener('click', function(){ salvarRascunho(false); });
+document.getElementById('edGerar').addEventListener('click', async function(){ await salvarRascunho(true); abrirPreview(); });
+document.getElementById('edAbrirFontes').addEventListener('click', function(){ document.getElementById('edSide').classList.toggle('on'); renderFontes(); });
+document.getElementById('edFecharFontes').addEventListener('click', function(){ document.getElementById('edSide').classList.remove('on'); });
+document.getElementById('edBusca').addEventListener('input', renderFontes);
+document.getElementById('fnSalvar').addEventListener('click', salvarFonte);
+document.getElementById('pvFechar').addEventListener('click', function(){ document.getElementById('edPrev').classList.remove('on'); });
+document.getElementById('pvCopiar').addEventListener('click', copiarTxt);
+document.getElementById('pvPdf').addEventListener('click', baixarPdf);
+document.getElementById('pvEntregar').addEventListener('click', registrarEntrega);
+armarAutosave();
+
 // ---- EVENTOS ----
 document.getElementById('login-btn').addEventListener('click',tentarLogin);
 document.getElementById('login-pass').addEventListener('keydown',function(e){ if(e.key==='Enter')tentarLogin(); });
@@ -292,5 +820,137 @@ document.querySelectorAll('.toolbar .chip').forEach(function(c){
   try{ var s=await supa.auth.getSession(); if(s.data && s.data.session){ mostrarPainel(); } }catch(e){}
 })();
 </script>
+
+<!-- ===================== EDITOR DE LAUDO ===================== -->
+<div class="ed" id="ed">
+  <div class="ed-bar">
+    <div class="ed-id">
+      <b id="edCod">AG-—</b>
+      <span id="edQuem">—</span>
+    </div>
+    <div class="ed-save" id="edSave">rascunho salvo</div>
+    <div class="ed-acts">
+      <button class="fb-btn" id="edRascunho">Guardar rascunho</button>
+      <button class="fb-btn gold" id="edGerar">Gerar laudo &rarr;</button>
+      <button class="fb-btn" id="edFechar">Fechar</button>
+    </div>
+  </div>
+
+  <div class="ed-wrap">
+    <!-- COLUNA DO LAUDO -->
+    <div class="ed-main" id="edMain">
+      <div class="ed-meta">
+        <label class="ed-lb" for="edCat">Categoria da oferta <i>(vira taxonomia depois — use o mesmo nome para ofertas iguais)</i></label>
+        <input class="ed-inp" id="edCat" placeholder="ex.: tráfego pago · dropshipping · day trade · inglês">
+        <div class="ed-alvo" id="edAlvo"></div>
+      </div>
+
+      <div class="ed-sec" data-k="s1_o_que_vendem">
+        <div class="ed-n">1</div>
+        <h3>O que estão realmente a vender</h3>
+        <p class="ed-tip">Tire o embrulho e nomeie o objeto. Uma frase, sem adjetivos, do que a pessoa recebe na prática. Separe o que é conhecimento, o que é acompanhamento e o que é só acesso a um grupo. <b>Se você não consegue descrever em linguagem simples, isso já é o achado.</b></p>
+        <textarea class="ed-ta"></textarea>
+      </div>
+
+      <div class="ed-sec" data-k="s2_onde_existe_gratis">
+        <div class="ed-n">2</div>
+        <h3>Onde isso existe de graça <span class="ed-core">o coração do laudo</span></h3>
+        <p class="ed-tip">Prefira a fonte oficial à cópia. <b>Verifique cada link hoje</b> — link morto num produto de honestidade é ferida grave. Se não há equivalente gratuito, diga isso com franqueza. <b>Nunca invente uma fonte:</b> se não encontrou, escreva que não encontrou.</p>
+        <textarea class="ed-ta"></textarea>
+        <button class="ed-fbtn" id="edAbrirFontes">&#9673; Banco de fontes</button>
+      </div>
+
+      <div class="ed-sec" data-k="s3_o_que_o_preco_cobra">
+        <div class="ed-n">3</div>
+        <h3>O que o preço está realmente a cobrar</h3>
+        <p class="ed-tip">Se o conhecimento é grátis, o que justifica o valor? <b>Dizer quando há justificação legítima é o que torna o laudo credível.</b> Curadoria e sequência: pode valer. Acompanhamento real: verifique quantos alunos por mentor. Comunidade: valor variável. Atalho: raramente existe. Nada — repackaging de conteúdo grátis: é aqui que mora o guru.</p>
+        <textarea class="ed-ta"></textarea>
+      </div>
+
+      <div class="ed-sec" data-k="s4_custo_real">
+        <div class="ed-n">4</div>
+        <h3>O custo real que ninguém conta <span class="ed-core">a que mais muda decisões</span></h3>
+        <p class="ed-tip"><b>Tempo:</b> horas por semana × meses até um resultado mínimo. Realista, não otimista. <b>Dinheiro além do curso:</b> ferramentas, verba de anúncios, estoque — muitas vezes maior que o curso. <b>Pré-requisitos escondidos:</b> o que a pessoa já precisa saber ou ter. <b>Realidade de abandono:</b> a maioria não conclui, e isso é desenho, não fraqueza de caráter. Dizer isso tira o peso da culpa.</p>
+        <textarea class="ed-ta"></textarea>
+      </div>
+
+      <div class="ed-sec" data-k="s5_intencao">
+        <div class="ed-n">5</div>
+        <h3>A intenção por trás</h3>
+        <p class="ed-tip">Mostra resultado do que ensina, ou só resultado de vender o ensino? Os depoimentos têm rastro? Há nome, rosto e registro? <b>Linguagem de facto e pergunta, nunca de acusação.</b> "Não encontrei registro público de resultado na atividade que ensina" é seguro e útil. "É um vigarista" é indefensável.</p>
+        <textarea class="ed-ta"></textarea>
+      </div>
+
+      <div class="ed-sec" data-k="s6_outros_caminhos">
+        <div class="ed-n">6</div>
+        <h3>Os outros caminhos <span class="ed-core">a secção mais generosa</span></h3>
+        <p class="ed-tip">Nunca deixe a pessoa só com um "não compre" — isso é destruir sem construir. <b>O caminho autónomo:</b> roteiro real com as fontes da secção 2, ordenadas, com tempo estimado. <b>A alternativa paga melhor:</b> se existir preço justo e reputação verificável, diga. <b>O caminho de não fazer isto:</b> às vezes aquilo não serve àquela pessoa agora.</p>
+        <textarea class="ed-ta"></textarea>
+      </div>
+
+      <div class="ed-sec" data-k="s7_se_avancar">
+        <div class="ed-n">7</div>
+        <h3>Se ainda quiseres avançar</h3>
+        <p class="ed-tip">Fechar sem paternalismo — a decisão é dela. As perguntas exatas a fazer ao vendedor antes de pagar. As garantias a exigir por escrito, sobretudo reembolso e prazo. Os sinais de saída. O prazo legal de arrependimento em compras online (CDC art. 49: 7 dias).</p>
+        <textarea class="ed-ta"></textarea>
+      </div>
+
+      <div class="ed-sec ed-nv" data-k="nao_verificado">
+        <div class="ed-n">!</div>
+        <h3>O que não consegui verificar</h3>
+        <p class="ed-tip"><b>A regra que ordena tudo.</b> O guru nunca admite ignorância — é exatamente por isso que este campo existe. Diga o que tentou e não conseguiu confirmar. A dúvida declarada é a assinatura da casa.</p>
+        <textarea class="ed-ta"></textarea>
+      </div>
+
+      <div class="ed-sec ed-int" data-k="notas_internas">
+        <div class="ed-n">&#9679;</div>
+        <h3>Notas internas <span class="ed-core int">nunca sai para o cliente</span></h3>
+        <p class="ed-tip">Padrões novos, gatilhos que o motor ainda não lê, o que você aprendeu com esta oferta. Isto vira treino depois.</p>
+        <textarea class="ed-ta"></textarea>
+      </div>
+    </div>
+
+    <!-- PAINEL DE FONTES -->
+    <aside class="ed-side" id="edSide">
+      <div class="ed-side-h">
+        <b>Banco de fontes</b>
+        <button class="ed-x" id="edFecharFontes">&times;</button>
+      </div>
+      <input class="ed-inp" id="edBusca" placeholder="buscar por categoria ou tipo...">
+      <div class="ed-fontes" id="edFontes"></div>
+
+      <div class="ed-nova">
+        <b>Adicionar fonte</b>
+        <input class="ed-inp sm" id="fnCat" placeholder="categoria (ex.: tráfego pago)">
+        <input class="ed-inp sm" id="fnTipo" placeholder="tipo (ex.: documentação oficial)">
+        <textarea class="ed-inp sm" id="fnDesc" rows="2" placeholder="o que é, e por que serve"></textarea>
+        <input class="ed-inp sm" id="fnLink" placeholder="link (opcional)">
+        <label class="ed-lb sm">Verificado em <i>— obrigatório se houver link</i></label>
+        <input class="ed-inp sm" id="fnData" type="date">
+        <div class="ed-err" id="fnErr"></div>
+        <button class="fb-btn gold" id="fnSalvar" style="width:100%;">Salvar fonte</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- PREVIEW / EXPORTAÇÃO -->
+  <div class="ed-prev" id="edPrev">
+    <div class="ed-prev-box">
+      <div class="ed-prev-h">
+        <b>Laudo pronto — <span id="pvCod"></span></b>
+        <button class="ed-x" id="pvFechar">&times;</button>
+      </div>
+      <div class="ed-prev-warn" id="pvWarn"></div>
+      <pre class="ed-prev-txt" id="pvTxt"></pre>
+      <div class="ed-prev-acts">
+        <button class="fb-btn" id="pvCopiar">Copiar texto (WhatsApp)</button>
+        <button class="fb-btn" id="pvPdf">Baixar PDF</button>
+        <button class="fb-btn gold" id="pvEntregar">Registrar entrega &amp; marcar entregue</button>
+      </div>
+      <p class="ed-prev-nota">"Registrar entrega" grava <b>exatamente este texto</b> em <code>laudos.texto_entregue</code> com data. É a sua prova do que foi entregue. Envie pelo canal da pessoa antes de clicar.</p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
