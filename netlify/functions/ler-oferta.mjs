@@ -108,7 +108,7 @@ export default async (req) => {
       redirect: 'follow',
       headers: {
         // dizemos quem somos. Um produto sobre honestidade não se disfarça.
-        'user-agent': 'AntiGuruBot/1.0 (+https://antiguru.netlify.app) leitura de página de vendas a pedido do utilizador',
+        'user-agent': 'AntiGuruBot/1.0 (+https://antiguru.netlify.app) leitura de página de vendas a pedido do usuário',
         'accept': 'text/html,application/xhtml+xml',
         'accept-language': 'pt-BR,pt;q=0.9'
       }
@@ -160,6 +160,27 @@ export default async (req) => {
       parcial: true,
       titulo,
       erro: 'Cheguei à página, mas quase não veio texto. Isso costuma acontecer quando a página é montada por JavaScript no navegador — o que eu recebo é o esqueleto vazio. Não vou analisar meia página e chamar isso de análise. Abra o link, selecione tudo (Ctrl+A), copie e cole aqui.',
+      colar: true
+    });
+  }
+
+  /* Segundo filtro de honestidade: mesmo com texto, ele pode ser só
+     navegação/rodapé — não a oferta. Duas suspeitas:
+     (a) o HTML era enorme e sobrou muito pouco texto legível (razão baixa);
+     (b) o texto não tem NENHUMA frase de venda (verbos/apelos típicos).
+     Em qualquer dos casos, avisamos que a leitura pode ter falhado e
+     oferecemos colar — em vez de entregar um índice tranquilizador falso. */
+  const razaoTexto = texto.length / Math.max(html.length, 1);
+  const temFraseVenda = /(aprend|domin|conquist|transform|resultad|garant|matricul|inscriç|inscrev|vaga|comece|comec|method|método|metodo|mentor|curso|aula|módulo|modulo|fluên|aprov|emagre|renda|lucro|ganhe|descubr|segredo|oportunidade|oferta|desconto|bônus|bonus|acesso|domínio|domin)/i.test(texto);
+  const poucasFrases = (texto.match(/[.!?]/g) || []).length < 5;
+
+  if (razaoTexto < 0.012 || (!temFraseVenda && poucasFrases)) {
+    return json({
+      ok: false,
+      parcial: true,
+      titulo, cnpj, valor,
+      texto_recuperado: texto.slice(0, 4000),
+      erro: 'Cheguei à página e peguei algum texto, mas ele parece ser menu e rodapé — não a oferta em si. Páginas modernas montam o conteúdo de venda por JavaScript, e eu só recebo a moldura. Analisar isto daria um resultado falsamente tranquilizador, e eu não faço isso. Abra o link, selecione tudo (Ctrl+A), copie e cole aqui — aí a análise é real.',
       colar: true
     });
   }
