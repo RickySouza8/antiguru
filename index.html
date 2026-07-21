@@ -450,6 +450,13 @@
   .ag-ajuda-btn{background:none;border:0;padding:0;color:var(--teal);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline;}
   .ag-ajuda-btn:hover{color:var(--gold2);}
 
+  /* nota moderna (quiz/assinatura) no laudo */
+  .ag-nota-mod{background:linear-gradient(160deg,rgba(227,179,65,.09),rgba(227,179,65,.03));border:1px solid rgba(227,179,65,.3);border-radius:14px;padding:16px 18px;margin:4px 0 18px;}
+  .ag-nota-mod-t{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--gold2);margin-bottom:7px;}
+  .ag-nota-mod p{font-size:13.5px;color:var(--soft);line-height:1.6;margin-bottom:10px;}
+  .ag-nota-mod .lk{background:none;border:0;padding:0;color:var(--gold2);text-decoration:underline;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;}
+  .ag-nota-mod .lk:hover{color:var(--gold);}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -563,6 +570,7 @@
         </label>
         <div class="ag-texto-ajuda">
           <button type="button" class="ag-ajuda-btn" id="agComoCopiarBtn">Não sei como copiar a página &#8594;</button>
+          <button type="button" class="ag-ajuda-btn" id="agCasoModerno">É um quiz, app ou tem várias telas? &#8594;</button>
         </div>
         <p class="ag-nota">Cole tudo — inclusive o que parece enfeite. Os gatilhos costumam estar justamente nas partes que a gente pula.</p>
       </div>
@@ -1088,11 +1096,24 @@ const Engine = {
     if(has('escassez')) acoes.push('Espere 48h. Se a "última vaga" continuar lá, você acabou de descobrir o que ela vale.');
     acoes.push('Salve print da página, do preço e de tudo que foi prometido. Pague só por meio rastreável.');
 
+    // Detecta oferta "moderna" (quiz/app/assinatura) e prepara nota educativa:
+    // o motor lê o texto, mas a manipulação do quiz é estrutural — a nota cobre o que o texto não mostra.
+    var ehQuiz = /(responda|complete)\s*(o|as|algumas)?\s*(quiz|perguntas|teste)|seu (perfil|plano) (pessoal|personalizado)|resumo (do|de) seu perfil|pontuação de prontidão|análise (das|de) suas respostas|criando seu plano|com base nas suas respostas|qual (é )?(a )?sua meta/i.test(text);
+    var ehAssinatura = has('cobranca_recorrente') || has('preco_por_dia');
+    var notaModerna = null;
+    if(ehQuiz){
+      notaModerna = { tipo:'quiz', pad:'quiz_que_vende',
+        txt:'Isto parece um quiz que termina numa venda. Eu li o texto da tela que você colou — mas a parte mais esperta desse tipo de oferta acontece ANTES do preço: nas perguntas que te fazem sentir compreendido, pra você chegar no pagamento já convencido. Isso o texto não mostra, mas você viveu.' };
+    } else if(ehAssinatura){
+      notaModerna = { tipo:'assinatura', pad:'tecnologia_que_prende',
+        txt:'Isto parece um app ou assinatura. Além dos sinais acima, confira o essencial que costuma se esconder: como se cancela (procure o botão agora), se renova sozinho, e se o "grátis" vira cobrança. Fácil de assinar não pode significar difícil de sair.' };
+    }
+
     return {
       risco, faixa, faixaLabel, color, rec,
       sinais, rastro, declarados, externos,
       acoes: acoes.slice(0,4),
-      contextTrend, ctx,
+      contextTrend, ctx, notaModerna,
       contexto:(input.contexto||''), cnpj:(input.cnpj||''),
       texto:(input.texto||''), valor:(input.valor||''),
       when:Date.now(), name:(input.nome||'Oferta sem nome')
@@ -1133,6 +1154,13 @@ function agRender(r){
   var ctxBlock = r.contextTrend
     ? '<div class="ag-ctx"><b>Sobre o seu momento</b><p>'+escapeHtml(r.contextTrend)+'</p></div>' : '';
 
+  var notaModerna = r.notaModerna
+    ? '<div class="ag-nota-mod"><div class="ag-nota-mod-t">'
+      + (r.notaModerna.tipo==='quiz' ? '&#9888; Isto é um quiz que vende' : '&#9888; Isto é um app ou assinatura')
+      + '</div><p>'+r.notaModerna.txt+'</p>'
+      + '<button type="button" class="lk" data-pad="'+r.notaModerna.pad+'">Entenda essa técnica &#8594;</button></div>'
+    : '';
+
   return ''
    + '<div class="ag-rcard">'
    +   '<div class="ag-tier free"><span>&#9673;</span> Prévia gratuita &middot; leitura do texto</div>'
@@ -1152,6 +1180,8 @@ function agRender(r){
    +   '<div class="ag-nots"><b>O que este índice NÃO diz.</b> Ele não diz se a empresa é honesta, se o curso é bom, se você vai receber ou se vão te devolver o dinheiro. Ele lê <i>o texto da oferta</i> e mostra os padrões usados para te fazer decidir rápido. Confiança de verdade vem de reclamações, histórico e prova — coisas que estão fora do texto. Por isso a próxima seção existe.</div>'
 
    +   '<div class="ag-sec"><h4>Sinais de manipulação encontrados</h4>'+sinais+'</div>'
+
+   +   notaModerna
 
    +   '<div class="ag-sec"><h4>Rastreabilidade &mdash; a quem reclamar</h4>'+rastro+'</div>'
 
@@ -1223,6 +1253,29 @@ window.AG_LIDO = null;   // o que a function trouxe
       box.style.marginTop = '10px';
       box.innerHTML = agComoCopiar((document.getElementById('agLink').value||'').trim());
       ajuda.parentNode.appendChild(box);
+    });
+  }
+
+  // botão "é um quiz, app ou várias telas?"
+  var cm = document.getElementById('agCasoModerno');
+  if(cm){
+    cm.addEventListener('click', function(){
+      var box = document.getElementById('agCasoModernoGuia');
+      if(box){ box.remove(); return; }
+      box = document.createElement('div');
+      box.id = 'agCasoModernoGuia';
+      box.className = 'ag-lido';
+      box.style.cssText = 'margin-top:10px;background:rgba(87,208,192,.05);border:1px solid rgba(87,208,192,.25);';
+      box.innerHTML =
+        '<b style="color:var(--teal)">Ofertas modernas: o que colar</b>'
+        + '<div style="font-size:13.5px;color:var(--soft);line-height:1.6;margin-top:8px;">'
+        + 'Muita oferta hoje não é uma página só — é um <b>quiz</b> que pergunta sobre você, um <b>app com assinatura</b>, ou um <b>vídeo</b> que trava até o fim. Você não precisa colar tudo. Cole <b>a tela onde aparece o preço e os botões de compra</b> — é ali que a manipulação vira texto: o valor, a assinatura, a renovação automática, a garantia, os depoimentos.'
+        + '</div>'
+        + '<div style="font-size:13.5px;color:var(--soft);line-height:1.6;margin-top:10px;">'
+        + 'Mas guarde uma coisa: se foi um quiz, <b>a parte mais esperta já aconteceu antes do preço</b> — nas perguntas que te fizeram sentir compreendido, pra você chegar no pagamento já convencido. O texto não mostra isso, mas você viveu. '
+        + '<button type="button" class="lk" data-pad="quiz_que_vende" style="background:none;border:0;padding:0;color:var(--teal);text-decoration:underline;cursor:pointer;font:inherit;">Entenda o quiz que vende &#8594;</button>'
+        + '</div>';
+      cm.parentNode.appendChild(box);
     });
   }
 })();
@@ -2021,7 +2074,22 @@ function agRenderPadroes(){
   }).join('');
 }
 
-/* ---------- delegação de cliques (tudo num lugar) ---------- */
+/* abre UMA técnica da biblioteca no modal (usado por links data-pad) */
+function agAbrirPadrao(id){
+  if(!window.AG_PADROES) return;
+  var p = window.AG_PADROES.filter(function(x){ return x.id===id; })[0];
+  if(!p) return;
+  agKModal(
+    '<div class="ag-kmodal-head"><div><h3>'+p.nome+'</h3></div>'
+    + '<button class="ag-kmodal-x" onclick="agKModalClose()">&times;</button></div>'
+    + '<div class="ag-kmodal-body" id="agKModalBody">'
+    + '<div class="ag-pad-lb">Como aparece</div><div class="ag-pad-tx gat" style="margin-bottom:14px;">'+p.gatilho+'</div>'
+    + '<div class="ag-pad-lb">Por que funciona</div><div class="ag-pad-tx" style="margin-bottom:14px;">'+p.comoFunciona+'</div>'
+    + '<div class="ag-pad-resist"><div class="ag-pad-lb">Como resistir</div><div class="ag-pad-tx">'+p.comoResistir+'</div></div>'
+    + '</div>'
+    + '<div class="ag-kmodal-foot">Esta é uma das técnicas que o AntiGuru te ensina a reconhecer. Veja todas em "Técnicas do guru".</div>'
+  );
+}
 document.addEventListener('click', function(e){
   var t = e.target.closest('[data-termo]');
   if(t){ agAbrirTermo(t.getAttribute('data-termo')); return; }
@@ -2029,6 +2097,8 @@ document.addEventListener('click', function(e){
   if(g){ agAbrirGuia(g.getAttribute('data-guia')); return; }
   var esc = e.target.closest('[data-escudo]');
   if(esc){ agAbrirEscudo(esc.getAttribute('data-escudo')); return; }
+  var pad = e.target.closest('[data-pad]');
+  if(pad){ agAbrirPadrao(pad.getAttribute('data-pad')); return; }
   var ci = e.target.closest('[data-ci]');
   if(ci && !e.target.closest('[data-guia]')){
     ci.classList.toggle('done');
