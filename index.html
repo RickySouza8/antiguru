@@ -895,6 +895,29 @@ const FLAGS = [
     rx:/(assinatura|plano)\s*(mensal|anual|semanal|recorrente|automátic)|renova(ção|r)?\s*(automátic|sozinh)|cobrad[oa]\s*(mensalmente|todo mês|automaticamente|de novo)|(teste|período|trial)\s*(grátis|gratuito|de \d+ dias)\b|(?:R\$|BRL)?\s*\d+[,.]?\d*\s*\/\s*(mês|mes|ano|semana)|por (apenas )?R\$\s*\d+[,.]?\d*\s*(por mês|\/mês|mensais)|cancele\s*(quando quiser|a qualquer)|primeiros? \d+ dias (grátis|de graça)/i,
     exp:'A oferta envolve pagamento que se repete (assinatura, mensalidade, renovação automática) ou um "teste grátis" que vira cobrança. O padrão comum: fácil de entrar, difícil de sair. Antes de aceitar, procure exatamente onde e como se cancela, se renova sozinho, e se o "grátis" cobra depois sem avisar. Faça o teste antes de pagar: procure o botão de cancelamento agora. Se você não achar facilmente, essa é a resposta.' },
 
+  { id:'preco_por_dia', label:'Mostra o preço "por dia" para parecer barato', weight:13,
+    rx:/R\$\s*\d+[,.]?\d*\s*(por dia|\/\s*dia|ao dia|diári)|(por|de)\s*(menos de|apenas)?\s*R\$\s*\d+[,.]?\d*\s*(por dia|ao dia)|(um cafezinho|um café|menos que um)|centavos por dia|\d+\s*(centavos|reais)\s*(por dia|ao dia)/i,
+    exp:'A oferta mostra o preço quebrado "por dia" (R$2,67/dia) em vez do valor real que você paga (a assinatura inteira). É uma jogada para o número parecer pequeno — "é só um cafezinho" — e esconder o total que sai do seu bolso a cada cobrança. Faça a conta cheia: multiplique pelo período e veja quanto é de verdade. Preço honesto se mostra por inteiro, não fatiado para enganar a percepção.' },
+
+  { id:'autoridade_emprestada', label:'Empresta prestígio de universidades ou instituições', weight:14,
+    rx:/(basead[oa]|fundament|método|metodologia|inspirad|desenvolvid|criad).{0,40}(harvard|stanford|cambridge|oxford|yale|berkeley|mit|princeton|ivy league)|(harvard|stanford|cambridge|oxford|yale|berkeley|mit)\b.{0,30}(metodologia|método|especialistas|pesquisa|estudo)|(cientificamente|clinicamente)\s*(comprovad|testad|aprovad)|respaldad[oa] (pela ciência|por estudos)|segundo (a|estudos d[aeo]) (harvard|stanford|nasa|mit)/i,
+    exp:'A oferta cita universidades ou instituições famosas (Harvard, Stanford, Cambridge) para pegar emprestado o prestígio delas. Citar um nome não é ter vínculo com ele: "baseado na metodologia de Harvard" não significa que Harvard criou, aprovou ou tem qualquer relação com isto. É empréstimo de credibilidade. Procure a prova real do vínculo — um convênio, um nome de pesquisador, um estudo publicado. Sem isso, é só a marca da universidade usada como enfeite.' },
+
+  { id:'depoimento_repetido', label:'Repete o mesmo depoimento para simular volume', weight:12,
+    fn:function(text){
+      // detecta trechos longos idênticos repetidos (review clonado)
+      var frases = text.split(/[.!?]\s+/).filter(function(f){ return f.length>45; });
+      var vistos = {}, repetido = false;
+      frases.forEach(function(f){
+        var chave = f.trim().toLowerCase().slice(0,60);
+        if(vistos[chave]){ repetido = true; }
+        vistos[chave] = true;
+      });
+      return repetido;
+    },
+    exp:'A mesma avaliação ou depoimento aparece repetido no texto da oferta — o mesmo elogio, colado várias vezes, para dar impressão de que muita gente disse a mesma coisa. Prova social real vem de pessoas diferentes com palavras diferentes. Depoimento clonado é volume fabricado. Se os elogios se repetem palavra por palavra, desconfie: procure avaliações fora do site, em lugares que a empresa não controla.' },
+
+
 
   { id:'estatistica_medo', label:'Usa estatística assustadora como gatilho', weight:12,
     rx:/apenas \d+\s*%\s*(da|das|dos|de)|só \d+\s*%\s*(da|das|dos|de)|somente \d+\s*%|\d+\s*%\s*(da população|dos brasileiros|das pessoas|nunca|jamais|fracassam|desistem|não conseguem)|(a maioria|\d+\s*%) (fracassa|desiste|não consegue|nunca chega)|você (está|vai ficar) (para trás|de fora)|não fique (para trás|de fora|entre os)/i,
@@ -957,7 +980,7 @@ const Engine = {
 
     /* ---------- 1. SINAIS (o que sobe o risco) ---------- */
     const sinais = [];
-    FLAGS.forEach(f=>{ if(f.rx.test(text)) sinais.push({id:f.id,label:f.label,exp:f.exp,weight:f.weight}); });
+    FLAGS.forEach(f=>{ var bateu = f.rx ? f.rx.test(text) : (f.fn ? f.fn(text) : false); if(bateu) sinais.push({id:f.id,label:f.label,exp:f.exp,weight:f.weight}); });
 
     const temPromessa = sinais.some(s=>s.id==='ganho_garantido'||s.id==='resultado_com_prazo'||s.id==='pressao_emocional');
     const descreveConteudo = RX_CONTEUDO.test(text);
@@ -1815,7 +1838,19 @@ window.AG_PADROES = [
 
   { id:'tecnologia_que_prende', nome:'A tecnologia que prende', gatilho:'App ou assinatura que promete resolver sua vida, com "teste grátis" e renovação automática.',
     comoFunciona:'Vende-se como solução, mas entrega mais peso: mais uma tela, mais uma assinatura, mais uma coisa pra gerenciar. Fácil de assinar, difícil de cancelar. No fim, você paga todo mês por algo que prometeu te ajudar e só te prendeu — mais tempo de tela, menos clareza.',
-    comoResistir:'Antes de assinar, ache o botão de cancelar — se for difícil de achar agora, será pior depois. Pergunte se isso resolve um problema real seu ou só adiciona mais uma obrigação. A melhor tecnologia te devolve tempo e liberdade, não cobra os dois de você.' }
+    comoResistir:'Antes de assinar, ache o botão de cancelar — se for difícil de achar agora, será pior depois. Pergunte se isso resolve um problema real seu ou só adiciona mais uma obrigação. A melhor tecnologia te devolve tempo e liberdade, não cobra os dois de você.' },
+
+  { id:'preco_por_dia', nome:'O preço fatiado', gatilho:'"Por apenas R$2,67 por dia", "menos que um cafezinho".',
+    comoFunciona:'Quebrar o preço em "por dia" faz o número parecer minúsculo e esconde quanto sai do seu bolso de verdade a cada cobrança. R$2,67/dia soa inofensivo; R$223 a cada 4 semanas, para sempre, é outra conversa. O cérebro compara com o cafezinho, não com o total.',
+    comoResistir:'Faça a conta cheia na hora: multiplique o valor "por dia" pelo período todo e pelo tanto de vezes que renova. Veja o número real. Preço honesto se mostra por inteiro — quem fatia está contando com você não somar.' },
+
+  { id:'autoridade_emprestada', nome:'Autoridade emprestada', gatilho:'"Baseado na metodologia de Harvard", "método de Stanford", "respaldado pela ciência".',
+    comoFunciona:'Citar uma universidade ou instituição famosa empresta o prestígio dela sem provar vínculo nenhum. "Baseado em Harvard" não quer dizer que Harvard criou, aprovou ou conhece o produto. É a marca da autoridade usada como enfeite, para você confiar por associação.',
+    comoResistir:'Peça a prova do vínculo: qual convênio, qual pesquisador, qual estudo publicado, com link. Se a resposta for só o nome da universidade repetido, não há vínculo — há empréstimo. Nome famoso sem prova é decoração, não credencial.' },
+
+  { id:'depoimento_repetido', nome:'Depoimento clonado', gatilho:'O mesmo elogio, palavra por palavra, repetido várias vezes na página.',
+    comoFunciona:'Repetir o mesmo depoimento cria a ilusão de volume — parece que muita gente disse a mesma coisa, quando foi um texto colado várias vezes. Somado a "avaliações 5 estrelas" sem link verificável, dá impressão de multidão satisfeita sem prova real.',
+    comoResistir:'Prova social real vem de pessoas diferentes, com palavras diferentes. Se os elogios se repetem idênticos, é fabricação. Procure avaliações fora do site — em lugares que a empresa não controla e não pode editar.' }
 ];
 </script>
 
