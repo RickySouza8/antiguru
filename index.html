@@ -207,6 +207,10 @@
   .ag-veil .vt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:23px;color:var(--text);line-height:1.25;max-width:30ch;}
   .ag-veil .vd{font-size:13.5px;color:var(--soft);max-width:42ch;line-height:1.55;}
   .ag-veil .vlist{display:flex;flex-wrap:wrap;gap:8px 10px;justify-content:center;margin:2px 0 4px;}
+  .ag-veil .vitens{display:flex;flex-direction:column;gap:9px;text-align:left;width:100%;max-width:440px;margin:6px 0 4px;}
+  .ag-veil .viteml{font-size:13.5px;color:var(--soft);line-height:1.55;padding:11px 14px;background:rgba(227,179,65,.05);border:1px solid rgba(227,179,65,.15);border-radius:10px;}
+  .ag-veil .viteml b{color:var(--gold2);font-family:'Space Grotesk',sans-serif;font-weight:600;}
+  .ag-veil .vhonesto{font-size:12.5px;color:var(--muted);line-height:1.6;max-width:440px;margin:4px 0 6px;text-align:left;padding:11px 14px;background:rgba(0,0,0,.15);border-radius:10px;border-left:2px solid var(--soft);}
   .ag-veil .vchip{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold2);background:rgba(227,179,65,.09);border:1px solid rgba(227,179,65,.22);border-radius:30px;padding:5px 11px;}
   .ag-veil .vprice{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px;}
   .ag-veil .vprice b{color:var(--gold2);font-size:15px;}
@@ -927,6 +931,10 @@ const FLAGS = [
 
 
 
+  { id:'promessa_velada', label:'Promete retorno financeiro em número, sem garantir com todas as letras', weight:18,
+    rx:/(\d+\s*%|por cento)\s*(ao|por|a cada|todo)\s*(mês|mes|ano|dia|semana)|(retorno|rentabilidade|lucro|ganho|rendimento|roi)\s*(médio|medio|de|entre|até|ate)?\s*(de\s*)?\d+\s*%|(alunos|clientes|pessoas)\s*(ganham|faturam|lucram|fazem|tiram)\s*(entre\s*)?R?\$?\s*\d+|fatur(a|am|ando)\s*R?\$?\s*\d+\s*(mil|mensa|por mês)|(\d+\s*mil|\d+k)\s*(por mês|mensa|ao mês|todo mês)|resultado típico|média de\s*\d+/i,
+    exp:'A oferta joga um número de retorno (X% ao mês, "alunos faturam R$Y", "resultado típico") sem cravar a palavra "garantido" — assim promete e se protege ao mesmo tempo. É a promessa financeira mais perigosa: parece dado concreto, mas ninguém controla mercado, esforço e sorte. Todo número de ganho é o melhor caso, mostrado como se fosse o comum. Pergunte: de quantas pessoas esse número foi real, e quantas ficaram abaixo? Investimento sério informa o risco junto do retorno; oferta que só mostra o lucro está vendendo, não informando.' },
+
   { id:'estatistica_medo', label:'Usa estatística assustadora como gatilho', weight:12,
     rx:/apenas \d+\s*%\s*(da|das|dos|de)|só \d+\s*%\s*(da|das|dos|de)|somente \d+\s*%|\d+\s*%\s*(da população|dos brasileiros|das pessoas|nunca|jamais|fracassam|desistem|não conseguem)|(a maioria|\d+\s*%) (fracassa|desiste|não consegue|nunca chega)|você (está|vai ficar) (para trás|de fora)|não fique (para trás|de fora|entre os)/i,
     exp:'A oferta usa um número assustador para criar medo pouco antes de pedir a sua decisão. A estatística pode até ser real, mas ali ela não informa — ela pressiona, te colocando no lado "fracassado" da conta para o alívio vir junto com a compra. Dado que serve para assustar não é dado, é alavanca.' },
@@ -1207,9 +1215,16 @@ function agRender(r){
    +       '</div>'
    +       '<div class="ag-veil">'
    +         '<div class="lk"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#1a1405" stroke-width="1.7"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="#1a1405" stroke-width="1.7"/></svg></div>'
-   +         '<div class="vt">A prévia lê o texto. A análise paga faz o que o texto esconde.</div>'
-   +         '<div class="vd">Eu, uma pessoa, vou atrás: reclamações públicas, situação e idade do CNPJ, rastro de quem vende, ofertas anteriores. E te entrego a leitura honesta em até 24h — no canal que você escolher.</div>'
-   +         '<div class="vlist"><span class="vchip">Busca de reclamações</span><span class="vchip">CNPJ verificado</span><span class="vchip">Rastro do vendedor</span><span class="vchip">Leitura dos 7 eixos</span><span class="vchip">Roteiro do que fazer</span></div>'
+   +         '<div class="vt">A prévia leu o texto. A análise paga verifica o que está fora dele.</div>'
+   +         '<div class="vd">A prévia acima é automática e lê só o texto. Na análise paga, eu — uma pessoa — faço à mão a verificação que o texto não mostra, e te entrego por escrito em até 24h. Exatamente isto:</div>'
+   +         '<div class="vitens">'
+   +           '<div class="viteml"><b>1. Reclamações públicas</b> — busco o produto e o vendedor no Reclame Aqui, Google e Procon, e te digo o que achei (com os links).</div>'
+   +           '<div class="viteml"><b>2. Situação do CNPJ</b> — confiro na Receita se a empresa existe, está ativa, e há quanto tempo foi aberta.</div>'
+   +           '<div class="viteml"><b>3. Rastro de quem vende</b> — procuro o histórico da pessoa: ofertas anteriores, se sumiu, se trocou de nome.</div>'
+   +           '<div class="viteml"><b>4. Leitura dos 7 eixos</b> — a análise completa da oferta, além dos gatilhos do texto.</div>'
+   +           '<div class="viteml"><b>5. Roteiro do que fazer</b> — os próximos passos concretos para a sua decisão, seja ela qual for.</div>'
+   +         '</div>'
+   +         '<div class="vhonesto">Sendo claro: eu não digo "compre" ou "não compre", e não posso garantir que a empresa vá cumprir o que promete — isso ninguém pode. O que eu entrego é a verificação que dá trabalho fazer e quase ninguém faz. Se não te for útil, o reembolso vale por 7 dias.</div>'
    +         '<button class="btn gold" id="agAbrirCheckout" style="justify-content:center;">Quero a análise completa — R$29</button>'
    +         '<div class="vprice">R$29 &middot; entrega em até 24h &middot; reembolso em 7 dias</div>'
    +       '</div>'
@@ -1868,6 +1883,10 @@ window.AG_PADROES = [
   { id:'metodo_secreto', nome:'Método secreto', gatilho:'"Fórmula que ninguém conta", "o segredo dos que enriqueceram".',
     comoFunciona:'O "segredo" cria valor artificial e justifica o preço. Também blinda contra a checagem: como você duvida de algo que "ninguém mais sabe"?',
     comoResistir:'Conhecimento que funciona não precisa ser secreto — precisa ser demonstrável. Procure a mesma informação de graça; quase sempre ela existe.' },
+  { id:'promessa_velada', nome:'Promessa financeira velada', gatilho:'"Média de 8% ao mês", "alunos faturam R$10 mil", "resultado típico", "até 300% ao ano".',
+    comoFunciona:'Joga um número de retorno específico sem dizer "garantido" — assim promete e se protege ao mesmo tempo. O número parece dado, mas é sempre o melhor caso mostrado como se fosse o comum. Você imagina o lucro; ninguém mostra quantos ficaram abaixo, ou no prejuízo.',
+    comoResistir:'Todo retorno vem com risco — quem mostra só o lucro está escondendo metade. Pergunte: de quantas pessoas esse número foi real? Qual o pior caso? Investimento sério informa o risco junto do ganho. Se a oferta só fala do que você ganha, ela está vendendo, não informando.' },
+
   { id:'estatistica_medo', nome:'Estatística-medo', gatilho:'"Apenas 1% consegue", "99% fracassam sozinhos".',
     comoFunciona:'Um número assustador te coloca no lado perdedor da conta, e o alívio (comprar) vem logo depois. O dado pode ser real, mas ali ele não informa — pressiona.',
     comoResistir:'Repare quando um número aparece pouco antes do botão de compra. Ele está lá para assustar, não para ensinar. Estatística verdadeira não precisa de urgência ao lado.' },
