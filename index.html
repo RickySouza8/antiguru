@@ -438,6 +438,18 @@
   .cf-arrow{display:flex;align-items:center;color:var(--teal);font-size:20px;flex:none;}
   @media(max-width:620px){.comofunc{flex-direction:column;gap:8px;}.cf-arrow{transform:rotate(90deg);justify-content:center;}}
 
+  /* guia "como copiar o texto" */
+  .cc-guia{margin-top:14px;background:rgba(87,208,192,.06);border:1px solid rgba(87,208,192,.25);border-radius:12px;padding:14px 16px;}
+  .cc-t{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+  .cc-step{display:flex;gap:11px;align-items:flex-start;margin-bottom:11px;}
+  .cc-step span{flex:none;width:22px;height:22px;border-radius:50%;background:var(--teal);color:#04121a;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .cc-step div{font-size:13.5px;color:var(--soft);line-height:1.5;}
+  .cc-step b{color:var(--text);}
+  .cc-abrir{display:inline-block;margin-top:6px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;color:var(--teal);text-decoration:underline;}
+  .ag-texto-ajuda{margin-top:10px;}
+  .ag-ajuda-btn{background:none;border:0;padding:0;color:var(--teal);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline;}
+  .ag-ajuda-btn:hover{color:var(--gold2);}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -547,8 +559,11 @@
       <div id="agModoTexto" style="display:none;">
         <label class="ag-field">
           <span class="ag-label">Texto da oferta</span>
-          <textarea class="ag-textarea" id="agTexto" placeholder="Abra a página da oferta, selecione tudo (Ctrl+A), copie (Ctrl+C) e cole aqui.&#10;&#10;Pode ser um print transcrito, o texto de um anúncio, uma mensagem de WhatsApp do vendedor. Quanto mais completo, melhor eu leio."></textarea>
+          <textarea class="ag-textarea" id="agTexto" placeholder="Cole aqui o texto da oferta.&#10;&#10;Pode ser a página de vendas inteira, um print transcrito, o texto de um anúncio ou uma mensagem do vendedor. Quanto mais completo, melhor eu leio."></textarea>
         </label>
+        <div class="ag-texto-ajuda">
+          <button type="button" class="ag-ajuda-btn" id="agComoCopiarBtn">Não sei como copiar a página &#8594;</button>
+        </div>
         <p class="ag-nota">Cole tudo — inclusive o que parece enfeite. Os gatilhos costumam estar justamente nas partes que a gente pula.</p>
       </div>
 
@@ -1168,6 +1183,20 @@ window.AG_LIDO = null;   // o que a function trouxe
       if(m==='texto'){ var lk=document.getElementById('agLink'); if(lk) lk.value=''; }
     });
   });
+  // botão "não sei como copiar" no modo texto
+  var ajuda = document.getElementById('agComoCopiarBtn');
+  if(ajuda){
+    ajuda.addEventListener('click', function(){
+      var box = document.getElementById('agAjudaCopiar');
+      if(box){ box.remove(); return; }
+      box = document.createElement('div');
+      box.id = 'agAjudaCopiar';
+      box.className = 'ag-lido mau';
+      box.style.marginTop = '10px';
+      box.innerHTML = agComoCopiar((document.getElementById('agLink').value||'').trim());
+      ajuda.parentNode.appendChild(box);
+    });
+  }
 })();
 
 function agModoAtual(){
@@ -1179,6 +1208,28 @@ function agParaTexto(msg){
   var t = document.getElementById('agTexto');
   t.focus();
   if(msg) document.getElementById('agErr').textContent = msg;
+}
+
+/* detecta celular pra dar a instrução certa de copiar */
+function agEhCelular(){
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (('ontouchstart' in window) && window.innerWidth < 820);
+}
+
+/* monta o passo a passo de "como copiar o texto da oferta" */
+function agComoCopiar(url){
+  var celular = agEhCelular();
+  var passos = celular
+    ? ['Toque no link abaixo pra abrir a página da oferta.',
+       'Na página, <b>segure o dedo</b> em cima de qualquer texto por 1 segundo — vai aparecer um menu com alças de seleção.',
+       'Toque em <b>"Selecionar tudo"</b> (ou arraste as alças pra pegar a oferta inteira) e depois em <b>"Copiar"</b>.',
+       'Volte aqui, <b>segure o dedo</b> no campo de texto e toque em <b>"Colar"</b>.']
+    : ['Abra o link da oferta numa aba nova.',
+       'Clique em qualquer lugar do texto e aperte <b>Ctrl+A</b> (selecionar tudo).',
+       'Aperte <b>Ctrl+C</b> pra copiar.',
+       'Volte aqui, clique no campo de texto e aperte <b>Ctrl+V</b> pra colar.'];
+  var lis = passos.map(function(p,i){ return '<div class="cc-step"><span>'+(i+1)+'</span><div>'+p+'</div></div>'; }).join('');
+  var abrir = url ? '<a href="'+url+'" target="_blank" rel="noopener" class="cc-abrir">Abrir a página da oferta &#8599;</a>' : '';
+  return '<div class="cc-guia"><div class="cc-t">Como copiar o texto '+(celular?'no celular':'')+'</div>'+lis+abrir+'</div>';
 }
 
 /* ---------- LER A PÁGINA (Netlify Function) ---------- */
@@ -1219,12 +1270,14 @@ function agParaTexto(msg){
           + '<span class="mini">' + d.url + '</span>';
       } else {
         caixa.className='ag-lido mau';
-        caixa.innerHTML = '<b>Não consegui ler a página</b>' + (d.erro||'Erro desconhecido.')
-          + (d.colar ? '<br><br>Isto <b style="display:inline">não</b> é culpa sua e não impede nada: cole o texto e a análise sai igual.' : '');
+        caixa.innerHTML = '<b>Não consegui ler esta página</b>'
+          + 'Muitas páginas de venda bloqueiam leitura automática ou escondem o texto atrás de cliques — é comum, e não é culpa sua. '
+          + 'Mas tem um jeito simples que <b>sempre funciona</b>: copiar o texto você mesmo. Leva 20 segundos:'
+          + agComoCopiar(url);
         if(d.colar){
           var b = document.createElement('button');
-          b.className='btn'; b.textContent='Colar o texto à mão';
-          b.style.cssText='margin-top:12px;width:100%;justify-content:center;background:rgba(229,101,75,.12);border:1px solid var(--red);color:var(--red);';
+          b.className='btn'; b.textContent='Já copiei — colar aqui';
+          b.style.cssText='margin-top:14px;display:block;width:100%;text-align:center;background:rgba(87,208,192,.12);border:1px solid var(--teal);color:var(--teal);';
           b.addEventListener('click', function(){ agParaTexto(''); });
           caixa.appendChild(b);
         }
@@ -1232,7 +1285,8 @@ function agParaTexto(msg){
     }catch(e){
       console.error('[AG] ler-oferta:', e);
       caixa.className='ag-lido mau';
-      caixa.innerHTML = '<b>A leitura falhou</b>Pode ser a sua conexão, ou a função pode não estar publicada ainda. Cole o texto da oferta e a análise sai igual.';
+      caixa.innerHTML = '<b>A leitura falhou</b>Pode ser a sua conexão, ou a função pode não estar publicada ainda. Cole o texto da oferta e a análise sai igual.'
+        + agComoCopiar(url);
     }
     lb.disabled = false; lb.textContent = 'Ler a página';
   });
