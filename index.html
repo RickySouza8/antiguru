@@ -891,6 +891,11 @@ const FLAGS = [
     rx:/(suporte|acompanhamento|mentoria|apoio)\s*(completo|total|exclusivo|vitalício|vitalicio|personalizado|24\s*horas|24h|ilimitad)|(te pego|pego você|pegar você|te pegamos|seguro pela mão|mão na mão|passo a passo|do seu lado|junto com você|te acompanho|acompanho você)\s*(pel[ao] mão|até o (fim|final|resultado)|em cada|do início|do começo)|não vai ficar (sozinho|sozinha|na mão)|nunca (mais )?sozinh|estarei (com você|ao seu lado)|suporte que (realmente|de verdade)/i,
     exp:'A oferta promete que vão te acompanhar, te pegar pela mão, não te deixar sozinho. Guarde essa promessa: ela é a que MENOS se cumpre. O padrão é vender o alívio do acompanhamento e depois te largar sozinho com um material complexo — e a culpa por "não ter aplicado" sobra para você. Antes de pagar, exija por escrito: o suporte é com quem, em qual canal, com qual prazo de resposta, por quanto tempo? Resposta vaga aqui é o sinal mais honesto que existe.' },
 
+  { id:'cobranca_recorrente', label:'Cobrança que se repete ou saída difícil', weight:15,
+    rx:/(assinatura|plano)\s*(mensal|anual|semanal|recorrente|automátic)|renova(ção|r)?\s*(automátic|sozinh)|cobrad[oa]\s*(mensalmente|todo mês|automaticamente|de novo)|(teste|período|trial)\s*(grátis|gratuito|de \d+ dias)\b|(?:R\$|BRL)?\s*\d+[,.]?\d*\s*\/\s*(mês|mes|ano|semana)|por (apenas )?R\$\s*\d+[,.]?\d*\s*(por mês|\/mês|mensais)|cancele\s*(quando quiser|a qualquer)|primeiros? \d+ dias (grátis|de graça)/i,
+    exp:'A oferta envolve pagamento que se repete (assinatura, mensalidade, renovação automática) ou um "teste grátis" que vira cobrança. O padrão comum: fácil de entrar, difícil de sair. Antes de aceitar, procure exatamente onde e como se cancela, se renova sozinho, e se o "grátis" cobra depois sem avisar. Faça o teste antes de pagar: procure o botão de cancelamento agora. Se você não achar facilmente, essa é a resposta.' },
+
+
   { id:'estatistica_medo', label:'Usa estatística assustadora como gatilho', weight:12,
     rx:/apenas \d+\s*%\s*(da|das|dos|de)|só \d+\s*%\s*(da|das|dos|de)|somente \d+\s*%|\d+\s*%\s*(da população|dos brasileiros|das pessoas|nunca|jamais|fracassam|desistem|não conseguem)|(a maioria|\d+\s*%) (fracassa|desiste|não consegue|nunca chega)|você (está|vai ficar) (para trás|de fora)|não fique (para trás|de fora|entre os)/i,
     exp:'A oferta usa um número assustador para criar medo pouco antes de pedir a sua decisão. A estatística pode até ser real, mas ali ela não informa — ela pressiona, te colocando no lado "fracassado" da conta para o alívio vir junto com a compra. Dado que serve para assustar não é dado, é alavanca.' },
@@ -1692,6 +1697,8 @@ const AGCheckout = (function(){
    Termos que aparecem no laudo, em uma frase, sem jargão.
    Chave em minúsculo; o render acha e faz virar link pontilhado. */
 window.AG_GLOSSARIO = {
+  'renovação automática': 'Quando uma assinatura se renova e cobra sozinha, sem você precisar confirmar. Some no meio dos termos e é a causa mais comum de "não sei por que continuo sendo cobrado". Procure sempre se dá pra desligar.',
+  'teste grátis': 'O período em que você usa de graça — mas quase sempre você já cadastra o cartão, e quando o prazo acaba, a cobrança começa automaticamente. "Grátis" com cartão na frente raramente é grátis por muito tempo.',
   'situação cadastral': 'O estado da empresa na Receita Federal. "Ativa" = funcionando; "Baixada" = fechada; "Inapta/Suspensa" = com pendências. Uma empresa baixada não pode te vender nada legalmente.',
   'cnpj': 'O registro de uma empresa na Receita Federal — como um CPF, mas de empresa. Serve para você saber a quem reclamar e processar. Ter CNPJ não prova honestidade; a falta dele tira de você o direito de reclamar.',
   'cdc': 'Código de Defesa do Consumidor — a lei brasileira que protege quem compra. O mais útil aqui é o artigo 49.',
@@ -1800,7 +1807,15 @@ window.AG_PADROES = [
 
   { id:'pressao_emocional', nome:'Pressão sobre identidade', gatilho:'"Transforme sua vida", "chega de ser quem você é", "você merece".',
     comoFunciona:'Fala com a sua dor e a sua identidade em vez de descrever o produto. Quanto mais mexe em quem você é, menos precisa provar o que entrega.',
-    comoResistir:'Separe a emoção do conteúdo. Pergunte, friamente: tirando a inspiração, o que exatamente eu recebo? Se a resposta for vaga, a oferta é vazia.' }
+    comoResistir:'Separe a emoção do conteúdo. Pergunte, friamente: tirando a inspiração, o que exatamente eu recebo? Se a resposta for vaga, a oferta é vazia.' },
+
+  { id:'quiz_que_vende', nome:'O quiz que vende', gatilho:'"Responda algumas perguntas e descubra seu perfil", quiz personalizado antes de mostrar o preço.',
+    comoFunciona:'Você responde perguntas leves e pessoais, e a cada resposta se sente mais compreendido — acolhido. Sem perceber, investe minutos e cria expectativa. Quando o preço enfim aparece, você já está emocionalmente dentro, e desistir parece "desperdiçar" o tempo que gastou. A venda vem no pico do acolhimento, não da análise.',
+    comoResistir:'Repare quando um teste "sobre você" termina numa venda — o quiz era o funil, não um serviço. Pergunte: o que exatamente esse app faz depois que eu pagar? Procure isso ANTES de responder o quiz. O acolhimento das perguntas não é prova de que o produto funciona.' },
+
+  { id:'tecnologia_que_prende', nome:'A tecnologia que prende', gatilho:'App ou assinatura que promete resolver sua vida, com "teste grátis" e renovação automática.',
+    comoFunciona:'Vende-se como solução, mas entrega mais peso: mais uma tela, mais uma assinatura, mais uma coisa pra gerenciar. Fácil de assinar, difícil de cancelar. No fim, você paga todo mês por algo que prometeu te ajudar e só te prendeu — mais tempo de tela, menos clareza.',
+    comoResistir:'Antes de assinar, ache o botão de cancelar — se for difícil de achar agora, será pior depois. Pergunte se isso resolve um problema real seu ou só adiciona mais uma obrigação. A melhor tecnologia te devolve tempo e liberdade, não cobra os dois de você.' }
 ];
 </script>
 
