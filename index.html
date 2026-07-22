@@ -476,6 +476,16 @@
   .ag-nota-mod .lk{background:none;border:0;padding:0;color:var(--gold2);text-decoration:underline;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;}
   .ag-nota-mod .lk:hover{color:var(--gold);}
 
+  /* mensagem de desarme — a voz que acalma (tom acolhedor, não alarmante) */
+  .ag-desarme{background:linear-gradient(165deg,rgba(87,208,192,.1),rgba(87,208,192,.03));border:1px solid rgba(87,208,192,.3);border-radius:16px;padding:20px 22px;margin:4px 0 20px;}
+  .ag-desarme-t{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:24px;color:var(--teal);margin-bottom:10px;}
+  .ag-desarme p{font-size:14px;color:var(--soft);line-height:1.65;margin-bottom:12px;}
+  .ag-desarme ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:0 0 12px;padding:0;}
+  .ag-desarme li{font-size:13.5px;color:var(--soft);line-height:1.6;padding-left:20px;position:relative;}
+  .ag-desarme li::before{content:'';position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:var(--teal);}
+  .ag-desarme li b{color:var(--text);}
+  .ag-desarme-f{font-size:13.5px;color:var(--soft);line-height:1.65;margin-bottom:0;padding-top:12px;border-top:1px solid rgba(87,208,192,.15);}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -930,8 +940,13 @@ const FLAGS = [
     exp:'A promessa de retorno depende de você recrutar ou revender para outras pessoas. Nesses modelos, quem entra depois financia quem entrou antes — e a maioria entra depois.' },
 
   { id:'escassez', label:'Escassez ou urgência fabricada', weight:16,
-    rx:/(últimas|ultimas)\s*vagas|vagas limitad|só hoje|so hoje|última chance|ultima chance|por tempo limitado|encerra (hoje|amanhã|em breve)|acaba (hoje|à meia|a meia)|restam? \d|expira|últimas horas|ultimas horas|agora ou nunca|lote (esgotad|encerr)|preço sobe|últimas unidades|inscrições encerram|fecha (hoje|amanhã)/i,
-    exp:'Há pressão de tempo. O objetivo de um prazo artificial é encurtar a sua análise — quanto menos tempo você pensa, mais o impulso decide. Oferta honesta sobrevive a você dormir sobre ela.' },
+    rx:/(últimas|ultimas)\s*vagas|vagas limitad|(apenas|só|somente)\s*\d+\s*vagas|\d+\s*vagas\s*(disponíveis|restantes)|só hoje|so hoje|última chance|ultima chance|por tempo limitado|encerra (hoje|amanhã|em breve)|acaba (hoje|à meia|a meia)|restam? \d|expira|últimas horas|ultimas horas|agora ou nunca|(1º|primeiro|último|ultimo)\s*lote|lote (esgotad|encerr)|preço\s*(sobe|promocional|aumenta)|últimas unidades|inscrições encerram|fecha (hoje|amanhã)|oferta termina|termina em\s*\d|contador|tempo restante|corre que|não perca|garanta (já|agora|sua vaga)/i,
+    exp:'Há pressão de tempo ou de quantidade. O objetivo de um prazo ou "vaga limitada" artificial é encurtar a sua análise — quanto menos tempo você pensa, mais o impulso decide. Oferta honesta sobrevive a você dormir sobre ela. Contador correndo e "última vaga" quase sempre reaparecem amanhã, iguais.' },
+
+  { id:'fomo', label:'Diz que você está ficando para trás', weight:14,
+    rx:/(ficando|vai ficar|está|ficar)\s*(para|pra)\s*trás|todo mundo (já|ja)\s*(usa|está|tem|faz)|enquanto você (dorme|espera|pensa|hesita)|o (mundo|mercado|trem) (não espera|está mudando|já mudou)|quem não (se adaptar|entrar agora|aprender)|a (revolução|onda|era) (já|ja) começou|não fique (de fora|para trás|pra trás)|saia na frente|antes que seja tarde|o futuro (é agora|não espera)|perder o (bonde|trem|timing)/i,
+    exp:'A oferta diz que você está atrasado, ficando para trás, perdendo o bonde. Isso é medo disfarçado de informação: cria a sensação de que existe um trem partindo e você precisa correr. Quase nunca é verdade — quase sempre haverá outras oportunidades, outros cursos, outros momentos. A pressa de "não ficar para trás" é fabricada para você decidir com medo, não com clareza.' },
+
 
   { id:'metodo_secreto', label:'Método "secreto", exclusivo ou que "ninguém conta"', weight:15,
     rx:/m[ée]todo secreto|f[óo]rmula secreta|f[óo]rmula (m[áa]gica|exclusiva|infal[íi]vel)|segredo (dos|que)|t[ée]cnica secreta|ningu[ée]m (te )?(conta|ensina|fala)|o que (os )?gurus? escondem|atalho secreto|truque (secreto|que)|hack (secreto|infal)|informação privilegiada/i,
@@ -1171,11 +1186,20 @@ const Engine = {
         txt:'Isto parece um app ou assinatura. Além dos sinais acima, confira o essencial que costuma se esconder: como se cancela (procure o botão agora), se renova sozinho, e se o "grátis" vira cobrança. Fácil de assinar não pode significar difícil de sair.' };
     }
 
+    // Mensagem de DESARME: quando a oferta usa medo/urgência, o laudo não só aponta —
+    // ele acalma. É o coração do produto: baixar a ansiedade pra pessoa voltar a decidir por si.
+    var gatilhosMedo = sinais.filter(function(s){
+      return ['escassez','fomo','estatistica_medo','pressao_emocional','ganho_garantido','promessa_velada'].indexOf(s.id)>=0;
+    }).length;
+    var desarme = gatilhosMedo >= 2 ? {
+      forte: gatilhosMedo >= 3
+    } : null;
+
     return {
       risco, faixa, faixaLabel, color, rec,
       sinais, rastro, declarados, externos,
       acoes: acoes.slice(0,4),
-      contextTrend, ctx, notaModerna,
+      contextTrend, ctx, notaModerna, desarme,
       contexto:(input.contexto||''), cnpj:(input.cnpj||''),
       texto:(input.texto||''), valor:(input.valor||''),
       when:Date.now(), name:(input.nome||'Oferta sem nome')
@@ -1223,6 +1247,19 @@ function agRender(r){
       + '<button type="button" class="lk" data-pad="'+r.notaModerna.pad+'">Entenda essa técnica &#8594;</button></div>'
     : '';
 
+  var desarme = r.desarme
+    ? '<div class="ag-desarme">'
+      + '<div class="ag-desarme-t">Antes de tudo: respira.</div>'
+      + '<p>Esta oferta usa '+(r.desarme.forte?'vários gatilhos':'gatilhos')+' de pressa e medo — do tipo que faz a gente sentir que está atrasado, ficando para trás, ou diante da última chance da vida. Então, com calma:</p>'
+      + '<ul>'
+      + '<li><b>Você não está atrasado.</b> Essa sensação foi fabricada pela oferta, não é a realidade da sua vida.</li>'
+      + '<li><b>Não é a última oportunidade.</b> Vão existir outras — sempre existem. O que é bom de verdade não desaparece se você pensar por um dia.</li>'
+      + '<li><b>Você não precisa decidir agora.</b> Nada honesto exige que você decida com medo ou com pressa. Se exige, isso mesmo já é a resposta.</li>'
+      + '</ul>'
+      + '<p class="ag-desarme-f">Feche esta aba. Durma sobre o assunto. Pesquise alternativas. Se amanhã ainda fizer sentido — e a oferta ainda estiver lá, como quase sempre estará — você decide com a cabeça no lugar. É só isso que a gente quer: que a escolha seja sua, não do medo.</p>'
+      + '</div>'
+    : '';
+
   return ''
    + '<div class="ag-rcard">'
    +   '<div class="ag-tier free"><span>&#9673;</span> Prévia gratuita &middot; leitura do texto</div>'
@@ -1240,6 +1277,8 @@ function agRender(r){
    +   '</div>'
 
    +   '<div class="ag-nots"><b>O que este índice NÃO diz.</b> Ele não diz se a empresa é honesta, se o curso é bom, se você vai receber ou se vão te devolver o dinheiro. Ele lê <i>o texto da oferta</i> e mostra os padrões usados para te fazer decidir rápido. Confiança de verdade vem de reclamações, histórico e prova — coisas que estão fora do texto. Por isso a próxima seção existe.</div>'
+
+   +   desarme
 
    +   '<div class="ag-sec"><h4>Sinais de manipulação encontrados</h4>'+sinais+'</div>'
 
