@@ -578,21 +578,37 @@ async function carregarPedidos() {
         
         let statusBadge = '';
         let alerta = '';
-        if (p.estado === 'pago') {
+        let acaoBtn = '';
+        let prazoTxt = '—';
+
+        if (p.estado === 'aguarda_pagamento') {
+          statusBadge = '<span class="pedido-badge">Aguarda pagamento</span>';
+          acaoBtn = `<button class="btn-primary" onclick="confirmarPagamento('${p.id}')" style="padding:6px 10px;font-size:12px;">Confirmar pagamento</button>`;
+        } else if (p.estado === 'pago') {
           if (horas < 0) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-vermelho"></span>Vencido</span>'; alerta = '🔴'; }
           else if (horas < 6) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-amber"></span>Vencendo</span>'; alerta = '🟡'; }
           else statusBadge = '<span class="pedido-badge status-pago">Pago</span>';
-        } else if (p.estado === 'em_analise') statusBadge = '<span class="pedido-badge status-em-analise">Em análise</span>';
-        else if (p.estado === 'entregue') statusBadge = '<span class="pedido-badge status-entregue">✓ Entregue</span>';
-        else statusBadge = '<span class="pedido-badge">Aguardando</span>';
+          prazoTxt = horas > 0 ? horas + 'h' : 'vencido';
+          acaoBtn = `<button class="btn-secondary" onclick="irParaLaudo('${p.id}')" style="padding:6px 10px;font-size:12px;">Escrever laudo</button>`;
+        } else if (p.estado === 'em_analise') {
+          statusBadge = '<span class="pedido-badge status-em-analise">Em análise</span>';
+          prazoTxt = horas > 0 ? horas + 'h' : 'vencido';
+          acaoBtn = `<button class="btn-secondary" onclick="irParaLaudo('${p.id}')" style="padding:6px 10px;font-size:12px;">Continuar laudo</button>`;
+        } else if (p.estado === 'entregue') {
+          statusBadge = '<span class="pedido-badge status-entregue">✓ Entregue</span>';
+          prazoTxt = p.entregue_em ? new Date(p.entregue_em).toLocaleDateString('pt-BR') : '—';
+          acaoBtn = `<button class="btn-secondary" onclick="irParaLaudo('${p.id}')" style="padding:6px 10px;font-size:12px;">Ver laudo</button>`;
+        } else {
+          statusBadge = '<span class="pedido-badge">' + (p.estado || 'desconhecido') + '</span>';
+        }
         
         return `<div class="pedido-row">
           <div>${alerta} ${p.protocolo}</div>
           <div>${p.contacto}</div>
           <div>${p.canal}</div>
           <div>${statusBadge}</div>
-          <div>${horas > 0 ? horas + 'h' : 'vencido'}</div>
-          <div><button class="btn-secondary" onclick="selecionarPedido('${p.id}')" style="padding:6px 10px;font-size:12px;">Editar</button></div>
+          <div>${prazoTxt}</div>
+          <div>${acaoBtn}</div>
         </div>`;
       }).join('');
       
@@ -601,12 +617,49 @@ async function carregarPedidos() {
   } catch (e) { console.error(e); }
 }
 
+// ===== CONFIRMAR PAGAMENTO =====
+async function confirmarPagamento(pedidoId) {
+  if (!confirm('Confirmar que o pagamento deste pedido entrou?\n\nIsto inicia a contagem de 24h para a entrega.')) return;
+  try {
+    const { error } = await supa.from('pedidos').update({
+      estado: 'pago',
+      pago_em: new Date().toISOString()
+    }).eq('id', pedidoId);
+    if (error) { alert('Erro ao confirmar: ' + error.message); return; }
+    alert('✓ Pagamento confirmado. O pedido agora está pronto para o laudo.');
+    carregarDashboard();
+    carregarPedidos();
+    carregarLaudos();
+  } catch (e) { console.error(e); alert('Erro ao confirmar pagamento.'); }
+}
+
+// ===== IR PARA O LAUDO (a partir da aba Pedidos) =====
+async function irParaLaudo(pedidoId) {
+  // marca em análise se ainda estava só pago
+  try {
+    const { data } = await supa.from('pedidos').select('estado').eq('id', pedidoId).single();
+    if (data && data.estado === 'pago') {
+      await supa.from('pedidos').update({ estado: 'em_analise' }).eq('id', pedidoId);
+    }
+  } catch (e) { console.error(e); }
+
+  // troca para a aba Escrever Laudo
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelector('[data-page="laudo"]').classList.add('active');
+  document.getElementById('page-laudo').classList.add('active');
+
+  await carregarLaudos();
+  document.getElementById('select-pedido').value = pedidoId;
+  selecionarPedido(pedidoId);
+}
+
 // ===== LAUDOS =====
 async function carregarLaudos() {
   try {
-    const r = await supa.from('pedidos').select('*').eq('estado', 'pago').order('criado_em', { ascending: false });
+    const r = await supa.from('pedidos').select('*').in('estado', ['pago', 'em_analise', 'entregue']).order('criado_em', { ascending: false });
     if (r.data) {
-      const opts = r.data.map(p => `<option value="${p.id}">${p.protocolo} — ${p.contacto}</option>`).join('');
+      const opts = r.data.map(p => `<option value="${p.id}">${p.protocolo} — ${p.contacto} (${p.estado})</option>`).join('');
       document.getElementById('select-pedido').innerHTML = `<option value="">— Selecionar pedido —</option>${opts}`;
       
       document.getElementById('select-pedido').addEventListener('change', async function() {
