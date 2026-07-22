@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>AntiGuru · Central</title>
+<title>AntiGuru · Central de Operações</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;450;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -12,7 +12,7 @@
   --text:#ECEAF6; --soft:#B9BCDB; --muted:#9498BC; --faint:#62678C;
   --gold:#E3B341; --gold2:#F4DFA0; --goldsoft:rgba(227,179,65,.12);
   --teal:#57D0C0; --teal2:#8FE6DD; --tealsoft:rgba(87,208,192,.12);
-  --red:#E5654B; --redsoft:rgba(229,101,75,.12);
+  --red:#E5654B; --redsoft:rgba(229,101,75,.12); --amber:#F59E0B;
   --ffd:'Fraunces',serif; --ffb:'Inter',sans-serif; --ffm:'Space Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box;max-width:100%;}
@@ -23,935 +23,863 @@ body{background:
   var(--void);color:var(--text);font-family:var(--ffb);line-height:1.6;min-height:100dvh;-webkit-font-smoothing:antialiased;}
 ::selection{background:var(--goldsoft);}
 
-.wrap{max-width:1080px;margin:0 auto;padding:28px 22px 70px;}
+/* ===== LAYOUT =====*/
+.container{display:flex;min-height:100dvh;}
+.sidebar{width:240px;background:linear-gradient(180deg,var(--surface2),var(--surface));border-right:1px solid var(--line);padding:20px;overflow-y:auto;position:fixed;height:100dvh;left:0;top:0;}
+.main{margin-left:240px;flex:1;padding:28px 40px;overflow-y:auto;}
+@media (max-width:800px){.sidebar{width:100%;height:auto;position:relative;border-right:none;border-bottom:1px solid var(--line);padding:14px 22px;}.main{margin-left:0;padding:20px 22px;}}
 
-/* header */
-.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;flex-wrap:wrap;gap:14px;}
-.brand{display:flex;align-items:center;gap:12px;}
-.brand .seal{width:40px;height:40px;border-radius:11px;background:radial-gradient(circle at 30% 30%,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(227,179,65,.22);}
-.brand .seal svg{width:23px;height:23px;}
-.brand .nm{font-family:var(--ffd);font-weight:600;font-size:20px;}
-.brand .nm b{color:var(--gold2);}
-.brand .sub{font-family:var(--ffm);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);}
-.who{font-family:var(--ffm);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:10px;}
-.who .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);}
-.who a{color:var(--faint);text-decoration:none;border-bottom:1px solid var(--line2);}
+/* ===== SIDEBAR =====*/
+.logo-ag{display:flex;align-items:center;gap:10px;margin-bottom:28px;font-family:var(--ffd);font-weight:600;font-size:18px;}
+.logo-ag b{color:var(--gold2);}
+.nav-item{padding:12px 14px;border-radius:10px;cursor:pointer;font-size:14px;color:var(--soft);margin-bottom:8px;border-left:3px solid transparent;transition:all .2s;}
+.nav-item.active{background:var(--goldsoft);color:var(--gold2);border-left-color:var(--gold);}
+.nav-item:hover{background:rgba(87,208,192,.1);}
+.user-info{position:absolute;bottom:20px;left:20px;right:20px;padding-top:20px;border-top:1px solid var(--line2);}
+.user-name{font-size:13px;color:var(--soft);font-weight:600;margin-bottom:10px;}
+.logout-btn{width:100%;padding:10px;background:rgba(229,101,75,.12);color:var(--red);border:1px solid rgba(229,101,75,.3);border-radius:8px;font-size:13px;cursor:pointer;transition:.2s;}
+.logout-btn:hover{background:rgba(229,101,75,.2);}
 
-/* metrics */
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
-@media (max-width:760px){.metrics{grid-template-columns:repeat(2,1fr);}}
-.metric{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:18px;}
-.metric .ml{font-family:var(--ffm);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.metric .mv{font-family:var(--ffd);font-weight:600;font-size:30px;line-height:1;}
-.metric .mv small{font-size:15px;color:var(--soft);font-weight:400;}
-.metric .mb{margin-top:10px;height:4px;border-radius:4px;background:rgba(232,226,255,.07);overflow:hidden;}
-.metric .mb i{display:block;height:100%;border-radius:4px;}
+/* ===== MAIN CONTENT =====*/
+.page{display:none;}
+.page.active{display:block;}
 
-/* eixos médios */
-.eixos-avg{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px 22px;margin-bottom:28px;}
-.eixos-avg h3{font-family:var(--ffm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
-.ea-row{display:flex;align-items:center;gap:14px;margin-bottom:11px;}
-.ea-row:last-child{margin-bottom:0;}
-.ea-name{font-size:13.5px;color:var(--soft);width:190px;flex-shrink:0;}
-@media (max-width:560px){.ea-name{width:120px;font-size:12px;}}
-.ea-bar{flex:1;height:7px;border-radius:7px;background:rgba(232,226,255,.06);overflow:hidden;}
-.ea-bar i{display:block;height:100%;border-radius:7px;}
-.ea-val{font-family:var(--ffm);font-size:12px;font-weight:700;width:42px;text-align:right;}
+/* ===== HEADER =====*/
+.page-header{margin-bottom:28px;}
+.page-title{font-family:var(--ffd);font-weight:600;font-size:28px;margin-bottom:8px;}
+.page-lead{color:var(--muted);font-size:14px;}
 
-/* toolbar */
-.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
-.toolbar .ttl{font-family:var(--ffd);font-weight:600;font-size:18px;flex:1;}
-.chip{font-family:var(--ffm);font-size:11px;padding:7px 13px;border-radius:30px;border:1px solid var(--line2);color:var(--muted);background:transparent;cursor:pointer;transition:all .18s;}
-.chip:hover{border-color:var(--line2);color:var(--soft);}
-.chip.on{border-color:var(--gold);color:var(--gold2);background:var(--goldsoft);}
+/* ===== ALERTS =====*/
+.alert{padding:16px 20px;border-radius:12px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px;}
+.alert.error{background:var(--redsoft);border:1px solid rgba(229,101,75,.3);color:var(--red);}
+.alert.warning{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--amber);}
+.alert.success{background:var(--tealsoft);border:1px solid rgba(87,208,192,.3);color:var(--teal2);}
+.alert svg{width:20px;height:20px;flex-shrink:0;margin-top:2px;}
 
-/* feedback cards */
-.fb{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px 22px;margin-bottom:14px;transition:border-color .2s;}
-.fb.unread{border-left:3px solid var(--gold);}
-.fb-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px;}
-.fb-who{display:flex;align-items:center;gap:11px;}
-.fb-av{width:38px;height:38px;border-radius:11px;background:var(--raise);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-family:var(--ffd);font-weight:600;font-size:16px;color:var(--gold2);}
-.fb-name{font-family:var(--ffd);font-weight:600;font-size:15.5px;}
-.fb-meta{font-family:var(--ffm);font-size:10.5px;color:var(--faint);margin-top:1px;}
-.fb-tag{font-family:var(--ffm);font-size:10px;padding:4px 10px;border-radius:20px;white-space:nowrap;}
-.fb-tag.paid{color:var(--gold);background:var(--goldsoft);border:1px solid rgba(227,179,65,.3);}
-.fb-tag.free{color:var(--teal);background:var(--tealsoft);border:1px solid rgba(87,208,192,.3);}
-.fb-tag.nav{color:var(--muted);background:rgba(148,152,188,.1);border:1px solid var(--line2);}
-.fb-stars{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 20px;margin:12px 0;}
-@media (max-width:560px){.fb-stars{grid-template-columns:1fr;}}
-.fb-star-row{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--soft);}
-.fb-star-row .s{color:var(--gold);letter-spacing:1px;font-size:12px;}
-.fb-comment{font-family:var(--ffd);font-style:italic;font-size:15px;color:var(--soft);line-height:1.6;padding:12px 16px;background:var(--void);border-radius:11px;border-left:2px solid var(--line2);margin:12px 0;}
-.fb-actions{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap;}
-.fb-btn{font-family:var(--ffb);font-size:13px;font-weight:500;padding:9px 16px;border-radius:9px;border:1px solid var(--line2);background:transparent;color:var(--soft);cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:7px;text-decoration:none;}
-.fb-btn:hover{border-color:var(--teal);color:var(--teal2);}
-.fb-btn.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1405;border:none;font-weight:600;}
-.fb-btn.gold:hover{color:#1a1405;opacity:.92;}
-.fb-done{font-family:var(--ffm);font-size:10.5px;color:var(--teal);display:inline-flex;align-items:center;gap:6px;}
+/* ===== CARDS =====*/
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+@media (max-width:1200px){.grid{grid-template-columns:repeat(2,1fr);}}
+.card{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;}
+.card-label{font-family:var(--ffm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.card-value{font-family:var(--ffd);font-weight:600;font-size:32px;line-height:1;}
+.card-value small{font-size:14px;color:var(--soft);font-weight:400;}
 
-.preview-note{background:var(--goldsoft);border:1px solid rgba(227,179,65,.3);border-radius:12px;padding:14px 18px;margin-bottom:24px;font-size:13px;color:var(--gold2);line-height:1.6;}
-.preview-note b{font-family:var(--ffd);}
+/* ===== TABELA PEDIDOS =====*/
+.pedidos-toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+.filter-group{display:flex;gap:8px;}
+.filter-btn{padding:8px 14px;border:1px solid var(--line2);background:transparent;color:var(--soft);border-radius:8px;cursor:pointer;font-size:13px;transition:.2s;}
+.filter-btn.active{background:var(--goldsoft);border-color:var(--gold);color:var(--gold2);}
 
-/* abas */
-.tabs{display:flex;gap:8px;margin-bottom:22px;border-bottom:1px solid var(--line);}
-.tab{background:none;border:0;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--ffb);font-weight:600;font-size:14.5px;padding:11px 4px;margin-right:16px;cursor:pointer;transition:.2s;}
-.tab:hover{color:var(--soft);}
-.tab.on{color:var(--gold2);border-bottom-color:var(--gold);}
-.tab .badge{display:inline-block;min-width:19px;padding:1px 6px;margin-left:7px;border-radius:20px;background:var(--gold);color:#1a1405;font-family:var(--ffm);font-size:10px;font-weight:700;}
-/* pedidos */
-.pd{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px 22px;margin-bottom:14px;}
-.pd.aberto{border-left:3px solid var(--gold);}
-.pd.pago{border-left:3px solid var(--teal);}
-.pd.entregue{opacity:.62;border-left:3px solid var(--faint);}
-.pd-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
-.pd-cod{font-family:var(--ffm);font-weight:700;font-size:16px;color:var(--gold2);letter-spacing:.06em;}
-.pd-when{font-family:var(--ffm);font-size:10.5px;color:var(--faint);}
-.pd-status{font-family:var(--ffm);font-size:10px;padding:4px 11px;border-radius:20px;text-transform:uppercase;letter-spacing:.08em;}
-.pd-status.s-aberto{color:var(--gold);background:var(--goldsoft);border:1px solid rgba(227,179,65,.3);}
-.pd-status.s-pago{color:var(--teal);background:var(--tealsoft);border:1px solid rgba(87,208,192,.3);}
-.pd-status.s-entregue{color:var(--faint);background:rgba(148,152,188,.1);border:1px solid var(--line2);}
-.pd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px;margin-bottom:12px;}
-@media(max-width:640px){.pd-grid{grid-template-columns:1fr;}}
-.pd-row{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:5px 0;border-bottom:1px solid rgba(232,226,255,.05);}
-.pd-row b{color:var(--muted);font-weight:400;}
-.pd-row span{color:var(--text);text-align:right;word-break:break-word;}
-.pd-risk{font-family:var(--ffm);font-weight:700;}
-.pd-oferta{background:var(--void);border-radius:11px;border-left:2px solid var(--line2);padding:12px 15px;margin-bottom:12px;}
-.pd-oferta .ol{font-family:var(--ffm);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
-.pd-oferta .ot{font-size:13.5px;color:var(--soft);line-height:1.6;max-height:88px;overflow:auto;white-space:pre-wrap;}
+.pedidos-list{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;overflow:hidden;}
+.pedido-row{display:grid;grid-template-columns:80px 1fr 120px 120px 100px 100px;gap:12px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line2);font-size:14px;}
+.pedido-row:last-child{border-bottom:none;}
+.pedido-header{background:rgba(232,226,255,.04);font-weight:600;font-family:var(--ffm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.pedido-badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-family:var(--ffm);}
+.status-pago{background:var(--goldsoft);color:var(--gold);}
+.status-em-analise{background:var(--tealsoft);color:var(--teal2);}
+.status-entregue{background:rgba(34,197,94,.12);color:#22C55E;}
+.status-vencido{background:var(--redsoft);color:var(--red);}
+.alerta-visual{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;}
+.alerta-vermelho{background:var(--red);box-shadow:0 0 8px var(--red);}
+.alerta-amber{background:var(--amber);box-shadow:0 0 8px var(--amber);}
 
-/* ===== EDITOR DE LAUDO ===== */
-.ed{position:fixed;inset:0;z-index:80;background:var(--void);display:none;flex-direction:column;}
-.ed.on{display:flex;}
-.ed-bar{flex:none;display:flex;align-items:center;gap:16px;padding:14px 22px;border-bottom:1px solid var(--line);background:var(--surface);flex-wrap:wrap;}
-.ed-id b{font-family:var(--ffm);font-size:16px;color:var(--gold2);letter-spacing:.05em;}
-.ed-id span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;}
-.ed-save{flex:1;font-family:var(--ffm);font-size:11px;color:var(--faint);opacity:0;transition:opacity .3s;}
-.ed-save.on{opacity:1;color:var(--teal);}
-.ed-acts{display:flex;gap:8px;flex-wrap:wrap;}
-.ed-wrap{flex:1;display:flex;overflow:hidden;}
-.ed-main{flex:1;overflow-y:auto;padding:26px 28px 90px;max-width:860px;margin:0 auto;width:100%;}
-@media(max-width:900px){.ed-main{padding:20px 16px 80px;}}
+/* ===== EDITOR DE LAUDO =====*/
+.editor-container{display:grid;grid-template-columns:1fr 300px;gap:20px;}
+@media (max-width:900px){.editor-container{grid-template-columns:1fr;}}
+.editor-main{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:24px;}
+.editor-section{margin-bottom:26px;padding-bottom:24px;border-bottom:1px solid var(--line2);}
+.editor-section:last-child{border-bottom:none;margin-bottom:0;}
+.section-label{font-family:var(--ffd);font-weight:600;font-size:16px;margin-bottom:8px;color:var(--text);}
+.section-hint{font-size:12px;color:var(--muted);margin-bottom:12px;font-style:italic;}
+.section-input{width:100%;padding:12px 14px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-family:var(--ffb);font-size:14px;resize:vertical;min-height:100px;line-height:1.6;}
+.section-input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 12px rgba(87,208,192,.2);}
+.autosave-indicator{font-size:11px;color:var(--muted);margin-top:6px;font-family:var(--ffm);}
+.autosave-indicator.saved{color:var(--teal);}
 
-.ed-meta{margin-bottom:26px;}
-.ed-lb{display:block;font-family:var(--ffm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
-.ed-lb i{text-transform:none;letter-spacing:0;font-style:normal;color:var(--faint);}
-.ed-lb.sm{margin-top:8px;}
-.ed-inp{width:100%;background:var(--void);border:1px solid var(--line);border-radius:10px;color:var(--text);font-family:var(--ffb);font-size:15px;padding:12px 14px;}
-.ed-inp:focus{outline:none;border-color:var(--gold);}
-.ed-inp::placeholder{color:var(--faint);}
-.ed-inp.sm{font-size:13.5px;padding:9px 11px;margin-bottom:7px;}
-.ed-alvo{margin-top:14px;background:var(--surface);border-left:2px solid var(--line2);border-radius:0 10px 10px 0;padding:12px 15px;font-size:13.5px;color:var(--soft);line-height:1.6;white-space:pre-wrap;max-height:150px;overflow:auto;}
-.ed-alvo b{color:var(--muted);font-weight:400;font-family:var(--ffm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:5px;}
+/* ===== PAINEL FONTES =====*/
+.fontes-panel{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:16px;}
+.fontes-header{font-family:var(--ffd);font-weight:600;margin-bottom:12px;}
+.fonte-item{padding:10px;background:var(--void);border:1px solid var(--line2);border-radius:8px;margin-bottom:8px;font-size:12px;}
+.fonte-item.old{border-color:var(--red);background:rgba(229,101,75,.05);}
+.add-fonte-btn{width:100%;padding:10px;background:var(--tealsoft);color:var(--teal);border:1px solid rgba(87,208,192,.3);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;}
+.add-fonte-btn:hover{background:rgba(87,208,192,.2);}
 
-.ed-sec{position:relative;background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px 22px 20px 60px;margin-bottom:16px;}
-.ed-n{position:absolute;left:20px;top:20px;width:26px;height:26px;border-radius:50%;background:var(--goldsoft);border:1px solid rgba(227,179,65,.35);color:var(--gold2);font-family:var(--ffm);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;}
-.ed-sec h3{font-family:var(--ffd);font-weight:600;font-size:17px;margin-bottom:8px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
-.ed-core{font-family:var(--ffm);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:var(--goldsoft);border:1px solid rgba(227,179,65,.3);padding:3px 8px;border-radius:20px;}
-.ed-core.int{color:var(--red);background:rgba(229,101,75,.1);border-color:rgba(229,101,75,.3);}
-.ed-tip{font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:12px;}
-.ed-tip b{color:var(--soft);}
-.ed-ta{width:100%;min-height:120px;background:var(--void);border:1px solid var(--line);border-radius:11px;color:var(--text);font-family:var(--ffb);font-size:14.5px;line-height:1.7;padding:13px 15px;resize:vertical;}
-.ed-ta:focus{outline:none;border-color:var(--gold);}
-.ed-nv .ed-n{background:rgba(229,101,75,.12);border-color:rgba(229,101,75,.35);color:var(--red);}
-.ed-nv{border-color:rgba(229,101,75,.28);}
-.ed-int{border-style:dashed;}
-.ed-int .ed-n{background:rgba(148,152,188,.1);border-color:var(--line2);color:var(--faint);}
-.ed-fbtn{margin-top:10px;background:var(--tealsoft);border:1px solid rgba(87,208,192,.35);color:var(--teal);font-family:var(--ffd);font-weight:600;font-size:13px;padding:9px 15px;border-radius:30px;cursor:pointer;}
-.ed-fbtn:hover{background:rgba(87,208,192,.2);}
+/* ===== BOTÕES AÇÃO =====*/
+.action-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+.btn-primary{padding:12px 20px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1405;border:none;border-radius:10px;font-weight:600;cursor:pointer;transition:.2s;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(227,179,65,.3);}
+.btn-secondary{padding:12px 20px;background:transparent;border:1px solid var(--teal);color:var(--teal);border-radius:10px;font-weight:600;cursor:pointer;transition:.2s;}
+.btn-secondary:hover{background:rgba(87,208,192,.1);}
 
-/* painel de fontes */
-.ed-side{flex:none;width:0;overflow:hidden;border-left:1px solid var(--line);background:var(--surface);transition:width .25s;}
-.ed-side.on{width:330px;overflow-y:auto;padding:18px 18px 40px;}
-@media(max-width:900px){.ed-side.on{position:fixed;right:0;top:0;bottom:0;width:min(330px,88vw);z-index:5;box-shadow:-20px 0 60px rgba(0,0,0,.5);}}
-.ed-side-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
-.ed-side-h b{font-family:var(--ffd);font-size:16px;}
-.ed-x{background:none;border:0;color:var(--muted);font-size:24px;cursor:pointer;line-height:1;}
-.ed-x:hover{color:var(--text);}
-.ed-fontes{margin:14px 0 20px;}
-.fn{background:var(--void);border:1px solid var(--line);border-radius:11px;padding:12px 13px;margin-bottom:9px;}
-.fn-t{font-family:var(--ffm);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
-.fn-d{font-size:13px;color:var(--soft);line-height:1.55;margin-bottom:7px;}
-.fn-l{font-size:11.5px;color:var(--teal);word-break:break-all;display:block;margin-bottom:6px;}
-.fn-v{font-family:var(--ffm);font-size:10px;color:var(--faint);}
-.fn-v.velho{color:var(--red);}
-.fn-ins{background:none;border:1px solid var(--line2);color:var(--soft);font-size:11.5px;padding:4px 10px;border-radius:20px;cursor:pointer;margin-top:6px;}
-.fn-ins:hover{border-color:var(--gold);color:var(--gold2);}
-.ed-nova{border-top:1px solid var(--line);padding-top:16px;}
-.ed-nova b{display:block;font-family:var(--ffd);font-size:14px;margin-bottom:10px;}
-.ed-err{color:var(--red);font-size:12.5px;min-height:16px;margin-bottom:6px;}
+/* ===== MODAL =====*/
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center;}
+.modal.open{display:flex;}
+.modal-content{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:28px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;}
+.modal-title{font-family:var(--ffd);font-weight:600;font-size:20px;margin-bottom:16px;}
+.modal-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--soft);cursor:pointer;font-size:24px;}
 
-/* preview */
-.ed-prev{position:fixed;inset:0;z-index:90;background:rgba(4,6,12,.85);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;}
-.ed-prev.on{display:flex;}
-.ed-prev-box{width:100%;max-width:720px;max-height:90vh;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line2);border-radius:18px;overflow:hidden;}
-.ed-prev-h{flex:none;display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line);}
-.ed-prev-h b{font-family:var(--ffd);font-size:16px;}
-.ed-prev-warn{flex:none;}
-.ed-prev-warn .w{background:rgba(229,101,75,.1);border-bottom:1px solid rgba(229,101,75,.28);padding:11px 22px;font-size:13px;color:var(--soft);line-height:1.55;}
-.ed-prev-warn .w b{color:var(--red);}
-.ed-prev-txt{flex:1;overflow:auto;margin:0;padding:20px 22px;background:var(--void);font-family:var(--ffb);font-size:14px;line-height:1.75;color:var(--soft);white-space:pre-wrap;word-break:break-word;}
-.ed-prev-acts{flex:none;display:flex;gap:8px;padding:16px 22px 8px;flex-wrap:wrap;}
-.ed-prev-nota{flex:none;padding:4px 22px 18px;font-size:11.5px;color:var(--muted);line-height:1.6;}
-.ed-prev-nota code{font-family:var(--ffm);color:var(--gold2);font-size:11px;}
+/* ===== TABELA GENÉRICA =====*/
+.table{width:100%;border-collapse:collapse;font-size:14px;}
+.table th{background:rgba(232,226,255,.04);padding:12px;text-align:left;font-family:var(--ffm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line2);}
+.table td{padding:12px;border-bottom:1px solid var(--line2);color:var(--soft);}
+.table tr:hover{background:rgba(232,226,255,.03);}
+
+/* ===== LOADING =====*/
+.loading{display:inline-block;width:20px;height:20px;border:2px solid var(--line2);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ===== LOGIN SCREEN =====*/
+.login-screen{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:22px;}
+.login-box{width:100%;max-width:380px;background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:18px;padding:36px 30px;}
+.login-box h1{font-family:var(--ffd);font-weight:600;margin-bottom:8px;}
+.login-box p{color:var(--muted);font-size:13px;margin-bottom:24px;font-family:var(--ffm);}
+.login-input{width:100%;padding:13px 15px;margin-bottom:11px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-size:15px;}
+.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1405;border:none;border-radius:10px;font-weight:600;cursor:pointer;margin-bottom:14px;}
+.login-error{color:var(--red);font-size:13px;text-align:center;min-height:18px;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   window.AG_SUPABASE_URL = "https://wthhnpgfqfqidbciyumc.supabase.co";
   window.AG_SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0aGhucGdmcWZxaWRiY2l5dW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjY1NTAsImV4cCI6MjA5Nzc0MjU1MH0.UcQI-G3Jb7KDE1x_iUbrgsegpOS6ZLJ1pBM90ijpci0";
-  window.agSupa = window.supabase.createClient(window.AG_SUPABASE_URL, window.AG_SUPABASE_ANON);
+  window.supa = window.supabase.createClient(window.AG_SUPABASE_URL, window.AG_SUPABASE_ANON);
 </script>
 </head>
 <body>
-<div id="login-screen" style="min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:22px;">
-  <div style="width:100%;max-width:380px;background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:18px;padding:36px 30px;">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-      <div class="seal" style="width:40px;height:40px;border-radius:11px;background:radial-gradient(circle at 30% 30%,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" style="width:23px;height:23px;"><circle cx="12" cy="12" r="2.6" stroke="#1a1405" stroke-width="1.4"/><circle cx="12" cy="6.2" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="12" cy="17.8" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="7" cy="9.1" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="17" cy="9.1" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="7" cy="14.9" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="17" cy="14.9" r="2.2" stroke="#1a1405" stroke-width="1.2"/></svg></div>
-      <div><div class="nm" style="font-family:var(--ffd);font-weight:600;font-size:20px;">Anti<b style="color:var(--gold2)">Guru</b> · Central</div></div>
-    </div>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:24px;font-family:var(--ffm);">Painel de quem cuida. Acesso restrito.</p>
-    <input id="login-email" type="email" placeholder="seu e-mail" autocomplete="username" style="width:100%;padding:13px 15px;margin-bottom:11px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-size:15px;font-family:var(--ffb);">
-    <input id="login-pass" type="password" placeholder="sua senha" autocomplete="current-password" style="width:100%;padding:13px 15px;margin-bottom:18px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-size:15px;font-family:var(--ffb);">
-    <button id="login-btn" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1405;border:none;border-radius:10px;font-weight:600;font-size:15px;font-family:var(--ffb);cursor:pointer;">Entrar</button>
-    <p id="login-err" style="color:var(--red);font-size:13px;margin-top:14px;text-align:center;min-height:18px;"></p>
+
+<!-- LOGIN -->
+<div id="login-screen" class="login-screen" style="display:none;">
+  <div class="login-box">
+    <h1>Anti<b>Guru</b> · Central</h1>
+    <p>Gestão de pedidos, laudos, análises.</p>
+    <input id="login-email" type="email" class="login-input" placeholder="seu e-mail" autocomplete="username">
+    <input id="login-pass" type="password" class="login-input" placeholder="sua senha" autocomplete="current-password">
+    <button id="login-btn" class="login-btn">Entrar</button>
+    <div id="login-error" class="login-error"></div>
   </div>
 </div>
 
-<div class="wrap" id="painel" style="display:none;">
+<!-- APP -->
+<div id="app" style="display:none;width:100%;min-height:100dvh;">
 
-  <div class="top">
-    <div class="brand">
-      <div class="seal"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.6" stroke="#1a1405" stroke-width="1.4"/><circle cx="12" cy="6.2" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="12" cy="17.8" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="7" cy="9.1" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="17" cy="9.1" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="7" cy="14.9" r="2.2" stroke="#1a1405" stroke-width="1.2"/><circle cx="17" cy="14.9" r="2.2" stroke="#1a1405" stroke-width="1.2"/></svg></div>
-      <div>
-        <div class="nm">Anti<b>Guru</b> · Central</div>
-        <div class="sub">Painel de quem cuida</div>
+  <div class="sidebar">
+    <div class="logo-ag">Anti<b>Guru</b></div>
+    <nav id="nav-items">
+      <div class="nav-item active" data-page="dashboard">📊 Dashboard</div>
+      <div class="nav-item" data-page="pedidos">📋 Pedidos</div>
+      <div class="nav-item" data-page="laudo">✍️ Escrever Laudo</div>
+      <div class="nav-item" data-page="fontes">📚 Banco de Fontes</div>
+      <div class="nav-item" data-page="financeiro">💰 Financeiro</div>
+      <div class="nav-item" data-page="feedbacks">💬 Feedbacks</div>
+      <div class="nav-item" data-page="config">⚙️ Configurações</div>
+    </nav>
+    <div class="user-info">
+      <div class="user-name" id="user-name">—</div>
+      <button id="logout-btn" class="logout-btn">Sair</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div class="page-title">Dashboard</div>
+        <div class="page-lead">Visão geral de operações, prazos e receita</div>
+      </div>
+
+      <div id="alerts-container"></div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-label">Receita (mês)</div>
+          <div class="card-value">R$ <span id="receita-mes">0</span><small></small></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Pedidos pagos</div>
+          <div class="card-value"><span id="pedidos-pagos">0</span><small>neste mês</small></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Entregues</div>
+          <div class="card-value"><span id="entregues">0</span><small>% do mês</small></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Pendentes</div>
+          <div class="card-value" id="card-pendentes"><span class="loading"></span></div>
+        </div>
+      </div>
+
+      <div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;">
+        <div class="page-title" style="font-size:18px;margin-bottom:16px;">Próximos a vencer</div>
+        <table class="table" id="vencer-table">
+          <thead><tr><th>Protocolo</th><th>Status</th><th>Tempo restante</th><th>Ação</th></tr></thead>
+          <tbody id="vencer-tbody"></tbody>
+        </table>
       </div>
     </div>
-    <div class="who"><span class="dot"></span> Henrique · <a href="#" id="logout">sair</a></div>
-  </div>
 
-  <div class="preview-note" id="liveNote" style="display:none;">
-    <b>Conectado.</b> Os feedbacks reais das pessoas que usaram o AntiGuru aparecem aqui em tempo real.
-  </div>
+    <!-- PEDIDOS -->
+    <div class="page" id="page-pedidos">
+      <div class="page-header">
+        <div class="page-title">Pedidos</div>
+        <div class="page-lead">Rastreie cada pedido desde o pagamento até a entrega</div>
+      </div>
 
-  <!-- MÉTRICAS -->
-  <div class="metrics">
-    <div class="metric"><div class="ml">Total de vozes</div><div class="mv">3</div><div class="mb"><i style="width:100%;background:var(--teal)"></i></div></div>
-    <div class="metric"><div class="ml">Não lidos</div><div class="mv" style="color:var(--gold2)">2</div><div class="mb"><i style="width:66%;background:var(--gold)"></i></div></div>
-    <div class="metric"><div class="ml">Média geral</div><div class="mv">4.2<small>/5</small></div><div class="mb"><i style="width:84%;background:var(--gold)"></i></div></div>
-    <div class="metric"><div class="ml">Recomendariam</div><div class="mv">100<small>%</small></div><div class="mb"><i style="width:100%;background:var(--teal)"></i></div></div>
-  </div>
+      <div class="pedidos-toolbar">
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="todos">Todos</button>
+          <button class="filter-btn" data-filter="pago">Pagos</button>
+          <button class="filter-btn" data-filter="em_analise">Em análise</button>
+          <button class="filter-btn" data-filter="entregue">Entregue</button>
+        </div>
+      </div>
 
-  <!-- MÉDIA POR EIXO -->
-  <div class="eixos-avg">
-    <h3>Média por dimensão</h3>
-    <div class="ea-row"><span class="ea-name">Navegação do site</span><span class="ea-bar"><i style="width:93%;background:var(--teal)"></i></span><span class="ea-val" style="color:var(--teal)">4.7</span></div>
-    <div class="ea-row"><span class="ea-name">Comunicação / textos</span><span class="ea-bar"><i style="width:86%;background:var(--teal)"></i></span><span class="ea-val" style="color:var(--teal)">4.3</span></div>
-    <div class="ea-row"><span class="ea-name">Clareza que trouxe</span><span class="ea-bar"><i style="width:80%;background:var(--gold)"></i></span><span class="ea-val" style="color:var(--gold)">4.0</span></div>
-    <div class="ea-row"><span class="ea-name">Resultado (quem pagou)</span><span class="ea-bar"><i style="width:75%;background:var(--gold)"></i></span><span class="ea-val" style="color:var(--gold)">3.7</span></div>
-  </div>
-
-  <!-- ABAS -->
-  <div class="tabs">
-    <button class="tab on" data-tab="pedidos">Pedidos <span class="badge" id="tbPed">0</span></button>
-    <button class="tab" data-tab="vozes">Vozes</button>
-  </div>
-
-  <!-- ===== PEDIDOS ===== -->
-  <div id="tab-pedidos">
-    <div class="toolbar">
-      <span class="ttl">Pedidos de análise</span>
-      <button class="chip on" data-fp="aberto">A pagar</button>
-      <button class="chip" data-fp="pago">Pagos · entregar</button>
-      <button class="chip" data-fp="entregue">Entregues</button>
-      <button class="chip" data-fp="todos">Todos</button>
+      <div class="pedidos-list">
+        <div class="pedido-row pedido-header">
+          <div>Protocolo</div>
+          <div>Cliente / Alvo</div>
+          <div>Canal</div>
+          <div>Status</div>
+          <div>Prazo</div>
+          <div>Ação</div>
+        </div>
+        <div id="pedidos-tbody"></div>
+      </div>
     </div>
-    <div id="pedidos"></div>
+
+    <!-- LAUDO -->
+    <div class="page" id="page-laudo">
+      <div class="page-header">
+        <div class="page-title">Escrever Laudo</div>
+        <div class="page-lead">Selecione um pedido pago para começar a análise</div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:14px;color:var(--soft);margin-bottom:8px;">Selecione o pedido:</label>
+        <select id="select-pedido" style="width:100%;max-width:400px;padding:12px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-size:14px;">
+          <option value="">— Carregando pedidos —</option>
+        </select>
+      </div>
+
+      <div id="editor-area" style="display:none;">
+        <div class="editor-container">
+          <div class="editor-main">
+            <div class="editor-section">
+              <div class="section-label">1. O que estão realmente a vender?</div>
+              <div class="section-hint">Traduza o marketing para a coisa nua. Uma frase, sem adjectivos.</div>
+              <textarea class="section-input" id="s1" placeholder="Ex: Ensinar a usar o gestor de anúncios do Facebook..."></textarea>
+              <div class="autosave-indicator" id="save-s1"></div>
+            </div>
+
+            <div class="editor-section">
+              <div class="section-label">2. Onde isso existe de graça?</div>
+              <div class="section-hint">Links reais e verificados para o mesmo conhecimento sem custo.</div>
+              <textarea class="section-input" id="s2" placeholder="Documentação oficial, cursos gratuitos, canais públicos..."></textarea>
+              <div class="autosave-indicator" id="save-s2"></div>
+            </div>
+
+            <div class="editor-section">
+              <div class="section-label">3. O que o preço está realmente a cobrar?</div>
+              <div class="section-hint">Se conhecimento é gratuito, o que justifica o valor?</div>
+              <textarea class="section-input" id="s3" placeholder="Curadoria, sequência, acompanhamento real?..."></textarea>
+              <div class="autosave-indicator" id="save-s3"></div>
+            </div>
+
+            <div class="editor-section">
+              <div class="section-label">4. Custo real que ninguém conta</div>
+              <div class="section-hint">Tempo, ferramentas, pré-requisitos, realidade de abandono.</div>
+              <textarea class="section-input" id="s4" placeholder="Quantas horas por semana? Ferramentas adicionais? Conhecimento prévio?..."></textarea>
+              <div class="autosave-indicator" id="save-s4"></div>
+            </div>
+
+            <div class="editor-section">
+              <div class="section-label">5. Intenção por trás</div>
+              <div class="section-hint">Onde está o dinheiro? Resultado ou venda do ensino? Depoimentos com rasto?</div>
+              <textarea class="section-input" id="s5" placeholder="Análise honesta da intenção..."></textarea>
+              <div class="autosave-indicator" id="save-s5"></div>
+            </div>
+
+            <div class="editor-section">
+              <div class="section-label">6. Outros caminhos</div>
+              <div class="section-hint">Nunca deixar só "não compre". Alternativas e roteiros.</div>
+              <textarea class="section-input" id="s6" placeholder="Caminho autónomo, alternativa paga melhor, não fazer isto..."></textarea>
+              <div class="autosave-indicator" id="save-s6"></div>
+            </div>
+
+            <div class="editor-section">
+              <div class="section-label">7. Se ainda quiseres avançar</div>
+              <div class="section-hint">Arma a pessoa para comprar melhor. Perguntas, garantias, sinais de saída.</div>
+              <textarea class="section-input" id="s7" placeholder="Que perguntas fazer? Garantias a exigir? Quando pedir reembolso?..."></textarea>
+              <div class="autosave-indicator" id="save-s7"></div>
+            </div>
+
+            <div class="editor-section" style="border-bottom:1px solid var(--line2);margin-bottom:24px;padding-bottom:24px;">
+              <div class="section-label">O que não consegui verificar?</div>
+              <div class="section-hint" style="color:var(--red);">OBRIGATÓRIO — A assinatura da casa. Nunca deixe vazio.</div>
+              <textarea class="section-input" id="nao_verificado" placeholder="O que não conseguiu confirmar? O que faltou dados? Seja honesto..."></textarea>
+              <div class="autosave-indicator" id="save-nao_verificado"></div>
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn-primary" onclick="gerarLaudo()">Gerar Laudo</button>
+              <button class="btn-secondary" onclick="previewLaudo()">Pré-visualizar</button>
+              <button class="btn-secondary" onclick="salvarRascunho()">Salvar Rascunho</button>
+            </div>
+          </div>
+
+          <div class="fontes-panel">
+            <div class="fontes-header">Fontes da Seção 2</div>
+            <div id="fontes-list"></div>
+            <button class="add-fonte-btn" onclick="abrirModalFonte()">+ Adicionar Fonte</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FONTES -->
+    <div class="page" id="page-fontes">
+      <div class="page-header">
+        <div class="page-title">Banco de Fontes</div>
+        <div class="page-lead">Reutilize e organize suas fontes verificadas</div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-bottom:20px;">
+        <input id="search-fontes" type="text" placeholder="Buscar categoria ou tipo..." style="flex:1;padding:12px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);">
+        <button class="btn-primary" onclick="abrirModalFonte()">+ Nova Fonte</button>
+      </div>
+
+      <div class="pedidos-list" style="overflow-x:auto;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Tipo</th>
+              <th>Descrição</th>
+              <th>Verificado em</th>
+              <th>Link</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody id="fontes-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FINANCEIRO -->
+    <div class="page" id="page-financeiro">
+      <div class="page-header">
+        <div class="page-title">Financeiro</div>
+        <div class="page-lead">Receita, pedidos e tendências</div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-label">Receita Total</div>
+          <div class="card-value">R$ <span id="receita-total">0</span></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Este Mês</div>
+          <div class="card-value">R$ <span id="receita-mes-fin">0</span></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Análises Pagas</div>
+          <div class="card-value"><span id="total-analises">0</span></div>
+        </div>
+        <div class="card">
+          <div class="card-label">Taxa Entrega</div>
+          <div class="card-value"><span id="taxa-entrega">0</span><small>%</small></div>
+        </div>
+      </div>
+
+      <div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;">
+        <div class="page-title" style="font-size:18px;margin-bottom:16px;">Últimas entregas</div>
+        <table class="table">
+          <thead><tr><th>Protocolo</th><th>Cliente</th><th>Data</th><th>Valor</th><th>Status</th></tr></thead>
+          <tbody id="entregas-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FEEDBACKS -->
+    <div class="page" id="page-feedbacks">
+      <div class="page-header">
+        <div class="page-title">Feedbacks</div>
+        <div class="page-lead">Avaliações de usuários que naveguem ou pagaram</div>
+      </div>
+
+      <div id="feedbacks-container"></div>
+    </div>
+
+    <!-- CONFIGURAÇÕES -->
+    <div class="page" id="page-config">
+      <div class="page-header">
+        <div class="page-title">Configurações</div>
+        <div class="page-lead">Gestão do sistema, dados e preferências</div>
+      </div>
+
+      <div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:20px;">
+        <div class="page-title" style="font-size:16px;margin-bottom:16px;">Dados do Sistema</div>
+        <p style="color:var(--soft);margin-bottom:12px;font-size:14px;">Limpeza e manutenção</p>
+        <button onclick="alert('Confirmação necessária. Isto apagará todos os dados de teste do Supabase. Descomente no código para ativar.')" class="btn-secondary" style="width:100%;max-width:300px;">Limpar dados de teste</button>
+      </div>
+
+      <div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;">
+        <div class="page-title" style="font-size:16px;margin-bottom:16px;">Sobre</div>
+        <p style="color:var(--soft);font-size:14px;">AntiGuru · Central de Operações</p>
+        <p style="color:var(--muted);font-size:12px;margin-top:8px;">v2.0 — Sistema de gestão de pedidos, laudos e análises</p>
+      </div>
+    </div>
+
   </div>
 
-  <!-- ===== VOZES ===== -->
-  <div id="tab-vozes" style="display:none;">
-  <div class="toolbar">
-    <span class="ttl">Vozes recebidas</span>
-    <button class="chip on">Todos</button>
-    <button class="chip">Não lidos</button>
-    <button class="chip">Pagantes</button>
-  </div>
+</div>
 
-  <!-- LISTA -->
-  <div id="lista"></div>
+<!-- MODAL FONTE -->
+<div id="modal-fonte" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="fecharModalFonte()">✕</button>
+    <div class="modal-title">Adicionar Fonte</div>
+    <div style="display:grid;gap:12px;margin-top:20px;">
+      <div>
+        <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;">Categoria (ex: python, dropshipping)</label>
+        <input id="fonte-categoria" type="text" style="width:100%;padding:10px;background:var(--void);border:1px solid var(--line2);border-radius:8px;color:var(--text);font-size:14px;">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;">Tipo (documentação, academia, curso, comunidade...)</label>
+        <input id="fonte-tipo" type="text" style="width:100%;padding:10px;background:var(--void);border:1px solid var(--line2);border-radius:8px;color:var(--text);font-size:14px;">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;">Descrição</label>
+        <input id="fonte-desc" type="text" style="width:100%;padding:10px;background:var(--void);border:1px solid var(--line2);border-radius:8px;color:var(--text);font-size:14px;">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;">Link</label>
+        <input id="fonte-link" type="url" style="width:100%;padding:10px;background:var(--void);border:1px solid var(--line2);border-radius:8px;color:var(--text);font-size:14px;">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;">Data de verificação (obrigatória)</label>
+        <input id="fonte-data" type="date" style="width:100%;padding:10px;background:var(--void);border:1px solid var(--line2);border-radius:8px;color:var(--text);font-size:14px;">
+      </div>
+      <button class="btn-primary" onclick="salvarFonte()" style="margin-top:12px;">Salvar</button>
+    </div>
   </div>
+</div>
 
+<!-- MODAL PREVIEW LAUDO -->
+<div id="modal-preview" class="modal">
+  <div class="modal-content" style="max-width:700px;">
+    <button class="modal-close" onclick="fecharModalPreview()">✕</button>
+    <div class="modal-title">Pré-visualização do Laudo</div>
+    <div id="preview-content" style="margin-top:20px;color:var(--soft);line-height:1.8;font-size:14px;"></div>
+    <div class="action-buttons" style="margin-top:24px;">
+      <button class="btn-primary" onclick="copiarParaClipboard()">Copiar para WhatsApp</button>
+      <button class="btn-secondary" onclick="baixarPDF()">Baixar PDF</button>
+      <button class="btn-secondary" onclick="registrarEntrega()">Registrar Entrega</button>
+    </div>
+  </div>
 </div>
 
 <script>
-var supa = window.agSupa;
-var FB = [];        // feedbacks reais
-var filtro = 'todos';
+// ===== ESTADO GLOBAL =====
+let currentUser = null;
+let currentPedidoId = null;
+let autoSaveIntervals = {};
 
-function esc(s){return (s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-function stars(n){ if(!n) return '<span style="color:var(--faint)">—</span>'; return '<span class="s">'+'★★★★★☆☆☆☆☆'.slice(5-n,10-n)+'</span>'; }
-function tagClass(perfil){ if(/pag/i.test(perfil))return 'paid'; if(/prév|prev/i.test(perfil))return 'free'; return 'nav'; }
-function quando(iso){ try{var d=new Date(iso);var diff=(Date.now()-d)/1000;
-  if(diff<3600)return 'há '+Math.max(1,Math.floor(diff/60))+' min';
-  if(diff<86400)return 'há '+Math.floor(diff/3600)+'h';
-  return 'há '+Math.floor(diff/86400)+'d'; }catch(e){return '';} }
-
-// ---- LOGIN ----
-async function tentarLogin(){
-  var email=document.getElementById('login-email').value.trim();
-  var pass=document.getElementById('login-pass').value;
-  var err=document.getElementById('login-err');
-  err.textContent='';
-  if(!email||!pass){ err.textContent='Preencha e-mail e senha.'; return; }
-  document.getElementById('login-btn').textContent='Entrando...';
-  try{
-    var r=await supa.auth.signInWithPassword({email:email,password:pass});
-    if(r.error){ err.textContent='E-mail ou senha incorretos.'; document.getElementById('login-btn').textContent='Entrar'; return; }
-    mostrarPainel();
-  }catch(e){ err.textContent='Erro ao conectar. Tente de novo.'; document.getElementById('login-btn').textContent='Entrar'; }
+// ===== LOGIN =====
+async function tentarLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const erro = document.getElementById('login-error');
+  erro.textContent = '';
+  
+  if (!email || !pass) { erro.textContent = 'Preencha e-mail e senha.'; return; }
+  
+  document.getElementById('login-btn').textContent = 'Entrando...';
+  try {
+    const r = await supa.auth.signInWithPassword({ email, password: pass });
+    if (r.error) { erro.textContent = 'E-mail ou senha incorretos.'; document.getElementById('login-btn').textContent = 'Entrar'; return; }
+    currentUser = r.data.user;
+    mostrarApp();
+  } catch (e) { erro.textContent = 'Erro ao conectar.'; document.getElementById('login-btn').textContent = 'Entrar'; }
 }
-async function sair(){ await supa.auth.signOut(); location.reload(); }
 
-function mostrarPainel(){
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('painel').style.display='block';
-  document.getElementById('liveNote').style.display='block';
-  carregar();
+function mostrarApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('user-name').textContent = currentUser?.email || 'Admin';
+  
+  // Carregar dados iniciais
+  carregarDashboard();
+  carregarPedidos();
+  carregarLaudos();
+  carregarFontes();
+  carregarFinanceiro();
+  carregarFeedbacks();
+}
+
+// ===== NAVEGAÇÃO =====
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', function() {
+    const pagina = this.getAttribute('data-page');
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById(`page-${pagina}`).classList.add('active');
+  });
+});
+
+// ===== LOGOUT =====
+document.getElementById('logout-btn').addEventListener('click', async function() {
+  await supa.auth.signOut();
+  location.reload();
+});
+
+// ===== DASHBOARD =====
+async function carregarDashboard() {
+  try {
+    const r = await supa.from('pedidos').select('*').eq('estado', 'pago');
+    if (r.data) {
+      const total = r.data.length;
+      const receita = total * 29;
+      document.getElementById('receita-mes').textContent = receita.toLocaleString('pt-BR');
+      document.getElementById('pedidos-pagos').textContent = total;
+      
+      const entregues = r.data.filter(p => p.entregue_em).length;
+      const taxa = total ? Math.round(entregues / total * 100) : 0;
+      document.getElementById('entregues').textContent = taxa;
+      document.getElementById('card-pendentes').innerHTML = `<span>${total - entregues}</span><small>não entregues</small>`;
+      
+      // Alertas
+      let alertsHtml = '';
+      const vencidos = r.data.filter(p => {
+        const agora = new Date();
+        const prazo = new Date(p.pago_em);
+        prazo.setHours(prazo.getHours() + 24);
+        return agora > prazo;
+      });
+      
+      if (vencidos.length > 0) {
+        alertsHtml += `<div class="alert error"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <div><strong>${vencidos.length} pedidos vencidos</strong> — Entrega passou do prazo de 24h</div></div>`;
+      }
+      
+      document.getElementById('alerts-container').innerHTML = alertsHtml;
+    }
+  } catch (e) { console.error(e); }
+}
+
+async function carregarPedidos() {
+  try {
+    const r = await supa.from('pedidos').select('*').order('criado_em', { ascending: false });
+    if (r.data) {
+      const html = r.data.map(p => {
+        const agora = new Date();
+        const prazo = new Date(p.pago_em || p.criado_em);
+        prazo.setHours(prazo.getHours() + 24);
+        const horas = Math.round((prazo - agora) / (1000 * 3600));
+        
+        let statusBadge = '';
+        let alerta = '';
+        if (p.estado === 'pago') {
+          if (horas < 0) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-vermelho"></span>Vencido</span>'; alerta = '🔴'; }
+          else if (horas < 6) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-amber"></span>Vencendo</span>'; alerta = '🟡'; }
+          else statusBadge = '<span class="pedido-badge status-pago">Pago</span>';
+        } else if (p.estado === 'em_analise') statusBadge = '<span class="pedido-badge status-em-analise">Em análise</span>';
+        else if (p.estado === 'entregue') statusBadge = '<span class="pedido-badge status-entregue">✓ Entregue</span>';
+        else statusBadge = '<span class="pedido-badge">Aguardando</span>';
+        
+        return `<div class="pedido-row">
+          <div>${alerta} ${p.protocolo}</div>
+          <div>${p.contacto}</div>
+          <div>${p.canal}</div>
+          <div>${statusBadge}</div>
+          <div>${horas > 0 ? horas + 'h' : 'vencido'}</div>
+          <div><button class="btn-secondary" onclick="selecionarPedido('${p.id}')" style="padding:6px 10px;font-size:12px;">Editar</button></div>
+        </div>`;
+      }).join('');
+      
+      document.getElementById('pedidos-tbody').innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--muted);">Nenhum pedido ainda.</div>';
+    }
+  } catch (e) { console.error(e); }
+}
+
+// ===== LAUDOS =====
+async function carregarLaudos() {
+  try {
+    const r = await supa.from('pedidos').select('*').eq('estado', 'pago').order('criado_em', { ascending: false });
+    if (r.data) {
+      const opts = r.data.map(p => `<option value="${p.id}">${p.protocolo} — ${p.contacto}</option>`).join('');
+      document.getElementById('select-pedido').innerHTML = `<option value="">— Selecionar pedido —</option>${opts}`;
+      
+      document.getElementById('select-pedido').addEventListener('change', async function() {
+        if (this.value) selecionarPedido(this.value);
+        else document.getElementById('editor-area').style.display = 'none';
+      });
+    }
+  } catch (e) { console.error(e); }
+}
+
+async function selecionarPedido(pedidoId) {
+  currentPedidoId = pedidoId;
+  document.getElementById('editor-area').style.display = 'block';
+  
+  try {
+    const r = await supa.from('laudos').select('*').eq('pedido_id', pedidoId).single();
+    const laudo = r.data;
+    
+    if (laudo) {
+      ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 'nao_verificado'].forEach(s => {
+        const el = document.getElementById(s);
+        if (el) el.value = laudo[s] || '';
+      });
+    }
+    
+    // Iniciar autosave
+    ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 'nao_verificado'].forEach(s => {
+      const el = document.getElementById(s);
+      if (el) {
+        if (autoSaveIntervals[s]) clearInterval(autoSaveIntervals[s]);
+        el.addEventListener('input', async function() {
+          autoSaveIntervals[s] = setTimeout(async () => {
+            await supa.from('laudos').upsert({
+              pedido_id: currentPedidoId,
+              [s]: this.value
+            });
+            document.getElementById(`save-${s}`).innerHTML = '✓ Rascunho salvo';
+            document.getElementById(`save-${s}`).classList.add('saved');
+            setTimeout(() => {
+              document.getElementById(`save-${s}`).innerHTML = '';
+              document.getElementById(`save-${s}`).classList.remove('saved');
+            }, 3000);
+          }, 2000);
+        });
+      }
+    });
+  } catch (e) { console.error(e); }
+}
+
+async function salvarRascunho() {
+  await supa.from('laudos').upsert({
+    pedido_id: currentPedidoId,
+    s1: document.getElementById('s1').value,
+    s2: document.getElementById('s2').value,
+    s3: document.getElementById('s3').value,
+    s4: document.getElementById('s4').value,
+    s5: document.getElementById('s5').value,
+    s6: document.getElementById('s6').value,
+    s7: document.getElementById('s7').value,
+    nao_verificado: document.getElementById('nao_verificado').value
+  });
+  alert('✓ Laudo salvo com sucesso');
+}
+
+function previewLaudo() {
+  const html = `
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">1. O que estão realmente a vender?</h2>
+    <p>${document.getElementById('s1').value || '—'}</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+    
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">2. Onde isso existe de graça?</h2>
+    <p>${document.getElementById('s2').value || '—'}</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+    
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">3. O que o preço está realmente a cobrar?</h2>
+    <p>${document.getElementById('s3').value || '—'}</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+    
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">4. Custo real que ninguém conta</h2>
+    <p>${document.getElementById('s4').value || '—'}</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+    
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">5. Intenção por trás</h2>
+    <p>${document.getElementById('s5').value || '—'}</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+    
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">6. Outros caminhos</h2>
+    <p>${document.getElementById('s6').value || '—'}</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+    
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">7. Se ainda quiseres avançar</h2>
+    <p>${document.getElementById('s7').value || '—'}</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+    
+    <p style="font-style:italic;color:var(--muted);">O que não consegui verificar: ${document.getElementById('nao_verificado').value || '—'}</p>
+  `;
+  document.getElementById('preview-content').innerHTML = html;
+  document.getElementById('modal-preview').classList.add('open');
+}
+
+function gerarLaudo() {
+  if (!document.getElementById('nao_verificado').value.trim()) {
+    alert('⚠️ O campo "O que não consegui verificar?" é obrigatório');
+    return;
+  }
+  previewLaudo();
+}
+
+function fecharModalPreview() {
+  document.getElementById('modal-preview').classList.remove('open');
+}
+
+async function registrarEntrega() {
+  const texto = `${document.getElementById('s1').value}\n\n${document.getElementById('s2').value}\n\n${document.getElementById('s3').value}\n\n${document.getElementById('s4').value}\n\n${document.getElementById('s5').value}\n\n${document.getElementById('s6').value}\n\n${document.getElementById('s7').value}\n\nO que não consegui verificar: ${document.getElementById('nao_verificado').value}`;
+  
+  await supa.from('laudos').update({
+    texto_entregue: texto,
+    entregue_em: new Date().toISOString()
+  }).eq('pedido_id', currentPedidoId);
+  
+  await supa.from('pedidos').update({
+    estado: 'entregue',
+    entregue_em: new Date().toISOString()
+  }).eq('id', currentPedidoId);
+  
+  alert('✓ Laudo registrado como entregue');
+  fecharModalPreview();
+  carregarDashboard();
   carregarPedidos();
 }
 
-// ---- CARREGAR FEEDBACKS REAIS ----
-async function carregar(){
-  try{
-    var r=await supa.from('feedbacks').select('*').order('criado_em',{ascending:false});
-    if(r.error){ console.error(r.error); return; }
-    FB=r.data||[];
-    metricas(); renderLista();
-  }catch(e){ console.error(e); }
+function copiarParaClipboard() {
+  const texto = document.getElementById('preview-content').innerText;
+  navigator.clipboard.writeText(texto).then(() => alert('✓ Copiado para clipboard')).catch(() => alert('Erro ao copiar'));
 }
 
-function media(campo){ var v=FB.filter(f=>f[campo]); if(!v.length)return 0; return (v.reduce((a,f)=>a+f[campo],0)/v.length); }
-
-function metricas(){
-  var total=FB.length;
-  var naoLidos=FB.filter(f=>!f.lido).length;
-  var nav=media('nav'),com=media('com'),cla=media('cla'),res=media('res');
-  var todas=[nav,com,cla,res].filter(x=>x>0);
-  var geral=todas.length?(todas.reduce((a,b)=>a+b,0)/todas.length):0;
-  // % recomendariam = média geral >= 3.5 entre quem comentou? usamos nota geral alta como proxy: quem deu >=4 em clareza
-  var comCla=FB.filter(f=>f.cla);
-  var recomenda=comCla.length?Math.round(comCla.filter(f=>f.cla>=4).length/comCla.length*100):0;
-
-  var m=document.querySelectorAll('.metrics .metric .mv');
-  if(m[0]) m[0].textContent=total;
-  if(m[1]) m[1].textContent=naoLidos;
-  if(m[2]) m[2].innerHTML=geral.toFixed(1)+'<small>/5</small>';
-  if(m[3]) m[3].innerHTML=recomenda+'<small>%</small>';
-  var mb=document.querySelectorAll('.metrics .metric .mb i');
-  if(mb[1]) mb[1].style.width=(total?naoLidos/total*100:0)+'%';
-  if(mb[2]) mb[2].style.width=(geral/5*100)+'%';
-  if(mb[3]) mb[3].style.width=recomenda+'%';
-
-  var rows=document.querySelectorAll('.eixos-avg .ea-row');
-  var vals=[nav,com,cla,res];
-  rows.forEach(function(row,i){
-    var bar=row.querySelector('.ea-bar i'); var val=row.querySelector('.ea-val');
-    if(bar) bar.style.width=(vals[i]/5*100)+'%';
-    if(val) val.textContent=vals[i]?vals[i].toFixed(1):'—';
-  });
+function baixarPDF() {
+  window.print();
 }
 
-function listaFiltrada(){
-  if(filtro==='naolidos') return FB.filter(f=>!f.lido);
-  if(filtro==='pagantes') return FB.filter(f=>/pag/i.test(f.perfil||''));
-  return FB;
-}
-
-function renderLista(){
-  var list=listaFiltrada();
-  var html=list.length?list.map(function(f){
-    return '<div class="fb '+(f.lido?'':'unread')+'">'
-      +'<div class="fb-top"><div class="fb-who"><div class="fb-av">'+esc((f.nome||'A').charAt(0).toUpperCase())+'</div>'
-      +'<div><div class="fb-name">'+esc(f.nome||'Anônimo')+'</div><div class="fb-meta">'+quando(f.criado_em)+'</div></div></div>'
-      +'<span class="fb-tag '+tagClass(f.perfil)+'">'+esc(f.perfil||'')+'</span></div>'
-      +'<div class="fb-stars">'
-      +'<div class="fb-star-row"><span>Navegação</span>'+stars(f.nav)+'</div>'
-      +'<div class="fb-star-row"><span>Comunicação</span>'+stars(f.com)+'</div>'
-      +'<div class="fb-star-row"><span>Clareza</span>'+stars(f.cla)+'</div>'
-      +'<div class="fb-star-row"><span>Resultado</span>'+stars(f.res)+'</div></div>'
-      +(f.comentario?'<div class="fb-comment">"'+esc(f.comentario)+'"</div>':'')
-      +'<div class="fb-actions">'
-      +(f.lido?'<span class="fb-done">✓ lido</span>':'<button class="fb-btn" data-lido="'+f.id+'">Marcar como lido</button>')
-      +'</div></div>';
-  }).join(''):'<p style="color:var(--muted);text-align:center;padding:40px;">Nenhum feedback ainda. Quando alguém avaliar no site, aparece aqui.</p>';
-  document.getElementById('lista').innerHTML=html;
-  document.querySelectorAll('[data-lido]').forEach(function(b){
-    b.addEventListener('click',function(){ marcarLido(b.getAttribute('data-lido')); });
-  });
-}
-
-async function marcarLido(id){
-  try{ await supa.from('feedbacks').update({lido:true}).eq('id',id);
-    var f=FB.find(x=>x.id===id); if(f)f.lido=true; metricas(); renderLista();
-  }catch(e){ console.error(e); }
-}
-
-
-/* ================= PEDIDOS ================= */
-var PED=[]; var fped='aberto';
-
-function estado(p){ if(p.entregue) return 'entregue'; if(p.pago) return 'pago'; return 'aberto'; }
-function stLabel(s){ return s==='entregue'?'Entregue':(s==='pago'?'Pago · a entregar':'Aguardando pagamento'); }
-function riskCor(r){ if(r===null||r===undefined) return 'var(--faint)'; if(r>=55) return 'var(--red)'; if(r>=25) return 'var(--gold)'; return 'var(--teal)'; }
-
-async function carregarPedidos(){
-  try{
-    var r = await supa.from('pedidos').select('*').order('criado_em',{ascending:false});
-    if(r.error){ console.error('[pedidos]', r.error); document.getElementById('pedidos').innerHTML='<p style="color:var(--red);text-align:center;padding:36px;">Erro ao ler pedidos: '+esc(r.error.message)+'</p>'; return; }
-    PED = r.data||[];
-    var abertos = PED.filter(p=>estado(p)!=='entregue').length;
-    document.getElementById('tbPed').textContent = abertos;
-    renderPedidos();
-  }catch(e){ console.error(e); }
-}
-
-function renderPedidos(){
-  var list = fped==='todos' ? PED : PED.filter(p=>estado(p)===fped);
-  var box = document.getElementById('pedidos');
-  if(!list.length){ box.innerHTML='<p style="color:var(--muted);text-align:center;padding:44px;">Nenhum pedido nesta aba.</p>'; return; }
-  box.innerHTML = list.map(function(p){
-    var st = estado(p);
-    var canal = p.canal==='email' ? 'E-mail' : 'WhatsApp';
-    var linkContato = p.canal==='email'
-      ? '<a class="fb-btn" href="mailto:'+esc(p.contato)+'?subject='+encodeURIComponent('Sua análise AntiGuru — '+(p.codigo||''))+'">Abrir e-mail</a>'
-      : '<a class="fb-btn" href="https://wa.me/55'+(p.contato||'').replace(/\D/g,'').replace(/^55/,'')+'?text='+encodeURIComponent('Olá '+(p.nome||'')+'! Aqui é do AntiGuru. Sobre o seu pedido '+(p.codigo||'')+':')+'" target="_blank" rel="noopener">Abrir WhatsApp</a>';
-    return '<div class="pd '+st+'">'
-      + '<div class="pd-top">'
-      +   '<div><div class="pd-cod">'+esc(p.codigo||'—')+'</div><div class="pd-when">'+quando(p.criado_em)+'</div></div>'
-      +   '<span class="pd-status s-'+st+'">'+stLabel(st)+'</span>'
-      + '</div>'
-      + '<div class="pd-grid">'
-      +   '<div class="pd-row"><b>Nome</b><span>'+esc(p.nome||'—')+'</span></div>'
-      +   '<div class="pd-row"><b>Canal</b><span>'+canal+'</span></div>'
-      +   '<div class="pd-row"><b>Contato</b><span>'+esc(p.contato||'—')+'</span></div>'
-      +   '<div class="pd-row"><b>Oferta</b><span>'+esc(p.oferta||'—')+'</span></div>'
-      +   '<div class="pd-row"><b>Link</b><span>'+(p.link_oferta?'<a href="'+esc(p.link_oferta)+'" target="_blank" rel="noopener" style="color:var(--teal);">abrir página &#8599;</a>':'—')+'</span></div>'
-      +   '<div class="pd-row"><b>CNPJ</b><span>'+esc(p.cnpj||'—')+'</span></div>'
-      +   '<div class="pd-row"><b>Risco da prévia</b><span class="pd-risk" style="color:'+riskCor(p.risco)+'">'+(p.risco!=null?p.risco+'/100':'—')+'</span></div>'
-      +   '<div class="pd-row"><b>Marketing</b><span>'+(p.consente_marketing?'<span style="color:var(--teal)">✓ aceitou receber</span>':'<span style="color:var(--faint)">não aceitou</span>')+'</span></div>'
-      + '</div>'
-      + (p.texto_oferta?'<div class="pd-oferta"><div class="ol">Texto enviado</div><div class="ot">'+esc(p.texto_oferta)+'</div></div>':'')
-      + (p.contexto?'<div class="pd-oferta"><div class="ol">Contexto da pessoa</div><div class="ot">'+esc(p.contexto)+'</div></div>':'')
-      + '<div class="fb-actions">'
-      +   linkContato
-      +   (!p.pago ? '<button class="fb-btn gold" data-pago="'+p.id+'">Confirmar pagamento</button>' : '')
-      +   (p.pago ? '<button class="fb-btn gold" data-laudo="'+p.id+'">'+(p.entregue?'Ver laudo':'Escrever laudo')+'</button>' : '')
-      +   (p.entregue ? '<span class="fb-done">✓ entregue</span>' : '')
-      + '</div></div>';
-  }).join('');
-
-  document.querySelectorAll('[data-pago]').forEach(function(b){
-    b.addEventListener('click',function(){ marcarPedido(b.getAttribute('data-pago'), {pago:true, status:'pago'}); });
-  });
-  document.querySelectorAll('[data-laudo]').forEach(function(b){
-    b.addEventListener('click',function(){ abrirEditor(b.getAttribute('data-laudo')); });
-  });
-}
-
-async function marcarPedido(id, patch){
-  try{
-    var r = await supa.from('pedidos').update(patch).eq('id', id);
-    if(r.error){ console.error('[pedidos]', r.error); alert('Erro: '+r.error.message); return; }
-    var p = PED.find(x=>x.id===id); if(p) Object.assign(p, patch);
-    var abertos = PED.filter(x=>estado(x)!=='entregue').length;
-    document.getElementById('tbPed').textContent = abertos;
-    renderPedidos();
-  }catch(e){ console.error(e); }
-}
-
-/* abas + filtros */
-document.querySelectorAll('.tab').forEach(function(t){
-  t.addEventListener('click',function(){
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-    t.classList.add('on');
-    var k=t.getAttribute('data-tab');
-    document.getElementById('tab-pedidos').style.display = k==='pedidos'?'block':'none';
-    document.getElementById('tab-vozes').style.display   = k==='vozes'?'block':'none';
-  });
-});
-document.querySelectorAll('[data-fp]').forEach(function(c){
-  c.addEventListener('click',function(){
-    document.querySelectorAll('[data-fp]').forEach(x=>x.classList.remove('on'));
-    c.classList.add('on');
-    fped = c.getAttribute('data-fp');
-    renderPedidos();
-  });
-});
-
-
-/* ================= EDITOR DE LAUDO ================= */
-var SECS = ['s1_o_que_vendem','s2_onde_existe_gratis','s3_o_que_o_preco_cobra','s4_custo_real','s5_intencao','s6_outros_caminhos','s7_se_avancar'];
-var TITULOS = {
-  s1_o_que_vendem:'1. O QUE ESTÃO REALMENTE A VENDER',
-  s2_onde_existe_gratis:'2. ONDE ISSO EXISTE DE GRAÇA',
-  s3_o_que_o_preco_cobra:'3. O QUE O PREÇO ESTÁ REALMENTE A COBRAR',
-  s4_custo_real:'4. O CUSTO REAL QUE NINGUÉM CONTA',
-  s5_intencao:'5. A INTENÇÃO POR TRÁS',
-  s6_outros_caminhos:'6. OS OUTROS CAMINHOS',
-  s7_se_avancar:'7. SE AINDA QUISERES AVANÇAR'
-};
-var CAMPOS = SECS.concat(['nao_verificado','notas_internas']);
-var edPed = null, edLaudo = null, edTimer = null, FONTES = [];
-
-function ta(k){ var s=document.querySelector('.ed-sec[data-k="'+k+'"]'); return s?s.querySelector('.ed-ta'):null; }
-
-async function abrirEditor(pedidoId){
-  edPed = PED.find(function(p){ return p.id===pedidoId; });
-  if(!edPed) return;
-
-  document.getElementById('edCod').textContent  = edPed.codigo||'—';
-  document.getElementById('edQuem').textContent = (edPed.nome||'—')+' · '+(edPed.canal==='email'?'e-mail':'WhatsApp')+' · '+(edPed.contato||'');
-  document.getElementById('edAlvo').innerHTML   = '<b>Oferta a analisar</b>'+esc(edPed.oferta||'—')
-    + (edPed.link_oferta ? '\n<a href="'+esc(edPed.link_oferta)+'" target="_blank" rel="noopener" style="color:var(--teal);font-size:12.5px;">'+esc(edPed.link_oferta)+' &#8599;</a>' : '')
-    + (edPed.texto_oferta ? '\n\n'+esc(edPed.texto_oferta) : '')
-    + (edPed.contexto ? '\n\n— contexto da pessoa: '+esc(edPed.contexto) : '');
-
-  CAMPOS.forEach(function(k){ var t=ta(k); if(t) t.value=''; });
-  document.getElementById('edCat').value='';
-  edLaudo = null;
-
-  try{
-    var r = await supa.from('laudos').select('*').eq('codigo', edPed.codigo).maybeSingle();
-    if(r.error) console.error('[laudo]', r.error);
-    if(r.data){
-      edLaudo = r.data;
-      document.getElementById('edCat').value = r.data.categoria_oferta||'';
-      CAMPOS.forEach(function(k){ var t=ta(k); if(t) t.value = r.data[k]||''; });
-      flash(r.data.entregue_em ? 'já entregue em '+quando(r.data.entregue_em) : 'rascunho recuperado');
+// ===== FONTES =====
+async function carregarFontes() {
+  try {
+    const r = await supa.from('fontes').select('*').order('verificado_em', { ascending: false });
+    if (r.data) {
+      const html = r.data.map(f => {
+        const dias = Math.floor((new Date() - new Date(f.verificado_em)) / (1000 * 86400));
+        const old = dias > 90;
+        return `<tr ${old ? 'style="opacity:.6;"' : ''}>
+          <td>${f.categoria}</td>
+          <td>${f.tipo_de_fonte}</td>
+          <td>${f.descricao}</td>
+          <td>${dias}d ago ${old ? '⚠️' : ''}</td>
+          <td><a href="${f.link}" target="_blank" style="color:var(--teal);text-decoration:underline;">Ir</a></td>
+          <td><button class="btn-secondary" onclick="deletarFonte('${f.id}')" style="padding:6px 10px;font-size:12px;">Del</button></td>
+        </tr>`;
+      }).join('');
+      document.getElementById('fontes-tbody').innerHTML = html;
     }
-  }catch(e){ console.error(e); }
+  } catch (e) { console.error(e); }
+}
 
-  document.getElementById('ed').classList.add('on');
-  document.body.style.overflow='hidden';
-  document.getElementById('edMain').scrollTop=0;
+function abrirModalFonte() {
+  document.getElementById('modal-fonte').classList.add('open');
+}
+
+function fecharModalFonte() {
+  document.getElementById('modal-fonte').classList.remove('open');
+  ['fonte-categoria', 'fonte-tipo', 'fonte-desc', 'fonte-link', 'fonte-data'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+}
+
+async function salvarFonte() {
+  const cat = document.getElementById('fonte-categoria').value.trim();
+  const tipo = document.getElementById('fonte-tipo').value.trim();
+  const desc = document.getElementById('fonte-desc').value.trim();
+  const link = document.getElementById('fonte-link').value.trim();
+  const data = document.getElementById('fonte-data').value;
+  
+  if (!cat || !tipo || !desc || !link || !data) {
+    alert('⚠️ Todos os campos são obrigatórios (data de verificação é crítica)');
+    return;
+  }
+  
+  await supa.from('fontes').insert({
+    categoria: cat,
+    tipo_de_fonte: tipo,
+    descricao: desc,
+    link: link,
+    verificado_em: data
+  });
+  
+  fecharModalFonte();
   carregarFontes();
 }
 
-function fecharEditor(){
-  document.getElementById('ed').classList.remove('on');
-  document.getElementById('edSide').classList.remove('on');
-  document.body.style.overflow='';
-}
-
-function flash(msg){
-  var s=document.getElementById('edSave');
-  s.textContent=msg||'rascunho salvo'; s.classList.add('on');
-  clearTimeout(s._t); s._t=setTimeout(function(){ s.classList.remove('on'); }, 2600);
-}
-
-function coletar(){
-  var o = { codigo: edPed.codigo, pedido_id: edPed.id, categoria_oferta: (document.getElementById('edCat').value||'').trim() };
-  CAMPOS.forEach(function(k){ var t=ta(k); o[k] = t ? t.value.trim() : ''; });
-  return o;
-}
-
-async function salvarRascunho(silencioso){
-  if(!edPed) return;
-  var o = coletar();
-  try{
-    var r;
-    if(edLaudo && edLaudo.id){
-      r = await supa.from('laudos').update(o).eq('id', edLaudo.id).select().maybeSingle();
-    } else {
-      r = await supa.from('laudos').insert(o).select().maybeSingle();
-    }
-    if(r.error){ console.error('[laudo]', r.error); flash('ERRO: '+r.error.message); return; }
-    if(r.data) edLaudo = r.data;
-    if(!silencioso) flash('rascunho salvo');
-  }catch(e){ console.error(e); flash('ERRO ao salvar'); }
-}
-
-/* autosave 2s após parar de escrever */
-function armarAutosave(){
-  CAMPOS.forEach(function(k){
-    var t=ta(k); if(!t) return;
-    t.addEventListener('input', function(){
-      clearTimeout(edTimer);
-      edTimer = setTimeout(function(){ salvarRascunho(true); flash('rascunho salvo'); }, 2000);
-    });
-  });
-  document.getElementById('edCat').addEventListener('input', function(){
-    clearTimeout(edTimer);
-    edTimer = setTimeout(function(){ salvarRascunho(true); flash('rascunho salvo'); }, 2000);
-  });
-}
-
-/* ---------- BANCO DE FONTES ---------- */
-async function carregarFontes(){
-  try{
-    var r = await supa.from('fontes').select('*').order('criado_em',{ascending:false});
-    if(r.error){ console.error('[fontes]', r.error); return; }
-    FONTES = r.data||[];
-    renderFontes();
-  }catch(e){ console.error(e); }
-}
-
-function diasDe(d){ if(!d) return null; return Math.floor((Date.now()-new Date(d).getTime())/86400000); }
-
-function renderFontes(){
-  var q = (document.getElementById('edBusca').value||'').toLowerCase().trim();
-  var cat = (document.getElementById('edCat').value||'').toLowerCase().trim();
-  var list = FONTES.slice();
-  if(q) list = list.filter(function(f){
-    return ((f.categoria||'')+' '+(f.tipo_de_fonte||'')+' '+(f.descricao||'')).toLowerCase().indexOf(q)>=0;
-  });
-  else if(cat) list.sort(function(a,b){
-    var A=(a.categoria||'').toLowerCase()===cat?0:1, B=(b.categoria||'').toLowerCase()===cat?0:1; return A-B;
-  });
-
-  var box = document.getElementById('edFontes');
-  if(!list.length){ box.innerHTML='<p style="color:var(--faint);font-size:13px;padding:14px 0;">Nada aqui ainda. Adicione abaixo — o banco cresce laudo a laudo.</p>'; return; }
-
-  box.innerHTML = list.map(function(f){
-    var d = diasDe(f.verificado_em);
-    var velho = d!==null && d>90;
-    var vtxt = f.link
-      ? (velho ? '⚠ verificado há '+d+' dias — reconfira antes de usar' : 'verificado em '+f.verificado_em)
-      : 'tipo de fonte — sem link (busque na hora)';
-    return '<div class="fn">'
-      + '<div class="fn-t">'+esc(f.categoria)+' · '+esc(f.tipo_de_fonte)+'</div>'
-      + '<div class="fn-d">'+esc(f.descricao)+'</div>'
-      + (f.link ? '<a class="fn-l" href="'+esc(f.link)+'" target="_blank" rel="noopener">'+esc(f.link)+'</a>' : '')
-      + '<div class="fn-v'+(velho?' velho':'')+'">'+vtxt+'</div>'
-      + '<button class="fn-ins" data-ins="'+f.id+'">inserir na seção 2</button>'
-      + '</div>';
-  }).join('');
-
-  box.querySelectorAll('[data-ins]').forEach(function(b){
-    b.addEventListener('click', function(){
-      var f = FONTES.find(function(x){ return x.id===b.getAttribute('data-ins'); });
-      if(!f) return;
-      var t = ta('s2_onde_existe_gratis');
-      var linha = '• '+f.tipo_de_fonte+' — '+f.descricao + (f.link ? '\n  '+f.link+'  (verificado em '+f.verificado_em+')' : '');
-      t.value = (t.value ? t.value.replace(/\s*$/,'')+'\n' : '') + linha + '\n';
-      t.focus(); t.scrollIntoView({behavior:'smooth',block:'center'});
-      salvarRascunho(true); flash('fonte inserida');
-    });
-  });
-}
-
-async function salvarFonte(){
-  var cat  = (document.getElementById('fnCat').value||'').trim();
-  var tipo = (document.getElementById('fnTipo').value||'').trim();
-  var desc = (document.getElementById('fnDesc').value||'').trim();
-  var link = (document.getElementById('fnLink').value||'').trim();
-  var data = (document.getElementById('fnData').value||'').trim();
-  var err  = document.getElementById('fnErr');
-
-  if(!cat || !tipo || !desc){ err.textContent='Categoria, tipo e descrição são obrigatórios.'; return; }
-  if(link && !data){ err.textContent='Link sem data de verificação não entra. Verifique o link agora e ponha a data.'; return; }
-  if(link && !/^https?:\/\//i.test(link)){ err.textContent='O link precisa começar com https://'; return; }
-  err.textContent='';
-
-  try{
-    var r = await supa.from('fontes').insert({
-      categoria: cat, tipo_de_fonte: tipo, descricao: desc,
-      link: link||null, verificado_em: data||null
-    });
-    if(r.error){ err.textContent='Erro: '+r.error.message; return; }
-    ['fnCat','fnTipo','fnDesc','fnLink','fnData'].forEach(function(id){ document.getElementById(id).value=''; });
-    await carregarFontes();
-    flash('fonte adicionada ao banco');
-  }catch(e){ console.error(e); err.textContent='Erro ao salvar.'; }
-}
-
-/* ---------- MONTAR O LAUDO ---------- */
-function montarTexto(){
-  var o = coletar();
-  var L = [];
-  L.push('ANTIGURU · ANÁLISE COMPLETA');
-  L.push('Protocolo: '+o.codigo);
-  L.push('Para: '+(edPed.nome||''));
-  L.push('Oferta analisada: '+(edPed.oferta||'—'));
-  if(o.categoria_oferta) L.push('Categoria: '+o.categoria_oferta);
-  L.push('Data: '+new Date().toLocaleDateString('pt-BR'));
-  L.push('');
-  L.push('Isto não é um veredito. É o mapa do que está a ser vendido,');
-  L.push('do que aquilo custa de verdade, e dos caminhos que existem.');
-  L.push('A decisão é sua — e sempre foi.');
-  L.push('');
-  L.push('────────────────────────────');
-  SECS.forEach(function(k){
-    if(!o[k]) return;
-    L.push('');
-    L.push(TITULOS[k]);
-    L.push('');
-    L.push(o[k]);
-    L.push('');
-    L.push('────────────────────────────');
-  });
-  if(o.nao_verificado){
-    L.push('');
-    L.push('O QUE NÃO CONSEGUI VERIFICAR');
-    L.push('');
-    L.push(o.nao_verificado);
-    L.push('');
-    L.push('────────────────────────────');
+async function deletarFonte(id) {
+  if (confirm('Tem certeza que quer apagar esta fonte?')) {
+    await supa.from('fontes').delete().eq('id', id);
+    carregarFontes();
   }
-  L.push('');
-  L.push('Se algo aqui não te serviu, o reembolso vale 7 dias — sem discussão.');
-  L.push('Se ficou dúvida, responde nesta mesma conversa. Eu leio.');
-  L.push('');
-  L.push('AntiGuru · antiguru.netlify.app');
-  return L.join('\n');
 }
 
-function faltantes(){
-  var o = coletar();
-  var f = SECS.filter(function(k){ return !o[k]; }).map(function(k){ return TITULOS[k].split('.')[0]; });
-  return { secs:f, semNV: !o.nao_verificado, semCat: !o.categoria_oferta };
+// ===== FINANCEIRO =====
+async function carregarFinanceiro() {
+  try {
+    const r = await supa.from('pedidos').select('*').eq('estado', 'entregue');
+    if (r.data) {
+      const total = r.data.length * 29;
+      const mesAtual = r.data.filter(p => {
+        const d = new Date(p.entregue_em);
+        const agora = new Date();
+        return d.getMonth() === agora.getMonth() && d.getFullYear() === agora.getFullYear();
+      }).length * 29;
+      
+      document.getElementById('receita-total').textContent = total.toLocaleString('pt-BR');
+      document.getElementById('receita-mes-fin').textContent = mesAtual.toLocaleString('pt-BR');
+      
+      const r2 = await supa.from('pedidos').select('*').eq('estado', 'pago');
+      document.getElementById('total-analises').textContent = (r2.data?.length || 0) + r.data.length;
+      
+      if (r2.data) {
+        const taxa = (r2.data.length + r.data.length) > 0 ? Math.round(r.data.length / (r2.data.length + r.data.length) * 100) : 0;
+        document.getElementById('taxa-entrega').textContent = taxa;
+      }
+      
+      const html = r.data.slice(0, 10).map(p => `<tr>
+        <td>${p.protocolo}</td>
+        <td>${p.contacto}</td>
+        <td>${new Date(p.entregue_em).toLocaleDateString('pt-BR')}</td>
+        <td>R$ 29,00</td>
+        <td><span class="pedido-badge status-entregue">✓</span></td>
+      </tr>`).join('');
+      
+      document.getElementById('entregas-table').innerHTML = html;
+    }
+  } catch (e) { console.error(e); }
 }
 
-function abrirPreview(){
-  var o = coletar();
-  var fal = faltantes();
-  document.getElementById('pvCod').textContent = o.codigo;
-  document.getElementById('pvTxt').textContent = montarTexto();
-
-  var w = [];
-  if(fal.secs.length) w.push('<div class="w"><b>Seções em branco:</b> '+fal.secs.join(', ')+'. A estrutura fixa é o que torna os cem laudos um corpus. Buraco aqui é buraco no treino do agente depois.</div>');
-  if(fal.semNV) w.push('<div class="w"><b>"O que não consegui verificar" está vazio.</b> Se você verificou tudo, escreva isso. Campo em branco vira promessa de certeza — que é o que o guru vende.</div>');
-  if(fal.semCat) w.push('<div class="w"><b>Sem categoria.</b> Sem ela, este laudo não entra na taxonomia e o próximo da mesma categoria não fica mais rápido.</div>');
-  document.getElementById('pvWarn').innerHTML = w.join('');
-
-  document.getElementById('edPrev').classList.add('on');
+// ===== FEEDBACKS =====
+async function carregarFeedbacks() {
+  try {
+    const r = await supa.from('feedbacks').select('*').order('criado_em', { ascending: false });
+    if (r.data) {
+      const html = r.data.map(f => {
+        const stars = '★'.repeat(f.cla || 0) + '☆'.repeat(5 - (f.cla || 0));
+        return `<div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <div>
+              <div style="font-weight:600;color:var(--text);">${f.nome || 'Anônimo'}</div>
+              <div style="font-size:12px;color:var(--muted);">${new Date(f.criado_em).toLocaleDateString('pt-BR')} · ${f.perfil || 'visitante'}</div>
+            </div>
+            <div style="font-size:14px;color:var(--gold);">${stars}</div>
+          </div>
+          ${f.comentario ? `<div style="color:var(--soft);font-style:italic;font-size:13px;padding:10px;background:var(--void);border-radius:8px;border-left:2px solid var(--teal);">"${f.comentario}"</div>` : ''}
+        </div>`;
+      }).join('');
+      
+      document.getElementById('feedbacks-container').innerHTML = html || '<p style="color:var(--muted);text-align:center;">Sem feedbacks ainda.</p>';
+    }
+  } catch (e) { console.error(e); }
 }
 
-function copiarTxt(){
-  var t = document.getElementById('pvTxt').textContent;
-  navigator.clipboard.writeText(t).then(function(){
-    var b=document.getElementById('pvCopiar'); var o=b.textContent;
-    b.textContent='✓ copiado'; setTimeout(function(){ b.textContent=o; }, 1800);
-  }).catch(function(){ alert('Não consegui copiar. Selecione o texto à mão.'); });
-}
-
-function baixarPdf(){
-  var txt = document.getElementById('pvTxt').textContent;
-  var w = window.open('', '_blank');
-  if(!w){ alert('O navegador bloqueou a janela. Libere pop-ups para gerar o PDF.'); return; }
-  w.document.write(
-    '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>AntiGuru '+esc(edPed.codigo)+'</title>'
-    + '<style>'
-    + '@page{size:A4;margin:22mm 18mm;}'
-    + 'body{font-family:Georgia,"Times New Roman",serif;font-size:11.5pt;line-height:1.7;color:#15161c;white-space:pre-wrap;}'
-    + '.hd{border-bottom:2px solid #b8901f;padding-bottom:9px;margin-bottom:22px;font-family:Helvetica,Arial,sans-serif;}'
-    + '.hd b{font-size:15pt;letter-spacing:.06em;color:#8a6a12;}'
-    + '.hd span{display:block;font-size:9pt;color:#666;margin-top:3px;letter-spacing:.04em;}'
-    + '.ft{margin-top:26px;border-top:1px solid #ddd;padding-top:9px;font-family:Helvetica,Arial,sans-serif;font-size:8.5pt;color:#777;white-space:normal;}'
-    + '</style></head><body>'
-    + '<div class="hd"><b>ANTIGURU</b><span>Análise completa · protocolo '+esc(edPed.codigo)+'</span></div>'
-    + esc(txt)
-    + '<div class="ft">Este documento informa; não emite veredito nem imputa crime. Descreve o que foi encontrado, indica a fonte e declara o que não foi possível verificar. A decisão é de quem compra.</div>'
-    + '</body></html>'
-  );
-  w.document.close();
-  setTimeout(function(){ w.focus(); w.print(); }, 350);
-}
-
-async function registrarEntrega(){
-  if(!edPed) return;
-  var texto = document.getElementById('pvTxt').textContent;
-  var fal = faltantes();
-  var aviso = fal.secs.length ? '\n\nATENÇÃO: '+fal.secs.length+' seção(ões) em branco.' : '';
-  if(!confirm('Já enviou este laudo para '+(edPed.nome||'')+' pelo '+(edPed.canal==='email'?'e-mail':'WhatsApp')+'?\n\nIsto grava o texto como prova de entrega e marca o pedido como entregue.'+aviso)) return;
-
-  var b = document.getElementById('pvEntregar');
-  b.disabled = true; b.textContent = 'gravando...';
-  try{
-    await salvarRascunho(true);
-    var r = await supa.from('laudos')
-      .update({ texto_entregue: texto, entregue_em: new Date().toISOString() })
-      .eq('id', edLaudo.id);
-    if(r.error){ alert('Erro ao gravar o laudo: '+r.error.message); b.disabled=false; b.textContent='Registrar entrega & marcar entregue'; return; }
-
-    await marcarPedido(edPed.id, { entregue:true, status:'entregue' });
-
-    b.disabled = false; b.textContent = '✓ entregue e gravado';
-    setTimeout(function(){
-      document.getElementById('edPrev').classList.remove('on');
-      fecharEditor();
-      b.textContent='Registrar entrega & marcar entregue';
-    }, 1100);
-  }catch(e){ console.error(e); alert('Erro: '+e.message); b.disabled=false; b.textContent='Registrar entrega & marcar entregue'; }
-}
-
-/* eventos do editor */
-document.getElementById('edFechar').addEventListener('click', function(){
-  salvarRascunho(true); fecharEditor();
-});
-document.getElementById('edRascunho').addEventListener('click', function(){ salvarRascunho(false); });
-document.getElementById('edGerar').addEventListener('click', async function(){ await salvarRascunho(true); abrirPreview(); });
-document.getElementById('edAbrirFontes').addEventListener('click', function(){ document.getElementById('edSide').classList.toggle('on'); renderFontes(); });
-document.getElementById('edFecharFontes').addEventListener('click', function(){ document.getElementById('edSide').classList.remove('on'); });
-document.getElementById('edBusca').addEventListener('input', renderFontes);
-document.getElementById('fnSalvar').addEventListener('click', salvarFonte);
-document.getElementById('pvFechar').addEventListener('click', function(){ document.getElementById('edPrev').classList.remove('on'); });
-document.getElementById('pvCopiar').addEventListener('click', copiarTxt);
-document.getElementById('pvPdf').addEventListener('click', baixarPdf);
-document.getElementById('pvEntregar').addEventListener('click', registrarEntrega);
-armarAutosave();
-
-// ---- EVENTOS ----
-document.getElementById('login-btn').addEventListener('click',tentarLogin);
-document.getElementById('login-pass').addEventListener('keydown',function(e){ if(e.key==='Enter')tentarLogin(); });
-document.getElementById('logout').addEventListener('click',function(e){ e.preventDefault(); sair(); });
-document.querySelectorAll('.toolbar .chip').forEach(function(c){
-  c.addEventListener('click',function(){
-    document.querySelectorAll('.toolbar .chip').forEach(x=>x.classList.remove('on'));
-    c.classList.add('on');
-    var t=c.textContent.toLowerCase();
-    filtro=t.includes('não')?'naolidos':(t.includes('pag')?'pagantes':'todos');
-    renderLista();
-  });
-});
-
-// ---- sessão persistente: se já logado, mostra painel ----
-(async function(){
-  try{ var s=await supa.auth.getSession(); if(s.data && s.data.session){ mostrarPainel(); } }catch(e){}
+// ===== INIT =====
+(async function() {
+  const s = await supa.auth.getSession();
+  if (s.data && s.data.session) { currentUser = s.data.session.user; mostrarApp(); }
+  else document.getElementById('login-screen').style.display = 'flex';
 })();
+
+document.getElementById('login-btn').addEventListener('click', tentarLogin);
+document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') tentarLogin(); });
 </script>
-
-<!-- ===================== EDITOR DE LAUDO ===================== -->
-<div class="ed" id="ed">
-  <div class="ed-bar">
-    <div class="ed-id">
-      <b id="edCod">AG-—</b>
-      <span id="edQuem">—</span>
-    </div>
-    <div class="ed-save" id="edSave">rascunho salvo</div>
-    <div class="ed-acts">
-      <button class="fb-btn" id="edRascunho">Guardar rascunho</button>
-      <button class="fb-btn gold" id="edGerar">Gerar laudo &rarr;</button>
-      <button class="fb-btn" id="edFechar">Fechar</button>
-    </div>
-  </div>
-
-  <div class="ed-wrap">
-    <!-- COLUNA DO LAUDO -->
-    <div class="ed-main" id="edMain">
-      <div class="ed-meta">
-        <label class="ed-lb" for="edCat">Categoria da oferta <i>(vira taxonomia depois — use o mesmo nome para ofertas iguais)</i></label>
-        <input class="ed-inp" id="edCat" placeholder="ex.: tráfego pago · dropshipping · day trade · inglês">
-        <div class="ed-alvo" id="edAlvo"></div>
-      </div>
-
-      <div class="ed-sec" data-k="s1_o_que_vendem">
-        <div class="ed-n">1</div>
-        <h3>O que estão realmente a vender</h3>
-        <p class="ed-tip">Tire o embrulho e nomeie o objeto. Uma frase, sem adjetivos, do que a pessoa recebe na prática. Separe o que é conhecimento, o que é acompanhamento e o que é só acesso a um grupo. <b>Se você não consegue descrever em linguagem simples, isso já é o achado.</b></p>
-        <textarea class="ed-ta"></textarea>
-      </div>
-
-      <div class="ed-sec" data-k="s2_onde_existe_gratis">
-        <div class="ed-n">2</div>
-        <h3>Onde isso existe de graça <span class="ed-core">o coração do laudo</span></h3>
-        <p class="ed-tip">Prefira a fonte oficial à cópia. <b>Verifique cada link hoje</b> — link morto num produto de honestidade é ferida grave. Se não há equivalente gratuito, diga isso com franqueza. <b>Nunca invente uma fonte:</b> se não encontrou, escreva que não encontrou.</p>
-        <textarea class="ed-ta"></textarea>
-        <button class="ed-fbtn" id="edAbrirFontes">&#9673; Banco de fontes</button>
-      </div>
-
-      <div class="ed-sec" data-k="s3_o_que_o_preco_cobra">
-        <div class="ed-n">3</div>
-        <h3>O que o preço está realmente a cobrar</h3>
-        <p class="ed-tip">Se o conhecimento é grátis, o que justifica o valor? <b>Dizer quando há justificação legítima é o que torna o laudo credível.</b> Curadoria e sequência: pode valer. Acompanhamento real: verifique quantos alunos por mentor. Comunidade: valor variável. Atalho: raramente existe. Nada — repackaging de conteúdo grátis: é aqui que mora o guru.</p>
-        <textarea class="ed-ta"></textarea>
-      </div>
-
-      <div class="ed-sec" data-k="s4_custo_real">
-        <div class="ed-n">4</div>
-        <h3>O custo real que ninguém conta <span class="ed-core">a que mais muda decisões</span></h3>
-        <p class="ed-tip"><b>Tempo:</b> horas por semana × meses até um resultado mínimo. Realista, não otimista. <b>Dinheiro além do curso:</b> ferramentas, verba de anúncios, estoque — muitas vezes maior que o curso. <b>Pré-requisitos escondidos:</b> o que a pessoa já precisa saber ou ter. <b>Realidade de abandono:</b> a maioria não conclui, e isso é desenho, não fraqueza de caráter. Dizer isso tira o peso da culpa.</p>
-        <textarea class="ed-ta"></textarea>
-      </div>
-
-      <div class="ed-sec" data-k="s5_intencao">
-        <div class="ed-n">5</div>
-        <h3>A intenção por trás</h3>
-        <p class="ed-tip">Mostra resultado do que ensina, ou só resultado de vender o ensino? Os depoimentos têm rastro? Há nome, rosto e registro? <b>Linguagem de facto e pergunta, nunca de acusação.</b> "Não encontrei registro público de resultado na atividade que ensina" é seguro e útil. "É um vigarista" é indefensável.</p>
-        <textarea class="ed-ta"></textarea>
-      </div>
-
-      <div class="ed-sec" data-k="s6_outros_caminhos">
-        <div class="ed-n">6</div>
-        <h3>Os outros caminhos <span class="ed-core">a seção mais generosa</span></h3>
-        <p class="ed-tip">Nunca deixe a pessoa só com um "não compre" — isso é destruir sem construir. <b>O caminho autônomo:</b> roteiro real com as fontes da seção 2, ordenadas, com tempo estimado. <b>A alternativa paga melhor:</b> se existir preço justo e reputação verificável, diga. <b>O caminho de não fazer isto:</b> às vezes aquilo não serve àquela pessoa agora.</p>
-        <textarea class="ed-ta"></textarea>
-      </div>
-
-      <div class="ed-sec" data-k="s7_se_avancar">
-        <div class="ed-n">7</div>
-        <h3>Se ainda quiseres avançar</h3>
-        <p class="ed-tip">Fechar sem paternalismo — a decisão é dela. As perguntas exatas a fazer ao vendedor antes de pagar. As garantias a exigir por escrito, sobretudo reembolso e prazo. Os sinais de saída. O prazo legal de arrependimento em compras online (CDC art. 49: 7 dias).</p>
-        <textarea class="ed-ta"></textarea>
-      </div>
-
-      <div class="ed-sec ed-nv" data-k="nao_verificado">
-        <div class="ed-n">!</div>
-        <h3>O que não consegui verificar</h3>
-        <p class="ed-tip"><b>A regra que ordena tudo.</b> O guru nunca admite ignorância — é exatamente por isso que este campo existe. Diga o que tentou e não conseguiu confirmar. A dúvida declarada é a assinatura da casa.</p>
-        <textarea class="ed-ta"></textarea>
-      </div>
-
-      <div class="ed-sec ed-int" data-k="notas_internas">
-        <div class="ed-n">&#9679;</div>
-        <h3>Notas internas <span class="ed-core int">nunca sai para o cliente</span></h3>
-        <p class="ed-tip">Padrões novos, gatilhos que o motor ainda não lê, o que você aprendeu com esta oferta. Isto vira treino depois.</p>
-        <textarea class="ed-ta"></textarea>
-      </div>
-    </div>
-
-    <!-- PAINEL DE FONTES -->
-    <aside class="ed-side" id="edSide">
-      <div class="ed-side-h">
-        <b>Banco de fontes</b>
-        <button class="ed-x" id="edFecharFontes">&times;</button>
-      </div>
-      <input class="ed-inp" id="edBusca" placeholder="buscar por categoria ou tipo...">
-      <div class="ed-fontes" id="edFontes"></div>
-
-      <div class="ed-nova">
-        <b>Adicionar fonte</b>
-        <input class="ed-inp sm" id="fnCat" placeholder="categoria (ex.: tráfego pago)">
-        <input class="ed-inp sm" id="fnTipo" placeholder="tipo (ex.: documentação oficial)">
-        <textarea class="ed-inp sm" id="fnDesc" rows="2" placeholder="o que é, e por que serve"></textarea>
-        <input class="ed-inp sm" id="fnLink" placeholder="link (opcional)">
-        <label class="ed-lb sm">Verificado em <i>— obrigatório se houver link</i></label>
-        <input class="ed-inp sm" id="fnData" type="date">
-        <div class="ed-err" id="fnErr"></div>
-        <button class="fb-btn gold" id="fnSalvar" style="width:100%;">Salvar fonte</button>
-      </div>
-    </aside>
-  </div>
-
-  <!-- PREVIEW / EXPORTAÇÃO -->
-  <div class="ed-prev" id="edPrev">
-    <div class="ed-prev-box">
-      <div class="ed-prev-h">
-        <b>Laudo pronto — <span id="pvCod"></span></b>
-        <button class="ed-x" id="pvFechar">&times;</button>
-      </div>
-      <div class="ed-prev-warn" id="pvWarn"></div>
-      <pre class="ed-prev-txt" id="pvTxt"></pre>
-      <div class="ed-prev-acts">
-        <button class="fb-btn" id="pvCopiar">Copiar texto (WhatsApp)</button>
-        <button class="fb-btn" id="pvPdf">Baixar PDF</button>
-        <button class="fb-btn gold" id="pvEntregar">Registrar entrega &amp; marcar entregue</button>
-      </div>
-      <p class="ed-prev-nota">"Registrar entrega" grava <b>exatamente este texto</b> em <code>laudos.texto_entregue</code> com data. É a sua prova do que foi entregue. Envie pelo canal da pessoa antes de clicar.</p>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
