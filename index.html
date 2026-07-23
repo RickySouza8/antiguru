@@ -1385,17 +1385,8 @@ window.AG_LIDO = null;   // o que a function trouxe
       if(box){ box.remove(); return; }
       box = document.createElement('div');
       box.id = 'agCasoModernoGuia';
-      box.className = 'ag-lido';
-      box.style.cssText = 'margin-top:10px;background:rgba(87,208,192,.05);border:1px solid rgba(87,208,192,.25);';
-      box.innerHTML =
-        '<b style="color:var(--teal)">Ofertas modernas: o que colar</b>'
-        + '<div style="font-size:13.5px;color:var(--soft);line-height:1.6;margin-top:8px;">'
-        + 'Muita oferta hoje não é uma página só. É um <b>quiz</b> que pergunta sobre você, um <b>app com assinatura</b>, ou um <b>vídeo</b> que trava até o fim. Você não precisa colar tudo. Cole <b>a tela onde aparece o preço e os botões de compra</b>. É ali que a manipulação vira texto: o valor, a assinatura, a renovação automática, a garantia, os depoimentos.'
-        + '</div>'
-        + '<div style="font-size:13.5px;color:var(--soft);line-height:1.6;margin-top:10px;">'
-        + 'Mas guarde uma coisa: se foi um quiz, <b>a parte mais esperta já aconteceu antes do preço</b>, nas perguntas que te fizeram sentir compreendido, pra você chegar no pagamento já convencido. O texto não mostra isso, mas você viveu. '
-        + '<button type="button" class="lk" data-pad="quiz_que_vende" style="background:none;border:0;padding:0;color:var(--teal);text-decoration:underline;cursor:pointer;font:inherit;">Entenda o quiz que vende &#8594;</button>'
-        + '</div>';
+      box.style.cssText = 'display:block;';
+      box.innerHTML = agGuiaModerno();
       cm.parentNode.appendChild(box);
     });
   }
@@ -1432,6 +1423,25 @@ function agComoCopiar(url){
   var lis = passos.map(function(p,i){ return '<div class="cc-step"><span>'+(i+1)+'</span><div>'+p+'</div></div>'; }).join('');
   var abrir = url ? '<a href="'+url+'" target="_blank" rel="noopener" class="cc-abrir">Abrir a página da oferta &#8599;</a>' : '';
   return '<div class="cc-guia"><div class="cc-t">Como copiar o texto '+(celular?'no celular':'')+'</div>'+lis+abrir+'</div>';
+}
+
+/* monta o guia de "ofertas modernas: o que colar" (mesma estrutura do como-copiar) */
+function agGuiaModerno(){
+  var celular = agEhCelular();
+  var passos = [
+    'Abra a oferta e vá até <b>a tela onde aparece o preço e o botão de compra</b>. É ali que a manipulação vira texto.',
+    celular
+      ? 'Nessa tela, <b>segure o dedo</b> num texto por 1 segundo, toque em <b>"Selecionar tudo"</b> e depois em <b>"Copiar"</b>.'
+      : 'Nessa tela, clique no texto e aperte <b>Ctrl+A</b> e depois <b>Ctrl+C</b> pra copiar.',
+    'Volte aqui e cole. <b>Você não precisa colar tudo</b>: o valor, a assinatura, a renovação automática, a garantia e os depoimentos já bastam.',
+    'Se houve mais de uma tela importante, cole uma embaixo da outra. Pode ser tudo no mesmo campo.'
+  ];
+  var lis = passos.map(function(p,i){ return '<div class="cc-step"><span>'+(i+1)+'</span><div>'+p+'</div></div>'; }).join('');
+  var nota = '<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(87,208,192,.2);font-size:13px;color:var(--soft);line-height:1.6;">'
+    + 'Mas guarde uma coisa: se foi um quiz, <b style="color:var(--text)">a parte mais esperta já aconteceu antes do preço</b>, nas perguntas que te fizeram sentir compreendido, pra você chegar no pagamento já convencido. O texto não mostra isso, mas você viveu. '
+    + '<button type="button" class="lk" data-pad="quiz_que_vende" style="background:none;border:0;padding:0;color:var(--teal);text-decoration:underline;cursor:pointer;font:inherit;">Entenda o quiz que vende &#8594;</button>'
+    + '</div>';
+  return '<div class="cc-guia"><div class="cc-t">Ofertas modernas: o que colar</div>'+lis+nota+'</div>';
 }
 
 /* ---------- LER A PÁGINA (Netlify Function) ---------- */
