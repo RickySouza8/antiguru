@@ -493,6 +493,25 @@
   .gr-card p{font-size:13.5px;color:var(--soft);line-height:1.65;}
   .gr-fim{margin-top:24px;padding-left:14px;border-left:2px solid var(--gold,#E3B341);font-size:14.5px;color:var(--soft);line-height:1.75;max-width:64ch;}
 
+  .cf-arrow{pointer-events:none;}
+  .cf-step{cursor:pointer;font:inherit;position:relative;transition:background .18s,border-color .18s;}
+  .cf-step:hover{background:rgba(87,208,192,.12);border-color:rgba(87,208,192,.42);}
+  .cf-step:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .cf-mais{position:absolute;top:8px;right:11px;font-family:'Space Mono',monospace;font-size:15px;line-height:1;color:var(--teal);opacity:.55;transition:transform .2s,opacity .2s;}
+  .cf-step:hover .cf-mais{opacity:1;}
+  .cf-step.aberto{background:rgba(87,208,192,.15);border-color:var(--teal);}
+  .cf-step.aberto .cf-mais{transform:rotate(45deg);opacity:1;}
+  .cf-painel{max-width:640px;margin:10px auto 0;text-align:left;display:none;}
+  .cf-painel.on{display:block;}
+  .cf-p{display:none;background:rgba(87,208,192,.06);border:1px solid rgba(87,208,192,.25);border-radius:14px;padding:15px 18px;animation:cfIn .22s ease;}
+  .cf-p.on{display:block;}
+  .cf-p b{display:block;font-family:'Space Grotesk',sans-serif;font-size:15px;color:var(--teal2,#8FE6DD);margin-bottom:6px;}
+  .cf-p p{font-size:13.5px;color:var(--soft);line-height:1.68;}
+  .cf-lk{display:inline;background:none;border:0;padding:0;margin-left:4px;color:var(--teal);text-decoration:underline;cursor:pointer;font:inherit;font-size:13.5px;}
+  @keyframes cfIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:none;}}
+  .pular{margin-top:14px;font-size:13.5px;color:var(--muted);}
+  .pular-lk{background:none;border:0;padding:0;color:var(--teal);text-decoration:underline;cursor:pointer;font:inherit;font-size:13.5px;}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -556,19 +575,48 @@
     <p class="sub reveal">A gente compra cansado, no impulso, e depois descobre o produto complexo, o suporte que some, o dinheiro perdido. <b>O AntiGuru te faz parar os 5 minutos que o impulso não deixa:</b> cole a oferta e veja os truques usados pra te fazer decidir sem pensar. Grátis, na hora.</p>
 
     <div class="comofunc reveal">
-      <div class="cf-step"><span class="cf-num">1</span><div><b>Cole a oferta</b><small>o link ou o texto do curso</small></div></div>
-      <div class="cf-arrow">→</div>
-      <div class="cf-step"><span class="cf-num">2</span><div><b>Veja os truques</b><small>os gatilhos que te empurram</small></div></div>
-      <div class="cf-arrow">→</div>
-      <div class="cf-step"><span class="cf-num">3</span><div><b>Decida acordado</b><small>sem pressa, sem impulso</small></div></div>
+      <button type="button" class="cf-step" data-cf="1" aria-expanded="false">
+        <span class="cf-num">1</span>
+        <div><b>Cole a oferta</b><small>o link ou o texto do curso</small></div>
+        <span class="cf-mais" aria-hidden="true">+</span>
+      </button>
+      <div class="cf-arrow" aria-hidden="true">→</div>
+      <button type="button" class="cf-step" data-cf="2" aria-expanded="false">
+        <span class="cf-num">2</span>
+        <div><b>Veja os truques</b><small>os gatilhos que te empurram</small></div>
+        <span class="cf-mais" aria-hidden="true">+</span>
+      </button>
+      <div class="cf-arrow" aria-hidden="true">→</div>
+      <button type="button" class="cf-step" data-cf="3" aria-expanded="false">
+        <span class="cf-num">3</span>
+        <div><b>Decida acordado</b><small>sem pressa, sem impulso</small></div>
+        <span class="cf-mais" aria-hidden="true">+</span>
+      </button>
+    </div>
+    <div class="cf-painel" id="cfPainel">
+      <div class="cf-p" data-cfp="1">
+        <b>Cole a oferta</b>
+        <p>Pode ser o link da página de vendas, ou o texto copiado. Se for um quiz, um app ou um vídeo, cole a tela onde aparece o preço, que é onde a manipulação vira texto. <b>Não peço cadastro e não guardo o que você cola.</b></p>
+      </div>
+      <div class="cf-p" data-cfp="2">
+        <b>Veja os truques</b>
+        <p>O motor procura os padrões conhecidos de venda no impulso: pressa fabricada, promessa de ganho, método secreto, preço fatiado, prova social sem rastro. Ele devolve um <b>índice de risco do texto</b>, não uma nota de confiança da empresa. Quanto maior o número, mais sinais foram usados para escrever aquilo.
+        <button type="button" class="cf-lk" onclick="document.getElementById('padroes').scrollIntoView({behavior:'smooth'})">Ver as técnicas por dentro →</button></p>
+      </div>
+      <div class="cf-p" data-cfp="3">
+        <b>Decida acordado</b>
+        <p>Aqui ninguém diz "compre" ou "não compre". A leitura é sua, e a decisão também. O que muda é você ter visto o mecanismo antes de escolher, em vez de decidir cansado às onze da noite.
+        <button type="button" class="cf-lk" onclick="document.getElementById('protecao').scrollIntoView({behavior:'smooth'})">O que nos guia →</button></p>
+      </div>
     </div>
 
     <div class="cta-row reveal">
-      <a class="btn gold" href="#analisar">Analisar uma oferta, grátis</a>
+      <a class="btn gold" href="#como">Começar do começo</a>
       <a class="btn ghost" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
         Enviar pelo WhatsApp</a>
     </div>
+    <p class="pular reveal">Já sabe como funciona? <button type="button" class="pular-lk" onclick="document.getElementById('analisar').scrollIntoView({behavior:'smooth'})">Ir direto para a análise grátis →</button></p>
     <div class="impulse reveal">A maioria decide no impulso e se arrepende depois. Você está fazendo diferente.</div>
   </div>
 </header>
@@ -2316,5 +2364,30 @@ window.agAbrirEscudo = function(id){
 };
 </script>
 
+<script>
+/* três passos do hero: clicar abre a explicação */
+(function(){
+  var passos = document.querySelectorAll('.cf-step[data-cf]');
+  var painel = document.getElementById('cfPainel');
+  if(!passos.length || !painel) return;
+  var ps = painel.querySelectorAll('.cf-p');
+  function fechar(){
+    passos.forEach(function(b){ b.classList.remove('aberto'); b.setAttribute('aria-expanded','false'); });
+    ps.forEach(function(d){ d.classList.remove('on'); });
+    painel.classList.remove('on');
+  }
+  passos.forEach(function(b){
+    b.addEventListener('click', function(){
+      var n = b.getAttribute('data-cf');
+      var jaAberto = b.classList.contains('aberto');
+      fechar();
+      if(jaAberto) return;
+      b.classList.add('aberto'); b.setAttribute('aria-expanded','true');
+      var alvo = painel.querySelector('.cf-p[data-cfp="'+n+'"]');
+      if(alvo){ alvo.classList.add('on'); painel.classList.add('on'); }
+    });
+  });
+})();
+</script>
 </body>
 </html>
