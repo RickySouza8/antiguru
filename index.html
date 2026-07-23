@@ -486,6 +486,13 @@
   .ag-desarme li b{color:var(--text);}
   .ag-desarme-f{font-size:13.5px;color:var(--soft);line-height:1.65;margin-bottom:0;padding-top:12px;border-top:1px solid rgba(87,208,192,.15);}
 
+  .gr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:26px 0 0;}
+  @media (max-width:760px){ .gr-grid{grid-template-columns:1fr;} }
+  .gr-card{background:linear-gradient(160deg,rgba(87,208,192,.06),rgba(87,208,192,.02));border:1px solid rgba(87,208,192,.2);border-radius:14px;padding:17px 19px;}
+  .gr-t{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--teal2,#8FE6DD);margin-bottom:7px;}
+  .gr-card p{font-size:13.5px;color:var(--soft);line-height:1.65;}
+  .gr-fim{margin-top:24px;padding-left:14px;border-left:2px solid var(--gold,#E3B341);font-size:14.5px;color:var(--soft);line-height:1.75;max-width:64ch;}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -513,11 +520,11 @@
       <span><span class="wm">ANTI<b>GURU</b></span><br><span class="tl">Clareza antes da decisão</span></span>
     </a>
     <div class="navlinks" id="navlinks">
-      <a href="#analisar">Analisar</a>
-      <a href="#protecao">Proteção</a>
       <a href="#como">Como funciona</a>
-      <a href="#padroes">Técnicas do guru</a>
+      <a href="#protecao">Proteção</a>
+      <a href="#analisar">Analisar</a>
       <a href="#exemplos">Exemplos</a>
+      <a href="#padroes">Técnicas do guru</a>
       <a href="#oferta">Oferta</a>      <a class="nav-wa" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
         WhatsApp
@@ -567,6 +574,53 @@
 </header>
 
 <!-- ===== ANALISAR (ferramenta) ===== -->
+<section class="sec" id="como">
+  <div class="wrap">
+    <div class="eyebrow reveal">Como funciona</div>
+    <h2 class="reveal">Três passos. Nenhuma enrolação.</h2>
+    <div class="grid3">
+      <div class="card reveal">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.5"><rect x="9" y="7" width="30" height="34" rx="3"/><path d="M15 16h18M15 23h18M15 30h11"/></svg>
+        <div class="step-n">PASSO 01</div><h3>Você envia a oferta</h3>
+        <p>Cole o link e o texto do curso, mentoria ou promessa que está considerando.</p>
+      </div>
+      <div class="card reveal" style="transition-delay:.1s">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#57D0C0" stroke-width="1.5"><circle cx="21" cy="21" r="13"/><path d="M31 31l8 8"/><path d="M21 15v6l4 3"/></svg>
+        <div class="step-n">PASSO 02</div><h3>Leio os sinais</h3>
+        <p>Analiso padrões objetivos de risco e organizo o que está nas entrelinhas da oferta.</p>
+      </div>
+      <div class="card reveal" style="transition-delay:.2s">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.5"><path d="M24 6l4 12h12l-10 8 4 12-10-8-10 8 4-12-10-8h12z"/></svg>
+        <div class="step-n">PASSO 03</div><h3>Você recebe clareza</h3>
+        <p>O que está realmente à venda, onde aquilo existe de graça, o custo real em tempo e dinheiro, e os outros caminhos. Chega por WhatsApp ou e-mail, em até 72h. A decisão final é sua.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec protect" id="protecao">
+  <div class="wrap">
+    <svg class="geo reveal" viewBox="0 0 200 200" fill="none" stroke="#E3B341" stroke-width="0.7" aria-hidden="true">
+      <g transform="translate(100,100)">
+        <circle r="78" stroke="#57D0C0" stroke-width="0.6"/>
+        <circle r="30"/><circle r="30" transform="translate(30,0)"/><circle r="30" transform="translate(15,25.98)"/>
+        <circle r="30" transform="translate(-15,25.98)"/><circle r="30" transform="translate(-30,0)"/>
+        <circle r="30" transform="translate(-15,-25.98)"/><circle r="30" transform="translate(15,-25.98)"/>
+        <path d="M0,-60 L52,-30 L52,30 L0,60 L-52,30 L-52,-30 Z" stroke="#57D0C0" stroke-width="0.5"/>
+      </g>
+    </svg>
+    <div class="eyebrow">A camada que nos guia</div>
+    <h2>A geometria que protege a sua clareza</h2>
+    <p class="verse">Toda decisão consciente é, em si, um ato de proteção.</p>
+    <p>O AntiGuru nasce de um princípio simples: <b style="color:var(--text)">clareza protege</b>. A geometria que nos acompanha, círculos que se entrelaçam, se sustentam e se expandem, é o nosso símbolo de discernimento: ver o todo antes de escolher a parte.</p>
+    <p class="verse" style="margin-top:24px;">Que ela te proteja do impulso.<br>Que te afaste da ilusão.<br>Que te expanda. Que te desperte.</p>
+    <div class="shield">
+      <button data-escudo="ruido">Contra o ruído</button><button data-escudo="pressa">Contra a pressa</button><button data-escudo="intencao">Contra a má intenção</button><button data-escudo="consciencia">Por mais consciência</button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px;">Clique em cada um. É o que a gente defende, e por quê.</p>
+  </div>
+</section>
+
 <section class="sec" id="analisar">
   <div class="wrap" style="text-align:center;">
     <div class="eyebrow reveal">Análise gratuita</div>
@@ -644,57 +698,6 @@
   </div>
 </section>
 
-
-<!-- ===== PROTEÇÃO (camada simbólica) ===== -->
-<section class="sec protect" id="protecao">
-  <div class="wrap">
-    <svg class="geo reveal" viewBox="0 0 200 200" fill="none" stroke="#E3B341" stroke-width="0.7" aria-hidden="true">
-      <g transform="translate(100,100)">
-        <circle r="78" stroke="#57D0C0" stroke-width="0.6"/>
-        <circle r="30"/><circle r="30" transform="translate(30,0)"/><circle r="30" transform="translate(15,25.98)"/>
-        <circle r="30" transform="translate(-15,25.98)"/><circle r="30" transform="translate(-30,0)"/>
-        <circle r="30" transform="translate(-15,-25.98)"/><circle r="30" transform="translate(15,-25.98)"/>
-        <path d="M0,-60 L52,-30 L52,30 L0,60 L-52,30 L-52,-30 Z" stroke="#57D0C0" stroke-width="0.5"/>
-      </g>
-    </svg>
-    <div class="eyebrow">A camada que nos guia</div>
-    <h2>A geometria que protege a sua clareza</h2>
-    <p class="verse">Toda decisão consciente é, em si, um ato de proteção.</p>
-    <p>O AntiGuru nasce de um princípio simples: <b style="color:var(--text)">clareza protege</b>. A geometria que nos acompanha, círculos que se entrelaçam, se sustentam e se expandem, é o nosso símbolo de discernimento: ver o todo antes de escolher a parte.</p>
-    <p class="verse" style="margin-top:24px;">Que ela te proteja do impulso.<br>Que te afaste da ilusão.<br>Que te expanda. Que te desperte.</p>
-    <div class="shield">
-      <button data-escudo="ruido">Contra o ruído</button><button data-escudo="pressa">Contra a pressa</button><button data-escudo="intencao">Contra a má intenção</button><button data-escudo="consciencia">Por mais consciência</button>
-    </div>
-    <p style="font-size:12px;color:var(--muted);margin-top:12px;">Clique em cada um. É o que a gente defende, e por quê.</p>
-  </div>
-</section>
-
-<!-- ===== COMO FUNCIONA ===== -->
-<section class="sec" id="como">
-  <div class="wrap">
-    <div class="eyebrow reveal">Como funciona</div>
-    <h2 class="reveal">Três passos. Nenhuma enrolação.</h2>
-    <div class="grid3">
-      <div class="card reveal">
-        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.5"><rect x="9" y="7" width="30" height="34" rx="3"/><path d="M15 16h18M15 23h18M15 30h11"/></svg>
-        <div class="step-n">PASSO 01</div><h3>Você envia a oferta</h3>
-        <p>Cole o link e o texto do curso, mentoria ou promessa que está considerando.</p>
-      </div>
-      <div class="card reveal" style="transition-delay:.1s">
-        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#57D0C0" stroke-width="1.5"><circle cx="21" cy="21" r="13"/><path d="M31 31l8 8"/><path d="M21 15v6l4 3"/></svg>
-        <div class="step-n">PASSO 02</div><h3>Leio os sinais</h3>
-        <p>Analiso padrões objetivos de risco e organizo o que está nas entrelinhas da oferta.</p>
-      </div>
-      <div class="card reveal" style="transition-delay:.2s">
-        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.5"><path d="M24 6l4 12h12l-10 8 4 12-10-8-10 8 4-12-10-8h12z"/></svg>
-        <div class="step-n">PASSO 03</div><h3>Você recebe clareza</h3>
-        <p>O que está realmente à venda, onde aquilo existe de graça, o custo real em tempo e dinheiro, e os outros caminhos. Chega por WhatsApp ou e-mail, em até 72h. A decisão final é sua.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== EXEMPLOS ===== -->
 <section class="sec" id="exemplos">
   <div class="wrap">
     <div class="eyebrow reveal">Exemplos</div>
@@ -748,7 +751,6 @@
   </div>
 </section>
 
-<!-- ===== PADRÕES DO GURU (Camada 3) ===== -->
 <section class="sec" id="padroes">
   <div class="wrap">
     <div class="eyebrow reveal">Aprenda a ver sozinho</div>
@@ -759,7 +761,6 @@
   </div>
 </section>
 
-<!-- ===== OFERTA ===== -->
 <section class="sec" id="oferta">
   <div class="wrap" style="text-align:center;">
     <div class="eyebrow reveal">O que os R$29 entregam</div>
@@ -816,7 +817,6 @@
   </div>
 </section>
 
-<!-- ===== MANIFESTO / TRANSPARÊNCIA ===== -->
 <section class="sec" id="manifesto">
   <div class="wrap" style="max-width:680px;">
     <div class="eyebrow reveal">Por que eu cobro</div>
@@ -832,25 +832,39 @@
   </div>
 </section>
 
-<!-- ===== CONTATO ===== -->
-<section class="sec" id="contato">
+<section id="gratidao" class="sec">
   <div class="wrap">
-    <div class="eyebrow reveal">Contato</div>
-    <h2 class="reveal">Fale comigo agora.</h2>
-    <div class="contact">
-      <a class="ccard reveal" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
-        <svg class="ci" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
-        <div><div class="k">WhatsApp</div><div class="v">(11) 99760-3559</div></div>
-      </a>
-      <a class="ccard reveal" href="mailto:damaceno_05@yahoo.com.br" style="transition-delay:.1s">
-        <svg class="ci" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.6"><rect x="7" y="11" width="34" height="26" rx="3"/><path d="M8 13l16 12L40 13"/></svg>
-        <div><div class="k">E-mail</div><div class="v">damaceno_05@yahoo.com.br</div></div>
-      </a>
+    <div class="eyebrow reveal">O QUE VOLTA</div>
+    <h2 class="sec-t reveal">O que a gente recebe, a gente devolve.</h2>
+    <p class="lead reveal" style="color:var(--muted);max-width:62ch;">
+      Este produto nasceu de dinheiro perdido. O meu, e o de gente que eu vi perder. Não faria sentido transformar isso em mais uma máquina de tirar.
+    </p>
+
+    <div class="gr-grid reveal">
+      <div class="gr-card">
+        <div class="gr-t">A parte grátis é grátis de verdade</div>
+        <p>A prévia não pede cadastro, não guarda o que você cola e não existe pra te empurrar pro pago. Se ela resolveu, resolveu. Você não me deve nada.</p>
+      </div>
+      <div class="gr-card">
+        <div class="gr-t">Eu te ensino a não precisar de mim</div>
+        <p>Toda técnica que eu uso na análise paga está aberta na seção <button type="button" class="lx-lk" onclick="document.getElementById('padroes').scrollIntoView({behavior:'smooth'})">Técnicas do guru</button>. Um produto que só sobrevive te mantendo dependente não merece sobreviver.</p>
+      </div>
+      <div class="gr-card">
+        <div class="gr-t">Se não te serviu, você tem seu dinheiro de volta</div>
+        <p>Sete dias, sem interrogatório. Não vou te fazer provar que tentou, nem te oferecer um brinde pra você desistir do reembolso.</p>
+      </div>
+      <div class="gr-card">
+        <div class="gr-t">Cada análise paga sustenta as grátis</div>
+        <p>Os R$29 pagam o tempo de quem trabalha e mantêm a prévia de pé, aberta, para quem não pode pagar nada agora. Quem paga banca quem não pode.</p>
+      </div>
     </div>
+
+    <p class="gr-fim reveal">
+      Obrigado por ter lido até aqui. Se você chegou neste site, provavelmente foi porque quase caiu em alguma coisa, ou já caiu. Eu sei como é. Se algo aqui te fizer parar cinco minutos antes de decidir, já valeu.
+    </p>
   </div>
 </section>
 
-<!-- ===== VOZ DE QUEM USA (feedback aberto) ===== -->
 <section class="sec" id="vozes">
   <div class="wrap" style="max-width:760px;">
     <div class="eyebrow reveal">Voz de quem usa</div>
@@ -888,12 +902,30 @@
   </div>
 </section>
 
-<!-- ===== AVISO LEGAL ===== -->
+<section class="sec" id="contato">
+  <div class="wrap">
+    <div class="eyebrow reveal">Contato</div>
+    <h2 class="reveal">Fale comigo agora.</h2>
+    <div class="contact">
+      <a class="ccard reveal" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
+        <svg class="ci" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+        <div><div class="k">WhatsApp</div><div class="v">(11) 99760-3559</div></div>
+      </a>
+      <a class="ccard reveal" href="mailto:damaceno_05@yahoo.com.br" style="transition-delay:.1s">
+        <svg class="ci" viewBox="0 0 48 48" fill="none" stroke="#E3B341" stroke-width="1.6"><rect x="7" y="11" width="34" height="26" rx="3"/><path d="M8 13l16 12L40 13"/></svg>
+        <div><div class="k">E-mail</div><div class="v">damaceno_05@yahoo.com.br</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="aviso">
   <div class="wrap">
     <p class="legal">O AntiGuru entrega o que promete: clareza. Cada análise é feita com critérios objetivos e informações públicas, identificando sinais que ajudam você a enxergar a oferta com mais consciência antes de decidir. Não dizemos "compre" ou "não compre". A decisão é sua, e sempre vai ser. O que garantimos é a análise honesta e a clareza para que essa decisão seja mais lúcida.</p>
   </div>
 </section>
+
+
 
 <!-- ===== FOOTER ===== -->
 <footer>
