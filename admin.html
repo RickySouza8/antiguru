@@ -96,6 +96,26 @@ body{background:
 .autosave-indicator{font-size:11px;color:var(--muted);margin-top:6px;font-family:var(--ffm);}
 .autosave-indicator.saved{color:var(--teal);}
 
+/* ===== BLOCO-GUIA (instrução didática por seção) =====*/
+.section-guide{background:rgba(87,208,192,.06);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--soft);line-height:1.65;}
+.section-guide strong{color:var(--teal2);font-weight:600;}
+.section-guide ul{margin:6px 0 0 0;padding-left:18px;}
+.section-guide li{margin-bottom:3px;}
+.section-guide .rule{display:block;margin-top:8px;padding-top:8px;border-top:1px solid rgba(87,208,192,.15);color:var(--muted);font-style:italic;font-size:12px;}
+.section-number{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--goldsoft);color:var(--gold2);font-family:var(--ffm);font-size:13px;margin-right:10px;flex-shrink:0;}
+.section-label{display:flex;align-items:center;}
+
+/* ===== PRINT / PDF ===== */
+@media print{
+  @page{size:A4;margin:18mm 16mm;}
+  html,body{background:#fff !important;color:#1a1a2e !important;}
+  /* esconde absolutamente tudo */
+  body > *{display:none !important;}
+  /* mostra só o container do PDF */
+  body > #pdf-render{display:block !important;}
+}
+#pdf-render{display:none;}
+
 /* ===== PAINEL FONTES =====*/
 .fontes-panel{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:16px;}
 .fontes-header{font-family:var(--ffd);font-weight:600;margin-bottom:12px;}
@@ -173,7 +193,7 @@ body{background:
       <div class="nav-item" data-page="config">⚙️ Configurações</div>
     </nav>
     <div class="user-info">
-      <div class="user-name" id="user-name">—</div>
+      <div class="user-name" id="user-name"></div>
       <button id="logout-btn" class="logout-btn">Sair</button>
     </div>
   </div>
@@ -256,7 +276,7 @@ body{background:
       <div style="margin-bottom:20px;">
         <label style="display:block;font-size:14px;color:var(--soft);margin-bottom:8px;">Selecione o pedido:</label>
         <select id="select-pedido" style="width:100%;max-width:400px;padding:12px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-size:14px;">
-          <option value="">— Carregando pedidos —</option>
+          <option value="">Carregando pedidos</option>
         </select>
       </div>
 
@@ -264,58 +284,146 @@ body{background:
         <div class="editor-container">
           <div class="editor-main">
             <div class="editor-section">
-              <div class="section-label">1. O que estão realmente a vender?</div>
-              <div class="section-hint">Traduza o marketing para a coisa nua. Uma frase, sem adjectivos.</div>
-              <textarea class="section-input" id="s1" placeholder="Ex: Ensinar a usar o gestor de anúncios do Facebook..."></textarea>
+              <div class="section-label"><span class="section-number">1</span> O que estão realmente vendendo?</div>
+              <div class="section-guide">
+                Traduza o marketing para a coisa nua. Tire os adjetivos e as promessas. O que sobra é o que está de fato à venda.
+                <ul>
+                  <li>Leia a oferta e pergunte: "no fim, que <strong>habilidade ou entrega concreta</strong> a pessoa recebe?"</li>
+                  <li>Escreva em <strong>uma ou duas frases</strong>, sem enfeite.</li>
+                </ul>
+                <span class="rule">Exemplo: "Ensinar a usar o gestor de anúncios do Facebook e a estruturar uma rotina de gestão comercial em 2 dias."</span>
+              </div>
+              <textarea class="section-input" id="s1" placeholder="Escreva aqui, em 1-2 frases, o que a oferta realmente entrega..."></textarea>
               <div class="autosave-indicator" id="save-s1"></div>
             </div>
 
             <div class="editor-section">
-              <div class="section-label">2. Onde isso existe de graça?</div>
-              <div class="section-hint">Links reais e verificados para o mesmo conhecimento sem custo.</div>
-              <textarea class="section-input" id="s2" placeholder="Documentação oficial, cursos gratuitos, canais públicos..."></textarea>
+              <div class="section-label"><span class="section-number">2</span> Onde isso existe de graça?</div>
+              <div class="section-guide">
+                O conhecimento vendido quase sempre existe gratuito em algum lugar. Sua tarefa é achar e <strong>colar links reais e verificados</strong>.
+                <ul>
+                  <li>Procure: documentação oficial, cursos gratuitos, canais no YouTube, livros baratos, comunidades.</li>
+                  <li>Use o <strong>Banco de Fontes</strong> ao lado → clique "+ Adicionar Fonte" para reaproveitar.</li>
+                  <li>Cole o link e a <strong>data em que você verificou</strong> que ele funciona.</li>
+                </ul>
+                <span class="rule">Link quebrado num laudo sobre honestidade pega muito mal. Teste cada um antes de entregar.</span>
+              </div>
+              <textarea class="section-input" id="s2" placeholder="Liste aqui as fontes gratuitas com links verificados..."></textarea>
               <div class="autosave-indicator" id="save-s2"></div>
             </div>
 
             <div class="editor-section">
-              <div class="section-label">3. O que o preço está realmente a cobrar?</div>
-              <div class="section-hint">Se conhecimento é gratuito, o que justifica o valor?</div>
-              <textarea class="section-input" id="s3" placeholder="Curadoria, sequência, acompanhamento real?..."></textarea>
+              <div class="section-label"><span class="section-number">3</span> O que o preço está realmente cobrando?</div>
+              <div class="section-guide">
+                Se o conhecimento é gratuito, o que justifica o valor cobrado? Às vezes existe valor real, como curadoria e acompanhamento de perto. Outras vezes não existe.
+                <ul>
+                  <li>Pergunte: o preço paga <strong>curadoria, sequência, mentoria real, rede de contatos</strong>? Ou só acesso a algo público?</li>
+                  <li>Se a página <strong>esconde o preço</strong> até você entregar dados, registre isso como sinal.</li>
+                </ul>
+                <span class="rule">Separe fato de leitura: "o preço só aparece após o formulário" é fato. "Isso é proposital" é leitura.</span>
+              </div>
+              <textarea class="section-input" id="s3" placeholder="O que o valor cobrado realmente está pagando?..."></textarea>
               <div class="autosave-indicator" id="save-s3"></div>
             </div>
 
             <div class="editor-section">
-              <div class="section-label">4. Custo real que ninguém conta</div>
-              <div class="section-hint">Tempo, ferramentas, pré-requisitos, realidade de abandono.</div>
-              <textarea class="section-input" id="s4" placeholder="Quantas horas por semana? Ferramentas adicionais? Conhecimento prévio?..."></textarea>
+              <div class="section-label"><span class="section-number">4</span> Custo real que ninguém conta</div>
+              <div class="section-guide">
+                Além do preço, existe o custo escondido. É aqui que a maioria se decepciona.
+                <ul>
+                  <li><strong>Tempo:</strong> quantas horas por semana exige de verdade?</li>
+                  <li><strong>Ferramentas:</strong> precisa comprar software, tráfego, equipamento?</li>
+                  <li><strong>Pré-requisitos:</strong> exige conhecimento prévio que a oferta não menciona?</li>
+                  <li><strong>Realidade de abandono:</strong> a maioria conclui ou desiste no meio?</li>
+                </ul>
+              </div>
+              <textarea class="section-input" id="s4" placeholder="Tempo, ferramentas, pré-requisitos, taxa real de conclusão..."></textarea>
               <div class="autosave-indicator" id="save-s4"></div>
             </div>
 
             <div class="editor-section">
-              <div class="section-label">5. Intenção por trás</div>
-              <div class="section-hint">Onde está o dinheiro? Resultado ou venda do ensino? Depoimentos com rasto?</div>
-              <textarea class="section-input" id="s5" placeholder="Análise honesta da intenção..."></textarea>
+              <div class="section-label"><span class="section-number">5</span> Intenção por trás</div>
+              <div class="section-guide">
+                Onde está o dinheiro de quem vende? Isso revela a intenção sem precisar acusar ninguém.
+                <ul>
+                  <li>O ganho vem do <strong>resultado do aluno</strong> ou da <strong>venda do próximo curso</strong>?</li>
+                  <li>Os <strong>depoimentos têm rastro</strong> verificável (nome real, empresa real) ou são anônimos?</li>
+                  <li>Há <strong>escassez fabricada</strong> ("vagas limitadas", "última turma")? Registre.</li>
+                </ul>
+                <span class="rule" style="color:#E5654B;font-style:normal;">
+                  <strong style="color:#E5654B;">Nunca acuse e nunca afirme intenção alheia.</strong> Você não tem como saber o que se passa na cabeça de alguém. Não diga "é vigarista", "querem te enganar", "vão sumir com seu dinheiro".<br>
+                  <em>Errado:</em> "os depoimentos são falsos". <em>Certo:</em> "os depoimentos não trazem nome completo nem empresa, o que impede verificação independente."<br>
+                  <em>Errado:</em> "eles só querem seu dinheiro". <em>Certo:</em> "não encontrei registro público de resultado de alunos. Vale pedir casos verificáveis antes de decidir."<br>
+                  Fato e pergunta são seguros. Adjetivo sobre pessoa não é.
+                </span>
+              </div>
+              <textarea class="section-input" id="s5" placeholder="Análise honesta da intenção, separando fato de leitura..."></textarea>
               <div class="autosave-indicator" id="save-s5"></div>
             </div>
 
             <div class="editor-section">
-              <div class="section-label">6. Outros caminhos</div>
-              <div class="section-hint">Nunca deixar só "não compre". Alternativas e roteiros.</div>
-              <textarea class="section-input" id="s6" placeholder="Caminho autónomo, alternativa paga melhor, não fazer isto..."></textarea>
+              <div class="section-label"><span class="section-number">6</span> Outros caminhos</div>
+              <div class="section-guide">
+                Nunca deixe a pessoa só com "não compre". Dê caminhos reais.
+                <ul>
+                  <li><strong>Autônomo:</strong> como aprender sozinho com as fontes gratuitas da seção 2.</li>
+                  <li><strong>Alternativa paga melhor:</strong> existe opção mais honesta ou barata?</li>
+                  <li><strong>Não fazer isso agora:</strong> às vezes o problema real é outro.</li>
+                </ul>
+              </div>
+              <textarea class="section-input" id="s6" placeholder="Ofereça 2-3 caminhos alternativos concretos..."></textarea>
               <div class="autosave-indicator" id="save-s6"></div>
             </div>
 
             <div class="editor-section">
-              <div class="section-label">7. Se ainda quiseres avançar</div>
-              <div class="section-hint">Arma a pessoa para comprar melhor. Perguntas, garantias, sinais de saída.</div>
-              <textarea class="section-input" id="s7" placeholder="Que perguntas fazer? Garantias a exigir? Quando pedir reembolso?..."></textarea>
+              <div class="section-label"><span class="section-number">7</span> Se você ainda quiser avançar</div>
+              <div class="section-guide">
+                Se a pessoa decidir comprar mesmo assim, dê a ela as ferramentas para comprar melhor. Respeite a decisão dela.
+                <ul>
+                  <li>Que <strong>perguntas fazer</strong> ao vendedor antes de pagar?</li>
+                  <li>Que <strong>garantias exigir</strong> por escrito (reembolso, prazo, entregas)?</li>
+                  <li>Quais os <strong>sinais de saída</strong>? Em que momento pedir reembolso?</li>
+                </ul>
+              </div>
+              <textarea class="section-input" id="s7" placeholder="Perguntas, garantias e sinais de saída para comprar com segurança..."></textarea>
               <div class="autosave-indicator" id="save-s7"></div>
             </div>
 
+            <div class="editor-section">
+              <div class="section-label"><span class="section-number">8</span> Seus dados: o que capturam e o que fazem</div>
+              <div class="section-guide">
+                Muitas ofertas capturam seus dados <strong>antes</strong> de mostrar qualquer coisa. Isso tem custo, mesmo que você não compre.
+                <ul>
+                  <li><strong>Quais campos</strong> o formulário exige? (nome, telefone, e-mail, empresa, cargo, faturamento, nº de vendedores...)</li>
+                  <li>O <strong>preço vem antes ou depois</strong> de entregar os dados?</li>
+                  <li>Existe <strong>Política de Privacidade acessível ANTES</strong> do envio?</li>
+                  <li>Ela diz <strong>com quem compartilham, por quanto tempo guardam, como pedir exclusão</strong> (direitos LGPD)?</li>
+                  <li>Menciona <strong>base legal, encarregado (DPO) ou a ANPD</strong>?</li>
+                </ul>
+                <span class="rule" style="color:#E5654B;font-style:normal;">
+                  <strong style="color:#E5654B;">Regra de linguagem. Leia antes de escrever:</strong><br>
+                  <strong>Nunca afirme o que a empresa VAI fazer com os dados.</strong> Você não tem como saber, e afirmar isso é imputação. Use só estes três registros:<br>
+                  <strong>1. Fato observável:</strong> "o formulário exige 8 campos", "a política não menciona prazo de retenção".<br>
+                  <strong>2. Possibilidade:</strong> "os dados <em>podem</em> ser usados para", "<em>não há garantia</em> de que não sejam compartilhados", "a política <em>não esclarece</em> o que acontece se você não comprar".<br>
+                  <strong>3. Pergunta:</strong> "vale perguntar a eles: por quanto tempo guardam? com quem compartilham?"<br>
+                  <em>Errado:</em> "eles vão vender seus dados". <em>Certo:</em> "a política não diz com quem os dados são compartilhados, nem por quanto tempo são guardados. Vale perguntar antes de enviar."
+                </span>
+              </div>
+              <textarea class="section-input" id="s8" placeholder="Ex: O formulário exige 8 campos (incluindo faturamento e cargo) antes de mostrar o preço. A Política de Privacidade não esclarece o prazo de retenção nem com quem os dados são compartilhados. Vale perguntar antes de enviar."></textarea>
+              <div class="autosave-indicator" id="save-s8"></div>
+            </div>
+
             <div class="editor-section" style="border-bottom:1px solid var(--line2);margin-bottom:24px;padding-bottom:24px;">
-              <div class="section-label">O que não consegui verificar?</div>
-              <div class="section-hint" style="color:var(--red);">OBRIGATÓRIO — A assinatura da casa. Nunca deixe vazio.</div>
-              <textarea class="section-input" id="nao_verificado" placeholder="O que não conseguiu confirmar? O que faltou dados? Seja honesto..."></textarea>
+              <div class="section-label" style="color:var(--red);">⚠ O que não consegui verificar?</div>
+              <div class="section-guide" style="background:var(--redsoft);border-left-color:var(--red);">
+                <strong style="color:var(--red);">OBRIGATÓRIO. A assinatura da casa. Nunca deixe vazio.</strong>
+                <ul>
+                  <li>O guru vende certeza. O AntiGuru vende <strong>dúvida honesta</strong>.</li>
+                  <li>Liste o que <strong>não conseguiu confirmar</strong>: reputação, reclamações, números reais, se a empresa entrega.</li>
+                  <li>Se você não checou, diga que não checou. Isso <strong>protege você e o cliente</strong>.</li>
+                </ul>
+              </div>
+              <textarea class="section-input" id="nao_verificado" placeholder="O que não conseguiu confirmar? Seja honesto sobre os limites da análise..."></textarea>
               <div class="autosave-indicator" id="save-nao_verificado"></div>
             </div>
 
@@ -419,13 +527,13 @@ body{background:
       <div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:20px;">
         <div class="page-title" style="font-size:16px;margin-bottom:16px;">Dados do Sistema</div>
         <p style="color:var(--soft);margin-bottom:12px;font-size:14px;">Limpeza e manutenção</p>
-        <button onclick="alert('Confirmação necessária. Isto apagará todos os dados de teste do Supabase. Descomente no código para ativar.')" class="btn-secondary" style="width:100%;max-width:300px;">Limpar dados de teste</button>
+        <button onclick="alert('Confirmação necessária. Isso vai apagar todos os dados de teste do Supabase. Descomente no código para ativar.')" class="btn-secondary" style="width:100%;max-width:300px;">Limpar dados de teste</button>
       </div>
 
       <div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;">
         <div class="page-title" style="font-size:16px;margin-bottom:16px;">Sobre</div>
         <p style="color:var(--soft);font-size:14px;">AntiGuru · Central de Operações</p>
-        <p style="color:var(--muted);font-size:12px;margin-top:8px;">v2.0 — Sistema de gestão de pedidos, laudos e análises</p>
+        <p style="color:var(--muted);font-size:12px;margin-top:8px;">v2.0 · Sistema de gestão de pedidos, laudos e análises</p>
       </div>
     </div>
 
@@ -553,12 +661,12 @@ async function carregarDashboard() {
       const vencidos = r.data.filter(p => {
         const agora = new Date();
         const prazo = new Date(p.pago_em);
-        prazo.setHours(prazo.getHours() + 24);
+        prazo.setHours(prazo.getHours() + 72);
         return agora > prazo;
       });
       
       if (vencidos.length > 0) {
-        alertsHtml += `<div class="alert error"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <div><strong>${vencidos.length} pedidos vencidos</strong> — Entrega passou do prazo de 24h</div></div>`;
+        alertsHtml += `<div class="alert error"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <div><strong>${vencidos.length} pedidos vencidos.</strong> A entrega passou do prazo de 72h</div></div>`;
       }
       
       document.getElementById('alerts-container').innerHTML = alertsHtml;
@@ -573,20 +681,20 @@ async function carregarPedidos() {
       const html = r.data.map(p => {
         const agora = new Date();
         const prazo = new Date(p.pago_em || p.criado_em);
-        prazo.setHours(prazo.getHours() + 24);
+        prazo.setHours(prazo.getHours() + 72);
         const horas = Math.round((prazo - agora) / (1000 * 3600));
         
         let statusBadge = '';
         let alerta = '';
         let acaoBtn = '';
-        let prazoTxt = '—';
+        let prazoTxt = 'sem prazo';
 
         if (p.estado === 'aguarda_pagamento') {
           statusBadge = '<span class="pedido-badge">Aguarda pagamento</span>';
           acaoBtn = `<button class="btn-primary" onclick="confirmarPagamento('${p.id}')" style="padding:6px 10px;font-size:12px;">Confirmar pagamento</button>`;
         } else if (p.estado === 'pago') {
           if (horas < 0) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-vermelho"></span>Vencido</span>'; alerta = '🔴'; }
-          else if (horas < 6) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-amber"></span>Vencendo</span>'; alerta = '🟡'; }
+          else if (horas < 12) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-amber"></span>Vencendo</span>'; alerta = '🟡'; }
           else statusBadge = '<span class="pedido-badge status-pago">Pago</span>';
           prazoTxt = horas > 0 ? horas + 'h' : 'vencido';
           acaoBtn = `<button class="btn-secondary" onclick="irParaLaudo('${p.id}')" style="padding:6px 10px;font-size:12px;">Escrever laudo</button>`;
@@ -596,7 +704,7 @@ async function carregarPedidos() {
           acaoBtn = `<button class="btn-secondary" onclick="irParaLaudo('${p.id}')" style="padding:6px 10px;font-size:12px;">Continuar laudo</button>`;
         } else if (p.estado === 'entregue') {
           statusBadge = '<span class="pedido-badge status-entregue">✓ Entregue</span>';
-          prazoTxt = p.entregue_em ? new Date(p.entregue_em).toLocaleDateString('pt-BR') : '—';
+          prazoTxt = p.entregue_em ? new Date(p.entregue_em).toLocaleDateString('pt-BR') : 'sem data';
           acaoBtn = `<button class="btn-secondary" onclick="irParaLaudo('${p.id}')" style="padding:6px 10px;font-size:12px;">Ver laudo</button>`;
         } else {
           statusBadge = '<span class="pedido-badge">' + (p.estado || 'desconhecido') + '</span>';
@@ -604,7 +712,7 @@ async function carregarPedidos() {
         
         return `<div class="pedido-row">
           <div>${alerta} ${p.protocolo}</div>
-          <div>${p.contacto}</div>
+          <div>${p.contato}</div>
           <div>${p.canal}</div>
           <div>${statusBadge}</div>
           <div>${prazoTxt}</div>
@@ -619,7 +727,7 @@ async function carregarPedidos() {
 
 // ===== CONFIRMAR PAGAMENTO =====
 async function confirmarPagamento(pedidoId) {
-  if (!confirm('Confirmar que o pagamento deste pedido entrou?\n\nIsto inicia a contagem de 24h para a entrega.')) return;
+  if (!confirm('Confirmar que o pagamento deste pedido entrou?\n\nIsso inicia a contagem de 72h para a entrega.')) return;
   try {
     const { error } = await supa.from('pedidos').update({
       estado: 'pago',
@@ -659,8 +767,8 @@ async function carregarLaudos() {
   try {
     const r = await supa.from('pedidos').select('*').in('estado', ['pago', 'em_analise', 'entregue']).order('criado_em', { ascending: false });
     if (r.data) {
-      const opts = r.data.map(p => `<option value="${p.id}">${p.protocolo} — ${p.contacto} (${p.estado})</option>`).join('');
-      document.getElementById('select-pedido').innerHTML = `<option value="">— Selecionar pedido —</option>${opts}`;
+      const opts = r.data.map(p => `<option value="${p.id}">${p.protocolo} · ${p.contato} (${p.estado})</option>`).join('');
+      document.getElementById('select-pedido').innerHTML = `<option value="">Selecionar pedido</option>${opts}`;
       
       document.getElementById('select-pedido').addEventListener('change', async function() {
         if (this.value) selecionarPedido(this.value);
@@ -679,14 +787,14 @@ async function selecionarPedido(pedidoId) {
     const laudo = r.data;
     
     if (laudo) {
-      ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 'nao_verificado'].forEach(s => {
+      ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'nao_verificado'].forEach(s => {
         const el = document.getElementById(s);
         if (el) el.value = laudo[s] || '';
       });
     }
     
     // Iniciar autosave
-    ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 'nao_verificado'].forEach(s => {
+    ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'nao_verificado'].forEach(s => {
       const el = document.getElementById(s);
       if (el) {
         if (autoSaveIntervals[s]) clearInterval(autoSaveIntervals[s]);
@@ -719,6 +827,7 @@ async function salvarRascunho() {
     s5: document.getElementById('s5').value,
     s6: document.getElementById('s6').value,
     s7: document.getElementById('s7').value,
+    s8: document.getElementById('s8').value,
     nao_verificado: document.getElementById('nao_verificado').value
   });
   alert('✓ Laudo salvo com sucesso');
@@ -726,35 +835,39 @@ async function salvarRascunho() {
 
 function previewLaudo() {
   const html = `
-    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">1. O que estão realmente a vender?</h2>
-    <p>${document.getElementById('s1').value || '—'}</p>
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">1. O que estão realmente vendendo?</h2>
+    <p>${document.getElementById('s1').value || '(não preenchido)'}</p>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
     
     <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">2. Onde isso existe de graça?</h2>
-    <p>${document.getElementById('s2').value || '—'}</p>
+    <p>${document.getElementById('s2').value || '(não preenchido)'}</p>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
     
-    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">3. O que o preço está realmente a cobrar?</h2>
-    <p>${document.getElementById('s3').value || '—'}</p>
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">3. O que o preço está realmente cobrando?</h2>
+    <p>${document.getElementById('s3').value || '(não preenchido)'}</p>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
     
     <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">4. Custo real que ninguém conta</h2>
-    <p>${document.getElementById('s4').value || '—'}</p>
+    <p>${document.getElementById('s4').value || '(não preenchido)'}</p>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
     
     <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">5. Intenção por trás</h2>
-    <p>${document.getElementById('s5').value || '—'}</p>
+    <p>${document.getElementById('s5').value || '(não preenchido)'}</p>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
     
     <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">6. Outros caminhos</h2>
-    <p>${document.getElementById('s6').value || '—'}</p>
+    <p>${document.getElementById('s6').value || '(não preenchido)'}</p>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
     
-    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">7. Se ainda quiseres avançar</h2>
-    <p>${document.getElementById('s7').value || '—'}</p>
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">7. Se você ainda quiser avançar</h2>
+    <p>${document.getElementById('s7').value || '(não preenchido)'}</p>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
     
-    <p style="font-style:italic;color:var(--muted);">O que não consegui verificar: ${document.getElementById('nao_verificado').value || '—'}</p>
+    <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">8. Seus dados: o que capturam e o que fazem</h2>
+    <p>${document.getElementById('s8').value || '(não preenchido)'}</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+    
+    <p style="font-style:italic;color:var(--muted);">O que não consegui verificar: ${document.getElementById('nao_verificado').value || '(não preenchido)'}</p>
   `;
   document.getElementById('preview-content').innerHTML = html;
   document.getElementById('modal-preview').classList.add('open');
@@ -773,7 +886,7 @@ function fecharModalPreview() {
 }
 
 async function registrarEntrega() {
-  const texto = `${document.getElementById('s1').value}\n\n${document.getElementById('s2').value}\n\n${document.getElementById('s3').value}\n\n${document.getElementById('s4').value}\n\n${document.getElementById('s5').value}\n\n${document.getElementById('s6').value}\n\n${document.getElementById('s7').value}\n\nO que não consegui verificar: ${document.getElementById('nao_verificado').value}`;
+  const texto = `${document.getElementById('s1').value}\n\n${document.getElementById('s2').value}\n\n${document.getElementById('s3').value}\n\n${document.getElementById('s4').value}\n\n${document.getElementById('s5').value}\n\n${document.getElementById('s6').value}\n\n${document.getElementById('s7').value}\n\n${document.getElementById('s8').value}\n\nO que não consegui verificar: ${document.getElementById('nao_verificado').value}`;
   
   await supa.from('laudos').update({
     texto_entregue: texto,
@@ -797,7 +910,119 @@ function copiarParaClipboard() {
 }
 
 function baixarPDF() {
-  window.print();
+  const hoje = new Date().toLocaleDateString('pt-BR');
+  const protocolo = document.getElementById('select-pedido')?.selectedOptions[0]?.text?.split(' · ')[0] || 'AG-XXXXX';
+
+  const secoes = [
+    { n: '1', t: 'O que estão realmente vendendo?', v: document.getElementById('s1').value },
+    { n: '2', t: 'Onde isso existe de graça?', v: document.getElementById('s2').value },
+    { n: '3', t: 'O que o preço está realmente cobrando?', v: document.getElementById('s3').value },
+    { n: '4', t: 'Custo real que ninguém conta', v: document.getElementById('s4').value },
+    { n: '5', t: 'Intenção por trás', v: document.getElementById('s5').value },
+    { n: '6', t: 'Outros caminhos', v: document.getElementById('s6').value },
+    { n: '7', t: 'Se você ainda quiser avançar', v: document.getElementById('s7').value },
+    { n: '8', t: 'Seus dados: o que capturam e o que fazem', v: document.getElementById('s8').value }
+  ];
+
+  const logoSVG = `<svg viewBox="0 0 60 60" fill="none" stroke="#B8860B" stroke-width="1.4" width="46" height="46">
+    <g transform="translate(30,30)">
+      <circle r="27" stroke="#2A9D8F" stroke-width="1"/>
+      <circle r="13"/><circle r="13" transform="translate(13,0)"/><circle r="13" transform="translate(6.5,11.26)"/>
+      <circle r="13" transform="translate(-6.5,11.26)"/><circle r="13" transform="translate(-13,0)"/>
+      <circle r="13" transform="translate(-6.5,-11.26)"/><circle r="13" transform="translate(6.5,-11.26)"/>
+      <circle r="2.4" fill="#2A9D8F" stroke="none"/>
+    </g>
+  </svg>`;
+
+  const secoesHTML = secoes.map(s => `
+    <div class="pdf-sec">
+      <div class="pdf-sec-title"><span class="pdf-sec-num">${s.n}</span>${s.t}</div>
+      <div class="pdf-sec-body">${(s.v || '(não preenchido)').replace(/\n/g, '<br>')}</div>
+    </div>
+  `).join('');
+
+  const naoVerif = (document.getElementById('nao_verificado').value || '(não preenchido)').replace(/\n/g, '<br>');
+
+  document.getElementById('pdf-render').innerHTML = `
+    <style>
+      #pdf-render{font-family:Georgia,'Times New Roman',serif;color:#1a1a2e;background:#fff;max-width:100%;}
+      #pdf-render .pdf-head{display:flex;align-items:center;gap:14px;border-bottom:2px solid #B8860B;padding-bottom:16px;margin-bottom:6px;}
+      #pdf-render .pdf-brand{font-size:26px;font-weight:bold;letter-spacing:1px;}
+      #pdf-render .pdf-brand span{color:#B8860B;}
+      #pdf-render .pdf-tagline{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#666;margin-top:2px;}
+      #pdf-render .pdf-meta{font-size:11px;color:#888;margin:10px 0 22px;display:flex;justify-content:space-between;}
+      #pdf-render .pdf-intro{background:#f7f5ef;border-left:3px solid #B8860B;padding:14px 16px;font-size:12.5px;line-height:1.7;margin-bottom:22px;color:#333;}
+      #pdf-render .pdf-alma{background:#f2f8f7;border-left:3px solid #2A9D8F;padding:14px 16px;font-size:12px;line-height:1.75;margin-bottom:26px;color:#2c4a47;font-style:italic;}
+      #pdf-render .pdf-alma strong{font-style:normal;color:#1d6f65;}
+      #pdf-render .pdf-sec{margin-bottom:20px;page-break-inside:avoid;}
+      #pdf-render .pdf-sec-title{font-size:15px;font-weight:bold;color:#1a1a2e;margin-bottom:7px;display:flex;align-items:center;}
+      #pdf-render .pdf-sec-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#B8860B;color:#fff;font-size:12px;margin-right:10px;flex-shrink:0;font-family:Arial,sans-serif;}
+      #pdf-render .pdf-sec-body{font-size:13px;line-height:1.7;color:#333;padding-left:34px;}
+      #pdf-render .pdf-naoverif{background:#fdf0ed;border:1px solid #e0a99a;border-radius:6px;padding:14px 16px;margin:22px 0;page-break-inside:avoid;}
+      #pdf-render .pdf-naoverif-title{font-size:14px;font-weight:bold;color:#b5341a;margin-bottom:7px;}
+      #pdf-render .pdf-naoverif-body{font-size:12.5px;line-height:1.7;color:#333;}
+      #pdf-render .pdf-feedback{border:1px dashed #B8860B;border-radius:6px;background:#fdfbf5;padding:15px 17px;margin:24px 0 20px;page-break-inside:avoid;}
+      #pdf-render .pdf-feedback-title{font-size:13.5px;font-weight:bold;color:#8a6508;margin-bottom:6px;}
+      #pdf-render .pdf-feedback-body{font-size:12px;line-height:1.7;color:#4a4a4a;}
+      #pdf-render .pdf-contato{display:flex;gap:26px;font-size:11.5px;color:#444;margin:16px 0 4px;padding:12px 0;border-top:1px solid #e3e3e3;border-bottom:1px solid #e3e3e3;}
+      #pdf-render .pdf-contato b{color:#B8860B;}
+      #pdf-render .pdf-legal{border-top:1px solid #ccc;margin-top:20px;padding-top:14px;font-size:10px;line-height:1.6;color:#777;}
+      #pdf-render .pdf-legal strong{color:#555;}
+      #pdf-render .pdf-foot{text-align:center;font-size:9.5px;color:#999;margin-top:16px;padding-top:11px;border-top:1px solid #eee;line-height:1.6;}
+    </style>
+
+    <div class="pdf-head">
+      ${logoSVG}
+      <div>
+        <div class="pdf-brand">Anti<span>Guru</span></div>
+        <div class="pdf-tagline">Clareza antes da decisão</div>
+      </div>
+    </div>
+
+    <div class="pdf-meta">
+      <span>Protocolo: <strong>${protocolo}</strong></span>
+      <span>Análise entregue em ${hoje}</span>
+    </div>
+
+    <div class="pdf-intro">
+      Este é um laudo de <strong>análise de risco</strong> de uma oferta educacional, feito à mão, por uma pessoa. Ele não é um veredito. <strong>Não dizemos "compre" nem "não compre".</strong> A decisão é sua, e sempre vai ser. O que entregamos aqui é a verificação que dá trabalho fazer e que quase ninguém faz antes de pagar.
+    </div>
+
+    <div class="pdf-alma">
+      Existe um inimigo comum por trás de toda oferta que te apressa: <strong>o automático</strong>. É o comportamento reativo, inconsciente, que os sistemas manipuladores sabem explorar melhor do que a gente sabe perceber. Este laudo não vai te dizer o que fazer. O que ele faz é te devolver a <strong>consciência na hora de decidir</strong>. A pressa é do vendedor. O tempo é seu.
+    </div>
+
+    ${secoesHTML}
+
+    <div class="pdf-naoverif">
+      <div class="pdf-naoverif-title">⚠ O que não consegui verificar</div>
+      <div class="pdf-naoverif-body">${naoVerif}</div>
+    </div>
+
+    <div class="pdf-feedback">
+      <div class="pdf-feedback-title">Sua opinião melhora a próxima análise</div>
+      <div class="pdf-feedback-body">
+        Este laudo foi útil? Faltou alguma coisa, ou ficou confuso em algum ponto? Responda em uma linha que seja. Cada resposta muda o jeito como a próxima análise é feita. Você pode responder pelo mesmo canal em que recebeu este documento, ou deixar seu comentário em <strong>antiguru.site</strong>.
+      </div>
+    </div>
+
+    <div class="pdf-contato">
+      <span><b>WhatsApp</b> +55 11 99760-3559</span>
+      <span><b>E-mail</b> damaceno_05@yahoo.com.br</span>
+      <span><b>Site</b> antiguru.site</span>
+    </div>
+
+    <div class="pdf-legal">
+      <strong>Limites e proteções.</strong> Esta análise foi produzida a partir de informações públicas disponíveis na data de entrega e do texto da própria oferta. Não constitui aconselhamento jurídico, financeiro, contábil ou de investimento, nem parecer técnico de qualquer natureza. Não é uma acusação, denúncia ou afirmação sobre a idoneidade de qualquer pessoa ou empresa. Separamos sempre <strong>fato</strong> (o que é observável e verificável) de <strong>leitura</strong> (nossa interpretação, sinalizada como tal). <strong>Não afirmamos qual será a conduta futura de qualquer empresa</strong>, inclusive quanto ao tratamento de dados pessoais. Quando apontamos ausência ou omissão em uma política de privacidade, registramos apenas o que não consta no documento consultado na data indicada, sem inferir intenção ou uso efetivo. Um resultado sem sinais de alerta não significa ausência de risco, nem aprovação. Não garantimos que qualquer empresa vá cumprir o que promete, porque isso ninguém pode garantir. A responsabilidade pela decisão de compra é integralmente do leitor. Reembolso disponível em até 7 dias caso a análise não seja útil.
+    </div>
+
+    <div class="pdf-foot">
+      <strong>AntiGuru</strong> · um produto do ecossistema <strong>HPE · Human Pattern Engineering</strong><br>
+      Documento pessoal e intransferível, destinado exclusivamente a quem solicitou esta análise.
+    </div>
+  `;
+
+  setTimeout(() => window.print(), 100);
 }
 
 // ===== FONTES =====
@@ -889,7 +1114,7 @@ async function carregarFinanceiro() {
       
       const html = r.data.slice(0, 10).map(p => `<tr>
         <td>${p.protocolo}</td>
-        <td>${p.contacto}</td>
+        <td>${p.contato}</td>
         <td>${new Date(p.entregue_em).toLocaleDateString('pt-BR')}</td>
         <td>R$ 29,00</td>
         <td><span class="pedido-badge status-entregue">✓</span></td>
@@ -934,5 +1159,8 @@ async function carregarFeedbacks() {
 document.getElementById('login-btn').addEventListener('click', tentarLogin);
 document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') tentarLogin(); });
 </script>
+<!-- CONTAINER DE RENDER DO PDF (só aparece na impressão) -->
+<div id="pdf-render"></div>
+
 </body>
 </html>
