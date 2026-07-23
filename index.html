@@ -512,6 +512,11 @@
   .pular{margin-top:14px;font-size:13.5px;color:var(--muted);}
   .pular-lk{background:none;border:0;padding:0;color:var(--teal);text-decoration:underline;cursor:pointer;font:inherit;font-size:13.5px;}
 
+  .lx-eixos{margin:11px 0 11px 0;padding-left:20px;display:grid;gap:7px;}
+  .lx-eixos li{font-size:13.5px;color:var(--soft);line-height:1.55;padding-left:3px;}
+  .lx-eixos li::marker{color:var(--gold,#E3B341);font-family:'Space Mono',monospace;font-size:12px;}
+  .lx-eixos b{color:var(--text);font-weight:600;}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -837,8 +842,19 @@
       </div>
 
       <div class="lx-sec">
-        <div class="lx-t"><span>4</span> Leitura dos 7 eixos + roteiro</div>
-        <div class="lx-d">A análise completa da oferta e uma lista do que fazer a seguir, na sua situação específica. Não um "compre" ou "não compre", mas os passos pra você decidir acordado.</div>
+        <div class="lx-t"><span>4</span> As 8 perguntas + roteiro</div>
+        <div class="lx-d">A análise completa da oferta, respondendo uma a uma as oito perguntas que você precisaria responder sozinho antes de pagar:
+          <ol class="lx-eixos">
+            <li><b>O que estão realmente vendendo?</b> O marketing traduzido para a coisa nua.</li>
+            <li><b>Onde isso existe de graça?</b> Links reais e verificados para o mesmo conteúdo.</li>
+            <li><b>O que o preço está realmente cobrando?</b> Curadoria e acompanhamento, ou só acesso a algo público.</li>
+            <li><b>Qual o custo que ninguém conta?</b> Tempo, ferramentas, pré-requisitos escondidos.</li>
+            <li><b>Qual a intenção por trás?</b> Onde está o dinheiro de quem vende, sem acusar ninguém.</li>
+            <li><b>Que outros caminhos existem?</b> Alternativas concretas, nunca só "não compre".</li>
+            <li><b>E se você quiser comprar mesmo assim?</b> O que perguntar e que garantias exigir por escrito.</li>
+            <li><b>O que fazem com os seus dados?</b> O que o formulário captura e o que a política de privacidade não diz.</li>
+          </ol>
+          No fim, um roteiro do que fazer a seguir, na sua situação. Não um "compre" ou "não compre", mas os passos pra você decidir acordado.</div>
       </div>
 
       <div class="lx-honesto">
@@ -1407,7 +1423,7 @@ function agRender(r){
    +           '<div class="viteml"><b>1. Reclamações públicas.</b> Busco o produto e o vendedor no Reclame Aqui, Google e Procon, e te digo o que achei (com os links).</div>'
    +           '<div class="viteml"><b>2. Situação do CNPJ.</b> Confiro na Receita se a empresa existe, está ativa, e há quanto tempo foi aberta.</div>'
    +           '<div class="viteml"><b>3. Rastro de quem vende.</b> Procuro o histórico da pessoa: ofertas anteriores, se sumiu, se trocou de nome.</div>'
-   +           '<div class="viteml"><b>4. Leitura dos 7 eixos.</b> A análise completa da oferta, além dos gatilhos do texto.</div>'
+   +           '<div class="viteml"><b>4. As 8 perguntas.</b> O que realmente vendem, onde existe de graça, o que o preço cobra, o custo escondido, a intenção por trás, os outros caminhos, o que exigir se comprar, e o que fazem com os seus dados.</div>'
    +           '<div class="viteml"><b>5. Roteiro do que fazer.</b> Os próximos passos concretos para a sua decisão, seja ela qual for.</div>'
    +         '</div>'
    +         '<div class="vhonesto">Sendo claro: eu não digo "compre" ou "não compre", e não posso garantir que a empresa vá cumprir o que promete, porque isso ninguém pode. O que eu entrego é a verificação que dá trabalho fazer e quase ninguém faz. Se não te for útil, o reembolso vale por 7 dias.</div>'
