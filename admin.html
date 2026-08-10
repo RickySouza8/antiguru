@@ -283,6 +283,93 @@ body{background:
       <div id="editor-area" style="display:none;">
         <div class="editor-container">
           <div class="editor-main">
+            <div class="editor-section" style="background:rgba(227,179,65,.05);border:1px solid rgba(227,179,65,.25);border-radius:12px;padding:18px 20px;margin-bottom:26px;">
+              <div class="section-label" style="color:var(--gold);">◆ PARTE 1: A VERIFICAÇÃO EXTERNA</div>
+              <div style="font-size:13.5px;color:var(--soft);line-height:1.7;margin-top:8px;">
+                Faça esta parte <strong>antes</strong> de escrever as oito perguntas. É o trabalho que o cliente está pagando: sair da página de vendas e ir verificar por fora. Reserve de 20 a 30 minutos. Abra as abas indicadas em cada campo e vá preenchendo conforme encontra.
+                <br><br>
+                <strong style="color:var(--gold);">Regra que vale para os três campos abaixo:</strong> escreva o que você viu e a data em que viu. Se procurou e não achou, escreva "procurei em tal lugar em tal data e não encontrei". Não achar também é resultado, e registrar isso protege você e informa o cliente.
+              </div>
+            </div>
+
+            <div class="editor-section">
+              <div class="section-label"><span class="section-number">A</span> Reclamações públicas</div>
+              <div class="section-guide">
+                <strong>Onde ir, na ordem:</strong>
+                <ul>
+                  <li><strong>1. Reclame Aqui</strong> (reclameaqui.com.br). Busque <strong>duas vezes</strong>: o nome do produto, e depois o nome da pessoa ou empresa que vende. São buscas diferentes e dão resultados diferentes.</li>
+                  <li><strong>2. Google.</strong> Busque <em>"nome do produto" + reclamação</em>, depois <em>"nome do produto" + é golpe</em>, depois <em>"nome do vendedor" + processo</em>. Use as aspas.</li>
+                  <li><strong>3. Consumidor.gov.br.</strong> Busque a empresa. É oficial e mostra se ela responde.</li>
+                  <li><strong>4. Redes.</strong> Busque o nome do produto no Instagram e no X. Olhe os <strong>comentários</strong> dos anúncios, não os posts do vendedor.</li>
+                </ul>
+                <strong>O que anotar:</strong>
+                <ul>
+                  <li>Quantas reclamações existem, e <strong>sobre o quê</strong> (reembolso não devolvido? conteúdo diferente do prometido? suporte que sumiu?)</li>
+                  <li>Se a empresa <strong>respondeu</strong>, e o índice de solução, se houver</li>
+                  <li><strong>Cole o link</strong> de cada fonte e a <strong>data</strong> em que você consultou</li>
+                </ul>
+                <span class="rule">Se não encontrar nada, escreva isso: "Busquei no Reclame Aqui, no Google e no Consumidor.gov em [data] e não encontrei reclamações registradas." Ausência de reclamação não é prova de qualidade, pode significar apenas que o produto é novo. Diga isso também.</span>
+              </div>
+              <textarea class="section-input" id="ver_reclamacoes" placeholder="Ex: Encontrei 12 reclamações no Reclame Aqui (consultado em 10/08/2026), 8 delas sobre reembolso não devolvido. A empresa respondeu 3. Link: ... No Google encontrei 2 vídeos de ex-alunos relatando o mesmo problema. Links: ..."></textarea>
+              <div class="autosave-indicator" id="save-ver_reclamacoes"></div>
+            </div>
+
+            <div class="editor-section">
+              <div class="section-label"><span class="section-number">B</span> Situação e idade do CNPJ</div>
+              <div class="section-guide">
+                <strong>Como achar o CNPJ:</strong>
+                <ul>
+                  <li>Role a página de vendas <strong>até o rodapé</strong>. É onde quase sempre está.</li>
+                  <li>Se não estiver, procure links de <strong>"Termos de uso"</strong>, <strong>"Política de privacidade"</strong> ou <strong>"Quem somos"</strong>.</li>
+                  <li>Se a venda for por Hotmart, Kiwify ou similar, o CNPJ do <strong>produtor</strong> costuma aparecer no rodapé do checkout.</li>
+                </ul>
+                <strong>Onde consultar (grátis e oficial):</strong>
+                <ul>
+                  <li>Busque no Google por <strong>"consulta CNPJ Receita Federal"</strong> e use o site oficial (solucoes.receita.fazenda.gov.br). Não use sites intermediários que cobram.</li>
+                  <li>Anote: <strong>situação cadastral</strong> (ativa, baixada, inapta, suspensa), <strong>data de abertura</strong>, <strong>atividade principal</strong> e o <strong>nome do sócio</strong>.</li>
+                </ul>
+                <strong>Como ler o que encontrou:</strong>
+                <ul>
+                  <li>Empresa <strong>aberta há poucos meses</strong> vendendo promessa grande é ponto de atenção, não é crime.</li>
+                  <li>Atividade principal que <strong>não bate</strong> com o que vendem é um dado a registrar.</li>
+                  <li><strong>Não encontrar CNPJ</strong> depois de procurar nos três lugares acima é informação relevante: sem empresa, o cliente não tem a quem reclamar.</li>
+                </ul>
+                <span class="rule">Nunca escreva "a empresa é de fachada" ou "vão sumir". Escreva o fato: "CNPJ ativo, aberto em março de 2026, atividade principal de comércio varejista, consultado na Receita Federal em [data]."</span>
+              </div>
+              <textarea class="section-input" id="ver_cnpj" placeholder="Ex: CNPJ 00.000.000/0001-00 encontrado no rodapé. Consultado na Receita Federal em 10/08/2026: situação ATIVA, aberto em 12/03/2026 (5 meses), atividade principal: treinamento em desenvolvimento profissional. Empresa nova, o que não é problema em si, mas vale saber."></textarea>
+              <div class="autosave-indicator" id="save-ver_cnpj"></div>
+            </div>
+
+            <div class="editor-section">
+              <div class="section-label"><span class="section-number">C</span> Rastro de quem vende</div>
+              <div class="section-guide">
+                O objetivo é descobrir o histórico da pessoa <strong>fora do funil de vendas dela</strong>.
+                <ul>
+                  <li><strong>Google o nome completo</strong> da pessoa. Depois busque <em>nome + curso anterior</em>, <em>nome + antes de</em>, <em>nome + 2023</em> (e outros anos).</li>
+                  <li><strong>LinkedIn:</strong> confira se a experiência declarada bate com o que a oferta diz. Cargo, tempo, empresas.</li>
+                  <li><strong>Instagram:</strong> role até os posts mais antigos. O que essa pessoa vendia há dois anos? Mudou de nicho? Mudou de nome?</li>
+                  <li><strong>Web Archive</strong> (web.archive.org): cole o endereço do site dela e veja versões antigas. Revela ofertas que saíram do ar.</li>
+                  <li>Busque o <strong>nome do produto antigo</strong> se houver, e veja se está fora do ar.</li>
+                </ul>
+                <strong>O que registrar:</strong>
+                <ul>
+                  <li>Ofertas anteriores, se existiram, e se ainda estão no ar</li>
+                  <li>Se houve <strong>troca de nome</strong> do produto ou da marca</li>
+                  <li>Se a experiência declarada é <strong>verificável fora</strong> da própria página</li>
+                </ul>
+                <span class="rule">Cuidado com a linguagem: "o produto anterior está fora do ar" é fato. "Ele aplicou um golpe e fugiu" é acusação. Registre o observável e deixe a leitura para o cliente.</span>
+              </div>
+              <textarea class="section-input" id="ver_rastro" placeholder="Ex: A pessoa aparece no LinkedIn com 6 anos declarados na área, o que confere com dois empregos listados. Encontrei um curso anterior de 2023 com nome diferente, hoje fora do ar (verificado no Web Archive em 10/08/2026). Não encontrei registro público de resultado de alunos."></textarea>
+              <div class="autosave-indicator" id="save-ver_rastro"></div>
+            </div>
+
+            <div class="editor-section" style="background:rgba(87,208,192,.05);border:1px solid rgba(87,208,192,.25);border-radius:12px;padding:18px 20px;margin:26px 0;">
+              <div class="section-label" style="color:var(--teal);">◆ PARTE 2: AS OITO PERGUNTAS</div>
+              <div style="font-size:13.5px;color:var(--soft);line-height:1.7;margin-top:8px;">
+                Agora que você verificou por fora, escreva a análise da oferta. Cada campo abaixo tem o guia do que preencher. Use o que descobriu na Parte 1 sempre que for relevante.
+              </div>
+            </div>
+
             <div class="editor-section">
               <div class="section-label"><span class="section-number">1</span> O que estão realmente vendendo?</div>
               <div class="section-guide">
@@ -301,6 +388,14 @@ body{background:
               <div class="section-label"><span class="section-number">2</span> Onde isso existe de graça?</div>
               <div class="section-guide">
                 O conhecimento vendido quase sempre existe gratuito em algum lugar. Sua tarefa é achar e <strong>colar links reais e verificados</strong>.
+                <ul>
+                  <li><strong>YouTube:</strong> busque o tema principal da oferta em português. Procure canais com aulas completas, não trechos. Prefira quem tem playlist organizada.</li>
+                  <li><strong>Documentação oficial:</strong> se a oferta ensina uma ferramenta (anúncios, planilha, programação), a empresa dona da ferramenta quase sempre tem central de ajuda gratuita.</li>
+                  <li><strong>Cursos gratuitos com certificado:</strong> Fundação Bradesco, Sebrae, Coursera (modo ouvinte), Escola Virtual do Governo.</li>
+                  <li><strong>Livro:</strong> muitas vezes o próprio mentor tem um livro barato que cobre boa parte do método. Vale procurar.</li>
+                  <li><strong>Teste cada link antes de colar</strong> e anote a data em que verificou.</li>
+                </ul>
+                <span class="rule">Link quebrado num laudo sobre honestidade pega muito mal. Teste cada um antes de entregar. E seja justo: se o conteúdo gratuito for disperso e a oferta organiza bem, diga isso. A curadoria tem valor real.</span>
                 <ul>
                   <li>Procure: documentação oficial, cursos gratuitos, canais no YouTube, livros baratos, comunidades.</li>
                   <li>Use o <strong>Banco de Fontes</strong> ao lado → clique "+ Adicionar Fonte" para reaproveitar.</li>
@@ -803,14 +898,14 @@ async function selecionarPedido(pedidoId) {
     const laudo = r.data;
     
     if (laudo) {
-      ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'honestidade', 'nao_verificado'].forEach(s => {
+      ['ver_reclamacoes', 'ver_cnpj', 'ver_rastro', 's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'honestidade', 'nao_verificado'].forEach(s => {
         const el = document.getElementById(s);
         if (el) el.value = laudo[s] || '';
       });
     }
     
     // Iniciar autosave
-    ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'honestidade', 'nao_verificado'].forEach(s => {
+    ['ver_reclamacoes', 'ver_cnpj', 'ver_rastro', 's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'honestidade', 'nao_verificado'].forEach(s => {
       const el = document.getElementById(s);
       if (el) {
         if (autoSaveIntervals[s]) clearInterval(autoSaveIntervals[s]);
@@ -843,6 +938,9 @@ async function salvarRascunho() {
     s5: document.getElementById('s5').value,
     s6: document.getElementById('s6').value,
     s7: document.getElementById('s7').value,
+    ver_reclamacoes: document.getElementById('ver_reclamacoes').value,
+    ver_cnpj: document.getElementById('ver_cnpj').value,
+    ver_rastro: document.getElementById('ver_rastro').value,
     s8: document.getElementById('s8').value,
     honestidade: document.getElementById('honestidade').value,
     nao_verificado: document.getElementById('nao_verificado').value
@@ -960,6 +1058,10 @@ function baixarPDF() {
     </div>
   `).join('');
 
+  const vRecl = (document.getElementById('ver_reclamacoes').value || '').replace(/\n/g, '<br>');
+  const vCnpj = (document.getElementById('ver_cnpj').value || '').replace(/\n/g, '<br>');
+  const vRast = (document.getElementById('ver_rastro').value || '').replace(/\n/g, '<br>');
+  const temVerif = vRecl || vCnpj || vRast;
   const naoVerif = (document.getElementById('nao_verificado').value || '(não preenchido)').replace(/\n/g, '<br>');
   const honest = (document.getElementById('honestidade').value || '').replace(/\n/g, '<br>');
 
@@ -978,6 +1080,12 @@ function baixarPDF() {
       #pdf-render .pdf-sec-title{font-size:15px;font-weight:bold;color:#1a1a2e;margin-bottom:7px;display:flex;align-items:center;}
       #pdf-render .pdf-sec-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#B8860B;color:#fff;font-size:12px;margin-right:10px;flex-shrink:0;font-family:Arial,sans-serif;}
       #pdf-render .pdf-sec-body{font-size:13px;line-height:1.7;color:#333;padding-left:34px;}
+      #pdf-render .pdf-verif{background:#fdfaf2;border:1px solid #dcc79a;border-radius:6px;padding:15px 17px;margin:20px 0;page-break-inside:avoid;}
+      #pdf-render .pdf-verif-title{font-size:14px;font-weight:bold;color:#8a6508;margin-bottom:4px;}
+      #pdf-render .pdf-verif-sub{font-size:11px;color:#8a7550;margin-bottom:11px;font-style:italic;}
+      #pdf-render .pdf-verif-item{margin-bottom:11px;}
+      #pdf-render .pdf-verif-k{font-size:11.5px;font-weight:bold;color:#6b5518;margin-bottom:2px;}
+      #pdf-render .pdf-verif-v{font-size:12.5px;line-height:1.68;color:#333;}
       #pdf-render .pdf-honest{background:#f0f8f7;border:1px solid #9fcfc8;border-radius:6px;padding:14px 16px;margin:22px 0;page-break-inside:avoid;}
       #pdf-render .pdf-honest-title{font-size:14px;font-weight:bold;color:#1d6f65;margin-bottom:7px;}
       #pdf-render .pdf-honest-body{font-size:12.5px;line-height:1.7;color:#333;}
@@ -1015,6 +1123,14 @@ function baixarPDF() {
     <div class="pdf-alma">
       Existe um inimigo comum por trás de toda oferta que te apressa: <strong>o automático</strong>. É o comportamento reativo, inconsciente, que os sistemas manipuladores sabem explorar melhor do que a gente sabe perceber. Este laudo não vai te dizer o que fazer. O que ele faz é te devolver a <strong>consciência na hora de decidir</strong>. A pressa é do vendedor. O tempo é seu.
     </div>
+
+    ${temVerif ? `<div class="pdf-verif">
+      <div class="pdf-verif-title">A verificação que fizemos por fora</div>
+      <div class="pdf-verif-sub">Isto é o trabalho que não aparece na página de vendas: sair dela e ir conferir. Cada item traz o que foi encontrado e a data da consulta.</div>
+      ${vRecl ? `<div class="pdf-verif-item"><div class="pdf-verif-k">Reclamações públicas</div><div class="pdf-verif-v">${vRecl}</div></div>` : ''}
+      ${vCnpj ? `<div class="pdf-verif-item"><div class="pdf-verif-k">Situação e idade do CNPJ</div><div class="pdf-verif-v">${vCnpj}</div></div>` : ''}
+      ${vRast ? `<div class="pdf-verif-item"><div class="pdf-verif-k">Rastro de quem vende</div><div class="pdf-verif-v">${vRast}</div></div>` : ''}
+    </div>` : ''}
 
     ${secoesHTML}
 
