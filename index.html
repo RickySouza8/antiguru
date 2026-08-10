@@ -745,7 +745,7 @@
 
       <div class="ag-err" id="agErr"></div>
       <button class="btn gold" id="agBtn" style="width:100%;justify-content:center;">Analisar</button>
-      <p class="ag-disc">Prévia automática e gratuita, feita no seu navegador. Não guardo o que você cola aqui. A análise completa, feita por uma pessoa, sai por R$29 &mdash; veja em <a href="#oferta">a oferta</a>.</p>
+      <p class="ag-disc">Prévia automática e gratuita, feita no seu navegador. Não guardo o que você cola aqui. A análise completa, feita por uma pessoa, sai por R$29. Veja em <a href="#oferta">a oferta</a>.</p>
     </div>
     <div id="agResult"></div>
   </div>
@@ -1136,6 +1136,19 @@ const RX_CONTEUDO   = /m(ó|o)dulo|carga horária|ementa|aulas?|certificad|conte
 const RX_REEMBOLSO  = /reembolso|garantia de (7|sete) dias|devolução|estorno|direito de arrependimento|não gostou.*devolv/i;
 const RX_SUPORTE    = /suporte|atendimento|fale conosco|contato@|whatsapp.*\d|telefone|e-?mail de contato/i;
 const RX_PRECO_CLARO = /(R\$\s*\d{1,3}([.,]\d{3})*([.,]\d{2})?)|(\d+\s*x\s*(de\s*)?R\$\s*\d+)|(à vista|a vista)\s*(por|de)?\s*R\$|valor\s*(total|do curso|do investimento|à vista)|preço\s*(é|de|final|total)|investimento\s*(de|total)\s*R\$/i;
+/* ---------- CHECKOUT DIRETO ----------
+   Detecta quando o link/texto é uma TELA DE PAGAMENTO, não uma oferta.
+   Não pontua risco: interrompe com orientação, porque não há o que analisar. */
+const RX_CHECKOUT_URL = /(^|\/\/|\.)(pay\.hub\.la|pay\.hotmart|pay\.kiwify|pagamento\.|checkout\.|pay\.|seguro\.|compra\.)|(hotmart\.com\/(pay|checkout))|(kiwify\.com\.br\/[A-Za-z0-9]{4,})|(kirvano\.com|monetizze\.com\.br\/checkout|(sun|checkout|chk)\.eduzz\.com|eduzz\.com\/(sun|checkout)|ticto\.app|braip\.com|pepper\.com\.br\/checkout|lastlink\.com|cakto\.com\.br|guru\.com\.br\/checkout|perfectpay\.com\.br\/checkout|yampi\.com\.br\/checkout|appmax\.com\.br)/i;
+
+const RX_CHECKOUT_TXT = /(dados do (cartão|pagamento)|número do cartão|nome impresso no cartão|c(ó|o)digo de seguran(ç|c)a|cvv|validade do cart(ã|a)o)|(finalizar (compra|pedido|pagamento))|(escolha a forma de pagamento|forma de pagamento).{0,60}(cart(ã|a)o|pix|boleto)|(resumo do (pedido|carrinho))|(cpf\/cnpj do comprador)/i;
+
+function agEhCheckout(url, texto){
+  var porUrl = url ? RX_CHECKOUT_URL.test(url) : false;
+  var porTxt = texto ? RX_CHECKOUT_TXT.test(texto) : false;
+  return porUrl || porTxt;
+}
+
 const RX_GARANTIA_LIMPA = /(garantia|reembolso|devolução)\s*(incondicional|sem (burocracia|letra miúda|perguntas|pegadinha)|total)|(7|sete)\s*dias\s*(de garantia|para (testar|desistir|pedir))|(100%|cem por cento)\s*(do (seu )?dinheiro|reembolsável)|direito de arrependimento|código de defesa do consumidor|C\.?D\.?C\.?/i;
 const RX_CNPJ_TXT   = /\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}|cnpj/i;
 const RX_QUEM_ENSINA= /minha (experiência|trajetória)|trabalho (há|a) \d+ ano|formaç(ão|ões)|atuo (há|a) \d+|currículo|portfólio|graduad|especialista em .* com \d+ ano/i;
@@ -1181,6 +1194,9 @@ const Engine = {
       medo:     /[uú]ltima chance|n[aã]o quero perder|oportunidade [uú]nica|medo de perder|vai acabar|perder a chance|fomo/.test(contexto),
       impulso:  /quero come[çc]ar logo|j[aá] decidi|vou comprar|comprar agora|preciso decidir hoje|sem pensar|de qualquer jeito|custe o que custar|t[oô] decidid/.test(contexto)
     };
+
+    /* ---------- 0. É CHECKOUT? Não é oferta, é tela de pagamento ---------- */
+    const ehCheckout = agEhCheckout(input.url || '', text);
 
     /* ---------- 1. SINAIS (o que sobe o risco) ---------- */
     const sinais = [];
@@ -1320,7 +1336,7 @@ const Engine = {
       risco, faixa, faixaLabel, color, rec,
       sinais, rastro, declarados, externos,
       acoes: acoes.slice(0,4),
-      contextTrend, ctx, notaModerna, desarme,
+      contextTrend, ctx, notaModerna, desarme, ehCheckout,
       contexto:(input.contexto||''), cnpj:(input.cnpj||''),
       texto:(input.texto||''), valor:(input.valor||''),
       when:Date.now(), name:(input.nome||'Oferta sem nome')
@@ -1360,6 +1376,17 @@ function agRender(r){
 
   var ctxBlock = r.contextTrend
     ? '<div class="ag-ctx"><b>Sobre o seu momento</b><p>'+escapeHtml(r.contextTrend)+'</p></div>' : '';
+
+  var avisoCheckout = r.ehCheckout
+    ? '<div class="ag-nota-mod" style="background:linear-gradient(160deg,rgba(229,101,75,.12),rgba(229,101,75,.04));border-color:rgba(229,101,75,.4);">'
+      + '<div class="ag-nota-mod-t" style="color:var(--red);">&#9888; Isto parece uma tela de pagamento, não uma oferta</div>'
+      + '<p>O que você colou tem cara de <b>checkout</b>: a tela que pede os dados do cartão. Ela não é a oferta, é o fim do funil. '
+      + 'Uma tela de pagamento quase não tem texto para analisar, então <b>qualquer nota daria baixa por falta de conteúdo, não por ausência de manipulação</b>. Não leia o número abaixo como um bom sinal.</p>'
+      + '<p style="margin-top:8px;">Antes de pagar, procure a <b>página de vendas</b> do produto, o nome de quem vende, o CNPJ e o <b>preço total</b>, não a parcela. '
+      + 'Essas plataformas costumam exibir o valor parcelado por padrão, então o número na tela pode não ser o que você vai pagar. '
+      + 'Se achar a página de vendas, cole ela aqui e eu analiso de verdade.</p>'
+      + '</div>'
+    : '';
 
   var notaModerna = r.notaModerna
     ? '<div class="ag-nota-mod"><div class="ag-nota-mod-t">'
@@ -1401,13 +1428,15 @@ function agRender(r){
 
    +   desarme
 
+   +   avisoCheckout
+
    +   '<div class="ag-sec"><h4>Sinais de manipulação encontrados</h4>'+sinais+'</div>'
 
    +   notaModerna
 
-   +   '<div class="ag-sec"><h4>Rastreabilidade &mdash; a quem reclamar</h4>'+rastro+'</div>'
+   +   '<div class="ag-sec"><h4>Rastreabilidade: a quem reclamar</h4>'+rastro+'</div>'
 
-   +   '<div class="ag-sec"><h4>Sinais de honestidade &mdash; o que a oferta faz certo</h4>'
+   +   '<div class="ag-sec"><h4>Sinais de honestidade: o que a oferta faz certo</h4>'
    +     '<p class="ag-hint">Estes são pontos a favor: coisas que ofertas manipuladoras costumam esconder e esta mostra. <b>Não são um aval.</b> Dizer não é provar, e uma oferta pode fazer isto certo e ainda assim decepcionar. São bons sinais para confirmar, não para confiar de olhos fechados.</p>'
    +     decl
    +   '</div>'
@@ -1443,7 +1472,7 @@ function agRender(r){
    +         '<div class="vprice">R$29 &middot; entrega em até 72h &middot; reembolso em 7 dias</div>'
    +       '</div>'
    +     '</div>'
-   +     '<p class="ag-legal" style="margin-top:18px;">Esta prévia é automática e lê só o que você colou. Não dizemos "compre" ou "não compre" &mdash; a decisão é, e sempre será, sua.</p>'
+   +     '<p class="ag-legal" style="margin-top:18px;">Esta prévia é automática e lê só o que você colou. Não dizemos "compre" ou "não compre". A decisão é sua, e sempre vai ser.</p>'
    +   '</div>'
    + '</div>';
 }
@@ -1566,6 +1595,32 @@ function agGuiaModerno(){
     window.AG_LIDO = null;
 
     if(url.length < 4){ err.textContent='Cole o endereço da página de vendas.'; return; }
+
+    /* CHECKOUT DIRETO: não é oferta, é tela de pagamento. Avisa e para. */
+    if(agEhCheckout(url, '')){
+      caixa.className='ag-lido mau';
+      caixa.innerHTML = '<b>&#9888; Isto é uma tela de pagamento, não uma oferta</b>'
+        + '<div style="font-size:13.5px;line-height:1.7;margin-top:8px;">'
+        + 'Este link leva direto ao <b style="display:inline">checkout</b>, a tela que pede os dados do seu cartão. '
+        + 'Não há aqui a página que explica o que está sendo vendido, por quem, por quanto no total, nem quais são as condições. '
+        + 'Você foi levado do anúncio direto ao pagamento.'
+        + '</div>'
+        + '<div style="font-size:13.5px;line-height:1.7;margin-top:10px;">'
+        + '<b style="display:inline">Isso não prova má intenção</b>, e muita empresa séria usa essas plataformas. '
+        + 'Mas quanto menos informação existe entre o anúncio e o botão de pagar, menos você tem para analisar. '
+        + 'E há um detalhe que vale saber: <b style="display:inline">essas plataformas costumam mostrar o valor da parcela em vez do total, por configuração padrão</b>. '
+        + 'O número que você vê na tela pode não ser o que você vai pagar.'
+        + '</div>'
+        + '<div style="font-size:13.5px;line-height:1.7;margin-top:10px;">'
+        + '<b style="display:inline">Antes de pagar, procure:</b> a página de vendas do produto, o nome de quem vende, o CNPJ (costuma estar no rodapé ou nos termos), '
+        + 'e o <b style="display:inline">preço total</b>, não a parcela. Se você não conseguir achar nada disso a partir do anúncio, essa dificuldade já é a sua resposta.'
+        + '</div>'
+        + '<div style="font-size:13px;line-height:1.7;margin-top:12px;padding-top:10px;border-top:1px solid rgba(229,101,75,.3);color:var(--muted);">'
+        + 'Se você encontrar a página de vendas, cole o endereço dela aqui e eu analiso. '
+        + 'Uma tela de checkout não tem texto suficiente para uma análise honesta, e eu prefiro te dizer isso a te dar uma nota que não significa nada.'
+        + '</div>';
+      return;
+    }
 
     lb.disabled = true; lb.textContent = 'lendo a página...';
     try{
