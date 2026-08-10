@@ -93,7 +93,30 @@ body{background:
 .section-hint{font-size:12px;color:var(--muted);margin-bottom:12px;font-style:italic;}
 .section-input{width:100%;padding:12px 14px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-family:var(--ffb);font-size:14px;resize:vertical;min-height:100px;line-height:1.6;}
 .section-input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 12px rgba(87,208,192,.2);}
-.autosave-indicator{font-size:11px;color:var(--muted);margin-top:6px;font-family:var(--ffm);}
+.autosave-indicator{font-size:11px;color:var(--muted);font-family:var(--ffm);}
+.campo-rodape{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:7px;flex-wrap:wrap;}
+.fontes-box{background:rgba(87,208,192,.06);border:1px solid rgba(87,208,192,.25);border-radius:10px;padding:12px 14px;margin:10px 0 12px;}
+.fontes-t{font-family:var(--ffm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:9px;}
+.fontes-lista{display:flex;flex-wrap:wrap;gap:8px 16px;}
+.fonte-chk{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--soft);cursor:pointer;user-select:none;}
+.fonte-chk input{accent-color:var(--teal);width:15px;height:15px;cursor:pointer;}
+.fontes-nota{font-size:11.5px;color:var(--muted);line-height:1.55;margin-top:9px;padding-top:8px;border-top:1px solid rgba(87,208,192,.18);}
+.lk-fonte{color:var(--teal);text-decoration:underline;text-underline-offset:2px;}
+.lk-fonte:hover{color:var(--teal2,#8FE6DD);}
+.btn-vazio{background:none;border:1px dashed rgba(148,152,188,.4);border-radius:7px;padding:5px 11px;color:var(--muted);font-family:var(--ffm);font-size:11px;cursor:pointer;transition:.18s;}
+.btn-vazio:hover{border-color:var(--teal);color:var(--teal);border-style:solid;}
+
+/* ---- modo guiado x compacto ---- */
+.modo-barra{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--raise,#1B2347);border:1px solid var(--line2);border-radius:12px;padding:13px 17px;margin-bottom:22px;flex-wrap:wrap;}
+.modo-info{font-size:12.5px;color:var(--muted);line-height:1.6;flex:1;min-width:240px;}
+.modo-info b{color:var(--text);}
+.modo-btns{display:flex;gap:8px;}
+.modo-btn{background:none;border:1px solid var(--line2);border-radius:8px;padding:7px 13px;color:var(--muted);font-family:var(--ffm);font-size:11.5px;cursor:pointer;transition:.18s;}
+.modo-btn:hover{border-color:var(--teal);color:var(--teal);}
+.modo-btn.ativo{background:rgba(87,208,192,.14);border-color:var(--teal);color:var(--teal);}
+body.modo-compacto .section-guide{display:none;}
+body.modo-compacto .editor-section{margin-bottom:18px;padding-bottom:18px;}
+body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
 .autosave-indicator.saved{color:var(--teal);}
 
 /* ===== BLOCO-GUIA (instrução didática por seção) =====*/
@@ -283,6 +306,14 @@ body{background:
       <div id="editor-area" style="display:none;">
         <div class="editor-container">
           <div class="editor-main">
+
+            <div class="modo-barra">
+              <div class="modo-info" id="modo-info">Carregando o seu modo de trabalho...</div>
+              <div class="modo-btns">
+                <button type="button" class="modo-btn" id="btn-guiado" onclick="agModo('guiado')">Passo a passo</button>
+                <button type="button" class="modo-btn" id="btn-compacto" onclick="agModo('compacto')">Só os campos</button>
+              </div>
+            </div>
             <div class="editor-section" style="background:rgba(227,179,65,.05);border:1px solid rgba(227,179,65,.25);border-radius:12px;padding:18px 20px;margin-bottom:26px;">
               <div class="section-label" style="color:var(--gold);">◆ PARTE 1: A VERIFICAÇÃO EXTERNA</div>
               <div style="font-size:13.5px;color:var(--soft);line-height:1.7;margin-top:8px;">
@@ -297,9 +328,9 @@ body{background:
               <div class="section-guide">
                 <strong>Onde ir, na ordem:</strong>
                 <ul>
-                  <li><strong>1. Reclame Aqui</strong> (reclameaqui.com.br). Busque <strong>duas vezes</strong>: o nome do produto, e depois o nome da pessoa ou empresa que vende. São buscas diferentes e dão resultados diferentes.</li>
-                  <li><strong>2. Google.</strong> Busque <em>"nome do produto" + reclamação</em>, depois <em>"nome do produto" + é golpe</em>, depois <em>"nome do vendedor" + processo</em>. Use as aspas.</li>
-                  <li><strong>3. Consumidor.gov.br.</strong> Busque a empresa. É oficial e mostra se ela responde.</li>
+                  <li><strong>1. <a href="https://www.reclameaqui.com.br/busca/" target="_blank" rel="noopener" class="lk-fonte">Reclame Aqui</a></strong> (abre em outra aba). Busque <strong>duas vezes</strong>: o nome do produto, e depois o nome da pessoa ou empresa que vende. São buscas diferentes e dão resultados diferentes.</li>
+                  <li><strong>2. <a href="https://www.google.com/" target="_blank" rel="noopener" class="lk-fonte">Google</a>.</strong> Busque <em>"nome do produto" + reclamação</em>, depois <em>"nome do produto" + é golpe</em>, depois <em>"nome do vendedor" + processo</em>. Use as aspas.</li>
+                  <li><strong>3. <a href="https://www.consumidor.gov.br/pages/indicador/infografico/abrir" target="_blank" rel="noopener" class="lk-fonte">Consumidor.gov.br</a></strong> (site oficial do governo). Busque a empresa. É oficial e mostra se ela responde.</li>
                   <li><strong>4. Redes.</strong> Busque o nome do produto no Instagram e no X. Olhe os <strong>comentários</strong> dos anúncios, não os posts do vendedor.</li>
                 </ul>
                 <strong>O que anotar:</strong>
@@ -310,8 +341,8 @@ body{background:
                 </ul>
                 <span class="rule">Se não encontrar nada, escreva isso: "Busquei no Reclame Aqui, no Google e no Consumidor.gov em [data] e não encontrei reclamações registradas." Ausência de reclamação não é prova de qualidade, pode significar apenas que o produto é novo. Diga isso também.</span>
               </div>
-              <textarea class="section-input" id="ver_reclamacoes" placeholder="Ex: Encontrei 12 reclamações no Reclame Aqui (consultado em 10/08/2026), 8 delas sobre reembolso não devolvido. A empresa respondeu 3. Link: ... No Google encontrei 2 vídeos de ex-alunos relatando o mesmo problema. Links: ..."></textarea>
-              <div class="autosave-indicator" id="save-ver_reclamacoes"></div>
+              <div class="fontes-box"><div class="fontes-t">Marque as fontes que você realmente consultou</div><div class="fontes-lista"><label class="fonte-chk"><input type="checkbox" data-campo="ver_reclamacoes" value="Reclame Aqui"> Reclame Aqui</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_reclamacoes" value="Google"> Google</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_reclamacoes" value="Consumidor.gov.br"> Consumidor.gov.br</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_reclamacoes" value="Instagram (comentários)"> Instagram (comentários)</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_reclamacoes" value="X / Twitter"> X / Twitter</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_reclamacoes" value="Jusbrasil / processos"> Jusbrasil / processos</label></div><div class="fontes-nota">O texto gerado vai nomear só o que você marcar. Se não marcar nada, ele registra que este ponto não foi verificado, e é isso que o cliente vai ler.</div></div><textarea class="section-input" id="ver_reclamacoes" placeholder="Ex: Encontrei 12 reclamações no Reclame Aqui (consultado em 10/08/2026), 8 delas sobre reembolso não devolvido. A empresa respondeu 3. Link: ... No Google encontrei 2 vídeos de ex-alunos relatando o mesmo problema. Links: ..."></textarea>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('ver_reclamacoes')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-ver_reclamacoes"></span></div>
             </div>
 
             <div class="editor-section">
@@ -325,7 +356,7 @@ body{background:
                 </ul>
                 <strong>Onde consultar (grátis e oficial):</strong>
                 <ul>
-                  <li>Busque no Google por <strong>"consulta CNPJ Receita Federal"</strong> e use o site oficial (solucoes.receita.fazenda.gov.br). Não use sites intermediários que cobram.</li>
+                  <li>Use o <a href="https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp" target="_blank" rel="noopener" class="lk-fonte">site oficial da Receita Federal</a> (grátis, abre em outra aba). Não use intermediários que cobram. Alternativa gratuita e mais rápida de ler: <a href="https://casadosdados.com.br/" target="_blank" rel="noopener" class="lk-fonte">Casa dos Dados</a>.</li>
                   <li>Anote: <strong>situação cadastral</strong> (ativa, baixada, inapta, suspensa), <strong>data de abertura</strong>, <strong>atividade principal</strong> e o <strong>nome do sócio</strong>.</li>
                 </ul>
                 <strong>Como ler o que encontrou:</strong>
@@ -336,8 +367,8 @@ body{background:
                 </ul>
                 <span class="rule">Nunca escreva "a empresa é de fachada" ou "vão sumir". Escreva o fato: "CNPJ ativo, aberto em março de 2026, atividade principal de comércio varejista, consultado na Receita Federal em [data]."</span>
               </div>
-              <textarea class="section-input" id="ver_cnpj" placeholder="Ex: CNPJ 00.000.000/0001-00 encontrado no rodapé. Consultado na Receita Federal em 10/08/2026: situação ATIVA, aberto em 12/03/2026 (5 meses), atividade principal: treinamento em desenvolvimento profissional. Empresa nova, o que não é problema em si, mas vale saber."></textarea>
-              <div class="autosave-indicator" id="save-ver_cnpj"></div>
+              <div class="fontes-box"><div class="fontes-t">Marque as fontes que você realmente consultou</div><div class="fontes-lista"><label class="fonte-chk"><input type="checkbox" data-campo="ver_cnpj" value="Rodapé da página"> Rodapé da página</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_cnpj" value="Termos de uso / Quem somos"> Termos de uso / Quem somos</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_cnpj" value="Receita Federal (oficial)"> Receita Federal (oficial)</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_cnpj" value="Casa dos Dados"> Casa dos Dados</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_cnpj" value="Rodapé do checkout"> Rodapé do checkout</label></div><div class="fontes-nota">O texto gerado vai nomear só o que você marcar. Se não marcar nada, ele registra que este ponto não foi verificado, e é isso que o cliente vai ler.</div></div><textarea class="section-input" id="ver_cnpj" placeholder="Ex: CNPJ 00.000.000/0001-00 encontrado no rodapé. Consultado na Receita Federal em 10/08/2026: situação ATIVA, aberto em 12/03/2026 (5 meses), atividade principal: treinamento em desenvolvimento profissional. Empresa nova, o que não é problema em si, mas vale saber."></textarea>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('ver_cnpj')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-ver_cnpj"></span></div>
             </div>
 
             <div class="editor-section">
@@ -346,9 +377,9 @@ body{background:
                 O objetivo é descobrir o histórico da pessoa <strong>fora do funil de vendas dela</strong>.
                 <ul>
                   <li><strong>Google o nome completo</strong> da pessoa. Depois busque <em>nome + curso anterior</em>, <em>nome + antes de</em>, <em>nome + 2023</em> (e outros anos).</li>
-                  <li><strong>LinkedIn:</strong> confira se a experiência declarada bate com o que a oferta diz. Cargo, tempo, empresas.</li>
+                  <li><strong><a href="https://www.linkedin.com/search/results/all/" target="_blank" rel="noopener" class="lk-fonte">LinkedIn</a>:</strong> confira se a experiência declarada bate com o que a oferta diz. Cargo, tempo, empresas.</li>
                   <li><strong>Instagram:</strong> role até os posts mais antigos. O que essa pessoa vendia há dois anos? Mudou de nicho? Mudou de nome?</li>
-                  <li><strong>Web Archive</strong> (web.archive.org): cole o endereço do site dela e veja versões antigas. Revela ofertas que saíram do ar.</li>
+                  <li><strong><a href="https://web.archive.org/" target="_blank" rel="noopener" class="lk-fonte">Web Archive</a></strong>: cole o endereço do site dela e veja versões antigas. Revela ofertas que saíram do ar.</li>
                   <li>Busque o <strong>nome do produto antigo</strong> se houver, e veja se está fora do ar.</li>
                 </ul>
                 <strong>O que registrar:</strong>
@@ -359,8 +390,8 @@ body{background:
                 </ul>
                 <span class="rule">Cuidado com a linguagem: "o produto anterior está fora do ar" é fato. "Ele aplicou um golpe e fugiu" é acusação. Registre o observável e deixe a leitura para o cliente.</span>
               </div>
-              <textarea class="section-input" id="ver_rastro" placeholder="Ex: A pessoa aparece no LinkedIn com 6 anos declarados na área, o que confere com dois empregos listados. Encontrei um curso anterior de 2023 com nome diferente, hoje fora do ar (verificado no Web Archive em 10/08/2026). Não encontrei registro público de resultado de alunos."></textarea>
-              <div class="autosave-indicator" id="save-ver_rastro"></div>
+              <div class="fontes-box"><div class="fontes-t">Marque as fontes que você realmente consultou</div><div class="fontes-lista"><label class="fonte-chk"><input type="checkbox" data-campo="ver_rastro" value="Google (nome completo)"> Google (nome completo)</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_rastro" value="LinkedIn"> LinkedIn</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_rastro" value="Instagram (posts antigos)"> Instagram (posts antigos)</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_rastro" value="Web Archive"> Web Archive</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_rastro" value="YouTube"> YouTube</label><label class="fonte-chk"><input type="checkbox" data-campo="ver_rastro" value="Nome do produto anterior"> Nome do produto anterior</label></div><div class="fontes-nota">O texto gerado vai nomear só o que você marcar. Se não marcar nada, ele registra que este ponto não foi verificado, e é isso que o cliente vai ler.</div></div><textarea class="section-input" id="ver_rastro" placeholder="Ex: A pessoa aparece no LinkedIn com 6 anos declarados na área, o que confere com dois empregos listados. Encontrei um curso anterior de 2023 com nome diferente, hoje fora do ar (verificado no Web Archive em 10/08/2026). Não encontrei registro público de resultado de alunos."></textarea>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('ver_rastro')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-ver_rastro"></span></div>
             </div>
 
             <div class="editor-section" style="background:rgba(87,208,192,.05);border:1px solid rgba(87,208,192,.25);border-radius:12px;padding:18px 20px;margin:26px 0;">
@@ -381,7 +412,7 @@ body{background:
                 <span class="rule">Exemplo: "Ensinar a usar o gestor de anúncios do Facebook e a estruturar uma rotina de gestão comercial em 2 dias."</span>
               </div>
               <textarea class="section-input" id="s1" placeholder="Escreva aqui, em 1-2 frases, o que a oferta realmente entrega..."></textarea>
-              <div class="autosave-indicator" id="save-s1"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('s1')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-s1"></span></div>
             </div>
 
             <div class="editor-section">
@@ -389,9 +420,9 @@ body{background:
               <div class="section-guide">
                 O conhecimento vendido quase sempre existe gratuito em algum lugar. Sua tarefa é achar e <strong>colar links reais e verificados</strong>.
                 <ul>
-                  <li><strong>YouTube:</strong> busque o tema principal da oferta em português. Procure canais com aulas completas, não trechos. Prefira quem tem playlist organizada.</li>
+                  <li><strong><a href="https://www.youtube.com/" target="_blank" rel="noopener" class="lk-fonte">YouTube</a>:</strong> busque o tema principal da oferta em português. Procure canais com aulas completas, não trechos. Prefira quem tem playlist organizada.</li>
                   <li><strong>Documentação oficial:</strong> se a oferta ensina uma ferramenta (anúncios, planilha, programação), a empresa dona da ferramenta quase sempre tem central de ajuda gratuita.</li>
-                  <li><strong>Cursos gratuitos com certificado:</strong> Fundação Bradesco, Sebrae, Coursera (modo ouvinte), Escola Virtual do Governo.</li>
+                  <li><strong>Cursos gratuitos com certificado:</strong> <a href="https://www.ev.org.br/" target="_blank" rel="noopener" class="lk-fonte">Fundação Bradesco</a>, <a href="https://sebrae.com.br/sites/PortalSebrae/cursosonline" target="_blank" rel="noopener" class="lk-fonte">Sebrae</a>, <a href="https://www.escolavirtual.gov.br/" target="_blank" rel="noopener" class="lk-fonte">Escola Virtual do Governo</a> e <a href="https://www.coursera.org/" target="_blank" rel="noopener" class="lk-fonte">Coursera</a> (modo ouvinte).</li>
                   <li><strong>Livro:</strong> muitas vezes o próprio mentor tem um livro barato que cobre boa parte do método. Vale procurar.</li>
                   <li><strong>Teste cada link antes de colar</strong> e anote a data em que verificou.</li>
                 </ul>
@@ -404,7 +435,7 @@ body{background:
                 <span class="rule">Link quebrado num laudo sobre honestidade pega muito mal. Teste cada um antes de entregar.</span>
               </div>
               <textarea class="section-input" id="s2" placeholder="Liste aqui as fontes gratuitas com links verificados..."></textarea>
-              <div class="autosave-indicator" id="save-s2"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('s2')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-s2"></span></div>
             </div>
 
             <div class="editor-section">
@@ -418,7 +449,7 @@ body{background:
                 <span class="rule">Separe fato de leitura: "o preço só aparece após o formulário" é fato. "Isso é proposital" é leitura.</span>
               </div>
               <textarea class="section-input" id="s3" placeholder="O que o valor cobrado realmente está pagando?..."></textarea>
-              <div class="autosave-indicator" id="save-s3"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('s3')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-s3"></span></div>
             </div>
 
             <div class="editor-section">
@@ -433,7 +464,7 @@ body{background:
                 </ul>
               </div>
               <textarea class="section-input" id="s4" placeholder="Tempo, ferramentas, pré-requisitos, taxa real de conclusão..."></textarea>
-              <div class="autosave-indicator" id="save-s4"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('s4')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-s4"></span></div>
             </div>
 
             <div class="editor-section">
@@ -453,7 +484,7 @@ body{background:
                 </span>
               </div>
               <textarea class="section-input" id="s5" placeholder="Análise honesta da intenção, separando fato de leitura..."></textarea>
-              <div class="autosave-indicator" id="save-s5"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('s5')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-s5"></span></div>
             </div>
 
             <div class="editor-section">
@@ -467,7 +498,7 @@ body{background:
                 </ul>
               </div>
               <textarea class="section-input" id="s6" placeholder="Ofereça 2-3 caminhos alternativos concretos..."></textarea>
-              <div class="autosave-indicator" id="save-s6"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('s6')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-s6"></span></div>
             </div>
 
             <div class="editor-section">
@@ -481,7 +512,7 @@ body{background:
                 </ul>
               </div>
               <textarea class="section-input" id="s7" placeholder="Perguntas, garantias e sinais de saída para comprar com segurança..."></textarea>
-              <div class="autosave-indicator" id="save-s7"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('s7')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-s7"></span></div>
             </div>
 
             <div class="editor-section">
@@ -505,7 +536,7 @@ body{background:
                 </span>
               </div>
               <textarea class="section-input" id="s8" placeholder="Ex: O formulário exige 8 campos (incluindo faturamento e cargo) antes de mostrar o preço. A Política de Privacidade não esclarece o prazo de retenção nem com quem os dados são compartilhados. Vale perguntar antes de enviar."></textarea>
-              <div class="autosave-indicator" id="save-s8"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('s8')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-s8"></span></div>
             </div>
 
             <div class="editor-section" style="border-bottom:1px solid var(--line2);margin-bottom:24px;padding-bottom:24px;">
@@ -521,7 +552,7 @@ body{background:
                 <span class="rule">Isso protege o cliente e protege você. Uma análise equilibrada demonstra que o método mede os dois lados, não que existe para difamar.</span>
               </div>
               <textarea class="section-input" id="honestidade" placeholder="Ex: O preço aparece na página antes de pedir qualquer dado. O conteúdo é descrito em 17 módulos com carga horária. A garantia é de 7 dias pelo CDC, sem exigir prova de que você aplicou o método. A empresa tem CNPJ visível e sócios identificáveis. Não encontrei urgência fabricada nem escassez no texto."></textarea>
-              <div class="autosave-indicator" id="save-honestidade"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('honestidade')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-honestidade"></span></div>
             </div>
 
             <div class="editor-section" style="border-bottom:1px solid var(--line2);margin-bottom:24px;padding-bottom:24px;">
@@ -535,7 +566,7 @@ body{background:
                 </ul>
               </div>
               <textarea class="section-input" id="nao_verificado" placeholder="O que não conseguiu confirmar? Seja honesto sobre os limites da análise..."></textarea>
-              <div class="autosave-indicator" id="save-nao_verificado"></div>
+              <div class="campo-rodape"><button type="button" class="btn-vazio" onclick="agSugerirVazio('nao_verificado')">procurei e não encontrei, o que escrevo?</button><span class="autosave-indicator" id="save-nao_verificado"></span></div>
             </div>
 
             <div class="action-buttons">
@@ -892,6 +923,7 @@ async function carregarLaudos() {
 async function selecionarPedido(pedidoId) {
   currentPedidoId = pedidoId;
   document.getElementById('editor-area').style.display = 'block';
+  agDefinirModoInicial();
   
   try {
     const r = await supa.from('laudos').select('*').eq('pedido_id', pedidoId).single();
@@ -990,13 +1022,198 @@ function previewLaudo() {
   document.getElementById('modal-preview').classList.add('open');
 }
 
+/* ---------- MODO GUIADO x COMPACTO ----------
+   Os 5 primeiros laudos vêm com o passo a passo aberto.
+   Depois disso o padrão vira compacto, e a pessoa pode alternar quando quiser. */
+const LIMITE_GUIADO = 5;
+
+function agModo(modo, salvar){
+  const compacto = (modo === 'compacto');
+  document.body.classList.toggle('modo-compacto', compacto);
+  const bg = document.getElementById('btn-guiado');
+  const bc = document.getElementById('btn-compacto');
+  if(bg) bg.classList.toggle('ativo', !compacto);
+  if(bc) bc.classList.toggle('ativo', compacto);
+  if(salvar !== false){
+    try{ localStorage.setItem('ag_modo_editor', modo); }catch(e){}
+  }
+}
+
+async function agDefinirModoInicial(){
+  let entregues = 0;
+  try{
+    const r = await supa.from('pedidos').select('id', {count:'exact', head:true}).eq('estado','entregue');
+    entregues = r.count || 0;
+  }catch(e){ entregues = 0; }
+
+  let escolhido = null;
+  try{ escolhido = localStorage.getItem('ag_modo_editor'); }catch(e){}
+
+  const info = document.getElementById('modo-info');
+  const restam = LIMITE_GUIADO - entregues;
+
+  if(escolhido){
+    agModo(escolhido, false);
+  } else if(entregues < LIMITE_GUIADO){
+    agModo('guiado', false);
+  } else {
+    agModo('compacto', false);
+  }
+
+  if(info){
+    if(entregues < LIMITE_GUIADO){
+      info.innerHTML = '<b>Laudo ' + (entregues + 1) + ' de ' + LIMITE_GUIADO + ' com o passo a passo.</b> '
+        + 'Os primeiros vêm com o guia completo de cada campo, incluindo onde procurar e o que anotar. '
+        + 'Depois de ' + LIMITE_GUIADO + ' laudos entregues, o padrão passa a ser o modo enxuto. Você pode alternar quando quiser.';
+    } else {
+      info.innerHTML = '<b>Você já entregou ' + entregues + ' laudos.</b> '
+        + 'O padrão agora é o modo enxuto, só os campos. Se precisar rever o passo a passo de algum campo, é só clicar em "Passo a passo".';
+    }
+  }
+}
+
+/* ---------- BOTÃO "NÃO ENCONTREI": sugere o que escrever ---------- */
+const SUGESTOES_VAZIO = {
+  /* Campos de verificação externa: o texto é MONTADO a partir das fontes marcadas.
+     Nunca afirmam uma busca que o humano não declarou. */
+  ver_reclamacoes: { tipo:'fontes',
+    comFontes: 'Consultei {FONTES} em {DATA} e não encontrei reclamações registradas sobre este produto nem sobre quem vende. Registro que ausência de reclamação nas fontes consultadas não é prova de qualidade: pode significar apenas que a oferta é recente, que o público ainda é pequeno, ou que as reclamações estão em lugares que não consultei.',
+    semFontes: 'Não verifiquei reclamações públicas nesta análise. Este ponto ficou em aberto, e não há aqui nenhuma informação sobre a reputação do produto ou de quem vende. Recomendo que você mesmo consulte o Reclame Aqui e o Consumidor.gov.br antes de decidir.' },
+
+  ver_cnpj: { tipo:'fontes',
+    comFontes: 'Procurei o CNPJ em {FONTES} em {DATA} e não encontrei. Isso não quer dizer que a empresa não exista, mas significa que, a partir do que consultei, não é possível saber a quem você estaria pagando nem a quem reclamar depois. Vale pedir o CNPJ por escrito antes de pagar.',
+    semFontes: 'Não verifiquei a existência ou a situação de CNPJ nesta análise. Este ponto ficou em aberto. Antes de pagar, procure o CNPJ no rodapé da página ou nos Termos de uso, e consulte a situação cadastral no site da Receita Federal.' },
+
+  ver_rastro: { tipo:'fontes',
+    comFontes: 'Busquei o histórico de quem vende em {FONTES} em {DATA} e não encontrei ofertas anteriores, trabalho verificável nem registro público de resultado fora da própria página de vendas. Registro que não encontrar rastro nas fontes consultadas não é acusação: pode ser alguém no começo. Significa que a experiência declarada não pôde ser confirmada de forma independente por onde procurei.',
+    semFontes: 'Não verifiquei o histórico de quem vende nesta análise. Este ponto ficou em aberto. Vale buscar o nome completo da pessoa no Google e no LinkedIn, e conferir versões antigas do site no Web Archive.' },
+
+  /* Demais campos: registram o que foi feito, sem entregar veredito sobre a oferta. */
+  s1: 'A oferta não descreve com clareza o que entrega. Depois de ler o material disponível em {DATA}, não consegui identificar qual habilidade ou entrega concreta a pessoa recebe. Registro isso como o achado: uma oferta que não diz o que vende dificulta qualquer comparação.',
+  s2: 'Procurei conteúdo equivalente gratuito em {DATA} e não encontrei material que cubra o mesmo tema com a mesma organização. Registro o que a busca fez e o que ela não achou. Isso não prova que a curadoria tenha valor, apenas que eu não localizei alternativa gratuita equivalente por onde procurei.',
+  s3: 'A oferta não informa o preço no material analisado em {DATA}. Sem o valor, não é possível avaliar o que ele está cobrando. Vale pedir o preço total por escrito, e não a parcela, antes de qualquer decisão.',
+  s4: 'No material analisado em {DATA} não encontrei menção a custos além do preço da oferta. Registro que não encontrei, e não que não existam: custos costumam aparecer depois da compra. Antes de pagar, pergunte por escrito se há ferramenta paga necessária, pré-requisito não mencionado, ou custo de deslocamento.',
+  s5: 'No material analisado em {DATA} não encontrei sinais claros sobre onde está o ganho de quem vende, além da venda do próprio curso. Registro apenas o que o texto apresenta, sem inferir intenção.',
+  s6: 'Não identifiquei alternativas diretas equivalentes em {DATA}. Ainda assim, vale considerar: começar pelo conteúdo gratuito disponível, testar o tema em escala menor antes de investir, ou procurar uma consultoria pontual em vez de um programa longo.',
+  s7: 'Antes de pagar, peça por escrito, em canal que fique registrado: a ementa completa, a política de reembolso com prazo e condições, quem dá o suporte e em quanto tempo responde, e o valor total sem taxas adicionais.',
+  s8: 'O material analisado em {DATA} não deixa claro quais dados são coletados nem o que é feito com eles. Não localizei Política de Privacidade acessível antes do cadastro. Não há como saber o uso que será dado aos dados apenas pela página. Vale perguntar por escrito antes de enviar.',
+  honestidade: 'No material analisado em {DATA} não identifiquei os sinais de honestidade que costumo procurar: preço visível antes do cadastro, conteúdo descrito com detalhe, garantia simples de acionar, ou responsável identificável. Registro a ausência, porque ela também informa. Isso não significa que a oferta seja desonesta, significa que o texto não oferece esses pontos de apoio.',
+  nao_verificado: 'Não consegui verificar: a qualidade real do conteúdo, que só se confirma cursando; se o suporte responde no prazo prometido; a experiência de quem pediu reembolso; e se os resultados divulgados têm rastro auditável. Esta análise leu o texto da oferta e as fontes públicas que consultei em {DATA}, e não substitui a sua verificação direta com quem já comprou.'
+};
+
+/* Lê as fontes que o humano marcou naquele campo. */
+function agFontesMarcadas(id){
+  return [...document.querySelectorAll('input[type=checkbox][data-campo="'+id+'"]:checked')]
+    .map(c => c.value);
+}
+
+/* Junta a lista em português: "A, B e C" */
+function agListar(arr){
+  if(arr.length === 0) return '';
+  if(arr.length === 1) return arr[0];
+  return arr.slice(0,-1).join(', ') + ' e ' + arr[arr.length-1];
+}
+
+function agSugerirVazio(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(el.value.trim() && !confirm('Este campo já tem texto. Quer substituir pelo modelo?')) return;
+
+  const hoje = new Date().toLocaleDateString('pt-BR');
+  const sug = SUGESTOES_VAZIO[id];
+  let texto = '';
+
+  if(sug && sug.tipo === 'fontes'){
+    const marcadas = agFontesMarcadas(id);
+    if(marcadas.length === 0){
+      texto = sug.semFontes;
+      alert('Nenhuma fonte marcada.\n\nO texto vai registrar que este ponto NÃO foi verificado, e é isso que o cliente vai ler.\n\nSe você consultou alguma fonte, marque acima e clique de novo. O laudo nunca afirma uma busca que você não declarou.');
+    } else {
+      texto = sug.comFontes.replace('{FONTES}', agListar(marcadas));
+    }
+  } else {
+    texto = sug || '';
+  }
+
+  el.value = texto.replace(/\{DATA\}/g, hoje);
+  el.style.borderColor=''; el.style.background='';
+  el.focus();
+  el.dispatchEvent(new Event('input', {bubbles:true}));
+}
+
+
+/* Campos obrigatórios. Nenhum laudo sai com buraco. */
+const CAMPOS_OBRIGATORIOS = [
+  { id:'ver_reclamacoes', nome:'A. Reclamações públicas' },
+  { id:'ver_cnpj',        nome:'B. Situação e idade do CNPJ' },
+  { id:'ver_rastro',      nome:'C. Rastro de quem vende' },
+  { id:'s1', nome:'1. O que estão realmente vendendo' },
+  { id:'s2', nome:'2. Onde isso existe de graça' },
+  { id:'s3', nome:'3. O que o preço está realmente cobrando' },
+  { id:'s4', nome:'4. Custo real que ninguém conta' },
+  { id:'s5', nome:'5. Intenção por trás' },
+  { id:'s6', nome:'6. Outros caminhos' },
+  { id:'s7', nome:'7. Se você ainda quiser avançar' },
+  { id:'s8', nome:'8. Seus dados: o que capturam' },
+  { id:'honestidade',    nome:'O que a oferta faz certo' },
+  { id:'nao_verificado', nome:'O que não consegui verificar' }
+];
+
 function gerarLaudo() {
-  if (!document.getElementById('nao_verificado').value.trim()) {
-    alert('⚠️ O campo "O que não consegui verificar?" é obrigatório');
+  const vazios = CAMPOS_OBRIGATORIOS.filter(c => {
+    const el = document.getElementById(c.id);
+    return !el || !el.value.trim();
+  });
+
+  if (vazios.length) {
+    const primeiro = document.getElementById(vazios[0].id);
+    vazios.forEach(c => {
+      const el = document.getElementById(c.id);
+      if(el){ el.style.borderColor = 'var(--red)'; el.style.background = 'rgba(229,101,75,.06)'; }
+    });
+    alert('Faltam ' + vazios.length + ' campo(s) para o laudo ficar completo:\n\n'
+      + vazios.map(c => '  • ' + c.nome).join('\n')
+      + '\n\nSe você procurou e não encontrou a informação, use o botão "não encontrei" logo abaixo do campo. Não achar também é resultado, e precisa ser registrado.');
+    primeiro.scrollIntoView({behavior:'smooth', block:'center'});
+    setTimeout(()=>primeiro.focus(), 400);
     return;
   }
+
+  /* PORTÃO DE MARCADOR: nenhum [placeholder] pode chegar ao cliente.
+     Cura a classe, não o caso: qualquer colchete com texto dentro é barrado,
+     em qualquer campo, inclusive em textos sugeridos que ainda não existem. */
+  const RX_MARCADOR = /\[[^\]\n]{1,40}\]/g;
+  const comMarcador = [];
+  CAMPOS_OBRIGATORIOS.forEach(c => {
+    const el = document.getElementById(c.id);
+    if(!el) return;
+    const achados = el.value.match(RX_MARCADOR);
+    if(achados){ comMarcador.push({ id:c.id, nome:c.nome, marcadores:[...new Set(achados)] }); }
+  });
+
+  if (comMarcador.length) {
+    const primeiro = document.getElementById(comMarcador[0].id);
+    comMarcador.forEach(c => {
+      const el = document.getElementById(c.id);
+      if(el){ el.style.borderColor = 'var(--red)'; el.style.background = 'rgba(229,101,75,.06)'; }
+    });
+    alert('Há marcador de preenchimento não substituído. Isso iria impresso no PDF do cliente:\n\n'
+      + comMarcador.map(c => '  • ' + c.nome + ': ' + c.marcadores.join(', ')).join('\n')
+      + '\n\nTroque cada marcador pelo conteúdo real antes de gerar o laudo.');
+    primeiro.scrollIntoView({behavior:'smooth', block:'center'});
+    setTimeout(()=>primeiro.focus(), 400);
+    return;
+  }
+
   previewLaudo();
 }
+
+/* limpa o destaque de erro quando a pessoa começa a escrever */
+document.addEventListener('input', function(e){
+  if(e.target.classList && e.target.classList.contains('section-input')){
+    e.target.style.borderColor = ''; e.target.style.background = '';
+  }
+});
 
 function fecharModalPreview() {
   document.getElementById('modal-preview').classList.remove('open');
