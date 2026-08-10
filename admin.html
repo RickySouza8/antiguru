@@ -414,6 +414,22 @@ body{background:
             </div>
 
             <div class="editor-section" style="border-bottom:1px solid var(--line2);margin-bottom:24px;padding-bottom:24px;">
+              <div class="section-label" style="color:var(--teal);">✓ O que a oferta faz certo</div>
+              <div class="section-guide" style="background:rgba(87,208,192,.08);border-left-color:var(--teal);">
+                <strong style="color:var(--teal);">Preencha sempre que houver algo. Uma análise que só acusa não é análise, é acusação.</strong>
+                <ul>
+                  <li>Registre os <strong>sinais de honestidade</strong> que encontrou: preço visível antes do cadastro, conteúdo descrito com módulos e carga horária, garantia simples de acionar, CNPJ no rodapé, quem ensina identificável, ausência de urgência fabricada.</li>
+                  <li><strong>Se a oferta for limpa, diga isso com todas as letras.</strong> O laudo tem que conseguir dizer "esta aqui joga limpo". Um detector que só sabe apontar defeito perde credibilidade e vira injusto.</li>
+                  <li>Cuidado com o registro: isto <strong>não é um aval</strong>. Escreva "a oferta mostra o preço antes de pedir seus dados", não "a oferta é confiável". Bom sinal é bom sinal, não é garantia de entrega.</li>
+                  <li>Se não encontrou nada de bom, escreva isso também. <strong>A ausência de sinais de honestidade é, ela mesma, uma informação.</strong></li>
+                </ul>
+                <span class="rule">Isto protege o cliente e protege você. Uma análise equilibrada demonstra que o método mede os dois lados, não que existe para difamar.</span>
+              </div>
+              <textarea class="section-input" id="honestidade" placeholder="Ex: O preço aparece na página antes de pedir qualquer dado. O conteúdo é descrito em 17 módulos com carga horária. A garantia é de 7 dias pelo CDC, sem exigir prova de que você aplicou o método. A empresa tem CNPJ visível e sócios identificáveis. Não encontrei urgência fabricada nem escassez no texto."></textarea>
+              <div class="autosave-indicator" id="save-honestidade"></div>
+            </div>
+
+            <div class="editor-section" style="border-bottom:1px solid var(--line2);margin-bottom:24px;padding-bottom:24px;">
               <div class="section-label" style="color:var(--red);">⚠ O que não consegui verificar?</div>
               <div class="section-guide" style="background:var(--redsoft);border-left-color:var(--red);">
                 <strong style="color:var(--red);">OBRIGATÓRIO. A assinatura da casa. Nunca deixe vazio.</strong>
@@ -787,14 +803,14 @@ async function selecionarPedido(pedidoId) {
     const laudo = r.data;
     
     if (laudo) {
-      ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'nao_verificado'].forEach(s => {
+      ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'honestidade', 'nao_verificado'].forEach(s => {
         const el = document.getElementById(s);
         if (el) el.value = laudo[s] || '';
       });
     }
     
     // Iniciar autosave
-    ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'nao_verificado'].forEach(s => {
+    ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'honestidade', 'nao_verificado'].forEach(s => {
       const el = document.getElementById(s);
       if (el) {
         if (autoSaveIntervals[s]) clearInterval(autoSaveIntervals[s]);
@@ -828,6 +844,7 @@ async function salvarRascunho() {
     s6: document.getElementById('s6').value,
     s7: document.getElementById('s7').value,
     s8: document.getElementById('s8').value,
+    honestidade: document.getElementById('honestidade').value,
     nao_verificado: document.getElementById('nao_verificado').value
   });
   alert('✓ Laudo salvo com sucesso');
@@ -865,6 +882,8 @@ function previewLaudo() {
     
     <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">8. Seus dados: o que capturam e o que fazem</h2>
     <p>${document.getElementById('s8').value || '(não preenchido)'}</p>
+    <h3 style="color:var(--teal);margin-top:18px;">✓ O que a oferta faz certo</h3>
+    <p>${document.getElementById('honestidade').value || '(não preenchido)'}</p>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
     
     <p style="font-style:italic;color:var(--muted);">O que não consegui verificar: ${document.getElementById('nao_verificado').value || '(não preenchido)'}</p>
@@ -886,7 +905,7 @@ function fecharModalPreview() {
 }
 
 async function registrarEntrega() {
-  const texto = `${document.getElementById('s1').value}\n\n${document.getElementById('s2').value}\n\n${document.getElementById('s3').value}\n\n${document.getElementById('s4').value}\n\n${document.getElementById('s5').value}\n\n${document.getElementById('s6').value}\n\n${document.getElementById('s7').value}\n\n${document.getElementById('s8').value}\n\nO que não consegui verificar: ${document.getElementById('nao_verificado').value}`;
+  const texto = `${document.getElementById('s1').value}\n\n${document.getElementById('s2').value}\n\n${document.getElementById('s3').value}\n\n${document.getElementById('s4').value}\n\n${document.getElementById('s5').value}\n\n${document.getElementById('s6').value}\n\n${document.getElementById('s7').value}\n\n${document.getElementById('s8').value}\n\nO que a oferta faz certo: ${document.getElementById('honestidade').value}\n\nO que não consegui verificar: ${document.getElementById('nao_verificado').value}`;
   
   await supa.from('laudos').update({
     texto_entregue: texto,
@@ -942,6 +961,7 @@ function baixarPDF() {
   `).join('');
 
   const naoVerif = (document.getElementById('nao_verificado').value || '(não preenchido)').replace(/\n/g, '<br>');
+  const honest = (document.getElementById('honestidade').value || '').replace(/\n/g, '<br>');
 
   document.getElementById('pdf-render').innerHTML = `
     <style>
@@ -958,6 +978,10 @@ function baixarPDF() {
       #pdf-render .pdf-sec-title{font-size:15px;font-weight:bold;color:#1a1a2e;margin-bottom:7px;display:flex;align-items:center;}
       #pdf-render .pdf-sec-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#B8860B;color:#fff;font-size:12px;margin-right:10px;flex-shrink:0;font-family:Arial,sans-serif;}
       #pdf-render .pdf-sec-body{font-size:13px;line-height:1.7;color:#333;padding-left:34px;}
+      #pdf-render .pdf-honest{background:#f0f8f7;border:1px solid #9fcfc8;border-radius:6px;padding:14px 16px;margin:22px 0;page-break-inside:avoid;}
+      #pdf-render .pdf-honest-title{font-size:14px;font-weight:bold;color:#1d6f65;margin-bottom:7px;}
+      #pdf-render .pdf-honest-body{font-size:12.5px;line-height:1.7;color:#333;}
+      #pdf-render .pdf-honest-nota{font-size:11px;color:#4a7a75;margin-top:8px;font-style:italic;}
       #pdf-render .pdf-naoverif{background:#fdf0ed;border:1px solid #e0a99a;border-radius:6px;padding:14px 16px;margin:22px 0;page-break-inside:avoid;}
       #pdf-render .pdf-naoverif-title{font-size:14px;font-weight:bold;color:#b5341a;margin-bottom:7px;}
       #pdf-render .pdf-naoverif-body{font-size:12.5px;line-height:1.7;color:#333;}
@@ -993,6 +1017,12 @@ function baixarPDF() {
     </div>
 
     ${secoesHTML}
+
+    ${honest ? `<div class="pdf-honest">
+      <div class="pdf-honest-title">✓ O que a oferta faz certo</div>
+      <div class="pdf-honest-body">${honest}</div>
+      <div class="pdf-honest-nota">Estes são pontos a favor, coisas que ofertas manipuladoras costumam esconder e esta mostra. Não são um aval: uma oferta pode fazer tudo isto certo e ainda assim não entregar o que promete. São bons sinais para confirmar, não para confiar de olhos fechados.</div>
+    </div>` : ''}
 
     <div class="pdf-naoverif">
       <div class="pdf-naoverif-title">⚠ O que não consegui verificar</div>
