@@ -1121,12 +1121,22 @@ const FLAGS = [
     rx:/\d+\s*x\s*mais\s*(rápido|rapido|veloz|eficiente|barato|resultado)|(\d+|duas|três|tres|dez)\s*vezes\s*mais\s*(rápido|rapido|eficiente|veloz)|(muito|bem)\s*mais\s*rápido que|aprenda\s*(em metade|na metade)|no menor tempo|(mais|super)\s*(rápido|acelerad)\s*do (mercado|mundo)|método mais (rápido|eficiente)/i,
     exp:'A oferta promete ser "X vezes mais rápido" ou "o mais eficiente" sem dizer mais rápido que quê, medido como, comparado a quem. Número de velocidade sem base de comparação é impressão de eficiência, não prova dela. Pergunte: 3x mais rápido em relação a qual método, medido em qual estudo?' },
 
+  { id:'recuperacao_do_investimento', label:'Diz que o preço "se paga sozinho" rápido', weight:16,
+    rx:/(recuper\w+|de volta|retorn\w+)\s+(o|do|seu|todo o|a|todo|esse|este)?\s*(valor|investi\w+|dinheiro|gasto|montante)|(valor|dinheiro|investimento)\s+(investi\w+\s+)?de volta\s+(em|no|até|dentro)?\s*\d*\s*(dias|semanas|mês|meses)?|se paga\s+(sozinh|em|no|nos|com)|pag[ao]\s+(o|a)\s+(curso|mentoria|investimento|treinamento)\s+(sozinh|em \d+)|não é\s+(um\s+)?(gasto|custo|despesa),?\s*é\s+(um\s+)?investimento|recuperar?\s+(o\s+)?(valor|dinheiro|investimento)/i,
+    exp:'A oferta diz que o valor pago "se paga sozinho" num prazo curto, ou que "não é gasto, é investimento". É uma jogada para transformar o preço em risco zero na sua cabeça, antes de você perguntar se o resultado é real. Recuperar o investimento depende de você aplicar, ter capital, ter mercado, ter sorte, tudo que ninguém controla. Trate o preço como um gasto que pode não voltar, e decida se cabe assim. Se só faz sentido pagar porque "se paga sozinho", a conta ainda não fecha.' },
+
+  { id:'garantia_com_barreira', label:'Garantia que exige provar que você "aplicou tudo"', weight:18,
+    rx:/(reembolso|dinheiro de volta|devolv\w+|garantia)\s*(se|caso|desde que|contanto que|mediante)\s*(você )?(provar?|comprov\w+|demonstr\w+|aplicar?|fizer|seguir|cumprir)\s*(tudo|todo|todas|o método|as aulas|o passo)|(prov\w+|comprov\w+)\s*que\s*(você )?(aplicou|fez|seguiu|assistiu|cumpriu)\s*(tudo|todas|o método)|se\s*(você )?(aplicar|fizer|seguir)\s*tudo\s*e\s*(ainda assim|mesmo assim)|garantia (condicionad|mediante prova)/i,
+    exp:'A oferta oferece reembolso, mas com uma condição embutida: você precisa "provar que aplicou tudo" para ter o dinheiro de volta. Isso inverte a proteção. Uma garantia real é simples de acionar; esta é desenhada para ser difícil, porque quase ninguém consegue provar que executou cada passo. O alívio de "tem garantia" fica, a garantia de fato não. Antes de pagar, peça por escrito exatamente o que conta como "aplicar tudo", quem julga isso, e em quanto tempo o reembolso é feito. Se a resposta for vaga, a garantia é enfeite.' },
+
 ];
 
 /* --- AUSÊNCIAS QUE PESAM (opacidade sobe o risco) --- */
 const RX_CONTEUDO   = /m(ó|o)dulo|carga horária|ementa|aulas?|certificad|conteúdo program|grade do curso|cronograma|encontros?/i;
 const RX_REEMBOLSO  = /reembolso|garantia de (7|sete) dias|devolução|estorno|direito de arrependimento|não gostou.*devolv/i;
 const RX_SUPORTE    = /suporte|atendimento|fale conosco|contato@|whatsapp.*\d|telefone|e-?mail de contato/i;
+const RX_PRECO_CLARO = /(R\$\s*\d{1,3}([.,]\d{3})*([.,]\d{2})?)|(\d+\s*x\s*(de\s*)?R\$\s*\d+)|(à vista|a vista)\s*(por|de)?\s*R\$|valor\s*(total|do curso|do investimento|à vista)|preço\s*(é|de|final|total)|investimento\s*(de|total)\s*R\$/i;
+const RX_GARANTIA_LIMPA = /(garantia|reembolso|devolução)\s*(incondicional|sem (burocracia|letra miúda|perguntas|pegadinha)|total)|(7|sete)\s*dias\s*(de garantia|para (testar|desistir|pedir))|(100%|cem por cento)\s*(do (seu )?dinheiro|reembolsável)|direito de arrependimento|código de defesa do consumidor|C\.?D\.?C\.?/i;
 const RX_CNPJ_TXT   = /\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}|cnpj/i;
 const RX_QUEM_ENSINA= /minha (experiência|trajetória)|trabalho (há|a) \d+ ano|formaç(ão|ões)|atuo (há|a) \d+|currículo|portfólio|graduad|especialista em .* com \d+ ano/i;
 
@@ -1245,9 +1255,11 @@ const Engine = {
         comoVerificar:true };
     }
 
-    /* ---------- 4. DECLARADO NA OFERTA (a confirmar, NÃO é ponto) ---------- */
+    /* ---------- 4. SINAIS DE HONESTIDADE (declarado na oferta, a confirmar, NÃO é aval) ---------- */
     const declarados = [];
-    if(RX_CONTEUDO.test(text))    declarados.push({label:'Conteúdo descrito (módulos, aulas, carga horária)', check:'Peça a ementa por escrito e compare com o que está prometido.'});
+    if(RX_PRECO_CLARO.test(text))   declarados.push({label:'O preço aparece no texto', check:'Bom sinal: quem esconde o preço até você entregar seus dados está contando com o seu impulso. Confirme se o valor mostrado é o total, sem taxa surpresa depois.'});
+    if(RX_GARANTIA_LIMPA.test(text)) declarados.push({label:'Garantia parece sem barreira (7 dias, CDC, sem letra miúda)', check:'Bom sinal, se for real. Garantia honesta é simples de acionar. Confirme por escrito: basta pedir, ou você precisa "provar que aplicou tudo"? A segunda esvazia a garantia.'});
+    if(RX_CONTEUDO.test(text))    declarados.push({label:'Conteúdo descrito (módulos, aulas, carga horária)', check:'Bom sinal: oferta que descreve o que entrega esconde menos. Peça a ementa por escrito e compare com o que está prometido.'});
     if(RX_REEMBOLSO.test(text))   declarados.push({label:'Menciona reembolso ou garantia', check:'Peça o prazo e as condições por escrito, antes de pagar.'});
     if(RX_SUPORTE.test(text))     declarados.push({label:'Menciona canal de suporte', check:'Mande uma mensagem ANTES de pagar e veja se respondem.'});
     if(RX_QUEM_ENSINA.test(text)) declarados.push({label:'Menciona a experiência de quem ensina', check:'Procure o nome da pessoa fora da própria página de vendas.'});
@@ -1338,8 +1350,8 @@ function agRender(r){
     + '</div>';
 
   var decl = r.declarados.length
-    ? r.declarados.map(function(d){ return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--muted)">&#9633;</span>'+d.label+'</div><div class="ag-se">'+agGlossar(d.check)+'</div></div>'; }).join('')
-    : '<p style="color:var(--muted);font-size:14px;">A oferta não declara conteúdo, reembolso, suporte nem quem ensina.</p>';
+    ? r.declarados.map(function(d){ return '<div class="ag-sign"><div class="ag-st"><span class="ag-sm" style="color:var(--teal)">&#10003;</span>'+d.label+'</div><div class="ag-se">'+agGlossar(d.check)+'</div></div>'; }).join('')
+    : '<p style="color:var(--muted);font-size:14px;">A oferta não mostra preço, conteúdo, garantia, suporte nem quem ensina no texto analisado. A ausência desses sinais bons é, ela mesma, uma informação.</p>';
 
   var ext = r.externos.map(function(e){
     var guia = window.AG_EXTERNO_GUIA[e.t];
@@ -1395,8 +1407,8 @@ function agRender(r){
 
    +   '<div class="ag-sec"><h4>Rastreabilidade &mdash; a quem reclamar</h4>'+rastro+'</div>'
 
-   +   '<div class="ag-sec"><h4>Declarado na oferta &mdash; a confirmar</h4>'
-   +     '<p class="ag-hint">Isso é o que a oferta <i>diz</i>. Dizer não é provar. Nada aqui reduz o risco. São itens para você exigir por escrito.</p>'
+   +   '<div class="ag-sec"><h4>Sinais de honestidade &mdash; o que a oferta faz certo</h4>'
+   +     '<p class="ag-hint">Estes são pontos a favor: coisas que ofertas manipuladoras costumam esconder e esta mostra. <b>Não são um aval.</b> Dizer não é provar, e uma oferta pode fazer isto certo e ainda assim decepcionar. São bons sinais para confirmar, não para confiar de olhos fechados.</p>'
    +     decl
    +   '</div>'
 
@@ -2134,7 +2146,15 @@ window.AG_PADROES = [
 
   { id:'depoimento_repetido', nome:'Depoimento clonado', gatilho:'O mesmo elogio, palavra por palavra, repetido várias vezes na página.',
     comoFunciona:'Repetir o mesmo depoimento cria a ilusão de volume. Parece que muita gente disse a mesma coisa, quando foi um texto colado várias vezes. Somado a "avaliações 5 estrelas" sem link verificável, dá impressão de multidão satisfeita sem prova real.',
-    comoResistir:'Prova social real vem de pessoas diferentes, com palavras diferentes. Se os elogios se repetem idênticos, é fabricação. Procure avaliações fora do site, em lugares que a empresa não controla e não pode editar.' }
+    comoResistir:'Prova social real vem de pessoas diferentes, com palavras diferentes. Se os elogios se repetem idênticos, é fabricação. Procure avaliações fora do site, em lugares que a empresa não controla e não pode editar.' },
+
+  { id:'recuperacao_do_investimento', nome:'O preço que "se paga sozinho"', gatilho:'"Recupere o valor investido em 30 dias", "não é gasto, é investimento", "se paga sozinho".',
+    comoFunciona:'Transforma o preço em risco zero na sua cabeça antes de você checar se o resultado é real. Se o valor "volta sozinho", pagar parece não ter perda possível, e a pergunta importante (isso funciona mesmo?) fica para trás. Mas recuperar o investimento depende de você aplicar, ter capital, ter mercado, tudo que a oferta não controla.',
+    comoResistir:'Trate o preço como um gasto que pode não voltar, e decida se cabe assim mesmo. Se a compra só faz sentido porque "se paga sozinho", a conta ainda não fechou. Peça os números reais: de cada 100 alunos, quantos recuperaram, em quanto tempo, com quanto investido a mais.' },
+
+  { id:'garantia_com_barreira', nome:'A garantia que se protege de você', gatilho:'"Reembolso se você provar que aplicou tudo", "dinheiro de volta desde que siga o método inteiro".',
+    comoFunciona:'Oferece reembolso e, na mesma frase, embute a condição que o esvazia: você tem que provar que executou cada passo. Quase ninguém consegue provar isso, então o alívio de "tem garantia" fica, mas a garantia de fato quase nunca é acionável. É proteção no marketing, barreira na prática.',
+    comoResistir:'Leia a condição da garantia ANTES de pagar, e peça por escrito: o que exatamente conta como "aplicar tudo", quem julga isso, em quanto tempo o reembolso é feito. Se a régua for subjetiva ou difícil de propósito, a garantia é enfeite, não proteção.' }
 ];
 </script>
 
@@ -2192,7 +2212,9 @@ window.AG_SINAL_GUIA = {
   opacidade: 'reembolso',
   prova_nao_rastreavel: 'exalunos',
   ganho_garantido: 'vendedor',
-  garantia_de_resultado: 'reembolso'
+  garantia_de_resultado: 'reembolso',
+  recuperacao_do_investimento: 'reembolso',
+  garantia_com_barreira: 'reembolso'
 };
 /* mapeia externos → guia */
 window.AG_EXTERNO_GUIA = {
