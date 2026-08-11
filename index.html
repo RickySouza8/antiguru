@@ -1003,7 +1003,7 @@
   </svg>
   <div class="fbrand">Antes de pagar, você merece clareza.</div>
   <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
-  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-f-cfe0d4</div>
+  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-g-e49110</div>
   <div style="margin-top:16px;font-size:12px;">
     <button onclick="agAbrirPrivacidade()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Política de Privacidade</button>
     <span style="color:var(--line2);margin:0 8px;">·</span>
@@ -1723,6 +1723,11 @@ function agGuiaModerno(){
 const AGCheckout = (function(){
   var WA = '5511997603559';
   var MP = 'https://mpago.la/1LBepmR';
+  /* O PREÇO MORA AQUI, E SÓ AQUI.
+     Um lugar para mudar, zero divergência possível entre o que a
+     pessoa lê na tela e o que vai gravado no pedido. */
+  var AG_PRECO = 29.00;
+  var AG_PRECO_TXT = 'R$29';
   var pedido = null;
 
   function el(id){ return document.getElementById(id); }
@@ -1739,30 +1744,22 @@ const AGCheckout = (function(){
      Dois estados, conforme a pessoa já tenha pago ou não.
      Regras dos textos: uma desculpa só, o erro é declarado como nosso,
      e ninguém sai da tela sem saber o que aconteceu e o que fazer. */
+  /* ===== FALHA DE REGISTRO =====
+     Um estado só: a pessoa ainda NÃO pagou.
+     O estado "pagou e não registrou" foi removido de propósito.
+     Depois da inversão do AG-13, os botões de pagamento só aparecem
+     se o registro tiver sucesso, então esse caminho não existe mais
+     DENTRO da máquina.
+     A situação continua existindo FORA dela: gente que paga por link
+     direto, por Pix na chave, por caminho que não passa pelo checkout.
+     Quem trata isso é uma pessoa, no WhatsApp, com a resposta pronta
+     que está no manual de operação. Não é tela, é atendimento. */
   function agFalhaRegistro(ped, motivo){
-    var jaPagou = !!(ped && ped.jaPagou);
-
-    var msgWa = jaPagou
-      ? ('Paguei a análise do AntiGuru e o site não conseguiu registrar meu pedido.\n\n'
-         + 'Nome: ' + (ped.nome||'') + '\n'
-         + 'Contato: ' + (ped.contato||'') + '\n'
-         + 'Oferta: ' + (ped.alvo||'') + '\n\n'
-         + 'Vou mandar o comprovante em seguida.')
-      : ('Tentei fechar meu pedido no AntiGuru e o site não conseguiu registrar.\n\n'
-         + 'Nome: ' + (ped.nome||'') + '\n'
-         + 'Contato: ' + (ped.contato||'') + '\n'
-         + 'Canal de entrega: ' + (ped.canal==='email' ? 'e-mail' : 'WhatsApp') + '\n'
-         + 'Oferta: ' + (ped.alvo||''));
-
-    var titulo = jaPagou
-      ? 'Seu pagamento está seguro. Ele não se perde.'
-      : 'Não consegui registrar seu pedido agora.';
-
-    var corpo = jaPagou
-      ? '<p>O que falhou foi o registro aqui do meu lado, não o seu pagamento.</p>'
-        + '<p>Me mande o comprovante no WhatsApp e eu registro na mão hoje mesmo. Sua análise sai normalmente.</p>'
-      : '<p><b>Não pague ainda.</b> Se pagar sem o registro, o pagamento entra e eu não fico sabendo que é seu.</p>'
-        + '<p>Me chame no WhatsApp que eu registro na mão e sigo daí. É rápido.</p>';
+    var msgWa = 'Tentei fechar meu pedido no AntiGuru e o site não conseguiu registrar.\n\n'
+      + 'Nome: ' + (ped.nome||'') + '\n'
+      + 'Contato: ' + (ped.contato||'') + '\n'
+      + 'Canal de entrega: ' + (ped.canal==='email' ? 'e-mail' : 'WhatsApp') + '\n'
+      + 'Oferta: ' + (ped.alvo||'');
 
     var caixa = el('ckFalha');
     if(!caixa){
@@ -1773,10 +1770,12 @@ const AGCheckout = (function(){
       (alvoDom || document.body).appendChild(caixa);
     }
     caixa.innerHTML =
-      '<div class="ck-falha-t">' + titulo + '</div>'
-      + '<div class="ck-falha-b">' + corpo + '</div>'
-      + '<a class="btn gold" style="width:100%;justify-content:center;margin-top:4px;" target="_blank" rel="noopener" href="https://wa.me/' + WA + '?text=' + encodeURIComponent(msgWa) + '">'
-      + (jaPagou ? 'Mandar o comprovante no WhatsApp' : 'Me chamar no WhatsApp') + '</a>';
+      '<div class="ck-falha-t">Não consegui registrar seu pedido agora.</div>'
+      + '<div class="ck-falha-b">'
+      + '<p><b>Não pague ainda.</b> Se pagar sem o registro, o pagamento entra e eu não fico sabendo que é seu.</p>'
+      + '<p>Me chame no WhatsApp que eu registro na mão e sigo daí. É rápido.</p>'
+      + '</div>'
+      + '<a class="btn gold" style="width:100%;justify-content:center;margin-top:4px;" target="_blank" rel="noopener" href="https://wa.me/' + WA + '?text=' + encodeURIComponent(msgWa) + '">Me chamar no WhatsApp</a>';
     caixa.style.display = 'block';
     try{ caixa.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){}
     if(motivo) console.error('[AG] motivo do nao registro:', motivo);
@@ -1831,7 +1830,7 @@ const AGCheckout = (function(){
       canal: canal,
       contato: contato,
       alvo: (el('ckOferta').value||'').trim() || (a.name||'') || 'oferta não informada',
-      valor: 29.00,
+      valor: AG_PRECO,
       texto_oferta: (a.texto||'').slice(0,3000),
       link_oferta: a.origem || null,
       cnpj: a.cnpj || '',
@@ -1905,7 +1904,7 @@ const AGCheckout = (function(){
 
     // links de pagamento carregam o código
     el('ckPix').href = 'https://wa.me/'+WA+'?text='+encodeURIComponent(
-      'Olá! Quero a análise completa do AntiGuru e prefiro pagar por Pix (R$29).\n\n'
+      'Olá! Quero a análise completa do AntiGuru e prefiro pagar por Pix (' + AG_PRECO_TXT + ').\n\n'
       + 'Código do pedido: '+pedido.protocolo+'\n'
       + 'Nome: '+pedido.nome+'\n'
       + 'Receber por: '+(pedido.canal==='email'?'E-mail: '+pedido.contato:'WhatsApp: '+pedido.contato)+'\n'
@@ -1913,31 +1912,22 @@ const AGCheckout = (function(){
     );
     el('ckCartao').href = MP;
 
-    /* A partir do clique em pagar, uma falha posterior precisa começar
-       falando do dinheiro, não do registro. */
-    ['ckCartao','ckPix'].forEach(function(id){
-      var b = el(id);
-      if(b && !b.dataset.agPagoBind){
-        b.dataset.agPagoBind = '1';
-        b.addEventListener('click', function(){ if(pedido) pedido.jaPagou = true; });
-      }
-    });
+    /* Os botões leem o preço da constante, não de texto fixo no HTML.
+       Assim o que a pessoa lê e o que vai gravado no pedido não podem divergir. */
+    el('ckCartao').textContent = 'Pagar com cartão · ' + AG_PRECO_TXT;
+    el('ckPix').textContent    = 'Pagar com Pix · ' + AG_PRECO_TXT + ' (sem taxa)';
+
 
     el('ckAvisar').href = 'https://wa.me/'+WA+'?text='+encodeURIComponent(
       'Paguei a análise do AntiGuru pelo cartão.\n\nCódigo do pedido: '+pedido.protocolo+'\nNome: '+pedido.nome
     );
 
-    if(!salvou){
-      el('ckFallback').style.display='block';
-      el('ckFallbackWa').href = 'https://wa.me/'+WA+'?text='+encodeURIComponent(
-        '✦ PEDIDO ANTIGURU (registro manual)\n\n'
-        + 'Código: '+pedido.protocolo+'\nNome: '+pedido.nome+'\n'
-        + 'Receber por: '+(pedido.canal==='email'?'E-mail':'WhatsApp')+': '+pedido.contato+'\n'
-        + 'Oferta: '+(pedido.oferta||'-')
-      );
-    } else {
-      el('ckFallback').style.display='none';
-    }
+    /* O fallback de "registro manual" que existia aqui foi removido.
+       Ele lia a variável `salvou`, que sumiu junto com o defeito do AG-12.
+       Neste ponto do fluxo o pedido SEMPRE existe no banco, porque a
+       função retorna antes se o registro falhar. Bloco morto por
+       construção, não por acaso. */
+    el('ckFallback').style.display='none';
 
     passo(2);
   }
