@@ -470,6 +470,11 @@
   .ag-ajuda-btn:hover{color:var(--gold2);}
 
   /* nota moderna (quiz/assinatura) no laudo */
+  .ck-falha{display:none;background:linear-gradient(160deg,rgba(229,101,75,.14),rgba(229,101,75,.05));border:1px solid rgba(229,101,75,.45);border-radius:14px;padding:18px 20px;margin-top:16px;}
+  .ck-falha-t{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--red);margin-bottom:9px;line-height:1.35;}
+  .ck-falha-b{font-size:14px;color:var(--soft);line-height:1.7;margin-bottom:14px;}
+  .ck-falha-b p{margin:0 0 9px;}
+  .ck-falha-b b{color:var(--text);}
   .ag-nota-mod{background:linear-gradient(160deg,rgba(227,179,65,.09),rgba(227,179,65,.03));border:1px solid rgba(227,179,65,.3);border-radius:14px;padding:16px 18px;margin:4px 0 18px;}
   .ag-nota-mod-t{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--gold2);margin-bottom:7px;}
   .ag-nota-mod p{font-size:13.5px;color:var(--soft);line-height:1.6;margin-bottom:10px;}
@@ -969,7 +974,7 @@
 <section class="sec" id="contato">
   <div class="wrap">
     <div class="eyebrow reveal">Contato</div>
-    <h2 class="reveal">Fale comigo agora.</h2>
+    <h2 class="reveal">Fale comigo.</h2>
     <div class="contact">
       <a class="ccard reveal" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
         <svg class="ci" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
@@ -998,6 +1003,7 @@
   </svg>
   <div class="fbrand">Antes de pagar, você merece clareza.</div>
   <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
+  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-f-cfe0d4</div>
   <div style="margin-top:16px;font-size:12px;">
     <button onclick="agAbrirPrivacidade()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Política de Privacidade</button>
     <span style="color:var(--line2);margin:0 8px;">·</span>
@@ -1729,6 +1735,53 @@ const AGCheckout = (function(){
     return v.replace(/\D/g,'').length >= 10;
   }
 
+  /* ===== FALHA DE REGISTRO: a tela diz a verdade =====
+     Dois estados, conforme a pessoa já tenha pago ou não.
+     Regras dos textos: uma desculpa só, o erro é declarado como nosso,
+     e ninguém sai da tela sem saber o que aconteceu e o que fazer. */
+  function agFalhaRegistro(ped, motivo){
+    var jaPagou = !!(ped && ped.jaPagou);
+
+    var msgWa = jaPagou
+      ? ('Paguei a análise do AntiGuru e o site não conseguiu registrar meu pedido.\n\n'
+         + 'Nome: ' + (ped.nome||'') + '\n'
+         + 'Contato: ' + (ped.contato||'') + '\n'
+         + 'Oferta: ' + (ped.alvo||'') + '\n\n'
+         + 'Vou mandar o comprovante em seguida.')
+      : ('Tentei fechar meu pedido no AntiGuru e o site não conseguiu registrar.\n\n'
+         + 'Nome: ' + (ped.nome||'') + '\n'
+         + 'Contato: ' + (ped.contato||'') + '\n'
+         + 'Canal de entrega: ' + (ped.canal==='email' ? 'e-mail' : 'WhatsApp') + '\n'
+         + 'Oferta: ' + (ped.alvo||''));
+
+    var titulo = jaPagou
+      ? 'Seu pagamento está seguro. Ele não se perde.'
+      : 'Não consegui registrar seu pedido agora.';
+
+    var corpo = jaPagou
+      ? '<p>O que falhou foi o registro aqui do meu lado, não o seu pagamento.</p>'
+        + '<p>Me mande o comprovante no WhatsApp e eu registro na mão hoje mesmo. Sua análise sai normalmente.</p>'
+      : '<p><b>Não pague ainda.</b> Se pagar sem o registro, o pagamento entra e eu não fico sabendo que é seu.</p>'
+        + '<p>Me chame no WhatsApp que eu registro na mão e sigo daí. É rápido.</p>';
+
+    var caixa = el('ckFalha');
+    if(!caixa){
+      caixa = document.createElement('div');
+      caixa.id = 'ckFalha';
+      caixa.className = 'ck-falha';
+      var alvoDom = el('ckErr') && el('ckErr').parentNode;
+      (alvoDom || document.body).appendChild(caixa);
+    }
+    caixa.innerHTML =
+      '<div class="ck-falha-t">' + titulo + '</div>'
+      + '<div class="ck-falha-b">' + corpo + '</div>'
+      + '<a class="btn gold" style="width:100%;justify-content:center;margin-top:4px;" target="_blank" rel="noopener" href="https://wa.me/' + WA + '?text=' + encodeURIComponent(msgWa) + '">'
+      + (jaPagou ? 'Mandar o comprovante no WhatsApp' : 'Me chamar no WhatsApp') + '</a>';
+    caixa.style.display = 'block';
+    try{ caixa.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){}
+    if(motivo) console.error('[AG] motivo do nao registro:', motivo);
+  }
+
   function abrir(analise){
     el('agModal').classList.add('open');
     document.body.style.overflow='hidden';
@@ -1765,68 +1818,120 @@ const AGCheckout = (function(){
     if(!aceite){ err.textContent='Para eu te entregar a análise, preciso do seu ok no primeiro item (uso do contato para a entrega).'; return; }
     err.textContent='';
 
-    var agora = new Date().toISOString();
+    var timestamp = new Date().toISOString();
     var a = window.AG_ULTIMA || {};
+    /* O payload fala o vocabulário DA TABELA, não o do site.
+       codigo -> protocolo, oferta -> alvo, status -> estado.
+       `pago` e `entregue` saem: a tabela expressa isso em estado,
+       pago_em e entregue_em. O contrato entre as duas peças passa
+       a ter dono, e o dono é a tabela. */
     pedido = {
-      codigo: codigo(),
+      protocolo: codigo(),
       nome: nome,
       canal: canal,
       contato: contato,
-      oferta: (el('ckOferta').value||'').trim() || (a.name||''),
-      valor: a.valor || '',
+      alvo: (el('ckOferta').value||'').trim() || (a.name||'') || 'oferta não informada',
+      valor: 29.00,
       texto_oferta: (a.texto||'').slice(0,3000),
       link_oferta: a.origem || null,
       cnpj: a.cnpj || '',
       contexto: a.contexto || '',
       risco: (typeof a.risco==='number') ? a.risco : null,
       faixa: a.faixa || null,
-      status: 'aguardando_pagamento',
-      pago: false,
-      entregue: false,
+      estado: 'aguarda_pagamento',
       aceite_lgpd: true,
-      aceite_lgpd_em: agora,
+      aceite_lgpd_em: timestamp,
       consente_marketing: mkt,
-      consente_marketing_em: mkt ? agora : null
+      consente_marketing_em: mkt ? timestamp : null
     };
 
     var btn = el('ckRegistrar');
     btn.disabled = true; btn.textContent = 'Registrando...';
 
-    var salvou = false;
-    if(window.agSupa){
-      try{
-        var r = await window.agSupa.from('pedidos').insert(pedido);
-        if(r.error){ console.error('[AG] pedido:', r.error); } else { salvou = true; }
-      }catch(e){ console.error('[AG] pedido:', e); }
+    /* ===== O REGISTRO MANDA NA TELA =====
+       Antes: o INSERT era tentado, o resultado guardado em `salvou`,
+       e `salvou` nunca era consultado. A tela mostrava o protocolo
+       de qualquer jeito. O sistema media o próprio erro e ignorava
+       a própria medição.
+       Agora: se o banco não confirmar, a tela diz a verdade e não
+       avança para o pagamento. O protocolo exibido é o que VOLTOU
+       do banco, então ele é prova de que a linha existe. */
+
+    var gravado = null;   /* a linha que voltou do banco, ou null */
+    var motivo  = null;   /* por que falhou, para o console */
+
+    if(!window.agSupa){
+      motivo = 'cliente supabase indisponível';
+    } else {
+      for(var tentativa = 1; tentativa <= 2; tentativa++){
+        try{
+          var r = await window.agSupa.from('pedidos').insert(pedido).select().single();
+          if(r.error){
+            /* 23505 = violação de UNIQUE. Só pode ser colisão de protocolo.
+               Gera outro e tenta uma única vez mais. */
+            var colisao = (r.error.code === '23505');
+            if(colisao && tentativa === 1){
+              pedido.protocolo = codigo();
+              continue;
+            }
+            motivo = r.error.message || 'erro do banco';
+            console.error('[AG] pedido nao gravou:', r.error);
+            break;
+          }
+          gravado = r.data;
+          break;
+        }catch(e){
+          motivo = (e && e.message) || 'falha de rede';
+          console.error('[AG] pedido nao gravou:', e);
+          break;
+        }
+      }
     }
-    pedido.salvouOnline = salvou;
 
     btn.disabled = false; btn.textContent = 'Registrar meu pedido';
 
-    el('ckCod').textContent   = pedido.codigo;
-    el('ckCod3').textContent  = pedido.codigo;
+    if(!gravado){
+      agFalhaRegistro(pedido, motivo);
+      return;   /* não avança para o pagamento */
+    }
+
+    /* daqui para baixo, o pedido EXISTE no banco */
+    pedido.protocolo = gravado.protocolo;
+
+    el('ckCod').textContent   = pedido.protocolo;
+    el('ckCod3').textContent  = pedido.protocolo;
     el('ckCanal3').textContent = pedido.canal==='email' ? 'e-mail' : 'WhatsApp';
     el('ckCont3').textContent = pedido.contato;
 
     // links de pagamento carregam o código
     el('ckPix').href = 'https://wa.me/'+WA+'?text='+encodeURIComponent(
       'Olá! Quero a análise completa do AntiGuru e prefiro pagar por Pix (R$29).\n\n'
-      + 'Código do pedido: '+pedido.codigo+'\n'
+      + 'Código do pedido: '+pedido.protocolo+'\n'
       + 'Nome: '+pedido.nome+'\n'
       + 'Receber por: '+(pedido.canal==='email'?'E-mail: '+pedido.contato:'WhatsApp: '+pedido.contato)+'\n'
       + 'Oferta a analisar: '+(pedido.oferta||'(vou enviar)')
     );
     el('ckCartao').href = MP;
 
+    /* A partir do clique em pagar, uma falha posterior precisa começar
+       falando do dinheiro, não do registro. */
+    ['ckCartao','ckPix'].forEach(function(id){
+      var b = el(id);
+      if(b && !b.dataset.agPagoBind){
+        b.dataset.agPagoBind = '1';
+        b.addEventListener('click', function(){ if(pedido) pedido.jaPagou = true; });
+      }
+    });
+
     el('ckAvisar').href = 'https://wa.me/'+WA+'?text='+encodeURIComponent(
-      'Paguei a análise do AntiGuru pelo cartão.\n\nCódigo do pedido: '+pedido.codigo+'\nNome: '+pedido.nome
+      'Paguei a análise do AntiGuru pelo cartão.\n\nCódigo do pedido: '+pedido.protocolo+'\nNome: '+pedido.nome
     );
 
     if(!salvou){
       el('ckFallback').style.display='block';
       el('ckFallbackWa').href = 'https://wa.me/'+WA+'?text='+encodeURIComponent(
         '✦ PEDIDO ANTIGURU (registro manual)\n\n'
-        + 'Código: '+pedido.codigo+'\nNome: '+pedido.nome+'\n'
+        + 'Código: '+pedido.protocolo+'\nNome: '+pedido.nome+'\n'
         + 'Receber por: '+(pedido.canal==='email'?'E-mail':'WhatsApp')+': '+pedido.contato+'\n'
         + 'Oferta: '+(pedido.oferta||'-')
       );
