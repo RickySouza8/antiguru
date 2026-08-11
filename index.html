@@ -200,8 +200,15 @@
   .ag-tier.free{color:var(--teal);background:rgba(87,208,192,.1);border:1px solid rgba(87,208,192,.32);}
   .ag-tier.paid{color:var(--gold);background:rgba(227,179,65,.1);border:1px solid rgba(227,179,65,.34);}
   .ag-locked{position:relative;border-radius:16px;overflow:hidden;margin-top:8px;border:1px solid var(--line);}
-  .ag-locked .ag-blur{filter:blur(7px);opacity:.5;pointer-events:none;user-select:none;padding:22px;}
-  .ag-locked .ag-veil{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:28px 24px;background:linear-gradient(180deg,rgba(8,10,19,.55),rgba(8,10,19,.86));}
+  /* A caixa acompanha o conteúdo da OFERTA, não o do fundo borrado.
+     Antes, a altura vinha do bloco borrado e o overflow:hidden cortava o
+     fim do véu: o botão de compra ficava 210px abaixo do corte no desktop
+     e 232px no celular, invisível, justamente no ponto em que a pessoa
+     acabou de ler o que ganha por R$29.
+     Agora o véu entra no fluxo e manda na altura, e o borrado vira fundo
+     absoluto atrás dele. */
+  .ag-locked .ag-blur{position:absolute;inset:0;overflow:hidden;filter:blur(7px);opacity:.5;pointer-events:none;user-select:none;padding:22px;}
+  .ag-locked .ag-veil{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:28px 24px;background:linear-gradient(180deg,rgba(8,10,19,.55),rgba(8,10,19,.86));}
   .ag-veil .lk{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;}
   .ag-veil .lk svg{width:24px;height:24px;}
   .ag-veil .vt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:23px;color:var(--text);line-height:1.25;max-width:30ch;}
@@ -1003,7 +1010,7 @@
   </svg>
   <div class="fbrand">Antes de pagar, você merece clareza.</div>
   <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
-  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-g-e49110</div>
+  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-h-1395a1</div>
   <div style="margin-top:16px;font-size:12px;">
     <button onclick="agAbrirPrivacidade()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Política de Privacidade</button>
     <span style="color:var(--line2);margin:0 8px;">·</span>
