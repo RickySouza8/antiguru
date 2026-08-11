@@ -540,6 +540,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="tecnicas.js"></script>
 <script>
+  /* O PREÇO MORA AQUI, E SÓ AQUI.
+     Definido antes de tudo para que o HTML, o resultado da análise e o
+     checkout leiam o mesmo valor. Mudar o preço é mudar estas duas linhas. */
+  window.AG_PRECO = 29.00;
+  window.AG_PRECO_TXT = 'R$' + String(window.AG_PRECO).replace('.00','').replace('.', ',');
+
   window.AG_SUPABASE_URL = "https://wthhnpgfqfqidbciyumc.supabase.co";
   window.AG_SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0aGhucGdmcWZxaWRiY2l5dW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjY1NTAsImV4cCI6MjA5Nzc0MjU1MH0.UcQI-G3Jb7KDE1x_iUbrgsegpOS6ZLJ1pBM90ijpci0";
   try { window.agSupa = window.supabase.createClient(window.AG_SUPABASE_URL, window.AG_SUPABASE_ANON); } catch(e){ window.agSupa = null; }
@@ -765,7 +771,7 @@
 
       <div class="ag-err" id="agErr"></div>
       <button class="btn gold" id="agBtn" style="width:100%;justify-content:center;">Analisar</button>
-      <p class="ag-disc">Prévia automática e gratuita, feita no seu navegador. Não guardo o que você cola aqui. A análise completa, feita por uma pessoa, sai por R$29. Veja em <a href="#oferta">a oferta</a>.</p>
+      <p class="ag-disc">Prévia automática e gratuita, feita no seu navegador. Não guardo o que você cola aqui. A análise completa, feita por uma pessoa, sai por <span data-preco>R$29</span>. Veja em <a href="#oferta">a oferta</a>.</p>
     </div>
     <div id="agResult"></div>
   </div>
@@ -847,7 +853,7 @@
 
 <section class="sec" id="oferta">
   <div class="wrap" style="text-align:center;">
-    <div class="eyebrow reveal">O que os R$29 entregam</div>
+    <div class="eyebrow reveal">O que os <span data-preco>R$29</span> entregam</div>
     <h2 class="reveal">Um exemplo do laudo completo.</h2>
     <p class="lead reveal" style="color:var(--muted);max-width:60ch;margin-left:auto;margin-right:auto;">A prévia gratuita lê o texto. O laudo pago é a verificação que dá trabalho fazer, a que quase ninguém faz antes de pagar. Feita à mão, por uma pessoa. Este é o formato do que você recebe:</p>
 
@@ -889,7 +895,7 @@
       </div>
 
       <div class="lx-honesto">
-        <b>Por que isso custa, e custa pouco.</b> Cada laudo desses leva tempo real: pesquisar, ler reclamações, cruzar informação. É trabalho humano, por isso não é grátis. Mas cobro R$29 porque quero que caiba no seu bolso, não que pese nele. E se você quiser fazer sozinho, eu te ensino como, de graça, na seção <button type="button" class="lx-lk" onclick="document.getElementById('padroes').scrollIntoView({behavior:'smooth'})">Técnicas do guru</button>. O que você paga aqui é o trabalho, não um segredo.</p>
+        <b>Por que isso custa, e custa pouco.</b> Cada laudo desses leva tempo real: pesquisar, ler reclamações, cruzar informação. É trabalho humano, por isso não é grátis. Mas cobro <span data-preco>R$29</span> porque quero que caiba no seu bolso, não que pese nele. E se você quiser fazer sozinho, eu te ensino como, de graça, na seção <button type="button" class="lx-lk" onclick="document.getElementById('padroes').scrollIntoView({behavior:'smooth'})">Técnicas do guru</button>. O que você paga aqui é o trabalho, não um segredo.</p>
         <p class="lx-nota" style="margin-top:14px;"><b>E por que 72 horas, e não 24.</b> Porque sou uma pessoa só, e prefiro te prometer um prazo que eu cumpro a te prometer um prazo bonito e te deixar esperando. Na maioria das vezes chega antes. Mas o que eu assino é o prazo que aguento com a análise bem feita, não o que soa melhor no anúncio.
       </div>
     </div>
@@ -901,11 +907,11 @@
     <div class="eyebrow reveal">A oferta</div>
     <h2 class="reveal">Clareza antes da decisão.</h2>
     <div class="offer reveal">
-      <div class="price">R$29</div>
+      <div class="price" data-preco>R$29</div>
       <div class="anchor">Antes de arriscar R$997 no escuro</div>
       <p class="line">Você não está comprando uma resposta. Está comprando clareza antes da decisão.</p>
       <div class="terms">Você escolhe o canal · entrega em até 72h</div>
-      <button class="btn gold" data-abre-checkout style="justify-content:center;width:100%;">Quero a análise completa · R$29</button>
+      <button class="btn gold" data-abre-checkout style="justify-content:center;width:100%;">Quero a análise completa · <span data-preco>R$29</span></button>
       <div style="font-family:'Space Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.6;">Primeiro você me diz onde receber. Só depois vem o pagamento.<br>Cartão ou Pix, você escolhe.</div>
       <div class="guarantee">Se considerar que a análise não foi útil para sua decisão, você pode solicitar reembolso em até 7 dias.</div>
     </div>
@@ -919,7 +925,7 @@
     <div class="reveal" style="background:linear-gradient(160deg,rgba(227,179,65,.06),rgba(15,21,48,.6));border:1px solid rgba(227,179,65,.22);border-radius:18px;padding:30px 28px;margin-top:8px;">
       <p style="font-size:16.5px;line-height:1.75;color:var(--soft,#B9BCDB);">
         Eu poderia te prometer riqueza e cobrar caro. É o que os gurus fazem.<br><br>
-        Eu prefiro o contrário: cobro <b style="color:var(--gold2,#F4DFA0);">R$29</b> porque quero que isso caiba no seu bolso, não que pese nele. Esse valor me ajuda a melhorar a ferramenta, manter o serviço de pé e, sim, a viver disso, com honestidade.<br><br>
+        Eu prefiro o contrário: cobro <b style="color:var(--gold2,#F4DFA0);" data-preco>R$29</b> porque quero que isso caiba no seu bolso, não que pese nele. Esse valor me ajuda a melhorar a ferramenta, manter o serviço de pé e, sim, a viver disso, com honestidade.<br><br>
         <span style="font-family:var(--ffs,'Cormorant Garamond',serif);font-style:italic;font-size:20px;color:var(--text,#ECEAF6);">Não vendo sonho. Vendo clareza.</span><br>
         <span style="color:var(--muted,#9498BC);font-size:15px;">E clareza não pode custar uma fortuna, senão vira a mesma armadilha que a gente quer evitar.</span>
       </p>
@@ -950,7 +956,7 @@
       </div>
       <div class="gr-card">
         <div class="gr-t">Cada análise paga sustenta as grátis</div>
-        <p>Os R$29 pagam o tempo de quem trabalha e mantêm a prévia de pé, aberta, para quem não pode pagar nada agora. Quem paga banca quem não pode.</p>
+        <p>Os <span data-preco>R$29</span> pagam o tempo de quem trabalha e mantêm a prévia de pé, aberta, para quem não pode pagar nada agora. Quem paga banca quem não pode.</p>
       </div>
     </div>
 
@@ -1029,7 +1035,7 @@
   </svg>
   <div class="fbrand">Antes de pagar, você merece clareza.</div>
   <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
-  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260811-a-92cdde</div>
+  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260811-b-571d57</div>
   <div style="margin-top:16px;font-size:12px;">
     <button onclick="agAbrirPrivacidade()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Política de Privacidade</button>
     <span style="color:var(--line2);margin:0 8px;">·</span>
@@ -1168,6 +1174,15 @@ const RX_CONTEUDO   = /m(ó|o)dulo|carga horária|ementa|aulas?|certificad|conte
 const RX_REEMBOLSO  = /reembolso|garantia de (7|sete) dias|devolução|estorno|direito de arrependimento|não gostou.*devolv/i;
 const RX_SUPORTE    = /suporte|atendimento|fale conosco|contato@|whatsapp.*\d|telefone|e-?mail de contato/i;
 const RX_PRECO_CLARO = /(R\$\s*\d{1,3}([.,]\d{3})*([.,]\d{2})?)|(\d+\s*x\s*(de\s*)?R\$\s*\d+)|(à vista|a vista)\s*(por|de)?\s*R\$|valor\s*(total|do curso|do investimento|à vista)|preço\s*(é|de|final|total)|investimento\s*(de|total)\s*R\$/i;
+/* Preenche todo [data-preco] com o valor da constante única.
+   Roda cedo e de novo depois que o resultado da análise é montado. */
+function agAplicarPreco(){
+  document.querySelectorAll('[data-preco]').forEach(function(e){
+    e.textContent = window.AG_PRECO_TXT;
+  });
+}
+document.addEventListener('DOMContentLoaded', agAplicarPreco);
+
 /* ---------- CHECKOUT DIRETO ----------
    Detecta quando o link/texto é uma TELA DE PAGAMENTO, não uma oferta.
    Não pontua risco: interrompe com orientação, porque não há o que analisar. */
@@ -1500,8 +1515,8 @@ function agRender(r){
    +           '<div class="viteml"><b>5. Roteiro do que fazer.</b> Os próximos passos concretos para a sua decisão, seja ela qual for.</div>'
    +         '</div>'
    +         '<div class="vhonesto">Sendo claro: eu não digo "compre" ou "não compre", e não posso garantir que a empresa vá cumprir o que promete, porque isso ninguém pode. O que eu entrego é a verificação que dá trabalho fazer e quase ninguém faz. Se não te for útil, o reembolso vale por 7 dias.</div>'
-   +         '<button class="btn gold" id="agAbrirCheckout" style="justify-content:center;">Quero a análise completa · R$29</button>'
-   +         '<div class="vprice">R$29 &middot; entrega em até 72h &middot; reembolso em 7 dias</div>'
+   +         '<button class="btn gold" id="agAbrirCheckout" style="justify-content:center;">Quero a análise completa · '+window.AG_PRECO_TXT+'</button>'
+   +         '<div class="vprice">'+window.AG_PRECO_TXT+' &middot; entrega em até 72h &middot; reembolso em 7 dias</div>'
    +       '</div>'
    +     '</div>'
    +     '<p class="ag-legal" style="margin-top:18px;">Esta prévia é automática e lê só o que você colou. Não dizemos "compre" ou "não compre". A decisão é sua, e sempre vai ser.</p>'
@@ -1752,8 +1767,8 @@ const AGCheckout = (function(){
   /* O PREÇO MORA AQUI, E SÓ AQUI.
      Um lugar para mudar, zero divergência possível entre o que a
      pessoa lê na tela e o que vai gravado no pedido. */
-  var AG_PRECO = 29.00;
-  var AG_PRECO_TXT = 'R$29';
+  var AG_PRECO = window.AG_PRECO;
+  var AG_PRECO_TXT = window.AG_PRECO_TXT;
   var pedido = null;
 
   function el(id){ return document.getElementById(id); }
@@ -2136,9 +2151,9 @@ const AGCheckout = (function(){
         </div>
 
         <div class="ck-pay">
-          <a class="btn gold" id="ckCartao" href="#" target="_blank" rel="noopener">Pagar com cartão · R$29</a>
+          <a class="btn gold" id="ckCartao" href="#" target="_blank" rel="noopener">Pagar com cartão · <span data-preco>R$29</span></a>
           <div class="ck-sep">ou</div>
-          <a class="btn ck-pix" id="ckPix" href="#" target="_blank" rel="noopener">Pagar com Pix · R$29 (sem taxa)</a>
+          <a class="btn ck-pix" id="ckPix" href="#" target="_blank" rel="noopener">Pagar com Pix · <span data-preco>R$29</span> (sem taxa)</a>
         </div>
 
         <div class="ck-comofunciona">
