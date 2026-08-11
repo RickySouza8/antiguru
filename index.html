@@ -1029,7 +1029,7 @@
   </svg>
   <div class="fbrand">Antes de pagar, você merece clareza.</div>
   <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
-  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-i-7d0dc2</div>
+  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-j-c983bc</div>
   <div style="margin-top:16px;font-size:12px;">
     <button onclick="agAbrirPrivacidade()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Política de Privacidade</button>
     <span style="color:var(--line2);margin:0 8px;">·</span>
@@ -1934,7 +1934,7 @@ const AGCheckout = (function(){
       + 'Código do pedido: '+pedido.protocolo+'\n'
       + 'Nome: '+pedido.nome+'\n'
       + 'Receber por: '+(pedido.canal==='email'?'E-mail: '+pedido.contato:'WhatsApp: '+pedido.contato)+'\n'
-      + 'Oferta a analisar: '+(pedido.oferta||'(vou enviar)')
+      + 'Oferta a analisar: '+(pedido.alvo||'(vou enviar)')
     );
     el('ckCartao').href = MP;
 
