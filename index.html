@@ -1029,7 +1029,7 @@
   </svg>
   <div class="fbrand">Antes de pagar, você merece clareza.</div>
   <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
-  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-j-c983bc</div>
+  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260811-a-92cdde</div>
   <div style="margin-top:16px;font-size:12px;">
     <button onclick="agAbrirPrivacidade()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Política de Privacidade</button>
     <span style="color:var(--line2);margin:0 8px;">·</span>
@@ -1890,7 +1890,12 @@ const AGCheckout = (function(){
     } else {
       for(var tentativa = 1; tentativa <= 2; tentativa++){
         try{
-          var r = await window.agSupa.from('pedidos').insert(pedido).select().single();
+          /* SEM .select(). A leitura de volta exige a policy de SELECT, que pede
+             authenticated, e quem compra é anon. O PostgREST recusava a operação
+             inteira e reportava como violação de RLS.
+             Não perdemos nada: se o insert volta sem erro, a linha existe, e existe
+             com o protocolo que mandamos, porque protocolo é UNIQUE. */
+          var r = await window.agSupa.from('pedidos').insert(pedido);
           if(r.error){
             /* 23505 = violação de UNIQUE. Só pode ser colisão de protocolo.
                Gera outro e tenta uma única vez mais. */
@@ -1903,7 +1908,7 @@ const AGCheckout = (function(){
             console.error('[AG] pedido nao gravou:', r.error);
             break;
           }
-          gravado = r.data;
+          gravado = { protocolo: pedido.protocolo };
           break;
         }catch(e){
           motivo = (e && e.message) || 'falha de rede';
