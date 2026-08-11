@@ -95,6 +95,22 @@ body{background:
 .section-input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 12px rgba(87,208,192,.2);}
 .autosave-indicator{font-size:11px;color:var(--muted);font-family:var(--ffm);}
 .campo-rodape{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:7px;flex-wrap:wrap;}
+.cal-box{background:rgba(227,179,65,.05);border:1px solid rgba(227,179,65,.25);border-radius:12px;padding:16px 18px;margin-top:22px;}
+.cal-box-2{background:rgba(87,208,192,.05);border-color:rgba(87,208,192,.25);margin-top:14px;}
+.cal-t{font-family:var(--ffm);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
+.cal-box-2 .cal-t{color:var(--teal);}
+.cal-opt{text-transform:none;letter-spacing:0;font-size:11px;color:var(--muted);margin-left:8px;}
+.cal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:620px){.cal-grid{grid-template-columns:1fr;}}
+.cal-campo{display:block;margin-bottom:12px;}
+.cal-k{display:block;font-size:12px;color:var(--soft);margin-bottom:5px;}
+.cal-campo input,.cal-campo select{width:100%;background:var(--surface,#0F1530);border:1px solid var(--line2);border-radius:8px;padding:9px 11px;color:var(--text);font-family:inherit;font-size:13px;}
+.cal-campo input:focus,.cal-campo select:focus{outline:none;border-color:var(--teal);}
+.cal-campo input[readonly]{opacity:.65;cursor:not-allowed;}
+.cal-h{display:block;font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5;}
+.cal-preco{background:rgba(229,101,75,.07);border:1px solid rgba(229,101,75,.3);border-radius:9px;padding:12px 14px;margin:14px 0 12px;}
+.cal-preco-aviso{font-size:11.5px;color:var(--red);line-height:1.6;margin-bottom:11px;}
+.cal-acao{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:6px;}
 .fontes-box{background:rgba(87,208,192,.06);border:1px solid rgba(87,208,192,.25);border-radius:10px;padding:12px 14px;margin:10px 0 12px;}
 .fontes-t{font-family:var(--ffm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:9px;}
 .fontes-lista{display:flex;flex-wrap:wrap;gap:8px 16px;}
@@ -307,6 +323,7 @@ body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
         <div class="editor-container">
           <div class="editor-main">
 
+            <div id="sonda-aviso" style="display:none;background:rgba(229,101,75,.12);border:1px solid var(--red);border-radius:10px;padding:12px 15px;margin-bottom:14px;font-size:13px;color:var(--soft);line-height:1.6;"></div>
             <div class="modo-barra">
               <div class="modo-info" id="modo-info">Carregando o seu modo de trabalho...</div>
               <div class="modo-btns">
@@ -675,7 +692,7 @@ body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
       <div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;">
         <div class="page-title" style="font-size:16px;margin-bottom:16px;">Sobre</div>
         <p style="color:var(--soft);font-size:14px;">AntiGuru · Central de Operações</p>
-        <p style="color:var(--muted);font-size:12px;margin-top:8px;">v2.0 · Sistema de gestão de pedidos, laudos e análises</p>
+        <p style="color:var(--muted);font-size:12px;margin-top:8px;">v2.0 · Sistema de gestão de pedidos, laudos e análises · build AG-20260810-e-97c9d7</p>
       </div>
     </div>
 
@@ -723,7 +740,70 @@ body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
     <div class="action-buttons" style="margin-top:24px;">
       <button class="btn-primary" onclick="copiarParaClipboard()">Copiar para WhatsApp</button>
       <button class="btn-secondary" onclick="baixarPDF()">Baixar PDF</button>
+      <button class="btn-secondary" onclick="baixarPDF(true)" title="Gera a versão vitrine: sem a linha de intransferível, protocolo AG-AMOSTRA, com tarja de amostra">Baixar amostra</button>
       <button class="btn-secondary" onclick="registrarEntrega()">Registrar Entrega</button>
+    </div>
+
+    <!-- BLOCO 1: calibração do trabalho, preenchido no momento da entrega -->
+    <div class="cal-box">
+      <div class="cal-t">Calibração deste laudo <span class="cal-opt">opcional, mas é o que faz o lote valer</span></div>
+
+      <div class="cal-grid">
+        <label class="cal-campo">
+          <span class="cal-k">Tempo que você trabalhou (min)</span>
+          <input type="number" id="cal_tempo_trabalhado_min" min="1" max="600" placeholder="ex: 65">
+          <span class="cal-h">Só o tempo de mão na massa, sem pausas.</span>
+        </label>
+        <label class="cal-campo">
+          <span class="cal-k">Tempo decorrido nesta sessão (min)</span>
+          <input type="number" id="cal_tempo_decorrido_min" readonly>
+          <span class="cal-h">Medido pelo sistema, do abrir ao registrar, só nesta sessão. É relógio, não trabalho. Fechar o navegador reinicia a contagem.</span>
+        </label>
+      </div>
+
+      <label class="cal-campo">
+        <span class="cal-k">Onde foi o tempo</span>
+        <select id="cal_onde_foi_tempo">
+          <option value="">selecione</option>
+          <option>Verificação externa</option>
+          <option>As 8 perguntas</option>
+          <option>Redação</option>
+          <option>Dividido por igual</option>
+        </select>
+      </label>
+
+      <label class="cal-campo">
+        <span class="cal-k">Achado que mudou a decisão do cliente</span>
+        <input type="text" id="cal_achado" maxlength="200" placeholder="uma linha: o que ele não teria visto sozinho">
+      </label>
+
+      <label class="cal-campo">
+        <span class="cal-k">Verificação que falhou</span>
+        <input type="text" id="cal_verificacao_falhou" maxlength="200" placeholder="o que você buscou e não achou">
+      </label>
+    </div>
+
+    <!-- BLOCO 2: retorno do cliente, preenchido quando chegar, dias depois -->
+    <div class="cal-box cal-box-2">
+      <div class="cal-t">Retorno do cliente <span class="cal-opt">preencha quando chegar, pode ser dias depois</span></div>
+
+      <label class="cal-campo">
+        <span class="cal-k">Reação do cliente, frase literal</span>
+        <input type="text" id="cal_frase_cliente" maxlength="300" placeholder="copie a frase dele, sem parafrasear">
+      </label>
+
+      <div class="cal-preco">
+        <div class="cal-preco-aviso">Pergunte só DEPOIS de entregar. Perguntar antes ancora o preço, e isso é manipulação. O AntiGuru não faz isso nem consigo mesmo.</div>
+        <label class="cal-campo" style="margin-bottom:0;">
+          <span class="cal-k">Quanto ele pagaria (R$)</span>
+          <input type="number" id="cal_preco_declarado" min="0" max="9999" placeholder="ex: 60">
+        </label>
+      </div>
+
+      <div class="cal-acao">
+        <span class="cal-h" id="cal-retorno-status"></span>
+        <button class="btn-secondary" onclick="salvarRetornoCliente()">Salvar retorno do cliente</button>
+      </div>
     </div>
   </div>
 </div>
@@ -922,8 +1002,10 @@ async function carregarLaudos() {
 
 async function selecionarPedido(pedidoId) {
   currentPedidoId = pedidoId;
+  window.AG_ABERTO_EM = Date.now();
   document.getElementById('editor-area').style.display = 'block';
   agDefinirModoInicial();
+  agSondaIntegridade();
   
   try {
     const r = await supa.from('laudos').select('*').eq('pedido_id', pedidoId).single();
@@ -934,6 +1016,8 @@ async function selecionarPedido(pedidoId) {
         const el = document.getElementById(s);
         if (el) el.value = laudo[s] || '';
       });
+      agRestaurarFontes(laudo.fontes_consultadas);
+      agCarregarCalibragem(laudo);
     }
     
     // Iniciar autosave
@@ -970,6 +1054,7 @@ async function salvarRascunho() {
     s5: document.getElementById('s5').value,
     s6: document.getElementById('s6').value,
     s7: document.getElementById('s7').value,
+    fontes_consultadas: agColherFontes(),
     ver_reclamacoes: document.getElementById('ver_reclamacoes').value,
     ver_cnpj: document.getElementById('ver_cnpj').value,
     ver_rastro: document.getElementById('ver_rastro').value,
@@ -981,6 +1066,24 @@ async function salvarRascunho() {
 }
 
 function previewLaudo() {
+  /* AVISO, não bloqueio: a prévia deve ser lida como se fosse o cliente.
+     Se o marcador passasse limpo aqui, o operador aprenderia que está tudo bem. */
+  try{
+    const RX_M = /\[[^\]\n]{1,40}\]|\{[^}\n]{1,40}\}/g;
+    const achados = [];
+    CAMPOS_OBRIGATORIOS.forEach(c => {
+      const el = document.getElementById(c.id);
+      if(!el) return;
+      const m = el.value.match(RX_M);
+      if(m) achados.push(c.nome + ': ' + [...new Set(m)].join(', '));
+    });
+    if(achados.length){
+      alert('Aviso: há marcador de preenchimento nos campos abaixo.\n\n'
+        + achados.map(a => '  • ' + a).join('\n')
+        + '\n\nA prévia vai abrir assim mesmo, para você ver como está. Mas o laudo não será gerado enquanto isso não for corrigido.');
+    }
+  }catch(e){}
+
   const html = `
     <h2 style="color:var(--gold);margin-bottom:12px;font-size:18px;">1. O que estão realmente vendendo?</h2>
     <p>${document.getElementById('s1').value || '(não preenchido)'}</p>
@@ -1020,6 +1123,43 @@ function previewLaudo() {
   `;
   document.getElementById('preview-content').innerHTML = html;
   document.getElementById('modal-preview').classList.add('open');
+}
+
+/* ---------- SONDA DE INTEGRIDADE (fecha D5) ----------
+   Os data-campo das caixas de fonte precisam bater com o id de um textarea.
+   Se alguém renomear um campo, o botão volta a gerar texto sem fontes, e
+   degrada em silêncio. A sonda quebra o silêncio: aviso visível a quem opera. */
+function agSondaIntegridade(){
+  const orfaos = [];
+  const vistos = new Set();
+  document.querySelectorAll('input[type=checkbox][data-campo]').forEach(c => {
+    const alvo = c.getAttribute('data-campo');
+    if(vistos.has(alvo)) return;
+    vistos.add(alvo);
+    const el = document.getElementById(alvo);
+    if(!el || el.tagName !== 'TEXTAREA') orfaos.push(alvo);
+  });
+
+  /* também confere o caminho inverso: campo obrigatório sem elemento na tela */
+  const semElemento = [];
+  if(typeof CAMPOS_OBRIGATORIOS !== 'undefined'){
+    CAMPOS_OBRIGATORIOS.forEach(c => { if(!document.getElementById(c.id)) semElemento.push(c.id); });
+  }
+
+  const caixa = document.getElementById('sonda-aviso');
+  if(!caixa) return { orfaos, semElemento };
+
+  if(orfaos.length || semElemento.length){
+    let msg = '<b>Aviso de integridade do editor.</b> ';
+    if(orfaos.length)      msg += 'Caixa de fonte apontando para campo que não existe: <b>' + orfaos.join(', ') + '</b>. O botão "não encontrei" desses campos vai gerar texto sem nomear fonte nenhuma. ';
+    if(semElemento.length) msg += 'Campo obrigatório sem elemento na tela: <b>' + semElemento.join(', ') + '</b>. ';
+    msg += 'Avise antes de escrever o laudo.';
+    caixa.innerHTML = msg;
+    caixa.style.display = 'block';
+  } else {
+    caixa.style.display = 'none';
+  }
+  return { orfaos, semElemento };
 }
 
 /* ---------- MODO GUIADO x COMPACTO ----------
@@ -1100,6 +1240,29 @@ const SUGESTOES_VAZIO = {
   honestidade: 'No material analisado em {DATA} não identifiquei os sinais de honestidade que costumo procurar: preço visível antes do cadastro, conteúdo descrito com detalhe, garantia simples de acionar, ou responsável identificável. Registro a ausência, porque ela também informa. Isso não significa que a oferta seja desonesta, significa que o texto não oferece esses pontos de apoio.',
   nao_verificado: 'Não consegui verificar: a qualidade real do conteúdo, que só se confirma cursando; se o suporte responde no prazo prometido; a experiência de quem pediu reembolso; e se os resultados divulgados têm rastro auditável. Esta análise leu o texto da oferta e as fontes públicas que consultei em {DATA}, e não substitui a sua verificação direta com quem já comprou.'
 };
+
+/* Colhe as fontes marcadas de TODOS os campos, para gravar como prova da verificação. */
+function agColherFontes(){
+  const out = {};
+  ['ver_reclamacoes','ver_cnpj','ver_rastro'].forEach(id => {
+    out[id] = agFontesMarcadas(id);
+  });
+  return out;
+}
+
+/* Remarca as caixas ao reabrir um rascunho. Prova que não persiste não é prova. */
+function agRestaurarFontes(obj){
+  if(!obj) return;
+  try{
+    if(typeof obj === 'string') obj = JSON.parse(obj);
+  }catch(e){ return; }
+  Object.keys(obj).forEach(id => {
+    const marcadas = obj[id] || [];
+    document.querySelectorAll('input[type=checkbox][data-campo="'+id+'"]').forEach(c => {
+      c.checked = marcadas.indexOf(c.value) !== -1;
+    });
+  });
+}
 
 /* Lê as fontes que o humano marcou naquele campo. */
 function agFontesMarcadas(id){
@@ -1182,7 +1345,7 @@ function gerarLaudo() {
   /* PORTÃO DE MARCADOR: nenhum [placeholder] pode chegar ao cliente.
      Cura a classe, não o caso: qualquer colchete com texto dentro é barrado,
      em qualquer campo, inclusive em textos sugeridos que ainda não existem. */
-  const RX_MARCADOR = /\[[^\]\n]{1,40}\]/g;
+  const RX_MARCADOR = /\[[^\]\n]{1,40}\]|\{[^}\n]{1,40}\}/g;
   const comMarcador = [];
   CAMPOS_OBRIGATORIOS.forEach(c => {
     const el = document.getElementById(c.id);
@@ -1219,13 +1382,67 @@ function fecharModalPreview() {
   document.getElementById('modal-preview').classList.remove('open');
 }
 
+/* ---------- CALIBRAÇÃO DOS 20 ----------
+   Dois momentos: o que é do laudo grava na entrega; o que é do cliente grava depois. */
+
+const CAMPOS_CAL_LAUDO   = ['cal_tempo_trabalhado_min','cal_tempo_decorrido_min','cal_onde_foi_tempo','cal_achado','cal_verificacao_falhou'];
+const CAMPOS_CAL_CLIENTE = ['cal_frase_cliente','cal_preco_declarado'];
+
+function agColherCal(lista){
+  const o = {};
+  lista.forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const v = el.value.trim();
+    o[id] = v === '' ? null : (el.type === 'number' ? Number(v) : v);
+  });
+  return o;
+}
+
+function agCarregarCalibragem(laudo){
+  if(!laudo) return;
+  CAMPOS_CAL_LAUDO.concat(CAMPOS_CAL_CLIENTE).forEach(id => {
+    const el = document.getElementById(id);
+    if(el && laudo[id] !== null && laudo[id] !== undefined) el.value = laudo[id];
+  });
+  const st = document.getElementById('cal-retorno-status');
+  if(st) st.textContent = laudo.cal_retorno_em
+    ? 'Retorno registrado em ' + new Date(laudo.cal_retorno_em).toLocaleDateString('pt-BR')
+    : 'Ainda sem retorno do cliente.';
+}
+
+/* O sistema só declara o que ele mede de fato: relógio, não trabalho. */
+function agTempoDecorrido(){
+  if(!window.AG_ABERTO_EM) return null;
+  return Math.round((Date.now() - window.AG_ABERTO_EM) / 60000);
+}
+
+async function salvarRetornoCliente(){
+  if(!currentPedidoId){ alert('Nenhum pedido selecionado.'); return; }
+  const dados = agColherCal(CAMPOS_CAL_CLIENTE);
+  const temAlgo = Object.values(dados).some(v => v !== null);
+  if(!temAlgo){ alert('Nada para salvar. Preencha a frase do cliente ou o preço declarado.'); return; }
+  dados.cal_retorno_em = new Date().toISOString();
+  const r = await supa.from('laudos').update(dados).eq('pedido_id', currentPedidoId);
+  if(r.error){ alert('Não consegui salvar: ' + r.error.message); return; }
+  const st = document.getElementById('cal-retorno-status');
+  if(st) st.textContent = 'Retorno registrado em ' + new Date().toLocaleDateString('pt-BR');
+  alert('Retorno do cliente registrado.');
+}
+
 async function registrarEntrega() {
   const texto = `${document.getElementById('s1').value}\n\n${document.getElementById('s2').value}\n\n${document.getElementById('s3').value}\n\n${document.getElementById('s4').value}\n\n${document.getElementById('s5').value}\n\n${document.getElementById('s6').value}\n\n${document.getElementById('s7').value}\n\n${document.getElementById('s8').value}\n\nO que a oferta faz certo: ${document.getElementById('honestidade').value}\n\nO que não consegui verificar: ${document.getElementById('nao_verificado').value}`;
   
-  await supa.from('laudos').update({
+  const dec = document.getElementById('cal_tempo_decorrido_min');
+  if(dec){ const t = agTempoDecorrido(); if(t !== null) dec.value = t; }
+
+  const payload = Object.assign({
     texto_entregue: texto,
-    entregue_em: new Date().toISOString()
-  }).eq('pedido_id', currentPedidoId);
+    entregue_em: new Date().toISOString(),
+    fontes_consultadas: agColherFontes()
+  }, agColherCal(CAMPOS_CAL_LAUDO));
+
+  await supa.from('laudos').update(payload).eq('pedido_id', currentPedidoId);
   
   await supa.from('pedidos').update({
     estado: 'entregue',
@@ -1243,9 +1460,27 @@ function copiarParaClipboard() {
   navigator.clipboard.writeText(texto).then(() => alert('✓ Copiado para clipboard')).catch(() => alert('Erro ao copiar'));
 }
 
-function baixarPDF() {
+/* Único ponto do gerador que lê um controle de interface. Validado por formato. */
+function agProtocoloValidado(){
+  const bruto = (document.getElementById('select-pedido')?.selectedOptions[0]?.text || '')
+    .split(' · ')[0].trim();
+  return /^AG-[0-9A-Z]{4,8}$/.test(bruto) ? bruto : 'AG-SEM-PROTOCOLO';
+}
+
+function baixarPDF(amostra) {
+  amostra = amostra === true;
   const hoje = new Date().toLocaleDateString('pt-BR');
-  const protocolo = document.getElementById('select-pedido')?.selectedOptions[0]?.text?.split(' · ')[0] || 'AG-XXXXX';
+  /* CURA DA CLASSE: valor de interface nunca entra no artefato do cliente sem validação.
+     O select sempre tem uma opção selecionada, mesmo que seja o placeholder
+     ("Carregando pedidos", "Selecionar pedido"), então o fallback por || nunca dispara.
+
+     CRITÉRIO CALIBRADO NO GERADOR REAL, não em exemplo inventado.
+     O site gera o código em index.html:
+       'AG-' + Date.now().toString(36).slice(-4).toUpperCase()
+             + Math.floor(Math.random()*36).toString(36).toUpperCase()
+     Ou seja: AG- seguido de exatamente 5 caracteres de [0-9A-Z]. Ex.: AG-1V9LW.
+     A régua aceita qualquer coisa nesse formato e rejeita texto de interface. */
+  const protocolo = amostra ? 'AG-AMOSTRA' : agProtocoloValidado();
 
   const secoes = [
     { n: '1', t: 'O que estão realmente vendendo?', v: document.getElementById('s1').value },
@@ -1303,6 +1538,8 @@ function baixarPDF() {
       #pdf-render .pdf-verif-item{margin-bottom:11px;}
       #pdf-render .pdf-verif-k{font-size:11.5px;font-weight:bold;color:#6b5518;margin-bottom:2px;}
       #pdf-render .pdf-verif-v{font-size:12.5px;line-height:1.68;color:#333;}
+      #pdf-render .pdf-tarja{background:#1a1a2e;color:#F4DFA0;border-radius:6px;padding:11px 15px;margin-bottom:18px;font-size:11.5px;line-height:1.6;letter-spacing:.03em;}
+      #pdf-render .pdf-tarja strong{color:#E3B341;}
       #pdf-render .pdf-honest{background:#f0f8f7;border:1px solid #9fcfc8;border-radius:6px;padding:14px 16px;margin:22px 0;page-break-inside:avoid;}
       #pdf-render .pdf-honest-title{font-size:14px;font-weight:bold;color:#1d6f65;margin-bottom:7px;}
       #pdf-render .pdf-honest-body{font-size:12.5px;line-height:1.7;color:#333;}
@@ -1327,6 +1564,10 @@ function baixarPDF() {
         <div class="pdf-tagline">Clareza antes da decisão</div>
       </div>
     </div>
+
+    ${amostra ? `<div class="pdf-tarja">
+      <strong>DOCUMENTO DE AMOSTRA.</strong> Este é um laudo real, com a oferta analisada anonimizada. Serve para mostrar o formato e a profundidade da análise. Não identifica cliente nem contratante, e não substitui uma análise da sua própria oferta.
+    </div>` : ''}
 
     <div class="pdf-meta">
       <span>Protocolo: <strong>${protocolo}</strong></span>
@@ -1381,7 +1622,7 @@ function baixarPDF() {
 
     <div class="pdf-foot">
       <strong>AntiGuru</strong> · um produto do ecossistema <strong>HPE · Human Pattern Engineering</strong><br>
-      Documento pessoal e intransferível, destinado exclusivamente a quem solicitou esta análise.
+      ${amostra ? 'Documento de amostra. Análise real com a oferta anonimizada. Livre para compartilhar.' : 'Documento pessoal e intransferível, destinado exclusivamente a quem solicitou esta análise.'}
     </div>
   `;
 
