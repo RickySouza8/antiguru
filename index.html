@@ -424,6 +424,13 @@
   .ag-check-done-msg b{color:var(--teal);}
 
   /* ===== CAMADA 3: seção padrões na home ===== */
+  .tec-chamada{display:flex;align-items:center;gap:20px;background:linear-gradient(160deg,rgba(227,179,65,.07),rgba(227,179,65,.02));border:1px solid rgba(227,179,65,.25);border-radius:16px;padding:22px 26px;margin:26px 0 18px;max-width:640px;}
+  .tec-num{font-family:'Cormorant Garamond',serif;font-size:64px;line-height:1;color:var(--gold);flex:none;}
+  .tec-txt{font-size:14px;color:var(--soft);line-height:1.65;text-align:left;}
+  .tec-txt b{display:block;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:5px;}
+  @media(max-width:600px){ .tec-chamada{flex-direction:column;text-align:center;gap:10px;padding:20px;} .tec-txt{text-align:center;} }
+  .tec-amostra{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:640px;margin:0 auto 22px;}
+  .tec-chip{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--muted);background:rgba(232,226,255,.04);border:1px solid var(--line);border-radius:30px;padding:6px 13px;}
   .ag-pad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:28px;}
   .ag-pad{background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:14px;padding:20px;}
   .ag-pad-n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;margin-bottom:10px;color:var(--text);}
@@ -531,6 +538,7 @@
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="tecnicas.js"></script>
 <script>
   window.AG_SUPABASE_URL = "https://wthhnpgfqfqidbciyumc.supabase.co";
   window.AG_SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0aGhucGdmcWZxaWRiY2l5dW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjY1NTAsImV4cCI6MjA5Nzc0MjU1MH0.UcQI-G3Jb7KDE1x_iUbrgsegpOS6ZLJ1pBM90ijpci0";
@@ -560,7 +568,7 @@
       <a href="#protecao">Proteção</a>
       <a href="#analisar">Analisar</a>
       <a href="#exemplos">Exemplos</a>
-      <a href="#padroes">Técnicas do guru</a>
+      <a href="tecnicas.html">Técnicas do guru</a>
       <a href="#oferta">Oferta</a>      <a class="nav-wa" href="https://wa.me/5511997603559?text=Quero%20analisar%20um%20curso%20antes%20de%20comprar" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.115zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
         WhatsApp
@@ -820,9 +828,20 @@
   <div class="wrap">
     <div class="eyebrow reveal">Aprenda a ver sozinho</div>
     <h2 class="reveal">As técnicas que todo guru usa.</h2>
-    <p class="lead reveal" style="color:var(--muted);max-width:60ch;">O AntiGuru não quer te deixar dependente dele. Estas são as manobras que aparecem em toda oferta manipuladora, de curso de inglês a mentoria de milhão. Aprenda a reconhecê-las, e você não vai mais precisar de ninguém para não cair.</p>
-    <div class="ag-pad-grid" id="agPadroes"></div>
-    <p class="disc" style="margin-top:24px;">O mesmo conjunto de técnicas que o motor lê no seu texto. Aqui, explicadas para você usar em qualquer oferta, com ou sem o AntiGuru.</p>
+    <p class="lead reveal" style="color:var(--muted);max-width:60ch;">O AntiGuru não quer te deixar dependente dele. As manobras que aparecem em toda oferta manipuladora, de curso de inglês a mentoria de milhão, estão abertas: cada uma com o nome, como ela aparece, por que funciona e como resistir.</p>
+
+    <div class="tec-chamada reveal">
+      <div class="tec-num" id="tecNum">18</div>
+      <div class="tec-txt">
+        <b>técnicas abertas, de graça, com nome e explicação.</b>
+        São exatamente as mesmas que o motor procura no texto que você cola. Nada aqui é segredo, e você não precisa me pagar para aprender a reconhecê-las.
+      </div>
+    </div>
+
+    <div class="tec-amostra reveal" id="tecAmostra"></div>
+
+    <a class="btn gold reveal" href="tecnicas.html" style="margin-top:6px;">Ver as <span data-tec-total>18</span> técnicas</a>
+    <p class="disc reveal" style="margin-top:14px;">Abre numa página só delas, para ler com calma. Você não precisa ter comprado nada.</p>
   </div>
 </section>
 
@@ -1010,7 +1029,7 @@
   </svg>
   <div class="fbrand">Antes de pagar, você merece clareza.</div>
   <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
-  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-h-1395a1</div>
+  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260810-i-7d0dc2</div>
   <div style="margin-top:16px;font-size:12px;">
     <button onclick="agAbrirPrivacidade()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Política de Privacidade</button>
     <span style="color:var(--line2);margin:0 8px;">·</span>
@@ -2248,71 +2267,8 @@ window.AG_GUIA = {
 
 /* ---------- BIBLIOTECA DE PADRÕES (Camada 3) ----------
    Ensina a reconhecer cada técnica sozinho. Casa com os id dos FLAGS. */
-window.AG_PADROES = [
-  { id:'escassez', nome:'Escassez e urgência fabricada', gatilho:'"Últimas vagas", "só hoje", "restam 3", contador regressivo.',
-    comoFunciona:'O cérebro sob pressão de tempo decide pior. Pula a análise e age pelo medo de perder. Por isso o prazo é curto e sempre acabando.',
-    comoResistir:'Espere 48 horas. Oferta honesta sobrevive a você dormir sobre ela. Se a "última vaga" continuar lá depois, você descobriu que o prazo era teatro.' },
-  { id:'ganho_garantido', nome:'Promessa de ganho garantido', gatilho:'"Ganhe R$X por dia", "renda garantida", "do zero ao primeiro milhão".',
-    comoFunciona:'Vende certeza sobre algo que ninguém controla: mercado, esforço, sorte. A cifra específica cria imagem concreta na sua cabeça e faz a promessa parecer plano.',
-    comoResistir:'Pergunte: garantido como? Peça por escrito. Ninguém sério garante resultado financeiro, porque ele não depende só de quem ensina.' },
-  { id:'resultado_com_prazo', nome:'Resultado específico num prazo', gatilho:'"Fluência em 14 meses", "aprovado em 6 meses", "-10kg em 30 dias".',
-    comoFunciona:'Aprendizado e transformação dependem do seu ritmo. Cravar um prazo transforma um processo incerto numa promessa fechada, que vende melhor, mas raramente se cumpre para todos.',
-    comoResistir:'Desconfie de qualquer "X em N tempo". Pergunte de quantos alunos esse prazo foi real, e em que condições. Quase sempre era o melhor caso, não o comum.' },
-  { id:'garantia_de_resultado', nome:'Garantia-isca', gatilho:'"Fluência garantida em contrato", "aprovação garantida ou dinheiro de volta".',
-    comoFunciona:'A "garantia" tranquiliza, mas as letras miúdas costumam exigir presença perfeita, notas mínimas, provas de que você "aplicou tudo". É desenhada para nunca ser acionada.',
-    comoResistir:'Leia as condições da garantia ANTES de pagar. Se forem difíceis de cumprir de propósito, a garantia é enfeite, não proteção.' },
-  { id:'metodo_secreto', nome:'Método secreto', gatilho:'"Fórmula que ninguém conta", "o segredo dos que enriqueceram".',
-    comoFunciona:'O "segredo" cria valor artificial e justifica o preço. Também blinda contra a checagem: como você duvida de algo que "ninguém mais sabe"?',
-    comoResistir:'Conhecimento que funciona não precisa ser secreto. Precisa ser demonstrável. Procure a mesma informação de graça; quase sempre ela existe.' },
-  { id:'promessa_velada', nome:'Promessa financeira velada', gatilho:'"Média de 8% ao mês", "alunos faturam R$10 mil", "resultado típico", "até 300% ao ano".',
-    comoFunciona:'Joga um número de retorno específico sem dizer "garantido". Assim promete e se protege ao mesmo tempo. O número parece dado, mas é sempre o melhor caso mostrado como se fosse o comum. Você imagina o lucro; ninguém mostra quantos ficaram abaixo, ou no prejuízo.',
-    comoResistir:'Todo retorno vem com risco. Quem mostra só o lucro está escondendo metade. Pergunte: de quantas pessoas esse número foi real? Qual o pior caso? Investimento sério informa o risco junto do ganho. Se a oferta só fala do que você ganha, ela está vendendo, não informando.' },
+/* O catálogo de técnicas vive em tecnicas.js, fonte única, carregado no <head>. */
 
-  { id:'estatistica_medo', nome:'Estatística-medo', gatilho:'"Apenas 1% consegue", "99% fracassam sozinhos".',
-    comoFunciona:'Um número assustador te coloca no lado perdedor da conta, e o alívio (comprar) vem logo depois. O dado pode ser real, mas ali ele não informa. Pressiona.',
-    comoResistir:'Repare quando um número aparece pouco antes do botão de compra. Ele está lá para assustar, não para ensinar. Estatística verdadeira não precisa de urgência ao lado.' },
-  { id:'prova_nao_rastreavel', nome:'Prova social não-rastreável', gatilho:'Prints de ganhos, "milhares de alunos", depoimentos sem sobrenome.',
-    comoFunciona:'Print e número são fáceis de fabricar e impossíveis de conferir de fora. A quantidade ("+5000 alunos") impressiona sem provar nada.',
-    comoResistir:'Prova só vale se você puder verificar. Peça contato de quem terminou. Procure ex-alunos fora do funil. Depoimento que você não pode checar é decoração.' },
-  { id:'ataque_ao_ceticismo', nome:'Ataque ao ceticismo', gatilho:'"Só não funciona pra quem tem mentalidade de pobre", "desculpinha".',
-    comoFunciona:'Transforma sua dúvida legítima em defeito de caráter. Assim, se não der certo, a culpa é sua, e o vendedor sai ileso.',
-    comoResistir:'Duvidar é saudável, não é fraqueza. Quem precisa te desqualificar por perguntar está fugindo da pergunta.' },
-  { id:'suporte_vago', nome:'Suporte-isca', gatilho:'"Te pego pela mão", "suporte completo", "você nunca vai ficar sozinho".',
-    comoFunciona:'Vende o alívio do acompanhamento, a parte que mais assusta em aprender algo sozinho. Você compra pensando que terá ajuda em cada passo. Depois, o suporte é um grupo lotado, um robô, ou simplesmente não existe. Você trava, abandona, e a culpa por "não ter aplicado" fica sendo sua.',
-    comoResistir:'Antes de pagar, faça as perguntas exatas: o suporte é com quem, a pessoa ou um assistente? Em qual canal? Qual o prazo de resposta? Por quanto tempo? Peça por escrito. Se a resposta for vaga ou "é só chamar no grupo", você já sabe o que vai receber.' },
-
-  { id:'pressao_emocional', nome:'Pressão sobre identidade', gatilho:'"Transforme sua vida", "chega de ser quem você é", "você merece".',
-    comoFunciona:'Fala com a sua dor e a sua identidade em vez de descrever o produto. Quanto mais mexe em quem você é, menos precisa provar o que entrega.',
-    comoResistir:'Separe a emoção do conteúdo. Pergunte, friamente: tirando a inspiração, o que exatamente eu recebo? Se a resposta for vaga, a oferta é vazia.' },
-
-  { id:'quiz_que_vende', nome:'O quiz que vende', gatilho:'"Responda algumas perguntas e descubra seu perfil", quiz personalizado antes de mostrar o preço.',
-    comoFunciona:'Você responde perguntas leves e pessoais, e a cada resposta se sente mais compreendido, acolhido. Sem perceber, investe minutos e cria expectativa. Quando o preço enfim aparece, você já está emocionalmente dentro, e desistir parece "desperdiçar" o tempo que gastou. A venda vem no pico do acolhimento, não da análise.',
-    comoResistir:'Repare quando um teste "sobre você" termina numa venda. O quiz era o funil, não um serviço. Pergunte: o que exatamente esse app faz depois que eu pagar? Procure isso ANTES de responder o quiz. O acolhimento das perguntas não é prova de que o produto funciona.' },
-
-  { id:'tecnologia_que_prende', nome:'A tecnologia que prende', gatilho:'App ou assinatura que promete resolver sua vida, com "teste grátis" e renovação automática.',
-    comoFunciona:'Vende-se como solução, mas entrega mais peso: mais uma tela, mais uma assinatura, mais uma coisa pra gerenciar. Fácil de assinar, difícil de cancelar. No fim, você paga todo mês por algo que prometeu te ajudar e só te prendeu: mais tempo de tela, menos clareza.',
-    comoResistir:'Antes de assinar, ache o botão de cancelar. Se for difícil de achar agora, será pior depois. Pergunte se isso resolve um problema real seu ou só adiciona mais uma obrigação. A melhor tecnologia te devolve tempo e liberdade, não cobra os dois de você.' },
-
-  { id:'preco_por_dia', nome:'O preço fatiado', gatilho:'"Por apenas R$2,67 por dia", "menos que um cafezinho".',
-    comoFunciona:'Quebrar o preço em "por dia" faz o número parecer minúsculo e esconde quanto sai do seu bolso de verdade a cada cobrança. R$2,67/dia soa inofensivo; R$223 a cada 4 semanas, para sempre, é outra conversa. O cérebro compara com o cafezinho, não com o total.',
-    comoResistir:'Faça a conta cheia na hora: multiplique o valor "por dia" pelo período todo e pelo tanto de vezes que renova. Veja o número real. Preço honesto se mostra por inteiro. Quem fatia está contando com você não somar.' },
-
-  { id:'autoridade_emprestada', nome:'Autoridade emprestada', gatilho:'"Baseado na metodologia de Harvard", "método de Stanford", "respaldado pela ciência".',
-    comoFunciona:'Citar uma universidade ou instituição famosa empresta o prestígio dela sem provar vínculo nenhum. "Baseado em Harvard" não quer dizer que Harvard criou, aprovou ou conhece o produto. É a marca da autoridade usada como enfeite, para você confiar por associação.',
-    comoResistir:'Peça a prova do vínculo: qual convênio, qual pesquisador, qual estudo publicado, com link. Se a resposta for só o nome da universidade repetido, não há vínculo, há empréstimo. Nome famoso sem prova é decoração, não credencial.' },
-
-  { id:'depoimento_repetido', nome:'Depoimento clonado', gatilho:'O mesmo elogio, palavra por palavra, repetido várias vezes na página.',
-    comoFunciona:'Repetir o mesmo depoimento cria a ilusão de volume. Parece que muita gente disse a mesma coisa, quando foi um texto colado várias vezes. Somado a "avaliações 5 estrelas" sem link verificável, dá impressão de multidão satisfeita sem prova real.',
-    comoResistir:'Prova social real vem de pessoas diferentes, com palavras diferentes. Se os elogios se repetem idênticos, é fabricação. Procure avaliações fora do site, em lugares que a empresa não controla e não pode editar.' },
-
-  { id:'recuperacao_do_investimento', nome:'O preço que "se paga sozinho"', gatilho:'"Recupere o valor investido em 30 dias", "não é gasto, é investimento", "se paga sozinho".',
-    comoFunciona:'Transforma o preço em risco zero na sua cabeça antes de você checar se o resultado é real. Se o valor "volta sozinho", pagar parece não ter perda possível, e a pergunta importante (isso funciona mesmo?) fica para trás. Mas recuperar o investimento depende de você aplicar, ter capital, ter mercado, tudo que a oferta não controla.',
-    comoResistir:'Trate o preço como um gasto que pode não voltar, e decida se cabe assim mesmo. Se a compra só faz sentido porque "se paga sozinho", a conta ainda não fechou. Peça os números reais: de cada 100 alunos, quantos recuperaram, em quanto tempo, com quanto investido a mais.' },
-
-  { id:'garantia_com_barreira', nome:'A garantia que se protege de você', gatilho:'"Reembolso se você provar que aplicou tudo", "dinheiro de volta desde que siga o método inteiro".',
-    comoFunciona:'Oferece reembolso e, na mesma frase, embute a condição que o esvazia: você tem que provar que executou cada passo. Quase ninguém consegue provar isso, então o alívio de "tem garantia" fica, mas a garantia de fato quase nunca é acionável. É proteção no marketing, barreira na prática.',
-    comoResistir:'Leia a condição da garantia ANTES de pagar, e peça por escrito: o que exatamente conta como "aplicar tudo", quem julga isso, em quanto tempo o reembolso é feito. Se a régua for subjetiva ou difícil de propósito, a garantia é enfeite, não proteção.' }
-];
 </script>
 
 
@@ -2472,6 +2428,22 @@ function agBuildChecklist(r){
 
 /* ---------- Camada 3: render dos padrões ---------- */
 function agRenderPadroes(){
+  /* O número e os nomes de amostra vêm do catálogo, nunca de texto fixo.
+     Um lugar só guarda o fato "quantas técnicas existem". */
+  if(window.AG_PADROES){
+    var n = document.getElementById('tecNum');
+    if(n) n.textContent = window.AG_PADROES.length;
+    document.querySelectorAll('[data-tec-total]').forEach(function(e){
+      e.textContent = window.AG_PADROES.length;
+    });
+    var am = document.getElementById('tecAmostra');
+    if(am){
+      am.innerHTML = window.AG_PADROES.slice(0,6).map(function(p){
+        return '<span class="tec-chip">' + p.nome + '</span>';
+      }).join('') + '<span class="tec-chip">e mais ' + (window.AG_PADROES.length - 6) + '</span>';
+    }
+  }
+
   var alvo = document.getElementById('agPadroes');
   if(!alvo || !window.AG_PADROES) return;
   alvo.innerHTML = window.AG_PADROES.map(function(p){
