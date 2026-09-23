@@ -93,7 +93,34 @@ body{background:
 .section-hint{font-size:12px;color:var(--muted);margin-bottom:12px;font-style:italic;}
 .section-input{width:100%;padding:12px 14px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-family:var(--ffb);font-size:14px;resize:vertical;min-height:100px;line-height:1.6;}
 .section-input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 12px rgba(87,208,192,.2);}
-/* NÃO MEDIDO: distinto de verde e de vermelho, de propósito. */
+/* O QUE O CLIENTE MANDOU · fica visível enquanto se escreve, sem clique. */
+  .oferta-cliente{background:linear-gradient(160deg,rgba(227,179,65,.06),rgba(227,179,65,.02));
+    border:1px solid rgba(227,179,65,.22);border-radius:12px;padding:14px 16px;margin-bottom:14px;}
+  .oferta-cliente .oc-k{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+  .oferta-cliente .oc-alvo{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;
+    color:var(--text);margin-bottom:10px;line-height:1.35;}
+  .oferta-cliente .oc-texto{font-size:12.5px;color:var(--soft);line-height:1.6;white-space:pre-wrap;
+    max-height:190px;overflow-y:auto;background:rgba(0,0,0,.18);border-radius:8px;padding:10px 12px;}
+  .oferta-cliente .oc-link{font-size:12px;margin-top:8px;}
+  .oferta-cliente .oc-link a{color:var(--teal);}
+  .oferta-cliente .oc-falta{background:rgba(229,101,75,.10);border:1px solid rgba(229,101,75,.35);
+    border-radius:8px;padding:9px 12px;margin-top:10px;font-size:12.5px;color:var(--soft);line-height:1.55;}
+
+  .crono-box{background:linear-gradient(160deg,rgba(87,208,192,.05),rgba(87,208,192,.015));
+    border:1px solid rgba(87,208,192,.22);border-radius:12px;padding:14px 16px;margin-bottom:14px;}
+  .crono-tit{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:4px;}
+  .crono-sub{font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+  .crono-l{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--soft);
+    padding:4px 0;border-bottom:1px dotted rgba(255,255,255,.06);}
+  .crono-l b{color:var(--text);font-family:'Space Mono',monospace;}
+  .crono-tot{border-bottom:none;border-top:1px solid var(--line);margin-top:4px;padding-top:7px;}
+  .crono-pausa{font-size:11.5px;color:var(--gold2);margin-top:8px;}
+  .crono-q{display:block;font-size:11.5px;color:var(--muted);margin-top:9px;}
+  .crono-q textarea,.crono-q input{width:100%;margin-top:4px;background:var(--void);border:1px solid var(--line);
+    border-radius:8px;color:var(--text);padding:7px 9px;font:inherit;font-size:12.5px;}
+
+  /* NÃO MEDIDO: distinto de verde e de vermelho, de propósito. */
 .nm{color:var(--muted);font-weight:500;letter-spacing:.01em;border-bottom:1px dashed var(--line2);}
 .card-value .nm{font-size:16px;}
 .autosave-indicator{font-size:11px;color:var(--muted);font-family:var(--ffm);}
@@ -326,7 +353,25 @@ body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
         <div class="editor-container">
           <div class="editor-main">
 
-            <div id="sonda-aviso" style="display:none;background:rgba(229,101,75,.12);border:1px solid var(--red);border-radius:10px;padding:12px 15px;margin-bottom:14px;font-size:13px;color:var(--soft);line-height:1.6;"></div>
+            <div id="oferta-do-cliente" class="oferta-cliente"></div>
+          <div class="crono-box" id="crono-box">
+            <div class="crono-tit">Medição de custo deste laudo</div>
+            <div class="crono-sub">Roda sozinho conforme você passa pelos campos, e pausa quando a aba sai da frente. Nada disto entra no laudo do cliente.</div>
+            <div id="crono-tabela"></div>
+            <div class="crono-tit" style="margin-top:14px;">As cinco anotações</div>
+            <label class="crono-q">Onde você travou, e por quê
+              <textarea id="cal_q_travou" rows="2" placeholder="o passo em que parou, e o motivo"></textarea></label>
+            <label class="crono-q">Qual campo foi mais difícil de preencher com honestidade
+              <textarea id="cal_q_dificil" rows="2" placeholder="o campo, e o que tornou difícil dizer a verdade nele"></textarea></label>
+            <label class="crono-q">Quantas vezes precisou sair do painel para buscar algo
+              <input type="number" id="cal_q_saidas" min="0" step="1" placeholder="número"></label>
+            <label class="crono-q">O que o guia não te ajudou a fazer
+              <textarea id="cal_q_guia" rows="2" placeholder="onde o guia ficou mudo ou atrapalhou"></textarea></label>
+            <label class="crono-q">Quantas fontes você reaproveitaria num próximo laudo
+              <input type="number" id="cal_q_fontes" min="0" step="1" placeholder="número"></label>
+            <button type="button" class="btn-secondary" onclick="agCronoCopiar()" style="margin-top:10px;">Copiar a tabela e as anotações</button>
+          </div>
+          <div id="sonda-aviso" style="display:none;background:rgba(229,101,75,.12);border:1px solid var(--red);border-radius:10px;padding:12px 15px;margin-bottom:14px;font-size:13px;color:var(--soft);line-height:1.6;"></div>
             <div class="modo-barra">
               <div class="modo-info" id="modo-info">Carregando o seu modo de trabalho...</div>
               <div class="modo-btns">
@@ -695,7 +740,7 @@ body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
       <div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;">
         <div class="page-title" style="font-size:16px;margin-bottom:16px;">Sobre</div>
         <p style="color:var(--soft);font-size:14px;">AntiGuru · Central de Operações</p>
-        <p style="color:var(--muted);font-size:12px;margin-top:8px;">v2.0 · Sistema de gestão de pedidos, laudos e análises · build AG-20260923-i-63a4c5</p>
+        <p style="color:var(--muted);font-size:12px;margin-top:8px;">v2.0 · Sistema de gestão de pedidos, laudos e análises · build AG-20260923-o-1e9ffd</p>
       </div>
     </div>
 
@@ -1097,9 +1142,13 @@ async function carregarPedidos() {
           statusBadge = '<span class="pedido-badge">' + (p.estado || 'desconhecido') + '</span>';
         }
         
+        const alvoTxt = agAlvo(p) ? escaparHtml(agAlvo(p)) : agMarcaAusente();
+        const faltando = agFaltaParaTrabalhar(p);
+        const avisoFalta = (faltando.length && p.estado !== 'aguarda_pagamento')
+          ? `<div class="nm" style="font-size:11px;margin-top:3px;">falta: ${faltando.join(' e ')}</div>` : '';
         return `<div class="pedido-row">
           <div>${alerta} ${p.protocolo}</div>
-          <div>${p.contato}</div>
+          <div>${p.contato}<div style="font-size:11.5px;color:var(--muted);margin-top:2px;">${alvoTxt}</div>${avisoFalta}</div>
           <div>${p.canal}</div>
           <div>${statusBadge}</div>
           <div>${prazoTxt}</div>
@@ -1129,7 +1178,30 @@ async function confirmarPagamento(pedidoId) {
 }
 
 // ===== IR PARA O LAUDO (a partir da aba Pedidos) =====
+/* ITEM 3 · Pedido pago sem o mínimo para trabalhar avisa ANTES de abrir.
+   Avisa, não bloqueia: a informação pode ter chegado por outro canal. */
+async function agAvisarSeIncompleto(pedidoId){
+  try {
+    const r = await supa.from('pedidos').select('*').eq('id', pedidoId).single();
+    const falta = agFaltaParaTrabalhar(r.data);
+    if (!falta.length) return true;
+    return confirm('Este pedido não tem o mínimo para trabalhar.\n\nFalta: ' + falta.join(' e ')
+      + '.\n\nSe a informação chegou por outro canal, pode seguir, e registre no laudo de onde ela veio.'
+      + '\n\nAbrir o editor assim mesmo?');
+  } catch (e) {
+    /* Não conseguir conferir NÃO é o mesmo que estar completo. O caminho de falha
+       escreve na tela e pergunta, em vez de seguir calado. */
+    const box = document.getElementById('oferta-do-cliente');
+    if (box) box.innerHTML = '<div class="oc-k">Oferta analisada</div>'
+      + '<span class="nm">não consegui conferir este pedido antes de abrir</span>';
+    console.error('[AG] nao consegui conferir o pedido:', e);
+    return confirm('Não consegui conferir se este pedido tem o mínimo para trabalhar.\n\n'
+      + 'Isso não quer dizer que falta algo: quer dizer que a leitura falhou.\n\nAbrir o editor assim mesmo?');
+  }
+}
+
 async function irParaLaudo(pedidoId) {
+  if (!(await agAvisarSeIncompleto(pedidoId))) return;
   // marca em análise se ainda estava só pago
   try {
     const { data } = await supa.from('pedidos').select('estado').eq('id', pedidoId).single();
@@ -1216,6 +1288,21 @@ async function selecionarPedido(pedidoId) {
   document.getElementById('editor-area').style.display = 'block';
   agDefinirModoInicial();
   agSondaIntegridade();
+
+  agCronoLigar();
+  agCronoIniciar(pedidoId);
+
+  /* O que o cliente mandou, visível enquanto se escreve, sem clique. */
+  try {
+    const rp = await supa.from('pedidos').select('*').eq('id', pedidoId).single();
+    window.AG_PEDIDO_ABERTO = rp.data || null;
+    agMostrarOferta(rp.data);
+  } catch (e) {
+    window.AG_PEDIDO_ABERTO = null;
+    const box = document.getElementById('oferta-do-cliente');
+    if (box) box.innerHTML = '<div class="oc-k">Oferta analisada</div>'
+      + '<span class="nm">não consegui carregar o pedido</span>';
+  }
   
   try {
     const r = await supa.from('laudos').select('*').eq('pedido_id', pedidoId).single();
@@ -1552,6 +1639,7 @@ const CAMPOS_OBRIGATORIOS = [
 ];
 
 function gerarLaudo() {
+  if (typeof AG_CRONO !== 'undefined' && AG_CRONO.pedido) { agCronoEntrar('pdf'); agCronoPintar(); }
   const vazios = CAMPOS_OBRIGATORIOS.filter(c => {
     const el = document.getElementById(c.id);
     return !el || !el.value.trim();
@@ -1729,6 +1817,234 @@ function agProtocoloValidado(){
    existe". Era a D-8. O bloco inteiro também não some mais: um laudo sem
    verificação nenhuma diz isso, em vez de calar. */
 
+
+/* O texto vem do cliente e vai para dentro de HTML montado com template.
+   Escapa, porque conteúdo de terceiro em innerHTML é injeção esperando acontecer. */
+function escaparHtml(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+
+/* ===== INSTRUMENTO DE TEMPO · CUSTO-01 =====
+   Sete cronômetros, um por etapa, que correm conforme o foco passa pelos campos.
+
+   REGRAS, e elas são o instrumento:
+   1. etapa nunca visitada sai como NÃO MEDIDO, nunca como zero. Zero diria que
+      a etapa levou tempo nenhum, e o que houve foi ausência de visita.
+   2. pausa quando a aba perde o foco: sair para verificar é parte do trabalho,
+      ficar com a aba aberta almoçando não é.
+   3. nada disto entra no laudo do cliente. Vive no painel e no armazenamento
+      local do navegador, e não é gravado no banco: gravar exigiria colunas
+      novas, e mudança de esquema não está autorizada aqui.
+   4. `cal_tempo_trabalhado_min` continua existindo e NÃO é substituído. Um é
+      declarado pelo operador, o outro é medido pelo relógio, e a tabela mostra
+      os dois com a marca de cada um. */
+
+const AG_ETAPAS = [
+  { id:'ler',     rotulo:'1 · ler a oferta',            campos:[] },
+  { id:'verA',    rotulo:'2 · verificação A, reclamações', campos:['ver_reclamacoes'] },
+  { id:'verB',    rotulo:'3 · verificação B, CNPJ',      campos:['ver_cnpj'] },
+  { id:'verC',    rotulo:'4 · verificação C, rastro',    campos:['ver_rastro'] },
+  { id:'secoes',  rotulo:'5 · as oito seções',           campos:['s1','s2','s3','s4','s5','s6','s7','s8'] },
+  { id:'finais',  rotulo:'6 · os dois blocos finais',    campos:['honestidade','nao_verificado'] },
+  { id:'pdf',     rotulo:'7 · prévia, conferência e PDF', campos:[] }
+];
+
+const AG_CRONO = {
+  pedido: null,
+  visitou: {},     /* etapa -> true, só quando houve visita de verdade */
+  acumulado: {},   /* etapa -> ms */
+  atual: null,
+  desde: null,
+  pausado: false
+};
+
+function agCronoCampoDaEtapa(campo){
+  for (const e of AG_ETAPAS) if (e.campos.indexOf(campo) >= 0) return e.id;
+  return null;
+}
+function agCronoFechar(){
+  if (AG_CRONO.atual && AG_CRONO.desde && !AG_CRONO.pausado) {
+    AG_CRONO.acumulado[AG_CRONO.atual] = (AG_CRONO.acumulado[AG_CRONO.atual] || 0) + (Date.now() - AG_CRONO.desde);
+  }
+  AG_CRONO.desde = null;
+}
+function agCronoEntrar(etapa){
+  if (!etapa) return;
+  AG_CRONO.visitou[etapa] = true;
+  /* Voltar a um campo da MESMA etapa não reinicia o relógio dela: reiniciar
+     descartava o tempo já corrido, e as oito seções somavam quase nada porque
+     o foco pula de campo em campo dentro da mesma etapa. */
+  if (AG_CRONO.atual === etapa && AG_CRONO.desde && !AG_CRONO.pausado) { agCronoSalvar(); return; }
+  if (AG_CRONO.atual !== etapa) agCronoFechar();
+  AG_CRONO.atual = etapa;
+  if (!AG_CRONO.pausado) AG_CRONO.desde = Date.now();
+  agCronoSalvar();
+}
+function agCronoPausar(){
+  if (AG_CRONO.pausado) return;
+  agCronoFechar();
+  AG_CRONO.pausado = true;
+  agCronoPintar();
+}
+function agCronoRetomar(){
+  if (!AG_CRONO.pausado) return;
+  AG_CRONO.pausado = false;
+  if (AG_CRONO.atual) AG_CRONO.desde = Date.now();
+  agCronoPintar();
+}
+function agCronoIniciar(pedidoId){
+  agCronoFechar();
+  AG_CRONO.pedido = pedidoId;
+  AG_CRONO.visitou = {}; AG_CRONO.acumulado = {}; AG_CRONO.atual = null; AG_CRONO.desde = null;
+  AG_CRONO.pausado = false;
+  try {
+    const bruto = localStorage.getItem('ag_crono_' + pedidoId);
+    if (bruto) {
+      const g = JSON.parse(bruto);
+      AG_CRONO.visitou = g.visitou || {};
+      AG_CRONO.acumulado = g.acumulado || {};
+    }
+  } catch(e) {}
+  agCronoEntrar('ler');   /* abrir o pedido já é ler a oferta */
+  agCronoPintar();
+}
+function agCronoSalvar(){
+  if (!AG_CRONO.pedido) return;
+  try {
+    localStorage.setItem('ag_crono_' + AG_CRONO.pedido,
+      JSON.stringify({ visitou: AG_CRONO.visitou, acumulado: AG_CRONO.acumulado }));
+  } catch(e) {}
+}
+function agCronoMinutos(etapa){
+  if (!AG_CRONO.visitou[etapa]) return null;           /* não medido */
+  let ms = AG_CRONO.acumulado[etapa] || 0;
+  if (AG_CRONO.atual === etapa && AG_CRONO.desde && !AG_CRONO.pausado) ms += Date.now() - AG_CRONO.desde;
+  return Math.round(ms / 600) / 100;                   /* minutos, 2 casas */
+}
+function agCronoTabela(){
+  return AG_ETAPAS.map(function(e){
+    const m = agCronoMinutos(e.id);
+    return { etapa: e.rotulo, minutos: m, estado: (m === null ? 'NÃO MEDIDO' : 'medido') };
+  });
+}
+function agCronoPintar(){
+  const box = document.getElementById('crono-tabela');
+  if (!box) return;
+  let total = 0, algum = false;
+  const linhas = agCronoTabela().map(function(l){
+    if (l.minutos !== null) { total += l.minutos; algum = true; }
+    const v = (l.minutos === null) ? '<span class="nm">não medido</span>'
+            : ('<b>' + l.minutos.toFixed(2) + '</b> min');
+    return '<div class="crono-l"><span>' + l.etapa + '</span><span>' + v + '</span></div>';
+  }).join('');
+  const declarado = (document.getElementById('cal_tempo_trabalhado_min') || {}).value || '';
+  box.innerHTML = linhas
+    + '<div class="crono-l crono-tot"><span>total medido pelo relógio</span><span>'
+      + (algum ? '<b>' + total.toFixed(2) + '</b> min' : '<span class="nm">não medido</span>') + '</span></div>'
+    + '<div class="crono-l"><span>total declarado por você</span><span>'
+      + (declarado ? '<b>' + declarado + '</b> min' : '<span class="nm">não declarado</span>') + '</span></div>'
+    + (AG_CRONO.pausado ? '<div class="crono-pausa">pausado: a aba está em segundo plano</div>' : '');
+}
+
+
+/* Liga o instrumento aos campos e à visibilidade da aba. Uma vez só. */
+function agCronoLigar(){
+  if (window.__agCronoLigado) return;
+  window.__agCronoLigado = true;
+  AG_ETAPAS.forEach(function(e){
+    e.campos.forEach(function(c){
+      const el = document.getElementById(c);
+      if (!el) return;
+      el.addEventListener('focus', function(){ agCronoEntrar(e.id); agCronoPintar(); });
+    });
+  });
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) agCronoPausar(); else agCronoRetomar();
+  });
+  window.addEventListener('blur', agCronoPausar);
+  window.addEventListener('focus', agCronoRetomar);
+  const dec = document.getElementById('cal_tempo_trabalhado_min');
+  if (dec) dec.addEventListener('input', agCronoPintar);
+  setInterval(function(){ if (AG_CRONO.pedido) { agCronoSalvar(); agCronoPintar(); } }, 5000);
+}
+
+
+/* Entrega a tabela pronta, para colar onde for. Não grava no banco. */
+function agCronoCopiar(){
+  const linhas = agCronoTabela().map(function(l){
+    return l.etapa + ': ' + (l.minutos === null ? 'NÃO MEDIDO' : l.minutos.toFixed(2) + ' min');
+  });
+  const q = function(id){ const e = document.getElementById(id); return e && e.value.trim() ? e.value.trim() : 'não respondido'; };
+  const declarado = (document.getElementById('cal_tempo_trabalhado_min') || {}).value || '';
+  const txt = 'MEDIÇÃO DE CUSTO · pedido ' + (AG_CRONO.pedido || 'sem pedido') + '\n\n'
+    + linhas.join('\n') + '\n'
+    + 'total declarado por você: ' + (declarado ? declarado + ' min' : 'não declarado') + '\n\n'
+    + 'onde travou: ' + q('cal_q_travou') + '\n'
+    + 'campo mais difícil com honestidade: ' + q('cal_q_dificil') + '\n'
+    + 'saídas do painel: ' + q('cal_q_saidas') + '\n'
+    + 'o que o guia não ajudou: ' + q('cal_q_guia') + '\n'
+    + 'fontes reaproveitáveis: ' + q('cal_q_fontes');
+  navigator.clipboard.writeText(txt).then(function(){ alert('Copiado.'); })
+    .catch(function(){ alert('Não consegui copiar. O texto está no console.'); console.log(txt); });
+}
+
+/* ===== O QUE O CLIENTE MANDOU · ADMIN-18 =====
+   O texto da oferta é o objeto do trabalho, e não aparecia em tela nenhuma.
+   Quem escrevia o laudo tinha de sair do sistema para saber o que analisar.
+
+   Ausência aqui NÃO fica em branco: fica marcada, com a mesma marca das outras.
+   Campo em branco se lê como campo que não existe, e o que existe aqui é a
+   informação faltando. */
+function agTextoOferta(p){
+  const t = (p && p.texto_oferta) ? String(p.texto_oferta).trim() : '';
+  return t || null;
+}
+function agAlvo(p){
+  const a = (p && p.alvo) ? String(p.alvo).trim() : '';
+  if (!a || /^oferta (sem nome|não informada)$/i.test(a)) return null;
+  return a;
+}
+/* Mínimo para trabalhar: sem isto, o laudo não tem objeto. */
+function agFaltaParaTrabalhar(p){
+  const falta = [];
+  if (!agAlvo(p)) falta.push('nome da oferta');
+  if (!agTextoOferta(p) && !(p && p.link_oferta)) falta.push('texto ou link da oferta');
+  return falta;
+}
+function agMarcaAusente(texto){
+  return '<span class="nm">' + (texto || 'NÃO INFORMADO') + '</span>';
+}
+
+
+/* Monta o bloco do que o cliente mandou. Roda toda vez que um pedido é aberto. */
+function agMostrarOferta(p){
+  const box = document.getElementById('oferta-do-cliente');
+  if (!box) return;
+  if (!p) { box.innerHTML = '<div class="oc-k">Oferta analisada</div>' + agMarcaAusente('pedido não carregado'); return; }
+  const alvo = agAlvo(p);
+  const texto = agTextoOferta(p);
+  const link = (p.link_oferta || '').trim();
+  const falta = agFaltaParaTrabalhar(p);
+  let html = '<div class="oc-k">Oferta analisada</div>';
+  html += '<div class="oc-alvo">' + (alvo ? escaparHtml(alvo) : agMarcaAusente()) + '</div>';
+  html += '<div class="oc-k">Texto que o cliente colou</div>';
+  html += texto ? '<div class="oc-texto">' + escaparHtml(texto) + '</div>'
+                : '<div class="oc-texto">' + agMarcaAusente() + '</div>';
+  if (link) {
+    html += '<div class="oc-link">Link: <a href="' + escaparHtml(link) + '" target="_blank" rel="noopener">'
+          + escaparHtml(link) + '</a></div>';
+  }
+  if (falta.length) {
+    html += '<div class="oc-falta"><b>Este pedido não tem o mínimo para trabalhar.</b> Falta: '
+          + falta.join(' e ') + '. Se a informação chegou por outro canal, siga assim mesmo '
+          + 'e registre no laudo de onde ela veio.</div>';
+  }
+  box.innerHTML = html;
+}
+
 /* ===== ITENS DE VERIFICAÇÃO · LISTA ÚNICA · ADMIN-15 =====
    O gerador imprime a partir desta lista, e a sonda julga a partir dela.
    Nenhum dos dois conhece rótulo por literal.
@@ -1836,9 +2152,15 @@ function baixarPDF(amostra) {
          só na primeira página (tarja) e na última (rodapé), e a página do meio
          saía indistinguível de laudo de cliente. Era a D-9.
          Só existe no modo amostra: fora dele, este elemento não é escrito. */
-      #pdf-render .pdf-faixa-amostra{position:fixed;left:0;right:0;bottom:0;
-        background:#1a1a2e;color:#F4DFA0;text-align:center;
-        font-size:9px;letter-spacing:.14em;padding:5px 0;text-transform:uppercase;}
+      /* A faixa vive no cabeçalho de uma tabela, que o motor de impressão repete em
+         toda página e que RESERVA a própria altura no fluxo. Posição fixa desenhava
+         por cima: o texto chegava a 4,1mm dela, medido em 23/09/2026. */
+      #pdf-render .amostra-wrap{width:100%;border-collapse:collapse;}
+      #pdf-render .amostra-wrap > thead{display:table-header-group;}
+      #pdf-render .amostra-wrap td{padding:0;border:0;}
+      #pdf-render .pdf-faixa-amostra{background:#1a1a2e;color:#F4DFA0;text-align:center;
+        font-size:9px;letter-spacing:.14em;padding:5px 0;text-transform:uppercase;
+        margin:0 0 9mm;}
       #pdf-render .pdf-tarja{background:#1a1a2e;color:#F4DFA0;border-radius:6px;padding:11px 15px;margin-bottom:18px;font-size:11.5px;line-height:1.6;letter-spacing:.03em;}
       #pdf-render .pdf-tarja strong{color:#E3B341;}
       #pdf-render .pdf-honest{background:#f0f8f7;border:1px solid #9fcfc8;border-radius:6px;padding:14px 16px;margin:22px 0;page-break-inside:avoid;}
@@ -1866,7 +2188,7 @@ function baixarPDF(amostra) {
       </div>
     </div>
 
-    ${amostra ? '<div class="pdf-faixa-amostra">documento de amostra · não é laudo de cliente</div>' : ''}
+    ${amostra ? '<table class="amostra-wrap"><thead><tr><td><div class="pdf-faixa-amostra">documento de amostra · não é laudo de cliente</div></td></tr></thead><tbody><tr><td>' : ''}
 
     ${amostra ? `<div class="pdf-tarja">
       <strong>DOCUMENTO DE AMOSTRA.</strong> Este é um laudo real, com a oferta analisada anonimizada. Serve para mostrar o formato e a profundidade da análise. Não identifica cliente nem contratante, e não substitui uma análise da sua própria oferta.
@@ -1903,14 +2225,14 @@ function baixarPDF(amostra) {
     <div class="pdf-feedback">
       <div class="pdf-feedback-title">Sua opinião melhora a próxima análise</div>
       <div class="pdf-feedback-body">
-        Este laudo foi útil? Faltou alguma coisa, ou ficou confuso em algum ponto? Responda em uma linha que seja. Cada resposta muda o jeito como a próxima análise é feita. Você pode responder pelo mesmo canal em que recebeu este documento, ou deixar seu comentário em <strong>antiguru.site</strong>.
+        Este laudo foi útil? Faltou alguma coisa, ou ficou confuso em algum ponto? Responda em uma linha que seja. Cada resposta muda o jeito como a próxima análise é feita. Você pode responder pelo mesmo canal em que recebeu este documento, ou deixar seu comentário em <strong>useantiguru.netlify.app</strong>.
       </div>
     </div>
 
     <div class="pdf-contato">
       <span><b>WhatsApp</b> +55 11 99760-3559</span>
       <span><b>E-mail</b> damaceno_05@yahoo.com.br</span>
-      <span><b>Site</b> antiguru.site</span>
+      <span><b>Site</b> useantiguru.netlify.app</span>
     </div>
 
     <div class="pdf-legal">
@@ -1921,6 +2243,7 @@ function baixarPDF(amostra) {
       <strong>AntiGuru</strong> · um produto do ecossistema <strong>HPE · Human Pattern Engineering</strong><br>
       ${amostra ? 'Documento de amostra. Análise real com a oferta anonimizada. Livre para compartilhar.' : 'Documento pessoal e intransferível, destinado exclusivamente a quem solicitou esta análise.'}
     </div>
+    ${amostra ? '</td></tr></tbody></table>' : ''}
   `;
 
   setTimeout(() => window.print(), 100);

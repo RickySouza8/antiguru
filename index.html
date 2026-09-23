@@ -1035,7 +1035,7 @@
   </svg>
   <div class="fbrand">Antes de pagar, você merece clareza.</div>
   <div class="fid">AntiGuru · Clareza antes da decisão · Decisão, não julgamento.</div>
-  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260811-b-571d57</div>
+  <div class="fid" style="opacity:.55;font-size:11px;margin-top:6px;letter-spacing:.08em;">build AG-20260923-b-d73da2</div>
   <div style="margin-top:16px;font-size:12px;">
     <button onclick="agAbrirPrivacidade()" style="background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;font-family:inherit;">Política de Privacidade</button>
     <span style="color:var(--line2);margin:0 8px;">·</span>
@@ -1856,10 +1856,45 @@ const AGCheckout = (function(){
       return;
     }
     if(!aceite){ err.textContent='Para eu te entregar a análise, preciso do seu ok no primeiro item (uso do contato para a entrega).'; return; }
+
+    /* O MÍNIMO DECLARADO, num lugar só. A sonda do checkout lê daqui, e não de
+       uma lista própria dela. Chave que entrar aqui passa a exigir validação. */
+    var AG_MINIMO_PEDIDO = ['nome','canal','contato','alvo','texto_oferta'];
+
+    /* O MÍNIMO PARA O TRABALHO EXISTIR · SITE-01
+       Antes, dava para pagar sem nome de oferta e sem texto nenhum: o pedido
+       nascia com `alvo` em "oferta não informada" e `texto_oferta` nulo, e do
+       outro lado não havia o que analisar. Medido em ADMIN-18, cenário C.
+
+       Quem chega pela análise gratuita já tem os dois preenchidos e não vê
+       diferença nenhuma: a validação só aparece para quem pulou a análise. */
+    var a = window.AG_ULTIMA || {};
+    /* O painel trata "Oferta sem nome" e "oferta não informada" como ausência,
+       e o site precisa concordar com ele. Nome que o motor não conseguiu extrair
+       não é nome: é o pedido para a pessoa digitar. */
+    var AG_NOME_VAZIO = /^oferta (sem nome|não informada)$/i;
+    var nomeDigitado = (el('ckOferta').value||'').trim();
+    var nomeDoMotor  = (a.name||'').trim();
+    var nomeOferta = nomeDigitado || (AG_NOME_VAZIO.test(nomeDoMotor) ? '' : nomeDoMotor);
+    var temTexto   = !!((a.texto||'').trim());
+    var temLink    = !!((a.origem||'').trim());
+
+    if(!nomeOferta){
+      /* Explica, não cobra. O nome não é burocracia: é como a oferta vai ser
+         chamada no laudo e na conversa com quem comprou. Quem cola texto sempre
+         vê esta linha, porque o motor não extrai nome de texto colado. */
+      err.textContent = 'Como essa oferta se chama? É por esse nome que eu falo dela no laudo e na nossa conversa.';
+      var cOf = el('ckOferta'); if(cOf) cOf.focus();
+      return;
+    }
+    if(!temTexto && !temLink){
+      err.textContent = 'Preciso do texto ou do link da oferta. É isso que eu analiso, e sem ele o trabalho não existe. Role até "Analisar" e cole o anúncio, que o resto já fica preenchido.';
+      return;
+    }
+
     err.textContent='';
 
     var timestamp = new Date().toISOString();
-    var a = window.AG_ULTIMA || {};
     /* O payload fala o vocabulário DA TABELA, não o do site.
        codigo -> protocolo, oferta -> alvo, status -> estado.
        `pago` e `entregue` saem: a tabela expressa isso em estado,
@@ -1870,7 +1905,7 @@ const AGCheckout = (function(){
       nome: nome,
       canal: canal,
       contato: contato,
-      alvo: (el('ckOferta').value||'').trim() || (a.name||'') || 'oferta não informada',
+      alvo: nomeOferta,
       valor: AG_PRECO,
       texto_oferta: (a.texto||'').slice(0,3000),
       link_oferta: a.origem || null,
