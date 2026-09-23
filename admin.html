@@ -93,6 +93,9 @@ body{background:
 .section-hint{font-size:12px;color:var(--muted);margin-bottom:12px;font-style:italic;}
 .section-input{width:100%;padding:12px 14px;background:var(--void);border:1px solid var(--line2);border-radius:10px;color:var(--text);font-family:var(--ffb);font-size:14px;resize:vertical;min-height:100px;line-height:1.6;}
 .section-input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 12px rgba(87,208,192,.2);}
+/* NÃO MEDIDO: distinto de verde e de vermelho, de propósito. */
+.nm{color:var(--muted);font-weight:500;letter-spacing:.01em;border-bottom:1px dashed var(--line2);}
+.card-value .nm{font-size:16px;}
 .autosave-indicator{font-size:11px;color:var(--muted);font-family:var(--ffm);}
 .campo-rodape{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:7px;flex-wrap:wrap;}
 .cal-box{background:rgba(227,179,65,.05);border:1px solid rgba(227,179,65,.25);border-radius:12px;padding:16px 18px;margin-top:22px;}
@@ -243,23 +246,23 @@ body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
     <div class="page active" id="page-dashboard">
       <div class="page-header">
         <div class="page-title">Dashboard</div>
-        <div class="page-lead">Visão geral de operações, prazos e receita</div>
+        <div class="page-lead">Visão geral de operações, prazos e dinheiro</div>
       </div>
 
       <div id="alerts-container"></div>
 
       <div class="grid">
         <div class="card">
-          <div class="card-label">Receita (mês)</div>
-          <div class="card-value">R$ <span id="receita-mes">0</span><small></small></div>
+          <div class="card-label">Recebido</div>
+              <div class="card-value"><span id="receita-mes"><span class="nm">não medido</span></span><small id="receita-mes-nota"></small></div>
         </div>
         <div class="card">
           <div class="card-label">Pedidos pagos</div>
-          <div class="card-value"><span id="pedidos-pagos">0</span><small>neste mês</small></div>
+          <div class="card-value"><span id="pedidos-pagos"><span class="nm">não medido</span></span><small>pedidos pagos, todo o período</small></div>
         </div>
         <div class="card">
           <div class="card-label">Entregues</div>
-          <div class="card-value"><span id="entregues">0</span><small>% do mês</small></div>
+          <div class="card-value"><span id="entregues"><span class="nm">não medido</span></span><small id="entregues-nota">%</small></div>
         </div>
         <div class="card">
           <div class="card-label">Pendentes</div>
@@ -635,25 +638,25 @@ body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
     <div class="page" id="page-financeiro">
       <div class="page-header">
         <div class="page-title">Financeiro</div>
-        <div class="page-lead">Receita, pedidos e tendências</div>
+        <div class="page-lead">Entregas, pedidos e tendências</div>
       </div>
 
       <div class="grid">
         <div class="card">
-          <div class="card-label">Receita Total</div>
-          <div class="card-value">R$ <span id="receita-total">0</span></div>
+          <div class="card-label">Entregue</div>
+              <div class="card-value"><span id="receita-total"><span class="nm">não medido</span></span><small id="receita-total-nota"></small></div>
         </div>
         <div class="card">
-          <div class="card-label">Este Mês</div>
-          <div class="card-value">R$ <span id="receita-mes-fin">0</span></div>
+          <div class="card-label">Entregue no mês</div>
+              <div class="card-value"><span id="receita-mes-fin"><span class="nm">não medido</span></span><small id="receita-mes-fin-nota"></small></div>
         </div>
         <div class="card">
-          <div class="card-label">Análises Pagas</div>
-          <div class="card-value"><span id="total-analises">0</span></div>
+          <div class="card-label">Pedidos pagos</div>
+              <div class="card-value"><span id="total-analises"><span class="nm">não medido</span></span><small>pago mais entregue, não é contagem de laudo</small></div>
         </div>
         <div class="card">
           <div class="card-label">Taxa Entrega</div>
-          <div class="card-value"><span id="taxa-entrega">0</span><small>%</small></div>
+          <div class="card-value"><span id="taxa-entrega"><span class="nm">não medido</span></span><small id="taxa-entrega-nota">%</small></div>
         </div>
       </div>
 
@@ -692,7 +695,7 @@ body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
       <div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:15px;padding:20px;">
         <div class="page-title" style="font-size:16px;margin-bottom:16px;">Sobre</div>
         <p style="color:var(--soft);font-size:14px;">AntiGuru · Central de Operações</p>
-        <p style="color:var(--muted);font-size:12px;margin-top:8px;">v2.0 · Sistema de gestão de pedidos, laudos e análises · build AG-20260810-e-97c9d7</p>
+        <p style="color:var(--muted);font-size:12px;margin-top:8px;">v2.0 · Sistema de gestão de pedidos, laudos e análises · build AG-20260923-i-63a4c5</p>
       </div>
     </div>
 
@@ -812,7 +815,7 @@ body.modo-compacto .btn-vazio{font-size:10.5px;padding:4px 9px;}
 // ===== ESTADO GLOBAL =====
 let currentUser = null;
 let currentPedidoId = null;
-let autoSaveIntervals = {};
+/* autoSaveIntervals substituído por autoSaveTimers em ENSAIO GERAL */
 
 // ===== LOGIN =====
 async function tentarLogin() {
@@ -835,7 +838,9 @@ async function tentarLogin() {
 function mostrarApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  document.getElementById('user-name').textContent = currentUser?.email || 'Admin';
+  /* Sem e-mail na sessão, o painel não afirma identidade. */
+  const emailSessao = currentUser && currentUser.email ? currentUser.email : null;
+  document.getElementById('user-name').innerHTML = emailSessao || '<span class="nm">sessão sem e-mail</span>';
   
   // Carregar dados iniciais
   carregarDashboard();
@@ -864,65 +869,225 @@ document.getElementById('logout-btn').addEventListener('click', async function()
 });
 
 // ===== DASHBOARD =====
+
+/* ===== DINHEIRO E RAZÃO · ADMIN-06 =====
+   Regra única: o painel não guarda o preço. Ele soma a coluna `valor` do pedido.
+   Pedido sem valor gravado não vira 29, vira não medido.
+   Denominador zero não vira zero por cento, vira não medido. */
+function agSomaValor(linhas){
+  var soma=0, sem=0;
+  (linhas||[]).forEach(function(p){
+    var v = (p && p.valor !== null && p.valor !== undefined && p.valor !== '') ? Number(p.valor) : NaN;
+    if (isNaN(v)) { sem++; } else { soma += v; }
+  });
+  return { soma: soma, sem: sem, total: (linhas||[]).length };
+}
+function agNaoMedido(el, nota, motivo){
+  if(el) el.innerHTML = '<span class="nm">não medido</span>';
+  if(nota) nota.textContent = motivo || '';
+}
+function agMostrarDinheiro(idValor, idNota, linhas){
+  var el = document.getElementById(idValor), nota = document.getElementById(idNota);
+  var r = agSomaValor(linhas);
+  if (r.total === 0) { return agNaoMedido(el, nota, 'sem pedido'); }
+  if (r.sem === r.total) { return agNaoMedido(el, nota, 'nenhum pedido tem valor gravado'); }
+  if (el) el.textContent = 'R$ ' + r.soma.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+  if (nota) nota.textContent = r.sem ? (r.sem + (r.sem===1 ? ' pedido sem valor gravado' : ' pedidos sem valor gravado')) : '';
+}
+function agMostrarRazao(idValor, idNota, numerador, denominador){
+  var el = document.getElementById(idValor), nota = document.getElementById(idNota);
+  if (!denominador) { return agNaoMedido(el, nota, 'sem pedido'); }
+  if (el) el.textContent = Math.round(numerador / denominador * 100);
+  if (nota) nota.textContent = '%';
+}
+function agValorCelula(p){
+  var v = (p && p.valor !== null && p.valor !== undefined && p.valor !== '') ? Number(p.valor) : NaN;
+  if (isNaN(v)) return '<span class="nm">não medido</span>';
+  return 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+
+
+/* Data ausente ou inválida NÃO vira 01/01/1970. Vira não medido, com a mesma
+   marca dos outros. Medido em ADMIN-09: `new Date(null)` rende a época. */
+function agData(valor){
+  if (valor === null || valor === undefined || valor === '') return '<span class="nm">não medido</span>';
+  const d = new Date(valor);
+  if (isNaN(d.getTime())) return '<span class="nm">não medido</span>';
+  return d.toLocaleDateString('pt-BR');
+}
+
+
+
+/* ===== TRÊS ESTADOS DE CARGA · ADMIN-12 =====
+   Carregou com dado, carregou sem dado, e não consegui carregar. O terceiro
+   nunca se parece com o segundo.
+
+   A proteção é do VALOR EXIBIDO, não do caminho da consulta. Em ADMIN-10 a
+   proteção cuidava de uma consulta específica, e morreu em ADMIN-11 quando as
+   consultas foram unificadas. Esta escreve na tela, então sobrevive a qualquer
+   troca de caminho. */
+const AG_ALVOS_CARGA = {
+  dashboard:  ['receita-mes','pedidos-pagos','entregues','card-pendentes'],
+  financeiro: ['receita-total','receita-mes-fin','total-analises','taxa-entrega'],
+  pedidos:    ['pedidos-tbody'],
+  laudos:     ['select-pedido'],
+  fontes:     ['fontes-tbody'],
+  feedbacks:  ['feedbacks-container'],
+  modo:       ['modo-info']
+};
+
+function agFalhaCarga(area, detalhe){
+  const ids = AG_ALVOS_CARGA[area] || [];
+  ids.forEach(function(id){
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = '<span class="nm">não consegui carregar</span>';
+  });
+  const box = document.getElementById('alerts-container');
+  if (box && (area === 'dashboard' || area === 'financeiro')) {
+    box.innerHTML = '<div class="alert alert-amber"><div><strong>Não consegui carregar os dados de '
+      + area + '.</strong> O que aparece nos cartões não é zero, é ausência de leitura.'
+      + (detalhe ? ' Detalhe técnico: ' + String(detalhe).slice(0,120) : '') + '</div></div>';
+  }
+  console.error('[AG] falha de carga em', area, detalhe);
+}
+
+function agSemDado(area, mensagem){
+  const ids = AG_ALVOS_CARGA[area] || [];
+  ids.forEach(function(id){
+    const el = document.getElementById(id);
+    if (el && el.children.length === 0 && !el.textContent.trim()) {
+      el.innerHTML = '<span class="nm">' + (mensagem || 'sem dado ainda') + '</span>';
+    }
+  });
+}
+
+/* ===== ESTADOS · LISTA ÚNICA · ADMIN-11 =====
+   O universo das contas mora aqui e em nenhum outro lugar. Cartões, taxa, alerta
+   e tabelas leem desta lista. Nenhum define o próprio universo.
+
+   Origem medida em ADMIN-11: o esquema do banco permite cinco estados, o código
+   grava quatro. `falhou` existe no esquema e nada o escreve.
+
+   Estado que apareça amanhã e não esteja aqui NÃO some da conta: ele é contado
+   como não classificado e declarado na tela. */
+const AG_ESTADOS = {
+  aguarda_pagamento: { passouPorPagamento:false, entregue:false },
+  pago:              { passouPorPagamento:true,  entregue:false },
+  em_analise:        { passouPorPagamento:true,  entregue:false },
+  entregue:          { passouPorPagamento:true,  entregue:true  },
+  falhou:            { passouPorPagamento:false, entregue:false }
+};
+
+/* Parte a lista em faixas, e devolve também o que não coube em nenhuma. */
+function agParticionar(linhas){
+  const dentro = [], entregues = [], emAberto = [], naoPagos = [], naoClassificados = [];
+  (linhas || []).forEach(function(p){
+    const def = AG_ESTADOS[p && p.estado];
+    if (!def) { naoClassificados.push(p); return; }
+    if (!def.passouPorPagamento) { naoPagos.push(p); return; }
+    dentro.push(p);
+    if (def.entregue) entregues.push(p); else emAberto.push(p);
+  });
+  return { universo: dentro, entregues: entregues, emAberto: emAberto,
+           naoPagos: naoPagos, naoClassificados: naoClassificados };
+}
+
+/* Mostra, junto dos alertas, quantos pedidos ficaram fora por estado desconhecido. */
+function agAvisoNaoClassificado(lista){
+  if (!lista || !lista.length) return '';
+  const nomes = [...new Set(lista.map(function(p){ return (p && p.estado) ? p.estado : '(vazio)'; }))];
+  return '<div class="alert alert-amber"><div><strong>' + lista.length
+    + (lista.length === 1 ? ' pedido com estado não classificado' : ' pedidos com estado não classificado')
+    + ':</strong> ' + nomes.join(', ')
+    + '. Ficaram fora das contas de dinheiro e de taxa, e estão listados na aba Pedidos.</div></div>';
+}
+
+/* ===== PRAZO · FÓRMULA ÚNICA · ADMIN-08 =====
+   Os lugares que mostram prazo chamam esta função. Nenhum calcula por conta própria.
+   Sem `pago_em` não existe prazo: não vira 1970, não vira vencido, e `criado_em`
+   NÃO substitui. Pedido pago sem data de pagamento é dado faltando, e o painel diz
+   isso em vez de estimar. */
+const AG_PRAZO_HORAS = 72;
+function agPrazo(p){
+  const bruto = p ? p.pago_em : null;
+  const base = bruto ? new Date(bruto) : null;
+  if (!base || isNaN(base.getTime())) {
+    return { medido:false, horas:null, vencido:false, vencendo:false, texto:'não medido' };
+  }
+  const limite = new Date(base.getTime());
+  limite.setHours(limite.getHours() + AG_PRAZO_HORAS);
+  const horas = Math.round((limite - new Date()) / (1000 * 3600));
+  return { medido:true, horas:horas, vencido:horas < 0, vencendo:horas >= 0 && horas < 12,
+           limite:limite, texto: horas > 0 ? horas + 'h' : 'vencido' };
+}
+
 async function carregarDashboard() {
   try {
-    const r = await supa.from('pedidos').select('*').eq('estado', 'pago');
-    if (r.data) {
-      const total = r.data.length;
-      const receita = total * 29;
-      document.getElementById('receita-mes').textContent = receita.toLocaleString('pt-BR');
+    const r = await supa.from('pedidos').select('*');
+    if (r.error || !r.data) { agFalhaCarga('dashboard', r.error && r.error.message); return; }
+    {
+      /* Uma consulta só, e a faixa vem da lista única de estados. Antes eram duas
+         consultas com estado fixo, e `em_analise` sumia de todas as contas mesmo
+         tendo sido pago. Medido em ADMIN-10, cenário B. */
+      const fx = agParticionar(r.data);
+      const pagos = fx.emAberto;
+      const entregues = fx.entregues;
+      const universo = fx.universo;
+      const total = universo.length;
+      agMostrarDinheiro('receita-mes', 'receita-mes-nota', universo);
+      /* O cartão "Pedidos pagos" conta pago MAIS entregue, de propósito: um pedido
+         entregue já passou pelo pagamento, e contar só 'pago' esconderia o histórico.
+         O rótulo vale enquanto todo estado deste universo tiver passado por pagamento.
+         Se entrar um estado que não passou (cortesia, reembolsado, cancelado), o rótulo
+         mente e precisa mudar junto com a conta. */
       document.getElementById('pedidos-pagos').textContent = total;
-      
-      const entregues = r.data.filter(p => p.entregue_em).length;
-      const taxa = total ? Math.round(entregues / total * 100) : 0;
-      document.getElementById('entregues').textContent = taxa;
-      document.getElementById('card-pendentes').innerHTML = `<span>${total - entregues}</span><small>não entregues</small>`;
+      agMostrarRazao('entregues', 'entregues-nota', entregues.length, total);
+      document.getElementById('card-pendentes').innerHTML = `<span>${pagos.length}</span><small>não entregues</small>`;
       
       // Alertas
       let alertsHtml = '';
-      const vencidos = r.data.filter(p => {
-        const agora = new Date();
-        const prazo = new Date(p.pago_em);
-        prazo.setHours(prazo.getHours() + 72);
-        return agora > prazo;
-      });
+      /* O alerta olha TODO pedido que passou por pagamento e não foi entregue,
+         qualquer que seja o estado. Antes olhava só 'pago', e um pedido em análise
+         vencido há dias não gerava alerta. Medido em ADMIN-10, cenário C. */
+      const vencidos = fx.emAberto.filter(p => agPrazo(p).vencido);
       
       if (vencidos.length > 0) {
         alertsHtml += `<div class="alert error"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <div><strong>${vencidos.length} pedidos vencidos.</strong> A entrega passou do prazo de 72h</div></div>`;
       }
       
-      document.getElementById('alerts-container').innerHTML = alertsHtml;
+      document.getElementById('alerts-container').innerHTML = alertsHtml + agAvisoNaoClassificado(fx.naoClassificados);
     }
-  } catch (e) { console.error(e); }
+  } catch (e) { agFalhaCarga('dashboard', e && e.message); }
 }
 
 async function carregarPedidos() {
   try {
     const r = await supa.from('pedidos').select('*').order('criado_em', { ascending: false });
-    if (r.data) {
+    if (r.error || !r.data) { agFalhaCarga('pedidos', r.error && r.error.message); return; }
+    {
       const html = r.data.map(p => {
-        const agora = new Date();
-        const prazo = new Date(p.pago_em || p.criado_em);
-        prazo.setHours(prazo.getHours() + 72);
-        const horas = Math.round((prazo - agora) / (1000 * 3600));
-        
+        const pz = agPrazo(p);
+
         let statusBadge = '';
         let alerta = '';
         let acaoBtn = '';
-        let prazoTxt = 'sem prazo';
+        let prazoTxt = '<span class="nm">não medido</span>';
 
         if (p.estado === 'aguarda_pagamento') {
           statusBadge = '<span class="pedido-badge">Aguarda pagamento</span>';
           acaoBtn = `<button class="btn-primary" onclick="confirmarPagamento('${p.id}')" style="padding:6px 10px;font-size:12px;">Confirmar pagamento</button>`;
         } else if (p.estado === 'pago') {
-          if (horas < 0) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-vermelho"></span>Vencido</span>'; alerta = '🔴'; }
-          else if (horas < 12) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-amber"></span>Vencendo</span>'; alerta = '🟡'; }
+          if (pz.vencido) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-vermelho"></span>Vencido</span>'; alerta = '🔴'; }
+          else if (pz.vencendo) { statusBadge = '<span class="pedido-badge status-vencido"><span class="alerta-visual alerta-amber"></span>Vencendo</span>'; alerta = '🟡'; }
+          else if (!pz.medido) { statusBadge = '<span class="pedido-badge status-pago">Pago</span><span class="nm" style="margin-left:6px;font-size:11px;">sem data de pagamento</span>'; }
           else statusBadge = '<span class="pedido-badge status-pago">Pago</span>';
-          prazoTxt = horas > 0 ? horas + 'h' : 'vencido';
+          if (pz.medido) prazoTxt = pz.texto;
           acaoBtn = `<button class="btn-secondary" onclick="irParaLaudo('${p.id}')" style="padding:6px 10px;font-size:12px;">Escrever laudo</button>`;
         } else if (p.estado === 'em_analise') {
           statusBadge = '<span class="pedido-badge status-em-analise">Em análise</span>';
-          prazoTxt = horas > 0 ? horas + 'h' : 'vencido';
+          if (pz.medido) prazoTxt = pz.texto;
           acaoBtn = `<button class="btn-secondary" onclick="irParaLaudo('${p.id}')" style="padding:6px 10px;font-size:12px;">Continuar laudo</button>`;
         } else if (p.estado === 'entregue') {
           statusBadge = '<span class="pedido-badge status-entregue">✓ Entregue</span>';
@@ -944,7 +1109,7 @@ async function carregarPedidos() {
       
       document.getElementById('pedidos-tbody').innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--muted);">Nenhum pedido ainda.</div>';
     }
-  } catch (e) { console.error(e); }
+  } catch (e) { agFalhaCarga('pedidos', e && e.message); }
 }
 
 // ===== CONFIRMAR PAGAMENTO =====
@@ -988,7 +1153,8 @@ async function irParaLaudo(pedidoId) {
 async function carregarLaudos() {
   try {
     const r = await supa.from('pedidos').select('*').in('estado', ['pago', 'em_analise', 'entregue']).order('criado_em', { ascending: false });
-    if (r.data) {
+    if (r.error || !r.data) { agFalhaCarga('laudos', r.error && r.error.message); return; }
+    {
       const opts = r.data.map(p => `<option value="${p.id}">${p.protocolo} · ${p.contato} (${p.estado})</option>`).join('');
       document.getElementById('select-pedido').innerHTML = `<option value="">Selecionar pedido</option>${opts}`;
       
@@ -997,10 +1163,54 @@ async function carregarLaudos() {
         else document.getElementById('editor-area').style.display = 'none';
       });
     }
-  } catch (e) { console.error(e); }
+  } catch (e) { agFalhaCarga('laudos', e && e.message); }
+}
+
+
+/* Lista única dos campos do laudo, usada pelo autosave e pelo rascunho. */
+const AG_CAMPOS_LAUDO = ['ver_reclamacoes','ver_cnpj','ver_rastro','s1','s2','s3','s4','s5','s6','s7','s8','honestidade','nao_verificado'];
+const autoSaveTimers = {};
+const autoSavePendentes = {};
+
+/* Grava UM campo, com o alvo do conflito declarado e o retorno conferido.
+   Nenhum "✓" é escrito fora do ramo que olhou o retorno. */
+async function agGravarCampo(campo){
+  const p = autoSavePendentes[campo];
+  if (!p || !p.pedido) return;
+  delete autoSavePendentes[campo];
+  const aviso = document.getElementById('save-' + campo);
+  const linha = { pedido_id: p.pedido };
+  linha[campo] = p.valor;
+  let r;
+  try {
+    r = await supa.from('laudos').upsert(linha, { onConflict: 'pedido_id' });
+  } catch (e) {
+    r = { error: { message: (e && e.message) || 'falha de rede' } };
+  }
+  if (!aviso) return;
+  if (r && r.error) {
+    aviso.innerHTML = '<span class="nm">não consegui salvar</span>';
+    aviso.classList.remove('saved');
+    console.error('[AG] rascunho nao gravou:', campo, r.error);
+    return;
+  }
+  aviso.innerHTML = '✓ Rascunho salvo';
+  aviso.classList.add('saved');
+  setTimeout(function(){ aviso.innerHTML = ''; aviso.classList.remove('saved'); }, 3000);
+}
+
+/* Antes de trocar de pedido, grava o que estiver pendente. A H3 mostrou que a
+   troca cancelava o temporizador e o texto sumia em silêncio. */
+async function agGravarPendentes(){
+  const campos = Object.keys(autoSavePendentes);
+  for (const c of campos) {
+    if (autoSaveTimers[c]) clearTimeout(autoSaveTimers[c]);
+    await agGravarCampo(c);
+  }
 }
 
 async function selecionarPedido(pedidoId) {
+  await agGravarPendentes();
   currentPedidoId = pedidoId;
   window.AG_ABERTO_EM = Date.now();
   document.getElementById('editor-area').style.display = 'block';
@@ -1020,28 +1230,34 @@ async function selecionarPedido(pedidoId) {
       agCarregarCalibragem(laudo);
     }
     
-    // Iniciar autosave
-    ['ver_reclamacoes', 'ver_cnpj', 'ver_rastro', 's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 'honestidade', 'nao_verificado'].forEach(s => {
+    /* ===== AUTOSAVE · corrigido em ENSAIO GERAL =====
+       H1: cada tecla agendava um novo temporizador sem cancelar o anterior.
+           50 caracteres emitiam 50 gravações. Medido em ADMIN-01.
+       H2: o ouvinte era acrescentado a cada abertura de pedido e nunca removido.
+           Três pedidos abertos, três gravações por tecla. Medido em ADMIN-01.
+       H3: trocar de pedido antes dos 2s cancelava o temporizador pendente e o
+           texto digitado sumia sem aviso. Medido em ADMIN-01, controle incluído.
+       H4: o upsert não dizia o alvo do conflito, então batia na restrição única
+           de pedido_id e só a PRIMEIRA gravação de cada laudo funcionava.
+           Medido em ENSAIO GERAL contra PostgREST: 201, 409, 409.
+
+       A cura: um ouvinte por campo, registrado uma vez só; o temporizador
+       anterior do MESMO campo é cancelado antes de agendar o próximo; a troca de
+       pedido grava o que estiver pendente em vez de descartar; e o upsert diz
+       onConflict. O retorno é conferido antes de qualquer "✓". */
+    AG_CAMPOS_LAUDO.forEach(s => {
       const el = document.getElementById(s);
-      if (el) {
-        if (autoSaveIntervals[s]) clearInterval(autoSaveIntervals[s]);
-        el.addEventListener('input', async function() {
-          autoSaveIntervals[s] = setTimeout(async () => {
-            await supa.from('laudos').upsert({
-              pedido_id: currentPedidoId,
-              [s]: this.value
-            });
-            document.getElementById(`save-${s}`).innerHTML = '✓ Rascunho salvo';
-            document.getElementById(`save-${s}`).classList.add('saved');
-            setTimeout(() => {
-              document.getElementById(`save-${s}`).innerHTML = '';
-              document.getElementById(`save-${s}`).classList.remove('saved');
-            }, 3000);
-          }, 2000);
-        });
-      }
+      if (!el || el.dataset.agAutosave) return;
+      el.dataset.agAutosave = '1';
+      el.addEventListener('input', function() {
+        const campo = s;
+        const pedido = currentPedidoId;
+        if (autoSaveTimers[campo]) clearTimeout(autoSaveTimers[campo]);
+        autoSavePendentes[campo] = { pedido: pedido, valor: el.value };
+        autoSaveTimers[campo] = setTimeout(function(){ agGravarCampo(campo); }, 2000);
+      });
     });
-  } catch (e) { console.error(e); }
+  } catch (e) { agFalhaCarga('laudos', e && e.message); }
 }
 
 async function salvarRascunho() {
@@ -1061,7 +1277,7 @@ async function salvarRascunho() {
     s8: document.getElementById('s8').value,
     honestidade: document.getElementById('honestidade').value,
     nao_verificado: document.getElementById('nao_verificado').value
-  });
+  }, { onConflict: 'pedido_id' });
   alert('✓ Laudo salvo com sucesso');
 }
 
@@ -1180,11 +1396,17 @@ function agModo(modo, salvar){
 }
 
 async function agDefinirModoInicial(){
-  let entregues = 0;
+  /* A contagem decide o modo do editor. Leitura que não voltou NÃO vira zero:
+     zero diria que o operador nunca entregou nada, e ligaria o passo a passo
+     para quem já entregou dezenas. Medido em ADMIN-09. */
+  let entregues = null;
   try{
-    const r = await supa.from('pedidos').select('id', {count:'exact', head:true}).eq('estado','entregue');
-    entregues = r.count || 0;
-  }catch(e){ entregues = 0; }
+    /* Conta um estado só, e mesmo assim cita a lista única: o nome do estado
+       entregue sai de AG_ESTADOS, não de um literal solto aqui. */
+    const ESTADO_ENTREGUE = Object.keys(AG_ESTADOS).find(k => AG_ESTADOS[k].entregue);
+    const r = await supa.from('pedidos').select('id', {count:'exact', head:true}).eq('estado', ESTADO_ENTREGUE);
+    entregues = (typeof r.count === 'number') ? r.count : null;
+  }catch(e){ entregues = null; }
 
   let escolhido = null;
   try{ escolhido = localStorage.getItem('ag_modo_editor'); }catch(e){}
@@ -1194,6 +1416,9 @@ async function agDefinirModoInicial(){
 
   if(escolhido){
     agModo(escolhido, false);
+  } else if(entregues === null){
+    /* Sem contagem, o modo não muda por leitura que não voltou. */
+    agModo(document.body.classList.contains('modo-compacto') ? 'compacto' : 'guiado', false);
   } else if(entregues < LIMITE_GUIADO){
     agModo('guiado', false);
   } else {
@@ -1201,7 +1426,11 @@ async function agDefinirModoInicial(){
   }
 
   if(info){
-    if(entregues < LIMITE_GUIADO){
+    if(entregues === null){
+      info.innerHTML = '<span class="nm">Não consegui contar quantos laudos já foram entregues.</span> '
+        + 'O modo do editor ficou como estava, e não mudou com base numa leitura que não voltou. '
+        + 'Os dois botões continuam funcionando.';
+    } else if(entregues < LIMITE_GUIADO){
       info.innerHTML = '<b>Laudo ' + (entregues + 1) + ' de ' + LIMITE_GUIADO + ' com o passo a passo.</b> '
         + 'Os primeiros vêm com o guia completo de cada campo, incluindo onde procurar e o que anotar. '
         + 'Depois de ' + LIMITE_GUIADO + ' laudos entregues, o padrão passa a ser o modo enxuto. Você pode alternar quando quiser.';
@@ -1442,13 +1671,36 @@ async function registrarEntrega() {
     fontes_consultadas: agColherFontes()
   }, agColherCal(CAMPOS_CAL_LAUDO));
 
-  await supa.from('laudos').update(payload).eq('pedido_id', currentPedidoId);
-  
-  await supa.from('pedidos').update({
-    estado: 'entregue',
-    entregue_em: new Date().toISOString()
-  }).eq('id', currentPedidoId);
-  
+  /* ORDEM É PARTE DA CORREÇÃO. Antes, as duas escritas saíam sem conferir o
+     retorno, e a segunda mudava o estado do pedido. Se a gravação do laudo
+     falhasse e a do pedido passasse, o pedido ficava ENTREGUE sem texto
+     entregue: o cliente pagou, o painel diz entregue, e não existe laudo.
+     Agora o estado só muda depois de o laudo ter gravado de verdade. */
+  let rl;
+  try {
+    rl = await supa.from('laudos').update(payload).eq('pedido_id', currentPedidoId);
+  } catch (e) { rl = { error: { message: (e && e.message) || 'falha de rede' } }; }
+  if (rl && rl.error) {
+    alert('Não consegui gravar o laudo, e por isso NÃO marquei o pedido como entregue. Detalhe: '
+      + (rl.error.message || '') + '. Tente de novo, o texto continua aqui.');
+    console.error('[AG] laudo nao gravou, entrega abortada:', rl.error);
+    return;
+  }
+
+  let rp;
+  try {
+    rp = await supa.from('pedidos').update({
+      estado: 'entregue',
+      entregue_em: new Date().toISOString()
+    }).eq('id', currentPedidoId);
+  } catch (e) { rp = { error: { message: (e && e.message) || 'falha de rede' } }; }
+  if (rp && rp.error) {
+    alert('O laudo foi gravado, mas NÃO consegui mudar o estado do pedido. Detalhe: '
+      + (rp.error.message || '') + '. O texto está salvo, tente registrar a entrega de novo.');
+    console.error('[AG] estado do pedido nao mudou:', rp.error);
+    return;
+  }
+
   alert('✓ Laudo registrado como entregue');
   fecharModalPreview();
   carregarDashboard();
@@ -1465,6 +1717,46 @@ function agProtocoloValidado(){
   const bruto = (document.getElementById('select-pedido')?.selectedOptions[0]?.text || '')
     .split(' · ')[0].trim();
   return /^AG-[0-9A-Z]{4,8}$/.test(bruto) ? bruto : 'AG-SEM-PROTOCOLO';
+}
+
+
+/* ===== OS TRÊS ITENS DE VERIFICAÇÃO · ADMIN-14 =====
+   Os três são impressos SEMPRE. Item sem conteúdo sai com o rótulo e a marca de
+   não verificado, e não some.
+
+   Medido em ADMIN-03 e confirmado no reenvio: antes, o item vazio desaparecia
+   inteiro, e quem lia não distinguia "não foi verificado" de "essa etapa não
+   existe". Era a D-8. O bloco inteiro também não some mais: um laudo sem
+   verificação nenhuma diz isso, em vez de calar. */
+
+/* ===== ITENS DE VERIFICAÇÃO · LISTA ÚNICA · ADMIN-15 =====
+   O gerador imprime a partir desta lista, e a sonda julga a partir dela.
+   Nenhum dos dois conhece rótulo por literal.
+
+   Antes, o rótulo vivia em três lugares: no campo do editor, no gerador e na
+   sonda. Item novo entrava no produto e passava despercebido pela régua. Era a
+   D-37, o mesmo limite dos estados, um nível abaixo. */
+const AG_ITENS_VERIFICACAO = [
+  { campo: 'ver_reclamacoes', rotulo: 'Reclamações públicas' },
+  { campo: 'ver_cnpj',        rotulo: 'Situação e idade do CNPJ' },
+  { campo: 'ver_rastro',      rotulo: 'Rastro de quem vende' }
+];
+
+function agItensVerificacao(){
+  const corpo = AG_ITENS_VERIFICACAO.map(function(item){
+    const rotulo = item.rotulo;
+    const campo  = document.getElementById(item.campo);
+    const texto  = ((campo && campo.value) || '').trim().replace(/\n/g, '<br>');
+    const valor = texto
+      ? '<div class="pdf-verif-v">' + texto + '</div>'
+      : '<div class="pdf-verif-v pdf-nao-verificado">não verificado nesta análise</div>';
+    return '<div class="pdf-verif-item"><div class="pdf-verif-k">' + rotulo + '</div>' + valor + '</div>';
+  }).join('');
+  return '<div class="pdf-verif">'
+    + '<div class="pdf-verif-title">A verificação que fizemos por fora</div>'
+    + '<div class="pdf-verif-sub">Isto é o trabalho que não aparece na página de vendas: sair dela e ir conferir. '
+    + 'Cada item traz o que foi encontrado e a data da consulta. Item sem conteúdo é item que não foi verificado, e está marcado como tal.</div>'
+    + corpo + '</div>';
 }
 
 function baixarPDF(amostra) {
@@ -1510,10 +1802,10 @@ function baixarPDF(amostra) {
     </div>
   `).join('');
 
-  const vRecl = (document.getElementById('ver_reclamacoes').value || '').replace(/\n/g, '<br>');
-  const vCnpj = (document.getElementById('ver_cnpj').value || '').replace(/\n/g, '<br>');
-  const vRast = (document.getElementById('ver_rastro').value || '').replace(/\n/g, '<br>');
-  const temVerif = vRecl || vCnpj || vRast;
+  /* Os valores dos itens de verificação são lidos dentro de agItensVerificacao,
+     a partir de AG_ITENS_VERIFICACAO. Não há mais variável por item aqui. */
+  /* `temVerif` foi removida em ADMIN-14: o bloco de verificação não depende
+     mais de haver conteúdo. Os três itens saem sempre. */
   const naoVerif = (document.getElementById('nao_verificado').value || '(não preenchido)').replace(/\n/g, '<br>');
   const honest = (document.getElementById('honestidade').value || '').replace(/\n/g, '<br>');
 
@@ -1538,6 +1830,15 @@ function baixarPDF(amostra) {
       #pdf-render .pdf-verif-item{margin-bottom:11px;}
       #pdf-render .pdf-verif-k{font-size:11.5px;font-weight:bold;color:#6b5518;margin-bottom:2px;}
       #pdf-render .pdf-verif-v{font-size:12.5px;line-height:1.68;color:#333;}
+      #pdf-render .pdf-nao-verificado{color:#8a7550;font-style:italic;border-bottom:1px dashed #dcc79a;display:inline-block;}
+      /* FAIXA DE AMOSTRA EM TODA PÁGINA · ADMIN-14
+         Elemento fixo se repete em cada página impressa. Antes a marca existia
+         só na primeira página (tarja) e na última (rodapé), e a página do meio
+         saía indistinguível de laudo de cliente. Era a D-9.
+         Só existe no modo amostra: fora dele, este elemento não é escrito. */
+      #pdf-render .pdf-faixa-amostra{position:fixed;left:0;right:0;bottom:0;
+        background:#1a1a2e;color:#F4DFA0;text-align:center;
+        font-size:9px;letter-spacing:.14em;padding:5px 0;text-transform:uppercase;}
       #pdf-render .pdf-tarja{background:#1a1a2e;color:#F4DFA0;border-radius:6px;padding:11px 15px;margin-bottom:18px;font-size:11.5px;line-height:1.6;letter-spacing:.03em;}
       #pdf-render .pdf-tarja strong{color:#E3B341;}
       #pdf-render .pdf-honest{background:#f0f8f7;border:1px solid #9fcfc8;border-radius:6px;padding:14px 16px;margin:22px 0;page-break-inside:avoid;}
@@ -1565,6 +1866,8 @@ function baixarPDF(amostra) {
       </div>
     </div>
 
+    ${amostra ? '<div class="pdf-faixa-amostra">documento de amostra · não é laudo de cliente</div>' : ''}
+
     ${amostra ? `<div class="pdf-tarja">
       <strong>DOCUMENTO DE AMOSTRA.</strong> Este é um laudo real, com a oferta analisada anonimizada. Serve para mostrar o formato e a profundidade da análise. Não identifica cliente nem contratante, e não substitui uma análise da sua própria oferta.
     </div>` : ''}
@@ -1582,13 +1885,7 @@ function baixarPDF(amostra) {
       Existe um inimigo comum por trás de toda oferta que te apressa: <strong>o automático</strong>. É o comportamento reativo, inconsciente, que os sistemas manipuladores sabem explorar melhor do que a gente sabe perceber. Este laudo não vai te dizer o que fazer. O que ele faz é te devolver a <strong>consciência na hora de decidir</strong>. A pressa é do vendedor. O tempo é seu.
     </div>
 
-    ${temVerif ? `<div class="pdf-verif">
-      <div class="pdf-verif-title">A verificação que fizemos por fora</div>
-      <div class="pdf-verif-sub">Isto é o trabalho que não aparece na página de vendas: sair dela e ir conferir. Cada item traz o que foi encontrado e a data da consulta.</div>
-      ${vRecl ? `<div class="pdf-verif-item"><div class="pdf-verif-k">Reclamações públicas</div><div class="pdf-verif-v">${vRecl}</div></div>` : ''}
-      ${vCnpj ? `<div class="pdf-verif-item"><div class="pdf-verif-k">Situação e idade do CNPJ</div><div class="pdf-verif-v">${vCnpj}</div></div>` : ''}
-      ${vRast ? `<div class="pdf-verif-item"><div class="pdf-verif-k">Rastro de quem vende</div><div class="pdf-verif-v">${vRast}</div></div>` : ''}
-    </div>` : ''}
+    ${agItensVerificacao()}
 
     ${secoesHTML}
 
@@ -1633,22 +1930,24 @@ function baixarPDF(amostra) {
 async function carregarFontes() {
   try {
     const r = await supa.from('fontes').select('*').order('verificado_em', { ascending: false });
-    if (r.data) {
+    if (r.error || !r.data) { agFalhaCarga('fontes', r.error && r.error.message); return; }
+    {
       const html = r.data.map(f => {
-        const dias = Math.floor((new Date() - new Date(f.verificado_em)) / (1000 * 86400));
-        const old = dias > 90;
+        const dv = f.verificado_em ? new Date(f.verificado_em) : null;
+          const dias = (dv && !isNaN(dv.getTime())) ? Math.floor((new Date() - dv) / (1000 * 86400)) : null;
+          const old = dias !== null && dias > 90;
         return `<tr ${old ? 'style="opacity:.6;"' : ''}>
           <td>${f.categoria}</td>
           <td>${f.tipo_de_fonte}</td>
           <td>${f.descricao}</td>
-          <td>${dias}d ago ${old ? '⚠️' : ''}</td>
+          <td>${f.verificado_em ? new Date(f.verificado_em).toLocaleDateString('pt-BR') + (dias !== null ? ` <span class="nm" style="font-size:11px;">há ${dias} ${dias === 1 ? 'dia' : 'dias'}</span>` : '') + (old ? ' ⚠️' : '') : '<span class="nm">não medido</span>'}</td>
           <td><a href="${f.link}" target="_blank" style="color:var(--teal);text-decoration:underline;">Ir</a></td>
           <td><button class="btn-secondary" onclick="deletarFonte('${f.id}')" style="padding:6px 10px;font-size:12px;">Del</button></td>
         </tr>`;
       }).join('');
       document.getElementById('fontes-tbody').innerHTML = html;
     }
-  } catch (e) { console.error(e); }
+  } catch (e) { agFalhaCarga('fontes', e && e.message); }
 }
 
 function abrirModalFonte() {
@@ -1696,53 +1995,92 @@ async function deletarFonte(id) {
 // ===== FINANCEIRO =====
 async function carregarFinanceiro() {
   try {
-    const r = await supa.from('pedidos').select('*').eq('estado', 'entregue');
-    if (r.data) {
-      const total = r.data.length * 29;
-      const mesAtual = r.data.filter(p => {
-        const d = new Date(p.entregue_em);
-        const agora = new Date();
+    const rTudo = await supa.from('pedidos').select('*');
+    if (rTudo.error || !rTudo.data) { agFalhaCarga('financeiro', rTudo.error && rTudo.error.message); return; }
+    {
+      /* Mesma lista única do dashboard. As duas telas param de definir universo
+         por conta própria. */
+      const fx = agParticionar(rTudo.data);
+      const r = { data: fx.entregues };
+      /* Soma a coluna `valor` do pedido. O painel não guarda mais o preço. */
+      /* O recorte do mês descarta quem não tem data de entrega. Antes o descarte
+         era silencioso: a linha somava no total e sumia do mês sem marca, e os dois
+         números ficavam legítimos com a diferença inexplicada na tela.
+         Medido em ADMIN-09, cenário F. Agora o mês declara quantos ficaram de fora. */
+      const agora = new Date();
+      const semData = r.data.filter(p => {
+        const d = p.entregue_em ? new Date(p.entregue_em) : null;
+        return !d || isNaN(d.getTime());
+      });
+      const doMes = r.data.filter(p => {
+        const d = p.entregue_em ? new Date(p.entregue_em) : null;
+        if (!d || isNaN(d.getTime())) return false;
         return d.getMonth() === agora.getMonth() && d.getFullYear() === agora.getFullYear();
-      }).length * 29;
-      
-      document.getElementById('receita-total').textContent = total.toLocaleString('pt-BR');
-      document.getElementById('receita-mes-fin').textContent = mesAtual.toLocaleString('pt-BR');
-      
-      const r2 = await supa.from('pedidos').select('*').eq('estado', 'pago');
-      document.getElementById('total-analises').textContent = (r2.data?.length || 0) + r.data.length;
-      
-      if (r2.data) {
-        const taxa = (r2.data.length + r.data.length) > 0 ? Math.round(r.data.length / (r2.data.length + r.data.length) * 100) : 0;
-        document.getElementById('taxa-entrega').textContent = taxa;
+      });
+      agMostrarDinheiro('receita-total', 'receita-total-nota', r.data);
+      agMostrarDinheiro('receita-mes-fin', 'receita-mes-fin-nota', doMes);
+      if (semData.length) {
+        const nm = document.getElementById('receita-mes-fin-nota');
+        if (nm) nm.innerHTML = '<span class="nm">' + semData.length
+          + (semData.length === 1 ? ' entrega fora da conta, sem data' : ' entregas fora da conta, sem data')
+          + '</span>';
       }
       
-      const html = r.data.slice(0, 10).map(p => `<tr>
+      const r2 = { data: fx.emAberto };
+      document.getElementById('total-analises').textContent = fx.universo.length;
+      
+      /* r2 virou objeto local em ADMIN-11 e nunca é nulo. O guarda antigo ficou
+         com forma de proteção sem proteger nada, e a sonda de carga acusou. */
+      agMostrarRazao('taxa-entrega', 'taxa-entrega-nota', r.data.length, r2.data.length + r.data.length);
+      
+      const MAX_LINHAS = 10;
+      const cortadas = Math.max(0, r.data.length - MAX_LINHAS);
+      const html = r.data.slice(0, MAX_LINHAS).map(p => `<tr>
         <td>${p.protocolo}</td>
         <td>${p.contato}</td>
         <td>${new Date(p.entregue_em).toLocaleDateString('pt-BR')}</td>
-        <td>R$ 29,00</td>
+        <td>${agValorCelula(p)}</td>
         <td><span class="pedido-badge status-entregue">✓</span></td>
       </tr>`).join('');
       
-      document.getElementById('entregas-table').innerHTML = html;
+      /* A tabela mostra no máximo MAX_LINHAS. O corte é declarado: antes,
+         12 entregas viravam 10 linhas sem nenhuma marca. Medido em ADMIN-10, D. */
+      const aviso = cortadas
+        ? `<tr><td colspan="5" style="text-align:center;padding:10px;"><span class="nm">mostrando ${MAX_LINHAS} de ${r.data.length}, ${cortadas} não exibidas</span></td></tr>`
+        : '';
+      document.getElementById('entregas-table').innerHTML = html + aviso;
     }
-  } catch (e) { console.error(e); }
+  } catch (e) { agFalhaCarga('financeiro', e && e.message); }
 }
 
 // ===== FEEDBACKS =====
 async function carregarFeedbacks() {
   try {
     const r = await supa.from('feedbacks').select('*').order('criado_em', { ascending: false });
-    if (r.data) {
+    if (r.error || !r.data) { agFalhaCarga('feedbacks', r.error && r.error.message); return; }
+    {
       const html = r.data.map(f => {
-        const stars = '★'.repeat(f.cla || 0) + '☆'.repeat(5 - (f.cla || 0));
+        /* O site coleta QUATRO notas, e o painel mostrava só `cla`, sem dizer qual era.
+           Uma nota de quatro parecendo nota geral é afirmar universo que a conta não
+           aplica. Decisão em ADMIN-08: mostrar as quatro, nomeadas.
+           `res` fica nulo para quem não fez a análise paga, e nulo NÃO vira zero
+           estrela: zero estrela lê como nota péssima, e ausência não é nota. */
+        const DIMENSOES = [['nav','navegação'],['com','textos'],['cla','clareza'],['res','resultado']];
+        const stars = DIMENSOES.map(function(d){
+          const v = f[d[0]];
+          const nota = (v === null || v === undefined || v === '') ? null : Number(v);
+          const desenho = (nota === null || isNaN(nota))
+            ? '<span class="nm">não respondeu</span>'
+            : '★'.repeat(nota) + '☆'.repeat(5 - nota);
+          return '<div style="white-space:nowrap;"><span style="color:var(--muted);font-size:11px;">' + d[1] + '</span> ' + desenho + '</div>';
+        }).join('');
         return `<div style="background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
             <div>
               <div style="font-weight:600;color:var(--text);">${f.nome || 'Anônimo'}</div>
-              <div style="font-size:12px;color:var(--muted);">${new Date(f.criado_em).toLocaleDateString('pt-BR')} · ${f.perfil || 'visitante'}</div>
+              <div style="font-size:12px;color:var(--muted);">${agData(f.criado_em)} · ${f.perfil || 'visitante'}</div>
             </div>
-            <div style="font-size:14px;color:var(--gold);">${stars}</div>
+            <div style="font-size:13px;color:var(--gold);text-align:right;line-height:1.5;">${stars}</div>
           </div>
           ${f.comentario ? `<div style="color:var(--soft);font-style:italic;font-size:13px;padding:10px;background:var(--void);border-radius:8px;border-left:2px solid var(--teal);">"${f.comentario}"</div>` : ''}
         </div>`;
@@ -1750,7 +2088,7 @@ async function carregarFeedbacks() {
       
       document.getElementById('feedbacks-container').innerHTML = html || '<p style="color:var(--muted);text-align:center;">Sem feedbacks ainda.</p>';
     }
-  } catch (e) { console.error(e); }
+  } catch (e) { agFalhaCarga('feedbacks', e && e.message); }
 }
 
 // ===== INIT =====
